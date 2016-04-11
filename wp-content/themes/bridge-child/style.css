@@ -1,0 +1,172 @@
+/*
+Theme Name: Bridge Child
+Theme URI: http://demo.qodeinteractive.com/bridge/
+Description: A child theme of Bridge Theme
+Author: Qode Interactive
+Author URI: http://www.qodethemes.com/
+Version: 1.0.0
+Template: bridge
+*/
+@import url("../bridge/style.css");
+
+/******************mobile****************/
+
+/*************header***********/
+
+/*************slider***********/
+
+
+.slide-text{
+display:BLOCK;
+}
+
+@media screen and (max-width: 782px) and (min-width: 480px){
+.q_slider {
+    margin-top: 8%;
+}
+}
+
+@media screen and (max-width: 479px){
+.q_slider {
+    margin-top: 20%;
+}
+
+.slide-text{
+display:none;
+}
+}
+
+/****************feature buttons***********/
+
+@media screen and (min-width: 1300px){
+.home-top-row{
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top:1.5%;
+}
+}
+
+
+.home-top-row{
+margin-top:2.5%;
+}
+
+
+
+/***********welcome text****************/
+
+
+.home-welcome-header{
+     margin-top:1.5%;
+     margin-right:15%;
+     margin-left:15%;
+}
+
+
+/**********sports icons************/
+
+
+
+.icon-row{
+margin:0% 15%;
+}
+
+.spt-icons{
+margin: 0 1.25%;
+}
+
+
+#bball:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-basketball-icon.png');
+}
+
+#vball:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-account-volleyball-icon.png');
+}
+
+#sball:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-locations-soccerball-icon.png');
+}
+
+#fball:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-pages-football-icon.png');
+}
+
+#bsball:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/logout-baseball-icon.png');
+}
+
+#hockey:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png');
+}
+
+#lacross:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-lacross-icon.png');
+}
+
+#tennis:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-tennis-icon.png');
+}
+
+#golf:hover{
+content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/rescources-golf-icon.png');
+}
+
+
+
+/*************** KARDIO SECTION ***************/
+
+.kardio-section{
+    margin-top: 45px;
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+.dynk{
+color:white!important;
+
+}
+
+.kardio-section
+p{
+    font-size: 1.25em;
+}
+
+
+/***************CAROUSIL*********/
+
+.qode_carousels .slides>li {
+    margin: 0 15px 0 0;
+}
+
+
+/*************TESTIMONIAL************/
+
+.testimonials .testimonial_text_inner p:first-of-type {
+    font-family: 'lobster';
+    font-size: 2.25em!important;
+}
+
+.testimonial_author p{
+    color: #fe0000;
+    font-weight: 300;
+    color: #333333;
+    font-size: 22px!important;
+    font-family: 'open sans';
+}
+
+.testimonials-row{
+text-align: center;
+    margin: 0 15%;
+}
+
+
+
+/**************FONTS***********/
+
+/**************mobile************/
+@media screen and (max-width: 479px){
+h1{
+line-height:1;
+}
+}

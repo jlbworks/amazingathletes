@@ -1,0 +1,37 @@
+<?php
+/*
+ * Code that is specific to this site only
+ */
+/*
+if ( ! function_exists( 'unregister_post_type' ) ) :
+function unregister_post_type( $post_type ) {
+    global $wp_post_types; 
+    if ( isset( $wp_post_types[ $post_type ] ) ) {
+        unset( $wp_post_types[ $post_type ] );
+        return true;
+    }
+    return false;
+}
+endif;
+
+//add_action( 'init', 'am2_unregister_default_post_types' );
+function am2_unregister_default_post_types(){
+	unregister_post_type('post');
+}
+
+function pre_get_posts_function( $query ) {
+    if ( $query->is_post_type_archive('faq') && $query->is_main_query() ) {
+    	if(!empty($_GET['fs'])) {
+    		$query->set( 's', $_GET['fs'] );
+    	}
+        $query->set( 'numberposts', -1 );
+        $query->set( 'posts_per_page', -1 );
+    }
+    if ( $query->is_post_type_archive('news') && $query->is_main_query() ) {
+        $query->set( 'numberposts', 11 );
+        $query->set( 'posts_per_page', 11 );
+    }
+}
+add_action( 'pre_get_posts', 'pre_get_posts_function' );
+*/
+?>
