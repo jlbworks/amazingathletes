@@ -14,10 +14,6 @@ $city_state = explode('|', $umeta['city__state'][0]);
 		<label>Mailing Address *</label>
 		<input type="text" name="franchise_address" required maxlength="128" style="width:98%;" value="<?=$umeta['mailing_address'][0];?>"><br/>
 
-
-		
-
-
 		<label>State *</label>
 		<select name="franchise_state" required placeholder="Select a state...">
 			<option value=""></option>		
@@ -30,8 +26,7 @@ $city_state = explode('|', $umeta['city__state'][0]);
 				<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : '' );?> value="<?php echo $state->state_code;?>"><?php echo $state->state;?></option>						
 				<?php }
 			}
-			?>
-			
+			?>			
 		</select>
 
 		</select><br/>
@@ -95,7 +90,7 @@ $city_state = explode('|', $umeta['city__state'][0]);
 			if( $custom_image ){ $custom_image_url = wp_get_attachment_image_src($custom_image, 'thumbnail'); ?>							
 				<img src="<?php echo $custom_image_url[0];?>" width="175"/>
 				<br/>				
-				<a class='delete_button button small-button' id='delete_button_digital' href='javascript:void(0);' onclick='delete_digital_artwork(<?php echo $custom_image;?>)'>Delete image</a>
+				<a class='delete_button button small-button' id='btn_delete_franchisee_photo' data-attid="<?php echo $custom_image;?>" >Delete image</a>
 			<?php } else {?>
 				<div id="digital_image_upload"></div>
 			<?php } ?>
@@ -123,8 +118,7 @@ uploadOptions = {
 	    endpoint: '<?php echo admin_url( 'admin-ajax.php' );?>',
 	    params: {
 	        action: 'upload_franchise_photo',
-			user_id: '<?php echo $current_user->ID; ?>',
-			field: 'background_image'
+			user_id: '<?php echo $user->ID; ?>',			
 	    }
 	},
 	validation: {
@@ -133,37 +127,6 @@ uploadOptions = {
 	  },
   	multiple: false
 }
-
-//Delete image
-function delete_digital_artwork(attach_id){
-   jQuery.ajax({
-        url:ajax_login_object.ajaxurl,
-        type:'POST',
-        data:'action=ajax_delete_field&attachid=' + attach_id,
-        success:function(results)
-        { 
-            jQuery('input[name="digital_file_name"]').val('');
-
-            jQuery('#delete_button_digital').fadeOut(400, function(){ 
-                jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>'); 
-                jQuery('#digital_image_upload').fadeIn(); 
-                loadDigitalArtwork();
-            });
-        }
-    });
-}
-
-function loadDigitalArtwork(){
-    uploadOptions['request']['params']['field'] = 'franchisee_photo';
-    jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
-       if (responseJSON.success) {
-         jQuery(this).parent().delay(1000).fadeOut(400, function(){
-              jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" /></div>').append("<a class='delete_button button' id='delete_button_digital' href='javascript:void(0);' onclick='delete_digital_artwork("+responseJSON.file_id+")'>Delete file</a>").fadeIn();
-              jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
-          });
-       }
-    });
-}        
 
 </script>
 

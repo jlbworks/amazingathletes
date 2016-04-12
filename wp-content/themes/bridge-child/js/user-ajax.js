@@ -49,7 +49,43 @@
           success: function(resp) {
             alert(resp);
           }
-        });                
+        });     
+
+        $(document).on('click','#btn_delete_franchisee_photo', function(e){
+            e.preventDefault();
+            delete_digital_artwork($(this).data('attid'));
+        });
+
+        //Delete image
+        function delete_digital_artwork(attach_id){
+           jQuery.ajax({
+                url:ajax_login_object.ajaxurl,
+                type:'POST',
+                data:'action=ajax_delete_field&attachid=' + attach_id,
+                success:function(results)
+                {                     
+                    jQuery('input[name="digital_file_name"]').val('');
+
+                    jQuery('#btn_delete_franchisee_photo').fadeOut(400, function(){ 
+                        jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>'); 
+                        jQuery('#digital_image_upload').fadeIn(); 
+                        loadDigitalArtwork();
+                    });
+                }
+            });
+        }
+
+        function loadDigitalArtwork(){
+            uploadOptions['request']['params']['field'] = 'franchisee_photo';
+            jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
+               if (responseJSON.success) {
+                 jQuery(this).parent().delay(1000).fadeOut(400, function(){
+                      jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" /></div>').append("<a class='delete_button button' id='btn_delete_franchisee_photo' data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
+                      jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
+                  });
+               }
+            });
+        }                
 
         function am2_alert(message, title, reload_redirect, callback){      
 
