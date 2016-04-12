@@ -69,8 +69,8 @@
             "key": "field_570b6d1d220db",
             "label": "City \/ State",
             "name": "city__state",
-            "type": "select",
-            "instructions": "Here \u0160valjek works",
+            "type": "city_state",
+            "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -78,17 +78,7 @@
                 "class": "",
                 "id": ""
             },
-            "choices": {
-                "test": "Test"
-            },
-            "default_value": [],
-            "allow_null": 0,
-            "multiple": 0,
-            "ui": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "disabled": 0,
-            "readonly": 0
+            "font_size": 14
         },
         {
             "key": "field_570b6d34220dc",
@@ -357,5 +347,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1460366946
+    "modified": 1460381280
 }
