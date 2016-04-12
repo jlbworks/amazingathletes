@@ -1,7 +1,27 @@
 <?php
 
 function am2_user_ajax_init() {
-	wp_register_script('user-ajax-script', get_stylesheet_directory_uri() . '/js/user-ajax.js', array('jquery'));
+	wp_register_style('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.css');
+	wp_enqueue_style('selectize');
+
+	wp_register_style('selectize.default', get_stylesheet_directory_uri() . '/js/selectize/selectize.default.css');
+	wp_enqueue_style('selectize.default');
+
+	wp_register_style('remodal', get_stylesheet_directory_uri() . '/js/remodal/remodal.css');
+	wp_enqueue_style('remodal');
+	wp_register_style('remodal-default', get_stylesheet_directory_uri() . '/js/remodal/remodal-default-theme.css');
+	wp_enqueue_style('remodal-default');
+
+	wp_register_script('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.min.js', array('jquery'));
+	wp_enqueue_script('selectize');
+
+	wp_register_script('remodal', get_stylesheet_directory_uri() . '/js/remodal/remodal.min.js');
+	wp_enqueue_script('remodal');
+	
+	wp_register_script('jquery.form', get_stylesheet_directory_uri() . '/js/jquery.form.min.js');
+	wp_enqueue_script('jquery.form');
+
+	wp_register_script('user-ajax-script', get_stylesheet_directory_uri() . '/js/user-ajax.js', array('jquery'));	
 	wp_enqueue_script('user-ajax-script');
 
 	wp_localize_script('user-ajax-script', 'ajax_login_object', array(
@@ -136,7 +156,7 @@ function am2_login() {
 			wp_set_auth_cookie( $user->ID, true, false );
 		*/
 
-		$redirect = site_url() . "/user-profile/";
+		$redirect = site_url() . "/my-account/";
 
 		echo json_encode(array('loggedin' => true, 'message' => __("Welcome <span class='txt-blue'>" . $user->first_name . " " . $user->last_name . "</span>"), 'redirect' => $redirect));
 	}
@@ -154,13 +174,22 @@ function am2_franchisee_account() {
 		$user_id = $_POST['user_id'];
 	}
 
-	$fields = array('franchise_name' => 'franchise_name', 'franchise_owner' => 'owners', 'franchise_address' => 'mailing_address', 'franchise_zip' => 'zip_code', 'franchise_telephone' => 'telephone', 'franchise_fax' => 'fax', 'franchise_email' => 'email_address', 'franchise_aaemail' => 'aa_email_address', 'franchise_website' => 'website_address', 'franchise_market' => 'market_area');
+	$fields = array('franchise_name' => 'franchise_name', 'franchise_owner' => 'owners', 'franchise_address' => 'mailing_address', 'franchise_zip' => 'zip_code', 'franchise_telephone' => 'telephone', 'franchise_fax' => 'fax', 'franchise_email' => 'email_address', 'franchise_aaemail' => 'aa_email_address', 'franchise_website' => 'website_address', 'franchise_market' => 'market_area', 'franchise_facebook' => 'facebook_page', 'franchise_youtube' => 'youtube_page', 'franchise_twitter' => 'twitter_page', 'franchise_pinterest' => 'pinterest_page', 'franchise_city_state' => 'city__state' );
+
+	$required_fields = array('franchise_name', 'franchise_owner', 'franchise_address', 'franchise_city_state', 'franchise_zip', 'franchise_telephone', 'franchise_email');
 
 	foreach ($fields as $post_key => $meta_key) {
-		if (isset($_POST[$post_key])) {
+		if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
 			update_user_meta($user_id, $meta_key, $_POST[$post_key]);
-		}
+		} 
+		else if(in_array($post_key, $required_fields)){
+			echo "Field $post_key is required";			
+			exit();
+		}		
 	}
+
+	echo "Your profile was successfully saved.";
+	exit();
 
 }
 ?>

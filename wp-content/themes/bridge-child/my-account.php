@@ -15,21 +15,21 @@ wp_head();
 					<div class="post_content_holder">
 						<div class="post_text">
 							<div class="post_text_inner">
-<?php
-if (!empty($user->roles) && is_array($user->roles)) {
-	foreach ($user->roles as $role) {
-		if ($role == 'administrator') {
-			break;
-		} else if ($role == 'franchisee') {
-			include_once 'includes/forms/my-account-franchisee.php';
-			break;
-		} else if ($role == 'coach') {
-			include_once 'includes/forms/my-account-coach.php';
-			break;
-		}
-	}
-}
-?>
+							<?php
+							if (!empty($user->roles) && is_array($user->roles)) {
+								foreach ($user->roles as $role) {
+									if ($role == 'administrator') {
+										break;
+									} else if ($role == 'franchisee') {
+										include_once 'includes/forms/my-account-franchisee.php';
+										break;
+									} else if ($role == 'coach') {
+										include_once 'includes/forms/my-account-coach.php';
+										break;
+									}
+								}
+							}
+							?>
 							</div>
 						</div>
 					</div>
