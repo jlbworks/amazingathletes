@@ -21,7 +21,10 @@ function am2_user_ajax_init() {
 	wp_register_script('jquery.form', get_stylesheet_directory_uri() . '/js/jquery.form.min.js');
 	wp_enqueue_script('jquery.form');
 
-	wp_register_script('user-ajax-script', get_stylesheet_directory_uri() . '/js/user-ajax.js', array('jquery'));	
+	wp_register_script('fineuploader', get_stylesheet_directory_uri() . '/js/fineuploader.js');
+	wp_enqueue_script('fineuploader');
+
+	wp_register_script('user-ajax-script', get_stylesheet_directory_uri() . '/js/user-ajax.js', array('jquery'), '', true);	
 	wp_enqueue_script('user-ajax-script');
 
 	wp_localize_script('user-ajax-script', 'ajax_login_object', array(
@@ -192,4 +195,68 @@ function am2_franchisee_account() {
 	exit();
 
 }
+
+// UPLOAD SLIKA AJAX HANDLER /****USER AVATAR****/
+add_action('wp_ajax_upload_franchise_photo', 'upload_franchise_photo');
+//for none logged-in users
+//add_action('wp_ajax_nopriv_orders_upload_action', 'orders_upload_action');
+function upload_franchise_photo(){
+	
+ 	require_once($_SERVER['DOCUMENT_ROOT']. '/wp-load.php');
+    include_once($_SERVER['DOCUMENT_ROOT']. '/wp-admin/includes/media.php');
+    include_once($_SERVER['DOCUMENT_ROOT']. '/wp-admin/includes/file.php');
+    include_once($_SERVER['DOCUMENT_ROOT']. '/wp-admin/includes/image.php');
+	
+	
+    if(!$_FILES) exit();
+    if(isset($_FILES['qqfile'])) {$files = $_FILES['qqfile'];}
+	
+    $upload_dir = wp_upload_dir();
+    $file_name = $files['name'];
+    $file_name = $upload_dir['path'] . '/' . basename($file_name);
+	
+    $upload_overrides = array( 'test_form' => false );
+    $file_post = wp_handle_upload($files,$upload_overrides); //Posts File
+    $file_link = $file_post['file'];
+    $file_type = wp_check_filetype(basename($file_link), null); //File Extension
+    $post_name = preg_replace('/.[^.]+$/', '', basename($file_link)); //Post Name
+    $attachment = array(
+        'guid' => $file_link,
+        'post_mime_type' => $file_type['type'],
+        'post_title' => $post_name,
+        'post_content' => '',
+        'post_status' => 'inherit'
+    );
+    $attach_id = wp_insert_attachment($attachment, $file_post['file']);
+    $attach_data = wp_generate_attachment_metadata($attach_id, $file_post['file']);
+    $attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
+	$attach_url = wp_get_attachment_image_src( $attach_id, 'thumbnail' );
+	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);
+	
+	global $current_user;
+	update_user_meta($current_user->ID,'franchisee_photo',$attach_id);
+	
+	$response['data'] = $_FILES;
+	$response['success'] = 'true';
+   	$response['file_id'] = $attach_id;
+	$response['file_url'] = $attach_url[0];
+	$response['file_name'] = basename($files['name']);
+   
+    echo json_encode($response);
+    exit();
+}
+// END UPLOAD SLIKA
+
+// Funkcija kojom brišemo slike spremljene u meta fieldove!
+function ajax_delete_field() {
+	$attachmentid = $_POST['attachid'];
+	wp_delete_attachment( $attachmentid, true ); // brišemo sliku
+	global $current_user;
+	
+	delete_user_meta($current_user->ID, 'franchisee_photo', $attachmentid);
+	
+	exit();
+}
+add_action('wp_ajax_ajax_delete_field', 'ajax_delete_field');
+
 ?>

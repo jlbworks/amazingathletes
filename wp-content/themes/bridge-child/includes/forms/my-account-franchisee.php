@@ -89,9 +89,114 @@ $city_state = explode('|', $umeta['city__state'][0]);
 		<label> Pinterest Page</label>
 		<input type="text" name="franchise_pinterest" maxlength="255" style="width:98%;" value="<?php echo $umeta['pinterest_page'][0];?>"><br/>
 
+		<div class="franchisee_photo_wrap">
+			<?php 
+			$custom_image = get_field('franchisee_photo', 'user_' . $user->ID );
+			if( $custom_image ){ $custom_image_url = wp_get_attachment_image_src($custom_image, 'thumbnail'); ?>							
+				<img src="<?php echo $custom_image_url[0];?>" width="175"/>
+				<br/>				
+				<a class='delete_button button small-button' id='delete_button_digital' href='javascript:void(0);' onclick='delete_digital_artwork(<?php echo $custom_image;?>)'>Delete image</a>
+			<?php } else {?>
+				<div id="digital_image_upload"></div>
+			<?php } ?>
+			
+		</div>
+
 		<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/>
 		<input type="hidden" name="action" value="am2_franchisee_account" />
 
 		<input type="submit" value="submit"/>
 
 </form>
+
+<script type="text/javascript">
+				//Options field
+uploadOptions = {
+	template: "qq-simple-thumbnails-template",
+	thumbnails: {
+	    placeholders: {
+			waitingPath: "<?php bloginfo('template_directory'); ?>/img/waiting-generic.png",
+	        notAvailablePath: "<?php bloginfo('template_directory'); ?>/img/not_available-generic.png"
+		}
+	},
+	request: {
+	    endpoint: '<?php echo admin_url( 'admin-ajax.php' );?>',
+	    params: {
+	        action: 'upload_franchise_photo',
+			user_id: '<?php echo $current_user->ID; ?>',
+			field: 'background_image'
+	    }
+	},
+	validation: {
+	      allowedExtensions: ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ai', 'psd', 'rar', 'pdf'],
+		  sizeLimit: 10485760
+	  },
+  	multiple: false
+}
+
+//Delete image
+function delete_digital_artwork(attach_id){
+   jQuery.ajax({
+        url:ajax_login_object.ajaxurl,
+        type:'POST',
+        data:'action=ajax_delete_field&attachid=' + attach_id,
+        success:function(results)
+        { 
+            jQuery('input[name="digital_file_name"]').val('');
+
+            jQuery('#delete_button_digital').fadeOut(400, function(){ 
+                jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>'); 
+                jQuery('#digital_image_upload').fadeIn(); 
+                loadDigitalArtwork();
+            });
+        }
+    });
+}
+
+function loadDigitalArtwork(){
+    uploadOptions['request']['params']['field'] = 'franchisee_photo';
+    jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
+       if (responseJSON.success) {
+         jQuery(this).parent().delay(1000).fadeOut(400, function(){
+              jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" /></div>').append("<a class='delete_button button' id='delete_button_digital' href='javascript:void(0);' onclick='delete_digital_artwork("+responseJSON.file_id+")'>Delete file</a>").fadeIn();
+              jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
+          });
+       }
+    });
+}        
+
+</script>
+
+<!-- Fine Uploader template
+====================================================================== -->
+<script type="text/template" id="qq-simple-thumbnails-template">
+  <div class="qq-uploader-selector qq-uploader">
+    <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+      <span>Drop files here to upload</span>
+    </div>
+    <div class="qq-upload-button-selector qq-upload-button">
+      <div class="button small-button">Upload image</div>
+    </div>
+    <ul class="qq-upload-list-selector qq-upload-list">
+      <li>
+		<span class="qq-drop-processing-selector qq-drop-processing">
+			<span>Processing dropped files...</span>
+			<span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+		</span>
+        <div class="qq-progress-bar-container-selector">
+          <div class="qq-progress-bar-selector qq-progress-bar"></div>
+        </div>
+        <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+        <img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
+        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+        <span class="qq-upload-file-selector qq-upload-file"></span>
+        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+        <span class="qq-upload-size-selector qq-upload-size"></span>
+        <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">Cancel</a>
+        <a class="qq-upload-retry-selector qq-upload-retry" href="#">Retry</a>
+        <a class="qq-upload-delete-selector qq-upload-delete" href="#">Delete</a>
+        <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+      </li>
+    </ul>
+  </div>
+</script>

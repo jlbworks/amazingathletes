@@ -1,6 +1,6 @@
 <?php /*Template name: Login*/?>
-<?php wp_head();?>
 <?php if(!is_user_logged_in()){?>
+<?php wp_head();?>
 <div class="col-1">
 	<!--<h1>Welcome to Unbuckled</h1>-->
 	
@@ -55,5 +55,7 @@
 
 </div>
 <!-- end:message -->
-<?php } ?>
 <?php wp_footer();?>
+<?php } else {
+	wp_redirect( site_url() . '/my-account');
+}?>

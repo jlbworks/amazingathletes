@@ -7,6 +7,8 @@
         var val_city ;   
         var ajax_talking = false;
 
+        loadDigitalArtwork();
+
         $select_state = $('[name="franchise_state"]').selectize({
             onChange: function(value) {
                 loadCities(value);
@@ -47,7 +49,7 @@
           success: function(resp) {
             alert(resp);
           }
-        });        
+        });                
 
         function am2_alert(message, title, reload_redirect, callback){      
 
