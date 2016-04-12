@@ -15,7 +15,7 @@ $city_state = explode('|', $umeta['city__state'][0]);
 		<input type="text" name="franchise_address" required maxlength="128" style="width:98%;" value="<?=$umeta['mailing_address'][0];?>"><br/>
 
 		<label>State *</label>
-		<select name="franchise_state" required placeholder="Select a state...">
+		<select name="franchise_state" required placeholder="Select a state..." class="am2_cc_state">
 			<option value=""></option>		
 			<option value="">Select a state...</option>
 			<?php 
@@ -32,7 +32,7 @@ $city_state = explode('|', $umeta['city__state'][0]);
 		</select><br/>
 		
 		<label>City *</label>
-		<input type="text" name="franchise_city" required maxlength="128" style="width:98%;" value="<?php echo $city_state[1];?>"><br/>
+		<input type="text" name="franchise_city" required maxlength="128" style="width:98%;" value="<?php echo $city_state[1];?>" class="am2_cc_city"><br/>
 
 		<input type="hidden" name="franchise_city_state" class="cc_city_state" />
 
@@ -97,7 +97,7 @@ $city_state = explode('|', $umeta['city__state'][0]);
 			
 		</div>
 
-		<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/>
+		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/> */?>
 		<input type="hidden" name="action" value="am2_franchisee_account" />
 
 		<input type="submit" value="submit"/>

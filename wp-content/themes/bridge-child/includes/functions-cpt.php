@@ -39,7 +39,7 @@ function am2_cpt() {
 		'taxonomies'         => array( 'cities' )
 	);
 
-	register_post_type( 'news', $args );
+	register_post_type( 'locations', $args );
 
 }
 

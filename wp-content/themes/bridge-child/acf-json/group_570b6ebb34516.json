@@ -75,7 +75,7 @@
             "key": "field_570b6f266c898",
             "label": "City \/ State",
             "name": "city__state",
-            "type": "select",
+            "type": "city_state",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -84,17 +84,7 @@
                 "class": "",
                 "id": ""
             },
-            "choices": {
-                "TEst": "TEst"
-            },
-            "default_value": [],
-            "allow_null": 0,
-            "multiple": 0,
-            "ui": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "disabled": 0,
-            "readonly": 0
+            "font_size": 14
         },
         {
             "key": "field_570b6f316c899",
@@ -220,6 +210,27 @@
             "maxlength": "",
             "readonly": 0,
             "disabled": 0
+        },
+        {
+            "key": "field_570d330768aa1",
+            "label": "LatLng",
+            "name": "latlng",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "readonly": 0,
+            "disabled": 0
         }
     ],
     "location": [
@@ -227,7 +238,7 @@
             {
                 "param": "post_type",
                 "operator": "==",
-                "value": "news"
+                "value": "locations"
             }
         ]
     ],
@@ -239,5 +250,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1460367207
+    "modified": 1460482833
 }

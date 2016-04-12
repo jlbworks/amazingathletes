@@ -168,14 +168,16 @@ function am2_login() {
 }
 
 add_action('wp_ajax_am2_franchisee_account', 'am2_franchisee_account');
-add_action('wp_ajax_nopriv_am2_franchisee_account', 'am2_franchisee_account');
+//add_action('wp_ajax_nopriv_am2_franchisee_account', 'am2_franchisee_account');
 
 function am2_franchisee_account() {
-	if (!isset($_POST['user_id']) || empty($_POST['user_id'])) {
+	/*if (!isset($_POST['user_id']) || empty($_POST['user_id'])) {
 		return;
 	} else {
 		$user_id = $_POST['user_id'];
-	}
+	}*/
+	$user = wp_get_current_user();
+	$user_id = $user->ID;
 
 	$fields = array('franchise_name' => 'franchise_name', 'franchise_owner' => 'owners', 'franchise_address' => 'mailing_address', 'franchise_zip' => 'zip_code', 'franchise_telephone' => 'telephone', 'franchise_fax' => 'fax', 'franchise_email' => 'email_address', 'franchise_aaemail' => 'aa_email_address', 'franchise_website' => 'website_address', 'franchise_market' => 'market_area', 'franchise_facebook' => 'facebook_page', 'franchise_youtube' => 'youtube_page', 'franchise_twitter' => 'twitter_page', 'franchise_pinterest' => 'pinterest_page', 'franchise_city_state' => 'city__state' );
 
@@ -259,4 +261,42 @@ function ajax_delete_field() {
 }
 add_action('wp_ajax_ajax_delete_field', 'ajax_delete_field');
 
+add_action('wp_ajax_am2_edit_location', 'am2_edit_location');
+
+function am2_edit_location() {
+	$user = wp_get_current_user();
+	$user_id = $user->ID;
+
+	if (!isset($_POST['loc_id']) || empty($_POST['loc_id'])) {
+		$loc_id = wp_insert_post(
+			array(
+				'post_type' => 'locations',
+				'post_status' => 'publish',
+				'post_title' => $_POST['location_name'],
+			)
+		);
+		$loc_verb = 'added';
+	} else {
+		$loc_id = $_POST['loc_id'];
+		$loc_verb = 'edited';		
+	}		
+
+	$fields = array('location_type', 'location_name', 'address', 'city__state', 'zip', 'telephone', 'fax', 'email', 'website', 'director', 'latlng');
+
+	$required_fields = array('location_type', 'location_name', 'address', 'city__state', 'zip', 'telephone', 'director');
+
+	foreach ($fields as $post_key) {
+		if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
+			update_post_meta($loc_id, $post_key, $_POST[$post_key]);
+		} 
+		else if(in_array($post_key, $required_fields)){
+			echo "Field $post_key is required";			
+			exit();
+		}		
+	}
+
+	echo "Your location was successfully $loc_verb.";	
+	exit();
+
+}
 ?>

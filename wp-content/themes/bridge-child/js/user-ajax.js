@@ -9,13 +9,41 @@
 
         loadDigitalArtwork();
 
-        $select_state = $('[name="franchise_state"]').selectize({
+        var city_state_selects = []
+
+        $select_state = $('.am2_cc_state').selectize({
             onChange: function(value) {
-                loadCities(value);
+                if (!value.length) return;
+
+                $select_city.addClass('loading');
+
+                select_city.disable();
+                select_city.clearOptions();
+                select_city.load(function(callback) {
+                    xhr && xhr.abort();
+                    xhr = $.ajax({
+                        url: ajax_login_object.ajaxurl,
+                        data: {
+                            action: 'am2_get_state_cities',
+                            stateID: value,
+                        },
+                        // url: 'https://jsonp.afeld.me/?url=http://api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
+                        success: function(results) {
+                            select_city.enable();
+                            callback(results);
+                            $select_city.removeClass('loading');
+                            select_city.setValue(val_city);
+                            //console.log(results);
+                        },
+                        error: function() {
+                            callback();
+                        }
+                    })
+                });
             }
         });
 
-        $select_city = $('[name="franchise_city"]').selectize({            
+        $select_city = $('.am2_cc_city').selectize({            
             valueField: 'name',
             labelField: 'name',
             searchField: ['name'],
@@ -28,15 +56,42 @@
 
             if($select_state.val() == '') select_city.disable();
             else {
+                value = $select_state.val();
                 val_city = $select_city.val();
-                loadCities($select_state.val());            
+                if (!value.length) return;
+
+                $select_city.addClass('loading');
+
+                select_city.disable();
+                select_city.clearOptions();
+                select_city.load(function(callback) {
+                    xhr && xhr.abort();
+                    xhr = $.ajax({
+                        url: ajax_login_object.ajaxurl,
+                        data: {
+                            action: 'am2_get_state_cities',
+                            stateID: value,
+                        },
+                        // url: 'https://jsonp.afeld.me/?url=http://api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
+                        success: function(results) {
+                            select_city.enable();
+                            callback(results);
+                            $select_city.removeClass('loading');
+                            select_city.setValue(val_city);
+                            //console.log(results);
+                        },
+                        error: function() {
+                            callback();
+                        }
+                    })
+                });        
             }
 
             $select_state.on('change', function(){
-                $('[name="franchise_city_state"]').val($select_state.val() + '|' +  $select_city.val() );
+                $('.cc_city_state').val($select_state.val() + '|' +  $select_city.val() );
             });
             $select_city.on('change', function(){
-                $('[name="franchise_city_state"]').val($select_state.val() + '|' +  $select_city.val() );
+                $('.cc_city_state').val($select_state.val() + '|' +  $select_city.val() );
             });
         }
 
@@ -51,99 +106,31 @@
           }
         });     
 
+        $('#frm_edit_location').validate({ /* ... */ });
+
+        $('#frm_edit_location').ajaxForm({
+          beforeSubmit: function() {            
+            return $('#frm_edit_location').valid();
+          },
+          success: function(resp) {
+            alert(resp);
+          }
+        });     
+
+        $('#frm_edit_location :input').on('change', function(){
+            $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()),function(res){                
+                console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());
+                if(typeof res.results[0].geometry.location != 'undefined'){
+                    $('.latlng').val(res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng);    
+                    initMap();     
+                }                
+            });
+        });
+
         $(document).on('click','#btn_delete_franchisee_photo', function(e){
             e.preventDefault();
             delete_digital_artwork($(this).data('attid'));
         });
-
-        //Delete image
-        function delete_digital_artwork(attach_id){
-           jQuery.ajax({
-                url:ajax_login_object.ajaxurl,
-                type:'POST',
-                data:'action=ajax_delete_field&attachid=' + attach_id,
-                success:function(results)
-                {                     
-                    jQuery('input[name="digital_file_name"]').val('');
-
-                    jQuery('#btn_delete_franchisee_photo').fadeOut(400, function(){ 
-                        jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>'); 
-                        jQuery('#digital_image_upload').fadeIn(); 
-                        loadDigitalArtwork();
-                    });
-                }
-            });
-        }
-
-        function loadDigitalArtwork(){
-            uploadOptions['request']['params']['field'] = 'franchisee_photo';
-            jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
-               if (responseJSON.success) {
-                 jQuery(this).parent().delay(1000).fadeOut(400, function(){
-                      jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" /></div>').append("<a class='delete_button button' id='btn_delete_franchisee_photo' data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
-                      jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
-                  });
-               }
-            });
-        }                
-
-        function am2_alert(message, title, reload_redirect, callback){      
-
-            $('[data-remodal-id="message"] .title').html(title);
-            $('[data-remodal-id="message"] .message').html(message);
-            $('[data-remodal-id="message"]').remodal().open();
-            
-            $(document).off('confirmation', '[data-remodal-id="message"]').on('confirmation', '[data-remodal-id="message"]', function () {
-              console.log('Confirmation button is clicked');      
-              if(reload_redirect === true){
-                    window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
-              } else if(reload_redirect === false) {
-                 
-              } else {
-                    window.location.href = reload_redirect;     
-              }
-                  
-              if(callback) callback();
-                
-            });
-            
-            $(document).off('closed', '[data-remodal-id="message"]').on('closed', '[data-remodal-id="message"]', function (e) {     
-              // Reason: 'confirmation', 'cancellation'
-              console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));     
-              if(reload_redirect === true){     
-                window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
-              } else if(reload_redirect) {
-                window.location.href = reload_redirect;     
-              }     
-                
-            });
-        }
-
-        function loadCities(value){
-            if (!value.length) return;
-            select_city.disable();
-            select_city.clearOptions();
-            select_city.load(function(callback) {
-                xhr && xhr.abort();
-                xhr = $.ajax({
-                    url: ajax_login_object.ajaxurl,
-                    data: {
-                        action: 'am2_get_state_cities',
-                        stateID: value,
-                    },
-                    // url: 'https://jsonp.afeld.me/?url=http://api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
-                    success: function(results) {
-                        select_city.enable();
-                        callback(results);
-                        select_city.setValue(val_city);
-                        //console.log(results);
-                    },
-                    error: function() {
-                        callback();
-                    }
-                })
-            });
-        }
 
         $(document).on('click', 'a[href="#logout"]', function(e){
             e.preventDefault();             
@@ -214,4 +201,90 @@
         });
 
     });    
+    
+    function initMap() {
+      var myLatLng = $('.latlng').val().split(',');
+      myLatLng = {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])};
+      console.log(myLatLng);
+
+      // Create a map object and specify the DOM element for display.
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLng,
+        scrollwheel: false,
+        zoom: 15
+      });
+
+      // Create a marker and set its position.
+      var marker = new google.maps.Marker({
+        map: map,
+        position: myLatLng,
+        title: 'Hello World!'
+      });
+    }
+
+    //Delete image
+    function delete_digital_artwork(attach_id){
+       jQuery.ajax({
+            url:ajax_login_object.ajaxurl,
+            type:'POST',
+            data:'action=ajax_delete_field&attachid=' + attach_id,
+            success:function(results)
+            {                     
+                jQuery('input[name="digital_file_name"]').val('');
+
+                jQuery('#btn_delete_franchisee_photo').fadeOut(400, function(){ 
+                    jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>'); 
+                    jQuery('#digital_image_upload').fadeIn(); 
+                    loadDigitalArtwork();
+                });
+            }
+        });
+    }
+
+    function loadDigitalArtwork(){
+        if(typeof uploadOptions === 'undefined') return;
+        
+        uploadOptions['request']['params']['field'] = 'franchisee_photo';
+        jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
+           if (responseJSON.success) {
+             jQuery(this).parent().delay(1000).fadeOut(400, function(){
+                  jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" /></div>').append("<a class='delete_button button' id='btn_delete_franchisee_photo' data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
+                  jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
+              });
+           }
+        });
+    }                
+
+    function am2_alert(message, title, reload_redirect, callback){      
+
+        $('[data-remodal-id="message"] .title').html(title);
+        $('[data-remodal-id="message"] .message').html(message);
+        $('[data-remodal-id="message"]').remodal().open();
+        
+        $(document).off('confirmation', '[data-remodal-id="message"]').on('confirmation', '[data-remodal-id="message"]', function () {
+          console.log('Confirmation button is clicked');      
+          if(reload_redirect === true){
+                window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
+          } else if(reload_redirect === false) {
+             
+          } else {
+                window.location.href = reload_redirect;     
+          }
+              
+          if(callback) callback();
+            
+        });
+        
+        $(document).off('closed', '[data-remodal-id="message"]').on('closed', '[data-remodal-id="message"]', function (e) {     
+          // Reason: 'confirmation', 'cancellation'
+          console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));     
+          if(reload_redirect === true){     
+            window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
+          } else if(reload_redirect) {
+            window.location.href = reload_redirect;     
+          }     
+            
+        });
+    }
+    
 })(jQuery);
