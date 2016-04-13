@@ -20,10 +20,21 @@ wp_head();?>
 							if ($role == 'administrator') {
 								break;
 							} else if ($role == 'franchisee') {
-								include_once 'includes/forms/edit-location.php';
+								if(!empty($_GET['loc_id']) || isset($_GET['add'])) {
+									include_once 'includes/forms/edit-location.php';	
+								}
+								else {
+									include_once 'includes/forms/list-locations.php';
+								}
+								
 								break;
 							} else if ($role == 'coach') {
-								include_once 'includes/forms/edit-location.php';
+								if(!empty($_GET['loc_id']) || isset($_GET['add'])) {
+									include_once 'includes/forms/edit-location.php';
+								}
+								else {
+									include_once 'includes/forms/list-locations.php';	
+								}
 								break;
 							}
 						}

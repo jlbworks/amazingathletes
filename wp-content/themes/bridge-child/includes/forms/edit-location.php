@@ -2,14 +2,16 @@
 global $wpdb;
 $loc_id=0;
 $city_state = array('','');	
+
 if(!empty($_GET['loc_id'])){
 	$loc_id=$_GET['loc_id'];
 	$pmeta = get_post_meta($loc_id); //, 'city__state',true);
-	$city_state = explode('|', $pmeta['city__state'][0]);	
+	if(!empty($pmeta['city__state'][0])) $city_state = explode('|', $pmeta['city__state'][0]);	
 	$location = get_post($loc_id);
 }
 
-if(!empty($location) && $location->post_author == $user->ID){	
+if( (!empty($location) && $location->post_author == $user->ID) || isset($_GET['add']) ) {
+
 ?>	
 <form id="frm_edit_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST">
 	<label>Location Type *</label>
@@ -85,5 +87,8 @@ if(!empty($location) && $location->post_author == $user->ID){
 	<input type="submit" value="submit"/>
 </form>
 <div id="map"></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4rcwbMAQu0UW62G-dQpZTlBcJXj-rMXE"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4rcwbMAQu0UW62G-dQpZTlBcJXj-rMXE"></script>
+<script>
+var permalink = '<?php echo get_permalink( );?>';
+</script>
 <?php } ?>

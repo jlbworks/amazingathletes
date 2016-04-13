@@ -34,9 +34,11 @@
 		}
 
 		$el.find('.cc_state').on('change', function(){
+			console.log('cc_state change');
 			$el.find('.cc_city_state').val($el.find('.cc_state').val() + '|' +  $el.find('.cc_city').val() );
 		});
 		$el.find('.cc_city').on('change', function(){
+			console.log('cc_state change');
 			$el.find('.cc_city_state').val($el.find('.cc_state').val() + '|' +  $el.find('.cc_city').val() );
 		});
 	}

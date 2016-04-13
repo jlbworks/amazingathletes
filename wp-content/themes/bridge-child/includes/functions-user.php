@@ -295,7 +295,8 @@ function am2_edit_location() {
 		}		
 	}
 
-	echo "Your location was successfully $loc_verb.";	
+	header("Content-Type: application/json; charset=UTF-8");
+	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));;	
 	exit();
 
 }

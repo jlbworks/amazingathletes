@@ -113,7 +113,8 @@
             return $('#frm_edit_location').valid();
           },
           success: function(resp) {
-            alert(resp);
+            alert(resp.message);
+            location.href = permalink + '?loc_id=' + resp.loc_id;
           }
         });     
 
