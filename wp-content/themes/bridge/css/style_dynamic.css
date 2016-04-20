@@ -356,7 +356,7 @@
     
     body{
     	    	    	font-family: 'Open Sans', sans-serif;
-    	    	    	    	    }
+    	    	 color: #666666;     	    	    }
             body,
 		.wrapper,
         .content,
@@ -376,7 +376,26 @@
 .header_bottom,
 .header_top,
 .fixed_top_header .bottom_header{
-	background-color: rgba(255,255,255,1);
+	background-color: rgba(255,255,255,0);
+}
+
+
+.header_bottom,
+.header_top,
+.fixed_top_header .bottom_header{
+    border-bottom: 0;
+}
+
+.header_bottom,
+.fixed_top_header .bottom_header{
+    box-shadow: none;
+}
+
+.header_top .right .inner > div:first-child,
+.header_top .right .inner > div,
+.header_top .left .inner > div:last-child,
+.header_top .left .inner > div {
+    border: none;
 }
 
 
@@ -405,14 +424,14 @@ li.narrow .second .inner ul,
 
 
 header.sticky .header_bottom{
-	background-color: rgba(255,255,255,0.6) !important;
+	background-color: rgba(255,255,255,1) !important;
 }
 
 
 .header_top,
 .fixed_top_header .top_header,
 .fixed_top_header nav.mobile_menu{
-	background-color: rgba(255,255,255,1);
+	background-color: rgba(255,255,255,0);
 }
 
 
@@ -439,10 +458,18 @@ header.sticky .header_bottom{
 
 
 
+nav.main_menu > ul > li > a{
+	 color: #1e3c7e; 		font-family: 'Oswald', sans-serif;
+		 font-size: 22px;     		 font-weight: 400; 		 text-transform: capitalize; }
 
 
 
+nav.main_menu ul li:hover a {
+	 color: #fe0002; }
 
+		nav.main_menu ul li.active a {
+			color: #fe0002		}
+	
 
 
 
@@ -487,7 +514,50 @@ h3,
 h3 a{
 			font-family: 'Open Sans', sans-serif;
 		font-size: 18px; 			font-weight: 500;     	text-transform: none; }
-
+    p{
+    	color: #666666;    	    	    	    	    	    	    	    }
+    .filter_holder ul li span,
+    blockquote h5,
+    .q_social_icon_holder .simple_social,
+    .header-widget.widget_nav_menu ul.menu li a,
+    .side_menu a,
+    .side_menu li,
+    .side_menu span,
+    .side_menu p,
+    .side_menu .widget.widget_rss li a.rsswidget,
+    .side_menu #wp-calendar caption,
+    .side_menu #wp-calendar th, 
+    .side_menu #wp-calendar td,
+    aside .widget #lang_sel_list li a,
+    aside .widget #lang_sel li a,
+    aside .widget #lang_sel_click li a,
+    section.side_menu #lang_sel_list li a,
+    section.side_menu #lang_sel li a,
+    section.side_menu #lang_sel_click li a,
+    footer #lang_sel_list li a,
+    footer #lang_sel li a,
+    footer #lang_sel_click li a,
+    footer #lang_sel_list.lang_sel_list_horizontal a,
+    footer #lang_sel_list.lang_sel_list_vertical a,
+    .side_menu #lang_sel_list.lang_sel_list_horizontal a,
+    .side_menu #lang_sel_list.lang_sel_list_vertical a,
+    #lang_sel_footer a{
+    	color: #666666;    }
+    .header_top #lang_sel > ul > li > a, 
+    .header_top #lang_sel_click > ul > li> a,
+    footer #lang_sel ul li a,
+    footer #lang_sel ul ul a,
+    footer #lang_sel_click ul li a,
+    footer #lang_sel_click ul ul a,
+    footer #lang_sel_click ul ul a span,
+    section.side_menu #lang_sel ul li a,
+    section.side_menu #lang_sel ul ul a,
+    section.side_menu #lang_sel ul ul a:visited,
+    section.side_menu #lang_sel_click > ul > li > a,
+    section.side_menu #lang_sel_click ul ul a,
+    section.side_menu #lang_sel_click ul ul a:visited{
+    	color: #666666 !important;    }
+    
 
 
 
@@ -508,10 +578,10 @@ h3 a{
 
 
 	.footer_top_holder,	footer #lang_sel > ul > li > a,	footer #lang_sel_click > ul > li > a{
-		background-color: #022c7e;
+		background-color: #1e3c7e;
 	}
 	footer #lang_sel ul ul a,footer #lang_sel_click ul ul a,footer #lang_sel ul ul a:visited,footer #lang_sel_click ul ul a:visited{
-		background-color: #022c7e !important;
+		background-color: #1e3c7e !important;
 	}
 
 
