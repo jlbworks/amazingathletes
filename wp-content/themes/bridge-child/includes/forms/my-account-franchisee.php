@@ -4,7 +4,7 @@ $city_state = explode('|', $umeta['city__state'][0]);
 
 <form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST">
 		<label>Franchise Name *</label>
-		<input type="text" name="franchise_name" required maxlength="128" style="width: 98%; background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=&quot;);" value="<?=$umeta['franchise_name'][0];?>"><br/>
+		<input type="text" name="franchise_name" required maxlength="128" style="width: 98%; " value="<?=$umeta['franchise_name'][0];?>"><br/>
 
 
 		<label>Owners *</label>
@@ -19,14 +19,14 @@ $city_state = explode('|', $umeta['city__state'][0]);
 			<option value=""></option>
 			<option value="">Select a state...</option>
 			<?php
-$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
-$states = array();
-if ($states_db) {
-	foreach ($states_db AS $state) {?>
-				<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
-				<?php }
-}
-?>
+			$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
+			$states = array();
+			if ($states_db) {
+				foreach ($states_db AS $state) {?>
+							<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
+							<?php }
+			}
+			?>
 		</select>
 
 		</select><br/>
@@ -50,8 +50,13 @@ if ($states_db) {
 
 
 		<label>Email Address *</label>
-		<input type="text" name="franchise_email" required data-rule-email="true" maxlength="128" style="width:98%;" value="<?php echo $umeta['email_address'][0]; ?>"><br/>
+		<input type="text" name="franchise_email" required data-rule-email="true" maxlength="128" style="width:98%;" value="<?php echo $user->user_email; ?>"><br/>
 
+		<label>Password *</label>
+		<input type="password" name="password" id="password" required  maxlength="128" style="width:98%;" ><br/>
+
+		<label>Repeat Password *</label>
+		<input type="password" name="password2" id="password2" required maxlength="128" style="width:98%;" ><br/>
 
 		<label>AA Email Address</label>
 		<input type="text" name="franchise_aaemail" data-rule-email="true" maxlength="128" style="width:98%;" value="<?php echo $umeta['aa_email_address'][0]; ?>"><br/>

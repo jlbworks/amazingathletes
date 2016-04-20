@@ -19,7 +19,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 <form id="frm_edit_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST">
 	<label>Location Type *</label>
 	<?php
-$field_key = "field_570b6ef56c895";
+	$field_key = "field_570b6ef56c895";
 	$field = get_field_object($field_key);
 	$location_type = get_post_meta($loc_id, 'location_type', true);
 
@@ -42,14 +42,14 @@ $field_key = "field_570b6ef56c895";
 		<option value=""></option>
 		<option value="">Select a state...</option>
 		<?php
-$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
-	$states = array();
-	if ($states_db) {
-		foreach ($states_db AS $state) {?>
-			<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
-			<?php }
-	}
-	?>
+		$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
+		$states = array();
+		if ($states_db) {
+			foreach ($states_db AS $state) {?>
+				<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
+				<?php }
+		}
+		?>
 	</select><br/>
 
 	<label>City *</label>
@@ -80,6 +80,36 @@ $states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state AS
 
 	<label>Director *</label>
 	<input type="text" name="director" maxlength="128" style="width:98%;" value="<?php echo get_post_meta($loc_id, 'director', true); ?>" required><br/>
+
+	<label>Choose Coach</label>
+	<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="width:98%;" multiple="multiple">		
+		<option value="">Select a coach...</option>
+		<?php
+
+		$coaches = get_users( array('role' => 'coach') ); 		
+		$sel_coaches = get_post_meta($loc_id, 'coaches', true);
+
+		if(!is_array($sel_coaches)) {
+			$sel_coaches = array();
+		}
+		if (!empty($coaches)) {
+			foreach ($coaches AS $coach) {?>
+				<option <?php echo ( in_array( $coach->ID, $sel_coaches ) ? 'selected' : ''); ?> value="<?php echo $coach->ID; ?>"><?php echo implode(' ', array(get_user_meta($coach->ID, 'first_name', true), get_user_meta($coach->ID, 'last_name', true) ) ); ?></option>
+			<?php }
+		}
+		?>
+	</select>
+
+	<a class="btn_toggle_add_coach">Add coach</a>
+	<div class="hidden add_coach_wrap">
+		<label>First name</label>
+		<input type="text" id="first_name" /><br/>
+		<label>Last name</label>
+		<input type="text" id="last_name" /><br/>
+		<label>Coach email</label>
+		<input type="text" id="coach_email" /><br/>
+		<a class="btn_add_coach">Add</a>
+	</div><br/><br/>
 
 	<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/>*/?>
 	<input type="hidden" name="loc_id" value="<?php echo $loc_id; ?>"/>

@@ -48,7 +48,16 @@
             labelField: 'name',
             searchField: ['name'],
             maxItems:1      
-        });    
+        });  
+
+        $select_coaches = $('.am2_coaches').selectize({   
+            multiple:true,
+            maxItems:null,         
+            // valueField: 'name',
+            // labelField: 'name',
+            // searchField: ['name'],
+            //maxItems:1      
+        });   
 
         if($select_city.length > 0 && $select_state.length > 0){
             select_city  = $select_city[0].selectize;
@@ -95,7 +104,12 @@
             });
         }
 
-        $('#frm_franchisee_account').validate({ /* ... */ });
+        $('#frm_franchisee_account').validate({ rules: {
+        password: "required",
+        password2: {
+          equalTo: "#password"
+        }
+      }});
 
         $('#frm_franchisee_account').ajaxForm({
           beforeSubmit: function() {            
@@ -105,6 +119,22 @@
             alert(resp);
           }
         });     
+
+        $('#frm_user_account').validate({ rules: {
+        password: "required",
+        password2: {
+          equalTo: "#password"
+        }
+      }});
+
+        $('#frm_user_account').ajaxForm({
+          beforeSubmit: function() {            
+            return $('#frm_user_account').valid();
+          },
+          success: function(resp) {
+            alert(resp);
+          }
+        });   
 
         $('#frm_edit_location').validate({ /* ... */ });
 
@@ -200,6 +230,26 @@
             });
             ajax_talking = true;
         });
+
+        $('.btn_toggle_add_coach').on('click', function(e){
+            e.preventDefault();
+            $('.add_coach_wrap').slideToggle();
+        });
+
+         $('.btn_add_coach').on('click', function(e){
+            e.preventDefault();
+            $.post(ajax_login_object.ajaxurl, {action: 'am2_add_coach', first_name: $('#first_name').val(), last_name: $('#last_name').val(), coach_email: $('#coach_email').val() }, function(resp){
+                if(resp.status == 'success') {
+                    alert('Successfully added coach');
+                    var select_coaches = $select_coaches[0].selectize;
+                    console.log(resp);
+                    select_coaches.addOption({id: resp.user_id, label: $('#first_name').val() + ' ' + $('#last_name').val()});
+                    select_coaches.addItem(resp.user_id);
+                } else {
+                    alert('Error');
+                }
+            });
+         });
 
     });    
     

@@ -421,3 +421,11 @@ aside
 .footer_top {
     border-top: solid 20px rgb(253, 0, 0);
 }
+
+.hidden {
+    display:none;
+}
+
+.btn_add_coach {
+    text-decoration: underline;
+}
