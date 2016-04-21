@@ -243,8 +243,9 @@
                     alert('Successfully added coach');
                     var select_coaches = $select_coaches[0].selectize;
                     console.log(resp);
-                    select_coaches.addOption({id: resp.user_id, label: $('#first_name').val() + ' ' + $('#last_name').val()});
+                    select_coaches.addOption({value: resp.user_id, text: $('#first_name').val() + ' ' + $('#last_name').val()});
                     select_coaches.addItem(resp.user_id);
+                    select_coaches.refreshOptions();
                 } else {
                     alert('Error');
                 }
