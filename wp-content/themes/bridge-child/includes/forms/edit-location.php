@@ -16,7 +16,7 @@ if (!empty($_GET['loc_id'])) {
 if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['add'])) {
 
 	?>
-<form id="frm_edit_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST">
+<form id="frm_edit_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" class="user_form">
 	<label>Location Type *</label>
 	<?php
 	$field_key = "field_570b6ef56c895";
@@ -32,13 +32,13 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 	}?><br/>
 
 	<label>Location Name *</label>
-	<input type="text" name="location_name" maxlength="128" style="width:98%;" value="<?php echo get_post_meta($loc_id, 'location_name', true); ?>" required><br/>
+	<input type="text" name="location_name" maxlength="128" style="" value="<?php echo get_post_meta($loc_id, 'location_name', true); ?>" required><br/>
 
 	<label>Address *</label>
-	<input type="text" name="address" maxlength="128" style="width:98%;" value="<?php echo get_post_meta($loc_id, 'address', true); ?>" required><br/>
+	<input type="text" name="address" maxlength="128" style="" value="<?php echo get_post_meta($loc_id, 'address', true); ?>" required><br/>
 
 	<label>State *</label>
-	<select name="state"  placeholder="Select a state..." class="am2_cc_state" required style="width:98%;">
+	<select name="state"  placeholder="Select a state..." class="am2_cc_state" required style="">
 		<option value=""></option>
 		<option value="">Select a state...</option>
 		<?php
@@ -53,9 +53,9 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 	</select><br/>
 
 	<label>City *</label>
-	<input type="text" name="city" required maxlength="128" style="width:98%;" value="<?php echo $city_state[1]; ?>" class="am2_cc_city" required><br/>
+	<input type="text" name="city" required maxlength="128" style="" value="<?php echo $city_state[1]; ?>" class="am2_cc_city" required><br/>
 
-	<input type="hidden" name="city__state" class="cc_city_state" required/><br/>
+	<input type="hidden" name="city__state" class="cc_city_state" required/>
 	<input type="hidden" name="latlng" class="latlng" />
 
 	<label>Zip *</label>
@@ -71,18 +71,18 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 
 
 	<label>Email</label>
-	<input type="text" name="email" maxlength="255" style="width:98%;" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>
+	<input type="text" name="email" maxlength="255" style="" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>
 
 
 	<label>Website</label>
-	<input type="text" name="website" maxlength="255" style="width:98%;" value="<?php echo get_post_meta($loc_id, 'website', true); ?>"><br/>
+	<input type="text" name="website" maxlength="255" style="" value="<?php echo get_post_meta($loc_id, 'website', true); ?>"><br/>
 
 
 	<label>Director *</label>
-	<input type="text" name="director" maxlength="128" style="width:98%;" value="<?php echo get_post_meta($loc_id, 'director', true); ?>" required><br/>
+	<input type="text" name="director" maxlength="128" style="" value="<?php echo get_post_meta($loc_id, 'director', true); ?>" required><br/>
 
 	<label>Choose Coach</label>
-	<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="width:98%;" multiple="multiple">		
+	<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="" multiple="multiple">		
 		<option value="">Select a coach...</option>
 		<?php
 

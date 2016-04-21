@@ -121,7 +121,7 @@
         });     
 
         $('#frm_user_account').validate({ rules: {
-        password: "required",
+        //password: "",
         password2: {
           equalTo: "#password"
         }

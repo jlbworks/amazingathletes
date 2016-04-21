@@ -2,20 +2,20 @@
 $city_state = explode('|', $umeta['city__state'][0]);
 ?>
 
-<form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST">
+<form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" class="user_form">
 		<label>Franchise Name *</label>
 		<input type="text" name="franchise_name" required maxlength="128" style="width: 98%; " value="<?=$umeta['franchise_name'][0];?>"><br/>
 
 
 		<label>Owners *</label>
-		<input type="text" name="franchise_owner" required maxlength="128" style="width:98%;" value="<?=$umeta['owners'][0];?>"><br/>
+		<input type="text" name="franchise_owner" required maxlength="128" style="" value="<?=$umeta['owners'][0];?>"><br/>
 
 
 		<label>Mailing Address *</label>
-		<input type="text" name="franchise_address" required maxlength="128" style="width:98%;" value="<?=$umeta['mailing_address'][0];?>"><br/>
+		<input type="text" name="franchise_address" required maxlength="128" style="" value="<?=$umeta['mailing_address'][0];?>"><br/>
 
 		<label>State *</label>
-		<select name="franchise_state" required placeholder="Select a state..." class="am2_cc_state" style="width:98%;">
+		<select name="franchise_state" required placeholder="Select a state..." class="am2_cc_state" style="">
 			<option value=""></option>
 			<option value="">Select a state...</option>
 			<?php
@@ -32,7 +32,7 @@ $city_state = explode('|', $umeta['city__state'][0]);
 		</select><br/>
 
 		<label>City *</label>
-		<input type="text" name="franchise_city" required maxlength="128" style="width:98%;" value="<?php echo $city_state[1]; ?>" class="am2_cc_city"><br/>
+		<input type="text" name="franchise_city" required maxlength="128" style="" value="<?php echo $city_state[1]; ?>" class="am2_cc_city"><br/>
 
 		<input type="hidden" name="franchise_city_state" class="cc_city_state" />
 
@@ -50,20 +50,20 @@ $city_state = explode('|', $umeta['city__state'][0]);
 
 
 		<label>Email Address *</label>
-		<input type="text" name="franchise_email" required data-rule-email="true" maxlength="128" style="width:98%;" value="<?php echo $user->user_email; ?>"><br/>
+		<input type="text" name="franchise_email" required data-rule-email="true" maxlength="128" style="" value="<?php echo $user->user_email; ?>"><br/>
 
 		<label>Password *</label>
-		<input type="password" name="password" id="password" required  maxlength="128" style="width:98%;" ><br/>
+		<input type="password" name="password" id="password" required  maxlength="128" style="" ><br/>
 
 		<label>Repeat Password *</label>
-		<input type="password" name="password2" id="password2" required maxlength="128" style="width:98%;" ><br/>
+		<input type="password" name="password2" id="password2" required maxlength="128" style="" ><br/>
 
 		<label>AA Email Address</label>
-		<input type="text" name="franchise_aaemail" data-rule-email="true" maxlength="128" style="width:98%;" value="<?php echo $umeta['aa_email_address'][0]; ?>"><br/>
+		<input type="text" name="franchise_aaemail" data-rule-email="true" maxlength="128" style="" value="<?php echo $umeta['aa_email_address'][0]; ?>"><br/>
 
 
 		<label>Website Address</label>
-		<input type="text" name="franchise_website" maxlength="128" style="width:98%;" value="<?php echo $umeta['website_address'][0]; ?>"><br/>
+		<input type="text" name="franchise_website" maxlength="128" style="" value="<?php echo $umeta['website_address'][0]; ?>"><br/>
 
 
 		<?php /*<label>Login Password</label>
@@ -71,23 +71,23 @@ $city_state = explode('|', $umeta['city__state'][0]);
 
 
 		<label>Market Area</label>
-		<td><textarea name="franchise_market" rows="2" style="width:98%;"><?php echo $umeta['market_area'][0]; ?></textarea></td>
+		<td><textarea name="franchise_market" rows="2" style=""><?php echo $umeta['market_area'][0]; ?></textarea></td>
 
 
 		<label> Facebook Page</label>
-		<input type="text" name="franchise_facebook" maxlength="255" style="width:98%;" value="<?php echo $umeta['facebook_page'][0]; ?>"><br/>
+		<input type="text" name="franchise_facebook" maxlength="255" style="" value="<?php echo $umeta['facebook_page'][0]; ?>"><br/>
 
 
 		<label> YouTube Page</label>
-		<input type="text" name="franchise_youtube" maxlength="255" style="width:98%;" value="<?php echo $umeta['youtube_page'][0]; ?>"><br/>
+		<input type="text" name="franchise_youtube" maxlength="255" style="" value="<?php echo $umeta['youtube_page'][0]; ?>"><br/>
 
 
 		<label> Twitter Page</label>
-		<input type="text" name="franchise_twitter" maxlength="255" style="width:98%;" value="<?php echo $umeta['twitter_page'][0]; ?>"><br/>
+		<input type="text" name="franchise_twitter" maxlength="255" style="" value="<?php echo $umeta['twitter_page'][0]; ?>"><br/>
 
 
 		<label> Pinterest Page</label>
-		<input type="text" name="franchise_pinterest" maxlength="255" style="width:98%;" value="<?php echo $umeta['pinterest_page'][0]; ?>"><br/>
+		<input type="text" name="franchise_pinterest" maxlength="255" style="" value="<?php echo $umeta['pinterest_page'][0]; ?>"><br/>
 
 		<div class="franchisee_photo_wrap">
 			<?php

@@ -7,14 +7,14 @@ if (!is_user_logged_in()) {
 
 }
 
-wp_head();
+get_header();
 ?>
-    	<div class="container_inner default_template_holder clearfix" >
+<?php /*    	<div class="container_inner default_template_holder clearfix" >
 			<div class="blog_holder blog_large_image">
 				<article id="post-1" class="post-1 post type-post status-publish format-standard hentry category-uncategorized">
 					<div class="post_content_holder">
 						<div class="post_text">
-							<div class="post_text_inner">
+							<div class="post_text_inner">*/?>
 							<?php    
 							if (!empty($user->roles) && is_array($user->roles)) {
 								foreach ($user->roles as $role) {
@@ -31,11 +31,11 @@ wp_head();
 								}
 							}
 							?>
-							</div>
+							<?php /*</div>
 						</div>
 					</div>
 				</article>
 			</div>
-		</div>
+		</div>*/?>
 
-<?php wp_footer();?>
+<?php get_footer();?>
