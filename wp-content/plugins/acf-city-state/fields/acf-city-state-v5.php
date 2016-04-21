@@ -137,7 +137,13 @@ if (!class_exists('acf_field_city_state')):
 				*  Create a simple text input using the 'font_size' setting.
 			*/
 
-			$city_state = explode('|', $field['value']);
+			if(isset($field['value']) && !empty($field['value'])){				
+				$city_state = explode('|', $field['value']);
+			}
+			else {
+				$city_state = array('','');	
+			}
+
 			?>
 			<select id="select-state" name="<?php echo esc_attr($field['name']); ?>_state"  class="cc_state"  style="width:70%" placeholder="Select a state...">
 				<option value="">Select a state...</option>
