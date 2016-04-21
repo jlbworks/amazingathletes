@@ -23,3 +23,17 @@ Function wp_schools_enqueue_scripts() {
 	wp_enqueue_script('jquery.validate');
 }
 add_action('wp_enqueue_scripts', 'wp_schools_enqueue_scripts', 11);
+
+add_action('wp_footer', 'am2_add_preloader');
+
+function am2_add_preloader(){?>
+	<div id="preloader_wrap">
+	<div id="preloader_1">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    </div>
+<?php }

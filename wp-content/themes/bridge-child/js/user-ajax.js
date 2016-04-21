@@ -105,7 +105,7 @@
         }
 
         $('#frm_franchisee_account').validate({ rules: {
-        password: "required",
+        //password: "required",
         password2: {
           equalTo: "#password"
         }
@@ -113,10 +113,15 @@
 
         $('#frm_franchisee_account').ajaxForm({
           beforeSubmit: function() {            
+            am2_show_preloader();
             return $('#frm_franchisee_account').valid();
           },
           success: function(resp) {
+            am2_hide_preloader();
             alert(resp);
+          },
+          error: function() {
+            am2_hide_preloader();
           }
         });     
 
@@ -128,11 +133,16 @@
       }});
 
         $('#frm_user_account').ajaxForm({
-          beforeSubmit: function() {            
+          beforeSubmit: function() {    
+            am2_show_preloader();        
             return $('#frm_user_account').valid();
           },
           success: function(resp) {
+            am2_hide_preloader();
             alert(resp);
+          },
+          error: function() {
+            am2_hide_preloader();
           }
         });   
 
@@ -140,11 +150,16 @@
 
         $('#frm_edit_location').ajaxForm({
           beforeSubmit: function() {            
+            am2_show_preloader();
             return $('#frm_edit_location').valid();
           },
           success: function(resp) {
+            am2_hide_preloader();
             alert(resp.message);
             location.href = permalink + '?loc_id=' + resp.loc_id;
+          },
+          error: function() {
+            am2_hide_preloader();
           }
         });     
 
@@ -337,6 +352,14 @@
           }     
             
         });
+    }
+
+    function am2_show_preloader(){
+        $('#preloader_wrap').show();
+    }
+
+    function am2_hide_preloader(){
+        $('#preloader_wrap').hide();
     }
     
 })(jQuery);

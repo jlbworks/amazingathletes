@@ -13,9 +13,8 @@ if (!empty($_GET['loc_id'])) {
 	$location = get_post($loc_id);
 }
 
-if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['add'])) {
+if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['add'])) { ?>
 
-	?>
 <form id="frm_edit_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" class="user_form">
 	<label>Location Type *</label>
 	<?php

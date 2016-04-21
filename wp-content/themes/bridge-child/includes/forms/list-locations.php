@@ -4,13 +4,12 @@ $locations = get_posts(
 		'post_type' => 'locations',
 		'post_status' => 'any',
 		'posts_per_page' => -1,
+		'author' => $user->ID,
 	)
 );
 ?>
-<div >
+<div class="user_form">
 	<button><a href="<?php the_permalink();?>?add">Add location</a></button>
-</div>
-<br/>
 <?php
 echo "<ul>";
 foreach ($locations as $location) {
@@ -18,3 +17,4 @@ foreach ($locations as $location) {
 }
 echo "</ul>";
 ?>
+</div>
