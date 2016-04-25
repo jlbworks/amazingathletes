@@ -1,7 +1,7 @@
 <?php
 $locations = get_posts(
 	array(
-		'post_type' => 'locations',
+		'post_type' => 'location',
 		'post_status' => 'any',
 		'posts_per_page' => -1,
 		'author' => $user->ID,

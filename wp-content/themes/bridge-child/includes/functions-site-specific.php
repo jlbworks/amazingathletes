@@ -45,7 +45,7 @@ function am2_get_state_locations(){
 
     if(!empty($state)){
         $_locations = get_posts(array(
-            'post_type' => 'locations',
+            'post_type' => 'location',
             'post_status' => 'publish',
             'posts_per_page' => -1,
             'meta_query' => array(

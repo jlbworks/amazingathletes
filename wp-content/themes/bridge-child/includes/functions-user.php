@@ -301,7 +301,7 @@ function am2_edit_location() {
 	if (!isset($_POST['loc_id']) || empty($_POST['loc_id'])) {
 		$loc_id = wp_insert_post(
 			array(
-				'post_type' => 'locations',
+				'post_type' => 'location',
 				'post_status' => 'publish',
 				'post_title' => $_POST['location_name'],
 			)
