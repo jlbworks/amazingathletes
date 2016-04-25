@@ -281,6 +281,33 @@
             });
          });
 
+         $('#regions path, #text-abb text').on('click', function(){            
+            var state = $('#text-abb text#'+$(this).attr('id')).text();
+            if($(this).is('text')) {
+                state = $(this).text();
+            }                       
+            $.get(ajax_login_object.ajaxurl, {action:'am2_get_state_locations', am2_state:state}, function(resp){
+                console.log(resp);
+                
+                $ul = $('<ul></ul>');
+                
+                $.each(resp, function(k,v){
+                    $li = $('<li></li>');
+                    $li.append(k);
+                    $ul_child = $('<ul></ul>');
+                    
+                    $.each(v, function(k2,v2){                        
+                        $ul_child.append('<li><a href="'+v2.url+'">'+v2.meta.location_name+'</a></li>');
+                        $li.append($ul_child);
+                    });
+
+                    $ul.append($li);
+                });
+
+                $('.dynamic-locaion-content').html($ul);
+            });
+         });
+
     });    
 
     function isValidEmailAddress(emailAddress) {

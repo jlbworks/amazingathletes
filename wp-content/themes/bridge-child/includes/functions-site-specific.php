@@ -34,4 +34,43 @@ function pre_get_posts_function( $query ) {
 }
 add_action( 'pre_get_posts', 'pre_get_posts_function' );
 */
+
+add_action('wp_ajax_am2_get_state_locations', 'am2_get_state_locations');
+add_action('wp_ajax_nopriv_am2_get_state_locations', 'am2_get_state_locations');
+
+function am2_get_state_locations(){
+    $state = isset($_REQUEST['am2_state']) ? $_REQUEST['am2_state'] : null;    
+
+    $_locations = array();
+
+    if(!empty($state)){
+        $_locations = get_posts(array(
+            'post_type' => 'locations',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'meta_query' => array(
+                array(
+                    'key' => 'city__state',
+                    'value' => "$state|",
+                    'compare' => 'LIKE',
+                )
+            )
+        ));
+    }
+
+    $locations = array();
+
+    foreach($_locations as $_loc){
+        $meta = get_post_meta($_loc->ID);            
+        foreach($meta as $key => $val){
+            $meta[$key] = $val[0];
+        }
+        $city = explode('|',$meta['city__state'])[1];
+        $locations[$city][] = array('meta' => $meta, 'url' => get_permalink( $_loc->ID )) ;
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($locations);
+    exit();
+}
 ?>
