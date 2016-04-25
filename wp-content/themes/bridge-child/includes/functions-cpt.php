@@ -31,7 +31,7 @@ function am2_cpt() {
 		'show_ui'            => true,
 		'query_var'          => true,
 		'has_archive'        => true,
-		'rewrite'            => array( 'slug' => 'locations' ),
+		'rewrite'            => array( 'slug' => 'locations-list' ),
 		'capability_type'    => 'post',
 		'hierarchical'       => true,
 		'menu_position'      => null,

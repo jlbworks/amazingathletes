@@ -9,7 +9,7 @@ $locations = get_posts(
 );
 ?>
 <div class="user_form">
-	<button><a href="<?php the_permalink();?>?add">Add location</a></button>
+	<a class="button" href="<?php the_permalink();?>?add">Add location</a>
 <?php
 echo "<ul>";
 foreach ($locations as $location) {

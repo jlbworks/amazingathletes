@@ -263,6 +263,63 @@ h1 {
 /**************sidebar*************/
 
 
+
+
+
+
+
+.q_accordion_holder.accordion .ui-accordion-header .accordion_mark {
+
+    display: block;
+
+    width: 45px;
+
+    height: 45px;
+
+    border: none;
+
+}
+
+
+
+
+
+.q_accordion_holder.accordion .ui-accordion-header.ui-state-active .accordion_mark{
+
+    background-color: transparent;
+
+}
+
+
+
+.nav-icon-1 .q_accordion_holder.accordion .ui-accordion-header.ui-state-active .accordion_mark_icon {
+
+    background-image: url(http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png);
+
+}
+
+
+
+.nav-icon-1 .q_accordion_holder.accordion .ui-accordion-header .accordion_mark_icon {
+
+    display: block;
+
+    width: 41px;
+
+    height: 41px;
+
+    background-image: url(http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-account-volleyball-icon.png);
+
+    background-repeat: no-repeat;
+
+    background-position: center;
+
+    background-size: cover;
+
+}
+
+
+
 .column1 {
     width: 25%;
     float: left;
@@ -446,6 +503,12 @@ aside
     margin:100px auto 50px auto;
 }
 
+.dynamic-locaion-content{
+    width:100%;
+    max-width: 1280px;
+    margin: 20px auto;
+}
+
 .user_form input[type="text"], .user_form input[type="email"], .user_form input[type="password"], .user_form textarea, .user_form select {
     padding:8px;
     border:1px #ccc solid;
@@ -453,10 +516,12 @@ aside
     width:100%;
 }
 
-.user_form button, .user_form input[type="submit"], .user_form input[type="button"] {
+.user_form button, .user_form input[type="submit"], .user_form input[type="button"], .user_form .button {
     padding:8px 16px;
     border:1px solid #ccc;
     margin:10px 0px;
+    display:inline-block;
+    background-color: #ccc;
 }
 
 #preloader_wrap{    

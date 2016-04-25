@@ -1,7 +1,9 @@
 <?php /*Template name: Login*/?>
+<?php if(is_user_logged_in()) {wp_redirect( site_url() . '/my-account'); exit(); }?>
+<?php get_header();?>
 <?php if(!is_user_logged_in()){?>
-<?php wp_head();?>
-<div class="col-1">
+
+<div class="col-1 user_form">
 	<!--<h1>Welcome to Unbuckled</h1>-->
 	
 	<section class="clearfix">
@@ -54,8 +56,6 @@
 	</div>
 
 </div>
-<!-- end:message -->
-<?php wp_footer();?>
-<?php } else {
-	wp_redirect( site_url() . '/my-account');
-}?>
+<!-- end:message -->	
+<?php }?>
+<?php get_footer();?>
