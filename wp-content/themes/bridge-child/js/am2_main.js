@@ -285,7 +285,9 @@
             var state = $('#text-abb text#'+$(this).attr('id')).text();
             if($(this).is('text')) {
                 state = $(this).text();
-            }                       
+            }           
+
+            am2_show_preloader();            
             $.get(ajax_login_object.ajaxurl, {action:'am2_get_state_locations', am2_state:state}, function(resp){
                 console.log(resp);
                 
@@ -305,6 +307,7 @@
                 });
 
                 $('.dynamic-locaion-content').html($ul);
+                am2_hide_preloader();
             });
          });
 
@@ -401,11 +404,11 @@
     }
 
     function am2_show_preloader(){
-        $('#preloader_wrap').show();
+        $('#preloader_overlay').show();
     }
 
     function am2_hide_preloader(){
-        $('#preloader_wrap').hide();
+        $('#preloader_overlay').hide();
     }
     
 })(jQuery);
