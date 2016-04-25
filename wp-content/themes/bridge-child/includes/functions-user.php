@@ -1,39 +1,5 @@
 <?php
 
-function am2_user_ajax_init() {
-	wp_register_style('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.css');
-	wp_enqueue_style('selectize');
-
-	wp_register_style('selectize.default', get_stylesheet_directory_uri() . '/js/selectize/selectize.default.css');
-	wp_enqueue_style('selectize.default');
-
-	wp_register_style('remodal', get_stylesheet_directory_uri() . '/js/remodal/remodal.css');
-	wp_enqueue_style('remodal');
-	wp_register_style('remodal-default', get_stylesheet_directory_uri() . '/js/remodal/remodal-default-theme.css');
-	wp_enqueue_style('remodal-default');
-
-	wp_register_script('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.min.js', array('jquery'));
-	wp_enqueue_script('selectize');
-
-	wp_register_script('remodal', get_stylesheet_directory_uri() . '/js/remodal/remodal.min.js');
-	wp_enqueue_script('remodal');
-	
-	wp_register_script('jquery.form', get_stylesheet_directory_uri() . '/js/jquery.form.min.js');
-	wp_enqueue_script('jquery.form');
-
-	wp_register_script('fineuploader', get_stylesheet_directory_uri() . '/js/fineuploader.js');
-	wp_enqueue_script('fineuploader');
-
-	wp_register_script('user-ajax-script', get_stylesheet_directory_uri() . '/js/user-ajax.js', array('jquery'), '', true);	
-	wp_enqueue_script('user-ajax-script');
-
-	wp_localize_script('user-ajax-script', 'ajax_login_object', array(
-		'ajaxurl' => admin_url('admin-ajax.php'),
-	));
-}
-
-add_action('wp_enqueue_scripts', 'am2_user_ajax_init', 12);
-
 add_action('wp_ajax_am2_logout', 'am2_logout');
 
 function am2_logout() {

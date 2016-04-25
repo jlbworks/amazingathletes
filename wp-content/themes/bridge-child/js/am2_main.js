@@ -273,6 +273,8 @@
                     select_coaches.addOption({value: resp.user_id, text: $('#first_name').val() + ' ' + $('#last_name').val()});
                     select_coaches.addItem(resp.user_id);
                     select_coaches.refreshOptions();
+
+                    $('.add_coach_wrap').slideToggle();
                 } else {
                     alert('Error');
                 }
