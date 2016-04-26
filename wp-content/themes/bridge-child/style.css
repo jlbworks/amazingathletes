@@ -588,3 +588,12 @@ animation-delay: .8s;
     position: fixed;
     background-color: rgba(255,255,255,0.8);
 }
+
+.user_form .hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+}
+.user_form h3 {
+    margin-bottom: 15px;
+}

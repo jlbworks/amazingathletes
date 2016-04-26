@@ -105,11 +105,8 @@
         }
 
         $('#frm_franchisee_account').validate({ rules: {
-        //password: "required",
-        password2: {
-          equalTo: "#password"
-        }
-      }});
+    
+        }});        
 
         $('#frm_franchisee_account').ajaxForm({
           beforeSubmit: function() {            
@@ -126,11 +123,32 @@
         });     
 
         $('#frm_user_account').validate({ rules: {
-        //password: "",
-        password2: {
-          equalTo: "#password"
-        }
-      }});
+            //password: "",
+            password2: {
+                equalTo: "#password"
+            }
+        }});
+
+        $('#frm_user_password').validate({ rules: {
+            //password: "required",
+            password2: {
+                equalTo: "#password"
+            }
+        }});
+
+        $('#frm_user_password').ajaxForm({
+          beforeSubmit: function() {    
+            am2_show_preloader();        
+            return $('#frm_user_password').valid();
+          },
+          success: function(resp) {
+            am2_hide_preloader();
+            alert(resp);
+          },
+          error: function() {
+            am2_hide_preloader();
+          }
+        });   
 
         $('#frm_user_account').ajaxForm({
           beforeSubmit: function() {    

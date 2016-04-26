@@ -50,7 +50,7 @@ function am2_init() {
 	wp_register_script('fineuploader', get_stylesheet_directory_uri() . '/js/fineuploader.js');
 	wp_enqueue_script('fineuploader');
 
-	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js', array('jquery'), '', true);	
+	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), '', true);	
 	wp_enqueue_script('am2_main');
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");

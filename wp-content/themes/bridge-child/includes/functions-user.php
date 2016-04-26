@@ -133,15 +133,31 @@ function am2_login() {
 	exit();
 }
 
+add_action('wp_ajax_am2_user_password', 'am2_user_password');
+
+function am2_user_password() {
+	$user = wp_get_current_user();
+	$user_id = $user->ID;
+
+	if(isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['password2']) && !empty($_POST['password2'])){
+		if($_POST['password'] === $_POST['password2']) {
+			$user_id = wp_update_user(array(
+				'ID' => $user_id,
+				'user_pass' => $_POST['password'],				
+				)
+			);
+		}			
+	}	
+
+	if(!empty($user_id)) echo "Your password was successfully changed.";
+	else echo "An error happened while changing your password";
+
+	exit();
+}
+
 add_action('wp_ajax_am2_franchisee_account', 'am2_franchisee_account');
-//add_action('wp_ajax_nopriv_am2_franchisee_account', 'am2_franchisee_account');
 
 function am2_franchisee_account() {
-	/*if (!isset($_POST['user_id']) || empty($_POST['user_id'])) {
-		return;
-	} else {
-		$user_id = $_POST['user_id'];
-	}*/
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
 
@@ -150,16 +166,7 @@ function am2_franchisee_account() {
 	$required_fields = array('franchise_name', 'franchise_owner', 'franchise_address', 'franchise_city_state', 'franchise_zip', 'franchise_telephone', 'franchise_email');
 
 	foreach ($fields as $post_key => $meta_key) {
-		if($post_key == 'password' && isset($_POST[$post_key]) && !empty($_POST[$post_key]) && isset($_POST['password2']) && !empty($_POST['password2'])){
-			if($_POST['password'] === $_POST['password2']) {
-				wp_update_user(array(
-					'ID' => $user_id,
-					'user_pass' => $_POST[$post_key],				
-					)
-				);
-			}			
-		}	
-		else if($post_key == 'franchise_email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
+		if($post_key == 'franchise_email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
 			wp_update_user(array(
 					'ID' => $user_id,
 					'user_email' => $_POST[$post_key],				
@@ -359,5 +366,25 @@ function am2_add_coach() {
 	echo json_encode( array('status' => $status, 'user_id' => $user_id) );
 
 	exit();
+}
+
+function am2_user_social(){
+$user = get_current_user_id();
+
+$facebook_url = get_user_meta($user, 'facebook_page', true);
+$youtube_url = get_user_meta($user, 'youtube_page', true);
+$twitter_url = get_user_meta($user, 'twitter_page', true);
+$pinterest_url = get_user_meta($user, 'pinterest_page', true);
+
+$facebook_url = !empty($facebook_url) ? $facebook_url : "https://www.facebook.com/AmazingAthletes/";
+$youtube_url = !empty($youtube_url) ? $youtube_url : "https://www.facebook.com/AmazingAthletes/";
+$twitter_url = !empty($twitter_url) ? $twitter_url : "https://twitter.com/AmazingAthlete";
+$pinterest_url = !empty($pinterest_url) ? $pinterest_url : "https://www.pinterest.com/amazingathletes/";
+?>
+
+
+<div class="widget widget_text">			<div class="textwidget"><div class="vc_row wpb_row section vc_row-fluid " style=" text-align:left;"><div class=" full_section_inner clearfix"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner "><div class="wpb_wrapper"><span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff"><a href="<?php echo $facebook_url;?>" target="_self"><span class="fa-stack " style="background-color: #fd0000;"><i class="qode_icon_font_awesome fa fa-facebook " style="color: #ffffff;"></i></span></a></span><span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff"><a href="#" target="_self"><span class="fa-stack " style="background-color: #fd0000;"><i class="qode_icon_font_awesome fa fa-google-plus " style="color: #ffffff;"></i></span></a></span><span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff"><a href="#" target="_self"><span class="fa-stack " style="background-color: #fd0000;"><i class="qode_icon_font_awesome fa fa-instagram " style="color: #ffffff;"></i></span></a></span><span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff"><a href="<?php echo $pinterest_url;?>" target="_self"><span class="fa-stack " style="background-color: #fd0000;"><i class="qode_icon_font_awesome fa fa-pinterest " style="color: #ffffff;"></i></span></a></span><span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff"><a href="<?php echo $twitter_url;?>" target="_self"><span class="fa-stack " style="background-color: rgb(253, 0, 0);"><i class="qode_icon_font_awesome fa fa-twitter " style="color: #ffffff;color: rgb(255, 255, 255);"></i></span></a></span></div></div></div></div></div></div>
+		</div>
+<?php
 }
 ?>

@@ -11,7 +11,11 @@ else {
 }
 ?>
 
-<form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" class="user_form">
+<div class="user_form">
+
+<h3>Account information</h3>
+
+<form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 		<label>Franchise Name *</label>
 		<input type="text" name="franchise_name" required maxlength="128" style="width: 98%; " value="<?=get_user_meta($user_id,'franchise_name',true);?>"><br/>
 
@@ -59,13 +63,7 @@ else {
 
 
 		<label>Email Address *</label>
-		<input type="text" name="franchise_email" required data-rule-email="true" maxlength="128" style="" value="<?php echo $user->user_email; ?>"><br/>
-
-		<label>Password </label>
-		<input type="password" name="password" id="password"   maxlength="128" style="" ><br/>
-
-		<label>Repeat Password </label>
-		<input type="password" name="password2" id="password2"  maxlength="128" style="" ><br/>
+		<input type="text" name="franchise_email" required data-rule-email="true" maxlength="128" style="" value="<?php echo $user->user_email; ?>"><br/>		
 
 		<label>AA Email Address</label>
 		<input type="text" name="franchise_aaemail" data-rule-email="true" maxlength="128" style="" value="<?php echo get_user_meta($user_id,'aa_email_address',true); ?>"><br/>
@@ -117,6 +115,22 @@ if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_imag
 		<input type="submit" value="submit"/>
 
 </form>
+
+<div class="hr"></div>
+
+<h3>Change your password</h3>
+<form id="frm_user_password" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
+	<label>Password </label>
+	<input type="password" name="password" id="password"   maxlength="128" style="" ><br/>
+
+	<label>Repeat Password </label>
+	<input type="password" name="password2" id="password2"  maxlength="128" style="" ><br/>
+
+	<input type="hidden" name="action" value="am2_user_password" />
+	<input type="submit" value="submit"/>
+</form>
+
+</div>
 
 <script type="text/javascript">
 				//Options field
