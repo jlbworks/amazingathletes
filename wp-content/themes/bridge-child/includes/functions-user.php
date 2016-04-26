@@ -387,4 +387,27 @@ $pinterest_url = !empty($pinterest_url) ? $pinterest_url : "https://www.pinteres
 		</div>
 <?php
 }
+
+function am2_franchisee_info(){
+$user = get_current_user_id();
+$franchise_name = get_user_meta($user, 'franchise_name',true);
+$email_address = get_user_meta($user, 'email_address',true);
+$telephone = get_user_meta($user, 'telephone',true);
+$address = get_user_meta($user, 'mailing_address', true);
+$city_state = get_user_meta($user, 'city__state', true);
+$city_state = explode('|', $city_state);
+$zip_code = get_user_meta($user, 'zip_code', true);
+?>
+<div class="widget widget_text">			
+	<div class="textwidget">
+		<div class="sidebar-text">
+			<h3><?php echo $franchise_name;?></h3>
+			<?php echo "$address, {$city_state[1]}, {$city_state[0]} $zip_code";?><br/>
+			email: <a href="<?php echo $email_address;?>"><?php echo $email_address;?></a><br/>
+			phone: <a href="<?php echo $telephone;?>"><?php echo $telephone;?></a><br/>
+		</div>
+	</div>
+</div>
+<?php 
+}
 ?>
