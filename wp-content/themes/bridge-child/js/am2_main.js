@@ -382,7 +382,7 @@
         jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
            if (responseJSON.success) {
              jQuery(this).parent().delay(1000).fadeOut(400, function(){
-                  jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" /></div>').append("<a class='delete_button button' id='btn_delete_franchisee_photo' data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
+                  jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" width="175"/></div>').append("<a class='delete_button button' id='btn_delete_franchisee_photo' data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
                   jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
               });
            }

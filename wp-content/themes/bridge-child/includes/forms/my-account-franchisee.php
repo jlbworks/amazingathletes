@@ -17,7 +17,7 @@ else {
 
 <form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 		<label>Franchise Name *</label>
-		<input type="text" name="franchise_name" required maxlength="128" style="width: 98%; " value="<?=get_user_meta($user_id,'franchise_name',true);?>"><br/>
+		<input type="text" name="franchise_name" required maxlength="128" style="" value="<?=get_user_meta($user_id,'franchise_name',true);?>"><br/>
 
 
 		<label>Owners *</label>
@@ -99,7 +99,7 @@ else {
 		<div class="franchisee_photo_wrap">
 			<?php
 $custom_image = get_field('franchisee_photo', 'user_' . $user->ID);
-if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_image, 'thumbnail');?>
+if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_image, 'medium');?>
 				<img src="<?php echo $custom_image_url[0]; ?>" width="175"/>
 				<br/>
 				<a class='delete_button button small-button' id='btn_delete_franchisee_photo' data-attid="<?php echo $custom_image; ?>" >Delete image</a>

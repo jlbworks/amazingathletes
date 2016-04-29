@@ -270,7 +270,7 @@ function upload_franchise_photo(){
     $attach_id = wp_insert_attachment($attachment, $file_post['file']);
     $attach_data = wp_generate_attachment_metadata($attach_id, $file_post['file']);
     $attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
-	$attach_url = wp_get_attachment_image_src( $attach_id, 'thumbnail' );
+	$attach_url = wp_get_attachment_image_src( $attach_id, 'medium' );
 	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);
 	
 	global $current_user;
@@ -395,7 +395,12 @@ $email_address = get_user_meta($user, 'email_address',true);
 $telephone = get_user_meta($user, 'telephone',true);
 $address = get_user_meta($user, 'mailing_address', true);
 $city_state = get_user_meta($user, 'city__state', true);
-$city_state = explode('|', $city_state);
+if(!empty($city_state)){
+	$city_state = explode('|', $city_state);	
+} else {
+	$city_state = array("","");
+}
+
 $zip_code = get_user_meta($user, 'zip_code', true);
 ?>
 <div class="widget widget_text">			
