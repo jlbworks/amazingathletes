@@ -62,11 +62,20 @@ function am2_get_state_locations(){
 
     foreach($_locations as $_loc){
         $meta = get_post_meta($_loc->ID);            
+        $author_id = get_post_field( 'post_author', $_loc->ID );
+
         foreach($meta as $key => $val){
             $meta[$key] = $val[0];
         }
+
+        $meta_franchisee = get_user_meta($author_id);
+
+        foreach($meta_franchisee as $key => $val){
+            $meta_franchisee[$key] = $val[0];
+        }
+
         $city = explode('|',$meta['city__state'])[1];
-        $locations[$city][] = array('meta' => $meta, 'url' => get_permalink( $_loc->ID )) ;
+        $locations[$city][] = array('meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
     }
 
     header('Content-Type: application/json');

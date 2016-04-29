@@ -308,23 +308,67 @@
             am2_show_preloader();            
             $.get(ajax_login_object.ajaxurl, {action:'am2_get_state_locations', am2_state:state}, function(resp){
                 console.log(resp);
-                
-                $ul = $('<ul></ul>');
-                
-                $.each(resp, function(k,v){
-                    $li = $('<li></li>');
-                    $li.append(k);
-                    $ul_child = $('<ul></ul>');
-                    
-                    $.each(v, function(k2,v2){                        
-                        $ul_child.append('<li><a href="'+v2.url+'">'+v2.meta.location_name+'</a></li>');
-                        $li.append($ul_child);
-                    });
 
-                    $ul.append($li);
+                var state_name = "";
+
+                $.each(ajax_login_object.states, function(k,v){
+                	if(v.state_code == state){
+                		state_name = v.state;
+                	}
                 });
 
-                $('.dynamic-locaion-content').html($ul);
+                var $state = $('<div class="state"></div>');
+
+                $state.append('<h1 class="entry-title" style="text-align: center;">'+state_name+'</h1>')
+                
+                var $ul = $('<ul class="cities"></ul>');
+                
+                $.each(resp, function(k,v){
+                    var $li = $('<li data-id="'+ k +'"></li>');
+                    $li.append(k);                    
+                    
+                    $ul.append($li);
+                });                
+
+                $state.append($ul);
+
+                $state.append('<span class="h1">Choose a Location</span>');
+                
+                $.each(resp, function(k,v){
+                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
+
+	                $.each(v, function(k2,v2){                        
+	                	$li_child = $('<li class="franchise"></li>');
+	                	$li_child.append('<a>'+v2.meta.location_name+'</a>');
+	                	$li_child.append(
+	                	'<div class="franchise_details">' +
+	                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + state + " " + v2.meta.zip + '</span><br/>' +
+	                	'<a class="h1 franchise_register">Register Now</a><br/>' +
+	                	'<span class="franchise_name">' + v2.meta_franchisee.franchise_name + '</span><br/>' +
+	                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
+	                	'</div>'
+	                	);
+	                    
+	                    $ul_child.append($li_child);	                    
+
+	                });                      
+
+	                $state.append($ul_child);
+	            });
+
+                $('.dynamic-locaion-content').html($state);
+
+                $('.state .cities li').off('click').on('click', function(e){
+                	$('.state .locations').hide();
+                	$('.state .locations[data-id="'+$(this).data('id')+'"]').show();
+                	console.log($(this).data('id'));
+                	console.log($('.state .locations[data-id="'+$(this).data('id')+'"]').length);
+                });
+
+                $('.state .franchise a').off('click').on('click', function(e){
+                	$(this).siblings('.franchise_details').slideToggle();
+                });
+
                 am2_hide_preloader();
             });
          });

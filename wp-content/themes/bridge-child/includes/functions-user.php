@@ -310,7 +310,7 @@ function am2_edit_location() {
 			array(
 				'post_type' => 'location',
 				'post_status' => 'publish',
-				'post_title' => $_POST['location_name'],
+				'post_title' => $_POST['location_name'],							
 			)
 		);
 		$loc_verb = 'added';
@@ -369,12 +369,12 @@ function am2_add_coach() {
 }
 
 function am2_user_social(){
-$user = get_current_user_id();
+$user_id = get_current_user_id();
 
-$facebook_url = get_user_meta($user, 'facebook_page', true);
-$youtube_url = get_user_meta($user, 'youtube_page', true);
-$twitter_url = get_user_meta($user, 'twitter_page', true);
-$pinterest_url = get_user_meta($user, 'pinterest_page', true);
+$facebook_url = get_user_meta($user_id, 'facebook_page', true);
+$youtube_url = get_user_meta($user_id, 'youtube_page', true);
+$twitter_url = get_user_meta($user_id, 'twitter_page', true);
+$pinterest_url = get_user_meta($user_id, 'pinterest_page', true);
 
 $facebook_url = !empty($facebook_url) ? $facebook_url : "https://www.facebook.com/AmazingAthletes/";
 $youtube_url = !empty($youtube_url) ? $youtube_url : "https://www.facebook.com/AmazingAthletes/";
