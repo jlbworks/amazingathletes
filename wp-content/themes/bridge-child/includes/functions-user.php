@@ -389,19 +389,21 @@ $pinterest_url = !empty($pinterest_url) ? $pinterest_url : "https://www.pinteres
 }
 
 function am2_franchisee_info(){
-$user = get_current_user_id();
-$franchise_name = get_user_meta($user, 'franchise_name',true);
-$email_address = get_user_meta($user, 'email_address',true);
-$telephone = get_user_meta($user, 'telephone',true);
-$address = get_user_meta($user, 'mailing_address', true);
-$city_state = get_user_meta($user, 'city__state', true);
+$user_id = get_current_user_id();
+$user = wp_get_current_user();
+
+$franchise_name = get_user_meta($user_id, 'franchise_name',true);
+$email_address = $user->user_email; //get_user_meta($user_id, 'email_address',true);
+$telephone = get_user_meta($user_id, 'telephone',true);
+$address = get_user_meta($user_id, 'mailing_address', true);
+$city_state = get_user_meta($user_id, 'city__state', true);
 if(!empty($city_state)){
 	$city_state = explode('|', $city_state);	
 } else {
 	$city_state = array("","");
 }
 
-$zip_code = get_user_meta($user, 'zip_code', true);
+$zip_code = get_user_meta($user_id, 'zip_code', true);
 ?>
 <div class="widget widget_text">			
 	<div class="textwidget">
