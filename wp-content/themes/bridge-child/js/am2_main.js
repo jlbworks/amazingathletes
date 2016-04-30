@@ -303,7 +303,14 @@
             var state = $('#text-abb text#'+$(this).attr('id')).text();
             if($(this).is('text')) {
                 state = $(this).text();
-            }           
+                $('#regions path').attr('class','');
+            	$('#regions path[id="'+$(this).attr('id')+'"]').attr('class','selected');
+            }   
+            else {
+            	$('#regions path').attr('class','');
+            	$(this).attr('class','selected');
+            	console.log(this);
+            }
 
             am2_show_preloader();            
             $.get(ajax_login_object.ajaxurl, {action:'am2_get_state_locations', am2_state:state}, function(resp){
@@ -342,10 +349,10 @@
 	                	$li_child.append('<a>'+v2.meta.location_name+'</a>');
 	                	$li_child.append(
 	                	'<div class="franchise_details">' +
-	                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + state + " " + v2.meta.zip + '</span><br/>' +
-	                	'<a class="h1 franchise_register">Register Now</a><br/>' +
-	                	'<span class="franchise_name">' + v2.meta_franchisee.franchise_name + '</span><br/>' +
-	                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
+		                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + state + " " + v2.meta.zip + '</span><br/>' +
+		                	'<a class="h1 franchise_register">Register Now</a><br/>' +
+		                	'<span class="franchise_name">' + v2.meta_franchisee.franchise_name + '</span><br/>' +
+		                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
 	                	'</div>'
 	                	);
 	                    
@@ -358,15 +365,20 @@
 
                 $('.dynamic-locaion-content').html($state);
 
+                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500); 
+
                 $('.state .cities li').off('click').on('click', function(e){
+                	$('.state .cities li').removeClass('selected');
+                	$(this).addClass('selected');
                 	$('.state .locations').hide();
-                	$('.state .locations[data-id="'+$(this).data('id')+'"]').show();
-                	console.log($(this).data('id'));
-                	console.log($('.state .locations[data-id="'+$(this).data('id')+'"]').length);
+                	$('.state .locations[data-id="'+$(this).data('id')+'"]').show();                	
+                	$('html, body').animate({scrollTop: $('.state .locations[data-id="'+$(this).data('id')+'"]').eq(0).offset().top},500);                	
                 });
 
                 $('.state .franchise a').off('click').on('click', function(e){
-                	$(this).siblings('.franchise_details').slideToggle();
+                	$('.state .franchise a').removeClass('selected');
+                	$(this).addClass('selected');
+                	$(this).siblings('.franchise_details').slideToggle();                	
                 });
 
                 am2_hide_preloader();

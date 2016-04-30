@@ -602,9 +602,18 @@ animation-delay: .8s;
     text-align: center;
     width:960px;
     margin:0px auto;
+    padding-bottom: 30px;    
 }
 .state li{
     list-style: none;   
+}
+
+.state .cities li {
+    cursor: pointer;
+}
+
+.state .cities li.selected {
+    color:blue;
 }
 
 .state .cities li, .state .franchise_name{    
@@ -644,5 +653,11 @@ animation-delay: .8s;
     line-height: 60px;    
 }
 
+.state .locations .franchise > a.selected {
+    color:red;
+    font-weight: bold;
+}
 
-
+#regions path.selected {
+    fill: rgb(255,0,0) !important;
+}
