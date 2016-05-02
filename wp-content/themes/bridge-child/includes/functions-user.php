@@ -1,5 +1,11 @@
 <?php
 
+global $mypages;
+
+$mypages = array(
+	'About' => 'about', 'Programs' => 'programs', 'Policies & Procedures' => 'policies_and_procedures', 'Staff' => 'staff', 'Contact' => 'contact'
+);
+
 add_action('wp_ajax_am2_logout', 'am2_logout');
 
 function am2_logout() {
@@ -425,5 +431,31 @@ $zip_code = get_user_meta($user_id, 'zip_code', true);
 	</div>
 </div>
 <?php 
+}
+
+add_action('wp_ajax_am2_edit_mypage', 'am2_edit_mypage');
+
+function am2_edit_mypage() {
+	global $mypages;
+	$user_id = get_current_user_id();	
+
+	$page_content = get_user_meta($user_id, 'page_content', true); 
+	if(!is_array($page_content)) $page_content = array();
+
+	foreach($mypages as $key => $page) {			
+		if($page == $_POST['mypage']){				
+			$page_content[$page] = $_POST[$page];
+			break;
+		}			
+	}
+
+	// var_dump($page_content);
+
+	update_user_meta($user_id, 'page_content', $page_content);
+
+	header("Content-Type: application/json; charset=UTF-8");	
+	echo json_encode( array('status' => 'success', 'user_id' => $user_id) );
+
+	exit();
 }
 ?>

@@ -104,6 +104,24 @@
             });
         }
 
+        $('#frm_edit_mypage input[type="submit"]').on('mousedown',function(e){
+            tinyMCE.triggerSave();
+        });
+
+        $('#frm_edit_mypage').ajaxForm({
+          beforeSubmit: function() {            
+            am2_show_preloader();            
+            return true; //$('#frm_edit_mypage').valid();
+          },
+          success: function(resp) {
+            am2_hide_preloader();
+            alert(resp.status);
+          },
+          error: function() {
+            am2_hide_preloader();
+          }
+        });     
+
         $('#frm_franchisee_account').validate({ rules: {
     
         }});        
@@ -326,7 +344,7 @@
 
                 var $state = $('<div class="state"></div>');
 
-                $state.append('<h1 class="entry-title" style="text-align: center;">'+state_name+'</h1>')
+                $state.append('<h1 class="state_title" style="text-align: center;"><span class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ state +'.png" /></span><span class="td">'+state_name+'</span></h1>')
                 
                 var $ul = $('<ul class="cities"></ul>');
                 

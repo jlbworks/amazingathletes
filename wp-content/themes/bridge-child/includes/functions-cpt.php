@@ -41,6 +41,38 @@ function am2_cpt() {
 
 	register_post_type( 'location', $args );
 
+	/*$labels = array(
+		'name'               => _x( 'Franchise pages', 'post type general name' ),
+		'singular_name'      => _x( 'Franchise page', 'post type singular name' ),
+		'add_new'            => _x( 'Add New', 'Franchise page' ),
+		'add_new_item'       => __( 'Add New Franchise page' ),
+		'edit_item'          => __( 'Edit Franchise page' ),
+		'new_item'           => __( 'New Franchise page' ),
+		'view_item'          => __( 'View Franchise page' ),
+		'search_items'       => __( 'Search Franchise pages' ),
+		'not_found'          => __( 'No Franchise pages found' ),
+		'not_found_in_trash' => __( 'No Franchise pages found in the trash' ),
+		'parent_item_colon'  => '',
+		'show_in_nav_menus'  => true
+	);
+
+	$args = array(
+		'labels'             => $labels,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'query_var'          => true,
+		'has_archive'        => true,
+		'rewrite'            => array( 'slug' => 'franchise-pages' ),
+		'capability_type'    => 'post',
+		'hierarchical'       => true,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'author', 'excerpt', 'thumbnail' ),
+		//'taxonomies'         => array( 'cities' )
+	);
+
+	register_post_type( 'franchise_page', $args );*/
+
 }
 
 ?>

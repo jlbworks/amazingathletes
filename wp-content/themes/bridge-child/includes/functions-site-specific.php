@@ -82,4 +82,18 @@ function am2_get_state_locations(){
     echo json_encode($locations);
     exit();
 }
+
+function change_author_permalinks() {    
+    global $wp,$wp_rewrite;
+
+    $wp->add_query_var('mypage');
+    
+    $wp_rewrite->add_rule('^franchisee/(.*)/(.*)/?', 'index.php?author_name=$matches[1]&mypage=$matches[2]', 'top');    
+    $wp_rewrite->add_rule('^franchisee/(.*)/?', 'index.php?author_name=$matches[1]', 'top');    
+
+    $wp_rewrite->flush_rules(false);      
+}
+
+add_action('init','change_author_permalinks');
+
 ?>

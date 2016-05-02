@@ -26,9 +26,11 @@ add_action('wp_enqueue_scripts', 'wp_schools_enqueue_scripts', 11);
 
 function am2_init() {
 	global $wpdb;
-	
 	wp_register_style('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.css');
 	wp_enqueue_style('selectize');
+	
+	wp_register_style('svg', get_stylesheet_directory_uri() . '/js/svg/jquery.svg.css');
+	wp_enqueue_style('svg');
 
 	wp_register_style('selectize.default', get_stylesheet_directory_uri() . '/js/selectize/selectize.default.css');
 	wp_enqueue_style('selectize.default');
@@ -50,12 +52,17 @@ function am2_init() {
 	wp_register_script('fineuploader', get_stylesheet_directory_uri() . '/js/fineuploader.js');
 	wp_enqueue_script('fineuploader');
 
+	wp_register_script('svg', get_stylesheet_directory_uri() . '/js/svg/jquery.svg.min.js');
+	wp_enqueue_script('svg');
+
 	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), '', true);	
 	wp_enqueue_script('am2_main');
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
 	wp_localize_script('am2_main', 'ajax_login_object', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
+		'site_url' => site_url(),
+		'theme_url' => get_stylesheet_directory_uri(),
 		'states' => $states_db,
 	));
 }
@@ -76,4 +83,4 @@ function am2_add_preloader(){?>
     </div>
     </div>
     </div>
-<?php }
+<?php }?>

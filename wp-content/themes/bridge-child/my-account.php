@@ -20,34 +20,42 @@ get_header();
 							
 			<div class="widget widget_text">			<div class="textwidget"><span class="icon-row">
 
-    <div class="side-nav"><a href="http://www.amazingathletes.com/franchise" class="sidebar-link">
+    <div class="side-nav"><a href="<?php echo site_url();?>/franchise" class="sidebar-link">
                          <span>
-                             <img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
                          </span>
                          <span class="sidebar-nav">
                              <h2>FRANCHISE OPPORTUNITIES</h2>
                          </span></a>
     </div>
 	<div style="
-    /*padding-top: 40px;*/" class="side-nav"><a href="http://amazingathletes.jlbdev.net/my-account/" class="sidebar-link">
+    /*padding-top: 40px;*/" class="side-nav"><a href="<?php echo site_url();?>/my-account/" class="sidebar-link">
                          <span>
-                             <img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2">
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2">
                          </span>
                          <span class="sidebar-nav">
                              <h2>MY ACCOUNT</h2>
                          </span></a>
     </div>
-	<div class="side-nav"><a href="http://amazingathletes.jlbdev.net/my-account/locations/" class="sidebar-link">
+	<div class="side-nav"><a href="<?php echo site_url();?>/my-account/locations/" class="sidebar-link">
                          <span>
-                             <img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
                          </span>
                          <span class="sidebar-nav">
                              <h2>MY LOCATIONS</h2>
                          </span></a>
     </div>
+    <div class="side-nav"><a href="<?php echo site_url();?>/my-account/my-pages/" class="sidebar-link">
+                         <span>
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                         </span>
+                         <span class="sidebar-nav">
+                             <h2>MY PAGES</h2>
+                         </span></a>
+    </div>
     <div class="side-nav"><a href="<?php $logout_url = site_url(); echo wp_logout_url($logout_url); ?>" class="sidebar-link">
                          <span>
-                             <img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
                          </span>
                          <span class="sidebar-nav">
                              <h2>LOGOUT</h2>
@@ -55,7 +63,7 @@ get_header();
     </div>
 	<?php /*<div class="side-nav"><a href="#" class="sidebar-link">
                          <span>
-                             <img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
                          </span>
                          <span class="sidebar-nav">
                              <h2>MEET THE TEAM</h2>
@@ -63,7 +71,7 @@ get_header();
     </div>
 	<div class="side-nav"><a href="#" class="sidebar-link">
                          <span>
-                             <img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
                          </span>
                          <span class="sidebar-nav">
                              <h2>GET STARTED</h2>
@@ -85,7 +93,7 @@ get_header();
 			<span class="empty_space_image"></span>
 		</span></div>
 
-<div class="qode_carousels_holder clearfix"><div class="qode_carousels" data-number-of-visible-items="4"><div class="caroufredsel_wrapper" style="display: block; text-align: left; float: none; position: relative; top: auto; right: auto; bottom: auto; left: auto; z-index: 0; width: 1407px; margin: 0px; overflow: hidden; cursor: move; height: 302px;"><ul class="slides" style="text-align: left; float: none; position: absolute; top: 0px; right: auto; bottom: auto; left: 0px; margin: 0px; width: 6097px; opacity: 1; z-index: 0;"><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/DSC_0295.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/duck-walks-e1458854686480.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/DSC_0652.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/DSC_0375.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/DSC_0238.jpg" alt="carousel image"></span></div></li></ul></div></div></div><div class="vc_row wpb_row section vc_row-fluid vc_inner " style=" text-align:left;"><div class=" full_section_inner clearfix"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner "><div class="wpb_wrapper">
+<div class="qode_carousels_holder clearfix"><div class="qode_carousels" data-number-of-visible-items="4"><div class="caroufredsel_wrapper" style="display: block; text-align: left; float: none; position: relative; top: auto; right: auto; bottom: auto; left: auto; z-index: 0; width: 1407px; margin: 0px; overflow: hidden; cursor: move; height: 302px;"><ul class="slides" style="text-align: left; float: none; position: absolute; top: 0px; right: auto; bottom: auto; left: 0px; margin: 0px; width: 6097px; opacity: 1; z-index: 0;"><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0295.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/duck-walks-e1458854686480.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0652.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0375.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0238.jpg" alt="carousel image"></span></div></li></ul></div></div></div><div class="vc_row wpb_row section vc_row-fluid vc_inner " style=" text-align:left;"><div class=" full_section_inner clearfix"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner "><div class="wpb_wrapper">
 	<div class="wpb_text_column wpb_content_element  copy-child-page">
 		<div class="wpb_wrapper">
 			<h1 class="entry-title" style="text-align: center;">My Account</h1>

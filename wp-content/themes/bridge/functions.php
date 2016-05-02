@@ -1460,7 +1460,8 @@ if(!function_exists('qode_has_shortcode')) {
 			if($content == '') {
 				//take content from current post
 				$current_post = get_post(get_the_ID());
-				$content = $current_post->post_content;
+				if(!empty($current_post))
+					$content = $current_post->post_content;
 			}
 
 			//does content has shortcode added?

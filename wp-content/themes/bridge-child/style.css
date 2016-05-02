@@ -705,3 +705,26 @@ animation-delay: .8s;
 #regions path.selected {
     fill: rgb(255,0,0) !important;
 }
+
+.state_title > .td img {
+    vertical-align: middle;
+}
+
+.state_title > .td:first-child {
+    margin-left: -350px;
+}
+/*.state_title {
+    display: table;
+    text-align: left;
+    margin:0px auto;
+}
+
+.state_title .td {
+    display:table-cell;
+    vertical-align: middle;
+    width:50%
+}
+
+.state_title .td:first-child {
+    
+}*/
