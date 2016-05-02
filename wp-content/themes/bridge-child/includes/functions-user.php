@@ -147,10 +147,12 @@ function am2_user_password() {
 				)
 			);
 		}			
-	}	
 
-	if(!empty($user_id)) echo "Your password was successfully changed.";
-	else echo "An error happened while changing your password";
+		if(!is_wp_error($user_id)) echo "Your password was successfully changed.";
+		else echo $user_id->get_error_message();
+	} else {
+		echo "Please supply a password in both password fields";
+	}		
 
 	exit();
 }
@@ -167,7 +169,7 @@ function am2_franchisee_account() {
 
 	foreach ($fields as $post_key => $meta_key) {
 		if($post_key == 'franchise_email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
-			wp_update_user(array(
+			$user_id = wp_update_user(array(
 					'ID' => $user_id,
 					'user_email' => $_POST[$post_key],				
 				)
@@ -182,7 +184,13 @@ function am2_franchisee_account() {
 		}		
 	}
 
-	echo "Your profile was successfully saved.";
+	if(!is_wp_error( $user_id )){
+		echo "Your profile was successfully saved.";	
+	}
+	else {
+		echo $user_id->get_error_message();
+	}
+	
 	exit();
 
 }
@@ -191,22 +199,17 @@ add_action('wp_ajax_am2_user_account', 'am2_user_account');
 //add_action('wp_ajax_nopriv_am2_user_account', 'am2_user_account');
 
 function am2_user_account() {
-	/*if (!isset($_POST['user_id']) || empty($_POST['user_id'])) {
-		return;
-	} else {
-		$user_id = $_POST['user_id'];
-	}*/
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
 
 	$fields = array('first_name' => 'first_name', 'last_name' => 'last_name', 'email' => 'email', 'password' => 'password',  );
 
-	$required_fields = array('name', 'email');
+	$required_fields = array('first_name', 'last_name', 'email');
 
 	foreach ($fields as $post_key => $meta_key) {
 		if($post_key == 'password' && isset($_POST[$post_key]) && !empty($_POST[$post_key]) && isset($_POST['password2']) && !empty($_POST['password2'])){
 			if($_POST['password'] === $_POST['password2']) {
-				wp_update_user(array(
+				$user_id = wp_update_user(array(
 					'ID' => $user_id,
 					'user_pass' => $_POST[$post_key],				
 					)
@@ -214,7 +217,7 @@ function am2_user_account() {
 			}			
 		}	
 		else if($post_key == 'email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
-			wp_update_user(array(
+			$user_id = wp_update_user(array(
 					'ID' => $user_id,
 					'user_email' => $_POST[$post_key],				
 				)
@@ -229,7 +232,13 @@ function am2_user_account() {
 		}		
 	}
 
-	echo "Your profile was successfully saved.";
+	if(!is_wp_error( $user_id )){
+		echo "Your profile was successfully saved.";	
+	}
+	else {
+		echo $user_id->get_error_message();
+	}
+
 	exit();
 
 }

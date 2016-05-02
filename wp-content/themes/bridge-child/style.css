@@ -14,6 +14,22 @@ Template: bridge
 
 /***************************HEADER*****************/
 
+@media only screen and (min-width: 1400px){
+.headerhead{
+    position: fixed;
+    left: 3%;
+    top: 65px;
+}
+}
+
+
+@media only screen and (max-width: 1399px){
+.headerhead{
+display:none;
+}
+}
+
+
 @media only screen and (min-width: 1000px){
 header.stick_with_left_right_menu:not(.sticky) {
     text-align: center;
@@ -262,7 +278,18 @@ h1 {
 
 /**************sidebar*************/
 
+@media screen and (min-width: 1650px){
+#fball-account-page {
+padding-top: 0px;
+}
+}
 
+
+@media screen and (max-width: 1649px){
+#fball-account-page {
+padding-top: 40px;
+}
+}
 
 
 
@@ -475,9 +502,26 @@ aside
 /*********************************FOOTER CSS*******************************/
 
 
+.footer-link
+padding: 10px;
+}
+
+
 .footer_top {
     border-top: solid 20px rgb(253, 0, 0);
 }
+
+
+.footer_top
+.container {
+    background-color: transparent;
+}
+
+
+
+/* BACK OFFICE STYLE */
+
+
 
 .hidden {
     display:none;
