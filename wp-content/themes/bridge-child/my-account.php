@@ -20,6 +20,7 @@ get_header();
 							
 			<div class="widget widget_text">			<div class="textwidget"><span class="icon-row">
 
+    <?php if(in_array('franchisee',$user->roles)){?>
     <div class="side-nav"><a href="<?php echo site_url();?>/franchise" class="sidebar-link">
                          <span>
                              <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
@@ -53,6 +54,7 @@ get_header();
                              <h2>MY PAGES</h2>
                          </span></a>
     </div>
+   	<?php } ?>
     <div class="side-nav"><a href="<?php $logout_url = site_url(); echo wp_logout_url($logout_url); ?>" class="sidebar-link">
                          <span>
                              <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">

@@ -27,6 +27,7 @@ get_header();?>
                              <h2>FRANCHISE OPPORTUNITIES</h2>
                          </span></a>
     </div>
+	<?php if(in_array('franchisee',$user->roles)){?>
 	<div style="
     /*padding-top: 40px;*/" class="side-nav"><a href="<?php echo site_url();?>/my-account/" class="sidebar-link">
                          <span>
@@ -52,6 +53,7 @@ get_header();?>
                              <h2>MY PAGES</h2>
                          </span></a>
     </div>
+    <?php } ?>
     <div class="side-nav"><a href="<?php $logout_url = site_url(); echo wp_logout_url($logout_url); ?>" class="sidebar-link">
                          <span>
                              <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
