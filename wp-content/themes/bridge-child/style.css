@@ -728,3 +728,65 @@ animation-delay: .8s;
 .state_title .td:first-child {
     
 }*/
+
+.welcome {text-align: center; color:#203e7c; font-weight: bold;}
+
+#franchise_video {
+    box-sizing: border-box;
+    width: 50%;
+    float:left;
+    padding: 10px;
+}
+
+#franchise_about {
+    box-sizing: border-box;
+    width: 50%;
+    float:left;
+    padding: 10px;
+}
+
+#franchise_about .learn_more {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    line-height: 48px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color:red;
+    clear:left;
+    float:right;
+}
+
+#franchise_about .wpb_wrapper {
+    text-align: right;
+}
+
+.franchise_pages {
+    clear: both;
+    list-style: none;
+    margin:30px 0px;
+    padding:10px;
+    box-sizing: border-box;
+}
+
+.franchise_pages li {
+    display:inline-block;
+    width:33%;
+    padding-right:1%;
+    box-sizing: border-box;
+}
+
+.franchise_pages li img {
+    max-width:100%;
+}
+
+.author .state {
+    display:block;
+}
+
+.author .state .locations {
+    display:block;
+}
+
+.author .state .locations .franchise > .franchise_details {
+    display:block;
+}

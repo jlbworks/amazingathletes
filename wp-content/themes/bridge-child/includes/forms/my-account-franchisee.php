@@ -36,8 +36,8 @@ else {
 			$states = array();
 			if ($states_db) {
 				foreach ($states_db AS $state) {?>
-							<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
-							<?php }
+					<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
+			<?php }
 			}
 			?>
 		</select>
@@ -96,10 +96,13 @@ else {
 		<label> Pinterest Page</label>
 		<input type="text" name="franchise_pinterest" maxlength="255" style="" value="<?php echo get_user_meta($user_id,'pinterest_page',true); ?>"><br/>
 
+		<label> Video </label>
+		<input type="text" id="video" name="video" value="<?php echo get_user_meta($user->ID, 'video', true);?>" />
+
 		<div class="franchisee_photo_wrap">
 			<?php
-$custom_image = get_field('franchisee_photo', 'user_' . $user->ID);
-if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_image, 'medium');?>
+			$custom_image = get_field('franchisee_photo', 'user_' . $user->ID);
+			if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_image, 'medium');?>
 				<img src="<?php echo $custom_image_url[0]; ?>" width="175"/>
 				<br/>
 				<a class='delete_button button small-button' id='btn_delete_franchisee_photo' data-attid="<?php echo $custom_image; ?>" >Delete image</a>
@@ -107,7 +110,7 @@ if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_imag
 				<div id="digital_image_upload"></div>
 			<?php }?>
 
-		</div>
+		</div>		
 
 		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/> */?>
 		<input type="hidden" name="action" value="am2_franchisee_account" />

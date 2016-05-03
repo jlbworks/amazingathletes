@@ -169,7 +169,7 @@ function am2_franchisee_account() {
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
 
-	$fields = array('franchise_name' => 'franchise_name', 'franchise_owner' => 'owners', 'franchise_address' => 'mailing_address', 'franchise_zip' => 'zip_code', 'franchise_telephone' => 'telephone', 'franchise_fax' => 'fax', 'franchise_email' => 'email_address', 'franchise_aaemail' => 'aa_email_address', 'franchise_website' => 'website_address', 'franchise_market' => 'market_area', 'franchise_facebook' => 'facebook_page', 'franchise_youtube' => 'youtube_page', 'franchise_twitter' => 'twitter_page', 'franchise_pinterest' => 'pinterest_page', 'franchise_city_state' => 'city__state', 'password' => 'password' );
+	$fields = array('franchise_name' => 'franchise_name', 'franchise_owner' => 'owners', 'franchise_address' => 'mailing_address', 'franchise_zip' => 'zip_code', 'franchise_telephone' => 'telephone', 'franchise_fax' => 'fax', 'franchise_email' => 'email_address', 'franchise_aaemail' => 'aa_email_address', 'franchise_website' => 'website_address', 'franchise_market' => 'market_area', 'franchise_facebook' => 'facebook_page', 'franchise_youtube' => 'youtube_page', 'franchise_twitter' => 'twitter_page', 'franchise_pinterest' => 'pinterest_page', 'franchise_city_state' => 'city__state', 'password' => 'password', 'video' => 'video' );
 
 	$required_fields = array('franchise_name', 'franchise_owner', 'franchise_address', 'franchise_city_state', 'franchise_zip', 'franchise_telephone', 'franchise_email');
 
@@ -334,9 +334,9 @@ function am2_edit_location() {
 		$loc_verb = 'edited';		
 	}		
 
-	$fields = array('location_type', 'location_name', 'address', 'city__state', 'zip', 'telephone', 'fax', 'email', 'website', 'director', 'latlng', 'coaches');
+	$fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'fax', 'email', 'website', 'director', 'latlng', 'coaches');
 
-	$required_fields = array('location_type', 'location_name', 'address', 'city__state', 'zip', 'telephone', 'director');
+	$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 
 	foreach ($fields as $post_key) {
 		if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
@@ -383,8 +383,8 @@ function am2_add_coach() {
 	exit();
 }
 
-function am2_user_social(){
-$user_id = get_current_user_id();
+function am2_user_social($user_id=null){
+$user_id = empty($user_id) ? get_current_user_id() : $user_id;
 
 $facebook_url = get_user_meta($user_id, 'facebook_page', true);
 $youtube_url = get_user_meta($user_id, 'youtube_page', true);

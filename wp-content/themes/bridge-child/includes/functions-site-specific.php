@@ -74,6 +74,8 @@ function am2_get_state_locations(){
             $meta_franchisee[$key] = $val[0];
         }
 
+        $meta['post_title'] = get_the_title( $_loc->ID );
+
         $city = explode('|',$meta['city__state'])[1];
         $locations[$city][] = array('meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
     }
@@ -87,7 +89,9 @@ function change_author_permalinks() {
     global $wp,$wp_rewrite;
 
     $wp->add_query_var('mypage');
+    $wp->add_query_var('locations');
     
+    #$wp_rewrite->add_rule('^franchisee/(.*)/locations/?', 'index.php?author_name=$matches[1]&locations=1', 'top');    
     $wp_rewrite->add_rule('^franchisee/(.*)/(.*)/?', 'index.php?author_name=$matches[1]&mypage=$matches[2]', 'top');    
     $wp_rewrite->add_rule('^franchisee/(.*)/?', 'index.php?author_name=$matches[1]', 'top');    
 

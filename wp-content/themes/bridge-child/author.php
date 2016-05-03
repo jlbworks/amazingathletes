@@ -2,6 +2,7 @@
 global $wp_query;
 global $mypages;
 
+$author = get_query_var('author');
 $author_name = get_query_var('author_name');
 $mypage = get_query_var('mypage');
 
@@ -15,6 +16,15 @@ foreach($_user_meta as $key => $um){
 
 $page_content = unserialize($user_meta['page_content']);
 
+function am2_user_data(){
+	$author = get_query_var('author');
+
+	wp_localize_script('am2_main', 'author_object', array(		
+		'video_url' => get_user_meta($author, 'video', true),
+	));
+}
+
+add_action('wp_enqueue_scripts', 'am2_user_data', 12);
 ?>
 <?php get_header();?>
 <div class="content " style="min-height: 758px;">
@@ -38,7 +48,7 @@ $page_content = unserialize($user_meta['page_content']);
              </span></a>
     	</div>    	
     <?php } ?>
-    <div class="side-nav"><a href="<?php echo site_url();?>/locations-list" class="sidebar-link">
+    <div class="side-nav"><a href="<?php echo site_url();?>/franchisee/<?php echo $author_name;?>/locations" class="sidebar-link">
              <span>
                  <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
              </span>
@@ -81,12 +91,46 @@ $page_content = unserialize($user_meta['page_content']);
 <div class="qode_carousels_holder clearfix"><div class="qode_carousels" data-number-of-visible-items="4"><div class="caroufredsel_wrapper" style="display: block; text-align: left; float: none; position: relative; top: auto; right: auto; bottom: auto; left: auto; z-index: 0; width: 1407px; margin: 0px; overflow: hidden; cursor: move; height: 302px;"><ul class="slides" style="text-align: left; float: none; position: absolute; top: 0px; right: auto; bottom: auto; left: 0px; margin: 0px; width: 6097px; opacity: 1; z-index: 0;"><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0295.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/duck-walks-e1458854686480.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0652.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0375.jpg" alt="carousel image"></span></div></li><li class="item" style="width: 454px;"><div class="carousel_item_holder"><span class="first_image_holder "><img src="<?php echo site_url();?>/wp-content/uploads/2016/03/DSC_0238.jpg" alt="carousel image"></span></div></li></ul></div></div></div><div class="vc_row wpb_row section vc_row-fluid vc_inner " style=" text-align:left;"><div class=" full_section_inner clearfix"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner "><div class="wpb_wrapper">
 	<div class="wpb_text_column wpb_content_element  copy-child-page">
 		<div class="wpb_wrapper">
-			<h1 class="entry-title" style="text-align: center;"><?php echo $user_meta['franchise_name'];?></h1>
+			<div class="welcome">welcome to<br/></div>
+			<h1 class="entry-title" style="text-align: center;"><?php echo $user_meta['franchise_name'];?></h1>			
 			<?php 
-			//var_dump($page_content);
-			if(isset($page_content[$mypage])) {?>
-				<?php echo $page_content[$mypage];?>
+
+			/*******locations of this franchisee********/
+			if($mypage == 'locations'){ 
+				include(locate_template( 'includes/archives/franchisee-locations.php' ));
+			}
+
+			/********mypages of this franchisee********/
+			else if(isset($page_content[$mypage])) { 
+				echo $page_content[$mypage];
+			}
+
+			/********home of this franchisee*********/
+			else {  ?> 
+
+				<div id="franchise_video">
+				</div>
+				<div id="franchise_about">
+					<?php if(isset($page_content['about'])) {?>
+						<?php $res = apply_filters( 'wp_trim_excerpt', $page_content['about'] ); echo mb_substr(strip_tags( $res ),0,500); ?>
+					<?php } ?>		
+					<a class="learn_more" href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/about">LEARN MORE</a>
+					<?php am2_user_social($author);?>
+				</div>
+				<ul class="franchise_pages">
+					<li>
+						<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/register"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/register.jpg" /></a>
+					</li>
+					<li>
+						<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/programs"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/programs.jpg" /></a>
+					</li>
+					<li>
+						<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/policies_and_procedures"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/policies.jpg" /></a>
+					</li>
+				</ul>
+
 			<?php } ?>
+			
 
 </div> 
 	</div> 	<div class="vc_empty_space" style="height: 50px"><span class="vc_empty_space_inner">

@@ -9,7 +9,16 @@
 
         loadDigitalArtwork();
 
-        var city_state_selects = []
+        var city_state_selects = [];
+
+        try{
+            var myId = getId(author_object.video_url);
+            console.log(myId);
+
+            $('#franchise_video').html('<iframe width="100%" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>');
+        } catch (exc) {
+            console.log(exc);
+        }
 
         $select_state = $('.am2_cc_state').selectize({
             onChange: function(value) {
@@ -52,11 +61,8 @@
 
         $select_coaches = $('.am2_coaches').selectize({   
             multiple:true,
-            maxItems:null,         
-            // valueField: 'name',
-            // labelField: 'name',
-            // searchField: ['name'],
-            //maxItems:1      
+            maxItems:null,        
+            
         });   
 
         if($select_city.length > 0 && $select_state.length > 0){
@@ -287,7 +293,7 @@
             $('.add_coach_wrap').slideToggle();
         });
 
-         $('.btn_add_coach').on('click', function(e){
+        $('.btn_add_coach').on('click', function(e){
             e.preventDefault();
 
             if($.trim($('#first_name').val()) == '' || $.trim($('#first_name').val()) == '' || $.trim($('#coach_email').val()) == ''){
@@ -364,7 +370,7 @@
 
 	                $.each(v, function(k2,v2){                        
 	                	$li_child = $('<li class="franchise"></li>');
-	                	$li_child.append('<a>'+v2.meta.location_name+'</a>');
+	                	$li_child.append('<a>'+v2.meta.post_title+'</a>');
 	                	$li_child.append(
 	                	'<div class="franchise_details">' +
 		                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + state + " " + v2.meta.zip + '</span><br/>' +
@@ -502,5 +508,18 @@
     function am2_hide_preloader(){
         $('#preloader_overlay').hide();
     }
+
+    function getId(url) {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+
+        if (match && match[2].length == 11) {
+            return match[2];
+        } else {
+            return 'error';
+        }
+    }
+
+
     
 })(jQuery);

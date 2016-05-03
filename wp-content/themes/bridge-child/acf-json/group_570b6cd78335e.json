@@ -306,6 +306,27 @@
             "disabled": 0
         },
         {
+            "key": "field_5728842718fa6",
+            "label": "Video",
+            "name": "video",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "readonly": 0,
+            "disabled": 0
+        },
+        {
             "key": "field_570b6e1caa369",
             "label": "Franchisee photo",
             "name": "franchisee_photo",
@@ -347,5 +368,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1460381280
+    "modified": 1462273098
 }
