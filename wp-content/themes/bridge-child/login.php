@@ -13,13 +13,7 @@
 							
 			<div class="widget widget_text">			<div class="textwidget"><span class="icon-row">
 
-    <div class="side-nav"><a href="<?php echo site_url();?>/franchise" class="sidebar-link">
-                         <span>
-                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
-                         </span>
-                         <span class="sidebar-nav">
-                             <h2>FRANCHISE OPPORTUNITIES</h2>
-                         </span></a>
+    <div class="side-nav">
     </div>
 	<?php /*<div class="side-nav"><a href="#" class="sidebar-link">
                          <span>

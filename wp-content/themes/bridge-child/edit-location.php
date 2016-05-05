@@ -19,14 +19,7 @@ get_header();?>
 							
 			<div class="widget widget_text">			<div class="textwidget"><span class="icon-row">
 
-    <div class="side-nav"><a href="<?php echo site_url();?>/franchise" class="sidebar-link">
-                         <span>
-                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
-                         </span>
-                         <span class="sidebar-nav">
-                             <h2>FRANCHISE OPPORTUNITIES</h2>
-                         </span></a>
-    </div>
+    
     <?php if(in_array('franchisee',$user->roles)){?>
 	<div style="
     /*padding-top: 40px;*/" class="side-nav"><a href="<?php echo site_url();?>/my-account/" class="sidebar-link">
@@ -51,6 +44,38 @@ get_header();?>
                          </span>
                          <span class="sidebar-nav">
                              <h2>MY PAGES</h2>
+                         </span></a>
+    </div>
+    <div class="side-nav"><a href="<?php echo site_url();?>/resources/" class="sidebar-link">
+                         <span>
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                         </span>
+                         <span class="sidebar-nav">
+                             <h2>RESOURCES</h2>
+                         </span></a>
+    </div>
+    <div class="side-nav"><a href="https://playlearnperform.com/my-account/" class="sidebar-link">
+                         <span>
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                         </span>
+                         <span class="sidebar-nav">
+                             <h2>SPORTS STORE</h2>
+                         </span></a>
+    </div>
+    <div class="side-nav"><a href="<?php echo site_url();?>/registration/" class="sidebar-link">
+                         <span>
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                         </span>
+                         <span class="sidebar-nav">
+                             <h2>REGISTRATION</h2>
+                         </span></a>
+    </div>
+    <div class="side-nav"><a href="<?php echo site_url();?>/testimonials/" class="sidebar-link">
+                         <span>
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                         </span>
+                         <span class="sidebar-nav">
+                             <h2>TESTIMONIALS</h2>
                          </span></a>
     </div>
    	<?php } ?>

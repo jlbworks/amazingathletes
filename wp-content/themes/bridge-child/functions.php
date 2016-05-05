@@ -16,6 +16,9 @@ Function wp_schools_enqueue_scripts() {
 	wp_register_style('childstyle', get_stylesheet_directory_uri() . '/style.css');
 	wp_enqueue_style('childstyle');
 
+	wp_register_style('style-am2', get_stylesheet_directory_uri() . '/style-am2.css');
+	wp_enqueue_style('style-am2');
+
 	wp_register_script('jquery', get_stylesheet_directory_uri() . '/js/jquery-1.12.3.min.js');
 	wp_enqueue_script('jquery');
 
