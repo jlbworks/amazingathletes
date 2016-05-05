@@ -374,14 +374,13 @@
 	                	$li_child.append(
 	                	'<div class="franchise_details">' +
 		                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + state + " " + v2.meta.zip + '</span><br/>' +
-		                	'<a class="h1 franchise_register">Register Now</a><br/>' +
+		                	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
 		                	'<span class="franchise_name">' + v2.meta_franchisee.franchise_name + '</span><br/>' +
 		                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
 	                	'</div>'
 	                	);
 	                    
-	                    $ul_child.append($li_child);	                    
-
+	                    $ul_child.append($li_child);
 	                });                      
 
 	                $state.append($ul_child);

@@ -168,7 +168,6 @@ if (isset($class_id) and !empty($class_id)) {
 		echo "<script>window.location='".site_url()."/my-account/locations/?loc_id={$location->ID}';</script>";
 		exit();
 	}
-
 }
 
 $please_confirm_delete = false;

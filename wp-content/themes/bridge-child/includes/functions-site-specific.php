@@ -68,16 +68,25 @@ function am2_get_state_locations(){
             $meta[$key] = $val[0];
         }
 
-        $meta_franchisee = get_user_meta($author_id);
+        $meta_franchisee = get_user_meta($author_id);        
 
         foreach($meta_franchisee as $key => $val){
+
             $meta_franchisee[$key] = $val[0];
+
+            if ('session_tokens' == $key) {
+                unset($meta_franchisee[$key]);
+            }
+
+            if ('page_content' == $key) {
+                unset($meta_franchisee[$key]);
+            }
         }
 
         $meta['post_title'] = get_the_title( $_loc->ID );
 
         $city = explode('|',$meta['city__state'])[1];
-        $locations[$city][] = array('meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
+        $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
     }
 
     header('Content-Type: application/json');
