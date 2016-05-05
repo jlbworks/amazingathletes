@@ -4,13 +4,26 @@ $loc_id = 0;
 $city_state = array('', '');
 
 if (!empty($_GET['loc_id'])) {
-	$loc_id = $_GET['loc_id'];
-	$pmeta = get_post_meta($loc_id); //, 'city__state',true);
+	$loc_id = (int) $_GET['loc_id'];
+	$pmeta = get_post_meta($loc_id);
 	if (!empty($pmeta['city__state'][0])) {
 		$city_state = explode('|', $pmeta['city__state'][0]);
 	}
-
+	
 	$location = get_post($loc_id);
+
+	$classes = get_posts(array(
+		'post_type' 		=> 'location_class',
+		'post_status' 		=> 'any',
+		'posts_per_page' 	=> -1,
+		'author' 			=> $user->ID,
+		'meta_query' 		=> array(
+			array(
+				'key'	=> 'location_id',
+				'value'	=> $location->ID,
+			)			
+		)
+	));	
 }
 
 if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['add'])) { ?>
@@ -118,6 +131,44 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 
 		<input type="submit" value="submit"/>
 	</form>
+
+<?php if(!empty($loc_id)): ?>
+	<hr>
+	<br>		
+	<div>		
+		<h4>Classes</h4>
+		<a href="?looc_id=<?php echo $loc_id; ?>&add-class=1" class="button add_new_class">Add new class</a>		
+		<?php if(empty($classes)): ?>
+			<p>No classes found...</p>
+		<?php else: ?>
+		<table class="basic small" width="100%">
+			<tbody>
+				<tr>
+					<th>Day</th>
+					<th>Time</th>
+					<th>Type</th>
+					<th>Length</th>
+					<th>Ages</th>
+					<th>Actions</th>
+				</tr>
+				<?php foreach ($classes as $c): 
+					$classes_meta = get_post_meta($c->ID);					
+				?>
+				<tr>
+					<td><?php echo am2_get_meta_value('day', 	$classes_meta); ?></td>
+					<td><?php echo am2_get_meta_value('time', 	$classes_meta); ?></td>
+					<td><?php echo am2_get_meta_value('type', 	$classes_meta); ?></td>
+					<td><?php echo am2_get_meta_value('length', $classes_meta); ?></td>
+					<td><?php echo am2_get_meta_value('ages', 	$classes_meta); ?></td>
+					<td><a href="?looc_id=<?php echo $loc_id; ?>&class_id=<?php echo $c->ID; ?>&add-class=1">Edit</a> <a href="?looc_id=<?php echo $loc_id; ?>&class_id=<?php echo $c->ID; ?>&add-class=1&confirm_delete=1">Delete</a></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>	
+		<?php endif; ?>					
+	</div>
+<?php endif; ?>
+
 </div>
 <div id="map"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4rcwbMAQu0UW62G-dQpZTlBcJXj-rMXE"></script>

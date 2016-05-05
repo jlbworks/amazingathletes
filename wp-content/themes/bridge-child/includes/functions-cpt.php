@@ -41,6 +41,38 @@ function am2_cpt() {
 
 	register_post_type( 'location', $args );
 
+	$labels = array(
+		'name'               => _x( 'Class', 'post type general name' ),
+		'singular_name'      => _x( 'Classes', 'post type singular name' ),
+		'add_new'            => _x( 'Add New', 'Class' ),
+		'add_new_item'       => __( 'Add New Class' ),
+		'edit_item'          => __( 'Edit Class' ),
+		'new_item'           => __( 'New Class' ),
+		'view_item'          => __( 'View Class' ),
+		'search_items'       => __( 'Search Classes' ),
+		'not_found'          => __( 'No Classes found' ),
+		'not_found_in_trash' => __( 'No Classes found in the trash' ),
+		'parent_item_colon'  => '',
+		'show_in_nav_menus'  => true
+	);
+
+	$args = array(
+		'labels'             => $labels,
+		'public'             => false,
+		'publicly_queryable' => false,
+		'show_ui'            => false,
+		'query_var'          => true,
+		'has_archive'        => true,
+		'rewrite'            => array( 'slug' => 'classes-list' ),
+		'capability_type'    => 'post',
+		'hierarchical'       => true,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'author', 'excerpt', 'thumbnail' ),
+		//'taxonomies'         => array( 'cities' )
+	);
+
+	register_post_type( 'location_class', $args );
+
 	/*$labels = array(
 		'name'               => _x( 'Franchise pages', 'post type general name' ),
 		'singular_name'      => _x( 'Franchise page', 'post type singular name' ),

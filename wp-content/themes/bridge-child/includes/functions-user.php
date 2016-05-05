@@ -1,4 +1,16 @@
 <?php
+function am2_get_meta_value($key, $meta_data) {
+
+    if(isset($meta_data[$key])) {
+
+        if(isset($meta_data[$key][0])) {
+            return $meta_data[$key][0];
+        }
+
+    }
+
+    return false;
+}
 
 global $mypages;
 

@@ -58,6 +58,9 @@ function am2_init() {
 	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), '', true);	
 	wp_enqueue_script('am2_main');
 
+	wp_register_script('jquery.timepicker', get_stylesheet_directory_uri() . '/js/jquery.timepicker.min.js' , array('jquery'), '', true);	
+	wp_enqueue_script('jquery.timepicker');
+
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
 	wp_localize_script('am2_main', 'ajax_login_object', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
