@@ -1,0 +1,1 @@
+import via /wp-admin/import.php
