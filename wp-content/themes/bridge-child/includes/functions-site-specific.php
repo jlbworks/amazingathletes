@@ -95,7 +95,7 @@ function change_author_permalinks() {
     $wp_rewrite->add_rule('^franchisee/(.*)/(.*)/?', 'index.php?author_name=$matches[1]&mypage=$matches[2]', 'top');    
     $wp_rewrite->add_rule('^franchisee/(.*)/?', 'index.php?author_name=$matches[1]', 'top');    
 
-    $wp_rewrite->flush_rules(false);      
+    //$wp_rewrite->flush_rules(false);      
 }
 
 add_action('init','change_author_permalinks');
