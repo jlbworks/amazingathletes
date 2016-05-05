@@ -5,6 +5,12 @@
     border-color: #d6e9c6;
 }
 
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
 .alert {
     padding: 15px;
     margin-bottom: 20px;
@@ -105,9 +111,19 @@ if (isset($_POST['looc_id'])) {
 	if (isset($_POST['class_id']) and !empty($_POST['class_id'])) {
 		// UPDATE
 		$class_id = $_POST['class_id'];
+
+		// DELETE
 		if (isset($_POST['do_delete']) and !empty($_POST['do_delete'])) {
+			$_class = get_post($class_id);
+			
+			if ($_class->post_author != $user->ID) {
+				echo "<div class=\"alert alert-danger\" role=\"alert\"> <strong>Naughty Naughty!</strong>Please wait, redirecting You in a moment...</div>";
+				echo "<script>window.location='".site_url()."/my-account/locations/?loc_id={$location->ID}';</script>";
+				exit();
+			}
+
 			wp_delete_post($class_id, true);
-			echo "<div class=\"alert alert-success\" role=\"alert\"> <strong>Well done!</strong> Your class is deleted. Please wait, redirecting You in a moment...</div>";
+			echo "<div class=\"alert alert-success\" role=\"alert\"> <strong>Your class is deleted!</strong> Please wait, redirecting You in a moment...</div>";
 			echo "<script>window.location='".site_url()."/my-account/locations/?loc_id={$location->ID}';</script>";
 			exit();
 		}
@@ -144,13 +160,22 @@ if (isset($_GET['class_id']) and !empty($_GET['class_id'])) {
 if (isset($class_id) and !empty($class_id)) {
 	$_title = 'Edit class';
 	$location_class = get_post($class_id);
+
+	$_class = get_post($class_id);
+
+	if ($_class->post_author != $user->ID) {	
+		echo "<div class=\"alert alert-danger\" role=\"alert\"> <strong>Naughty Naughty!</strong> Please wait, redirecting You in a moment...</div>";
+		echo "<script>window.location='".site_url()."/my-account/locations/?loc_id={$location->ID}';</script>";
+		exit();
+	}
+
 }
 
 $please_confirm_delete = false;
 
 if (isset($class_id) and !empty($class_id) and isset($_GET['confirm_delete'])) {
 	$_title = 'Delete class';
-	$please_confirm_delete = true;
+	$please_confirm_delete = true;	
 }
 
 $class_day 		= false;
