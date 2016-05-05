@@ -12,7 +12,7 @@
         var city_state_selects = [];
 
         try{
-            var myId = getId(author_object.video_url);
+            var myId = getVideoId(author_object.video_url);
             console.log(myId);
 
             $('#franchise_video').html('<iframe width="100%" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>');
@@ -509,7 +509,7 @@
         $('#preloader_overlay').hide();
     }
 
-    function getId(url) {
+    function getVideoId(url) {
         var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         var match = url.match(regExp);
 
