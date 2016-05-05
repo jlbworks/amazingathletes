@@ -22,7 +22,11 @@ $classes = get_posts(array(
 
 get_header();
 ?>
-<table class="basic small" width="100%" style="margin-top: 100px">
+<div style="margin-top: 100px">
+<?php if(empty($classes)): ?>
+<p>This location has no classes.</p>
+<?php else: ?>
+<table class="basic small" width="100%">
 	<tbody>
 		<tr>
 			<th>Day</th>
@@ -46,5 +50,7 @@ get_header();
 		<?php endforeach; ?>
 	</tbody>
 </table>
+<?php endif; ?>
+</div>
 
 <?php get_footer();
