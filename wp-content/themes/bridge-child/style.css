@@ -652,6 +652,18 @@ animation-delay: .8s;
     list-style: none;   
 }
 
+.state .cities {
+    clear: both;
+    margin:0px auto;    
+    display: block;
+    padding:20px;
+    width:300px;
+}
+
+.state .cities option{
+
+}
+
 .state .cities li {
     cursor: pointer;
 }
@@ -789,4 +801,25 @@ animation-delay: .8s;
 
 .author .state .locations .franchise > .franchise_details {
     display:block;
+}
+
+.selectize-control.cities .selectize-input{
+    padding:20px;
+    border:0px none;
+    color:red;
+    font-size:18px;
+}
+
+.selectize-control.cities .selectize-dropdown.single {
+    border:1px solid red;
+}
+
+.selectize-control.cities .selectize-dropdown.single .option{
+    padding:10px;
+    color:red;
+}
+
+.selectize-control.cities .selectize-dropdown.single .option.selected, .selectize-control.cities .selectize-dropdown.single .option:hover{
+    background-color: red;
+    color:white;
 }

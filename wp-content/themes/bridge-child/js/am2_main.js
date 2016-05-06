@@ -352,57 +352,72 @@
 
                 $state.append('<h1 class="state_title" style="text-align: center;"><span class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ state +'.png" /></span><span class="td">'+state_name+'</span></h1>')
                 
-                var $ul = $('<ul class="cities"></ul>');
+                if(Object.keys(resp).length>0){
+                	var $ul = $('<select class="cities"></select>');
                 
-                $.each(resp, function(k,v){
-                    var $li = $('<li data-id="'+ k +'"></li>');
-                    $li.append(k);                    
-                    
-                    $ul.append($li);
-                });                
-
-                $state.append($ul);
-
-                $state.append('<span class="h1">Choose a Location</span>');
-                
-                $.each(resp, function(k,v){
-                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
-
-	                $.each(v, function(k2,v2){                        
-	                	$li_child = $('<li class="franchise"></li>');
-	                	$li_child.append('<a>'+v2.meta.post_title+'</a>');
-	                	$li_child.append(
-	                	'<div class="franchise_details">' +
-		                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + state + " " + v2.meta.zip + '</span><br/>' +
-		                	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
-		                	'<span class="franchise_name">' + v2.meta_franchisee.franchise_name + '</span><br/>' +
-		                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
-	                	'</div>'
-	                	);
+	                $.each(resp, function(k,v){
+	                    var $li = $('<option value="'+k+'" data-id="'+ k +'"></option>');
+	                    $li.append(k);                    
 	                    
-	                    $ul_child.append($li_child);
-	                });                      
+	                    $ul.append($li);
+	                });                
 
-	                $state.append($ul_child);
-	            });
+	                $state.append($ul);
 
-                $('.dynamic-locaion-content').html($state);
+	                $state.append('<span class="h1">Choose a Location</span>');
+	                
+	                $.each(resp, function(k,v){
+	                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
-                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500); 
+		                $.each(v, function(k2,v2){                        
+		                	$li_child = $('<li class="franchise"></li>');
+		                	$li_child.append('<a>'+v2.meta.post_title+'</a>');
+		                	$li_child.append(
+		                	'<div class="franchise_details">' +
+			                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + state + " " + v2.meta.zip + '</span><br/>' +
+			                	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
+			                	'<span class="franchise_name">' + v2.meta_franchisee.franchise_name + '</span><br/>' +
+			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
+		                	'</div>'
+		                	);
+		                    
+		                    $ul_child.append($li_child);
+		                });                      
 
-                $('.state .cities li').off('click').on('click', function(e){
-                	$('.state .cities li').removeClass('selected');
-                	$(this).addClass('selected');
-                	$('.state .locations').hide();
-                	$('.state .locations[data-id="'+$(this).data('id')+'"]').show();                	
-                	$('html, body').animate({scrollTop: $('.state .locations[data-id="'+$(this).data('id')+'"]').eq(0).offset().top},500);                	
-                });
+		                $state.append($ul_child);
+		            });
 
-                $('.state .franchise a').off('click').on('click', function(e){
-                	$('.state .franchise a').removeClass('selected');
-                	$(this).addClass('selected');
-                	$(this).siblings('.franchise_details').slideToggle();                	
-                });
+	                $('.dynamic-locaion-content').html($state);
+
+	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500); 	                
+
+	                $('.state .cities').off('change').on('change', function(e){	                	
+	                	//$('.state .cities li').removeClass('selected');
+	                	//$(this).addClass('selected');
+	                	var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
+	                	var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
+
+	                	console.log($(this).val());
+
+	                	$('.state .locations').hide();
+	                	$('.state .locations[data-id="'+data_id+'"]').show();                        	
+	                	
+	                	if($locations.length>0){
+	               			$('html, body').animate({scrollTop: $locations.offset().top},500);                	
+	               		}
+
+	                }).trigger('change');
+
+	                $('.state .cities').selectize();
+
+	                $('.state .franchise a').off('click').on('click', function(e){
+	                	$('.state .franchise a').removeClass('selected');
+	                	$(this).addClass('selected');
+	                	$(this).siblings('.franchise_details').slideToggle();                	
+	                });
+                } else {
+                	$('.dynamic-locaion-content').html($state);
+                }                
 
                 am2_hide_preloader();
             });
