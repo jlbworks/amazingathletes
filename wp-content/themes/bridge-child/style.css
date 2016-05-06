@@ -652,6 +652,18 @@ animation-delay: .8s;
     list-style: none;   
 }
 
+.state .cities {
+    clear: both;
+    margin:0px auto;    
+    display: block;
+    padding:20px;
+    width:300px;
+}
+
+.state .cities option{
+
+}
+
 .state .cities li {
     cursor: pointer;
 }
@@ -790,3 +802,4 @@ animation-delay: .8s;
 .author .state .locations .franchise > .franchise_details {
     display:block;
 }
+
