@@ -189,7 +189,7 @@ function am2_franchisee_account() {
 		if($post_key == 'franchise_email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
 			$user_id = wp_update_user(array(
 					'ID' => $user_id,
-					'user_email' => $_POST[$post_key],				
+					'user_email' => $_POST[$post_key],							
 				)
 			);
 		}
@@ -460,8 +460,6 @@ function am2_edit_mypage() {
 			break;
 		}			
 	}
-
-	// var_dump($page_content);
 
 	update_user_meta($user_id, 'page_content', $page_content);
 

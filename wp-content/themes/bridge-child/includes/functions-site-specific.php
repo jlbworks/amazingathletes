@@ -64,6 +64,8 @@ function am2_get_state_locations(){
         $meta = get_post_meta($_loc->ID);            
         $author_id = get_post_field( 'post_author', $_loc->ID );
 
+        $author_name = get_user_by('ID', $author_id)->user_nicename;
+
         foreach($meta as $key => $val){
             $meta[$key] = $val[0];
         }
@@ -84,6 +86,7 @@ function am2_get_state_locations(){
         }
 
         $meta['post_title'] = get_the_title( $_loc->ID );
+        $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
 
         $city = explode('|',$meta['city__state'])[1];
         $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
@@ -109,4 +112,25 @@ function change_author_permalinks() {
 
 add_action('init','change_author_permalinks');
 
+add_shortcode( 'GET_USER_EMAIL', 'get_user_email' );
+
+function get_user_email($atts){
+    if(isset($_GET['location_id'])){
+        $cur_user_id = get_post_field( 'post_author', $_GET['location_id'] );
+    }
+    else {
+        $cur_user_id = get_current_user_id();
+    }
+    
+    $a = shortcode_atts( array(
+        'user_id' => $cur_user_id,
+        // ...etc
+    ), $atts );
+
+    $user = get_user_by('ID', $a['user_id']);
+    if(!empty($user))
+        return $user->user_email;
+    else 
+        return "";
+}
 ?>

@@ -803,23 +803,3 @@ animation-delay: .8s;
     display:block;
 }
 
-.selectize-control.cities .selectize-input{
-    padding:20px;
-    border:0px none;
-    color:red;
-    font-size:18px;
-}
-
-.selectize-control.cities .selectize-dropdown.single {
-    border:1px solid red;
-}
-
-.selectize-control.cities .selectize-dropdown.single .option{
-    padding:10px;
-    color:red;
-}
-
-.selectize-control.cities .selectize-dropdown.single .option.selected, .selectize-control.cities .selectize-dropdown.single .option:hover{
-    background-color: red;
-    color:white;
-}
