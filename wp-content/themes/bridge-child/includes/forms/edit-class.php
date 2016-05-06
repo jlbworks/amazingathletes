@@ -254,11 +254,8 @@ $class_types = array('Amazing Athletes', 'Amazing Tots', 'Amazing Warriors');
 		<button type="submit" class="button">I really want to delete this</button>	
 		<?php else: ?>
 		<button type="submit" class="button">Save</button>
-		<?php endif; ?>
-		
-	
+		<?php endif; ?>	
 	</form>
-
 </div>
 
 <script type="text/javascript">

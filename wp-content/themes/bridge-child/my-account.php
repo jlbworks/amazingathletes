@@ -54,6 +54,14 @@ get_header();
                              <h2>MY PAGES</h2>
                          </span></a>
     </div>
+    <div class="side-nav"><a href="<?php echo site_url();?>/my-account/appointments/" class="sidebar-link">
+                         <span>
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                         </span>
+                         <span class="sidebar-nav">
+                             <h2>MY APPOINTMENTS</h2>
+                         </span></a>
+    </div>
    	<?php } ?>
     <div class="side-nav"><a href="<?php $logout_url = site_url(); echo wp_logout_url($logout_url); ?>" class="sidebar-link">
                          <span>
