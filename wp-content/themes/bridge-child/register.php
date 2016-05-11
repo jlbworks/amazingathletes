@@ -53,7 +53,7 @@ if (isset($_GET['class_id']) and !empty($_GET['class_id'])) {
 	$show_classes 		= false;
 	$show_franchise_locations = false;
 	$page_title = 'Register Now';
-	$_class = get_post_meta();
+	//$_class = get_post_meta();
 	$classes_meta = get_post_meta((int) $_GET['class_id']);
 }
 
