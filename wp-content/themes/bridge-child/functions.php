@@ -9,9 +9,31 @@ require_once 'includes/functions-yoast.php';
 require_once 'includes/functions-site-specific.php';
 require_once 'includes/functions-user.php';
 
-// enqueue the child theme stylesheet
+function am2_has_role($user, $role) {
 
-Function wp_schools_enqueue_scripts() {
+	if (!empty($user->roles) && is_array($user->roles)) {
+		foreach ($user->roles as $role) {
+			if ($role == $role) {	
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+add_action('after_setup_theme', 'remove_admin_bar');
+
+function remove_admin_bar() {
+	// if user is franchisee don't show admin bar on front pages
+	if (am2_has_role(wp_get_current_user(), 'franchisee')) {
+	  show_admin_bar(false);
+	}
+
+}
+
+// enqueue the child theme stylesheet
+function wp_schools_enqueue_scripts() {
 
 	wp_register_style('childstyle', get_stylesheet_directory_uri() . '/style.css');
 	wp_enqueue_style('childstyle');
