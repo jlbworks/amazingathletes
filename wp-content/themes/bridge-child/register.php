@@ -19,7 +19,7 @@ if (isset($_GET['franchisee_id']) and !empty($_GET['franchisee_id'])) {
 	$show_franchise_locations 	= true;
 	$franchisee_id 				= (int) $_GET['franchisee_id'];
 	$franchisee 				= get_userdata($franchisee_id);
-	$franchisee_meta 			= get_user_meta($curauth->ID);
+	$franchisee_meta 			= get_user_meta($franchisee->ID);
 }
 
 if (isset($_GET['location_id']) and !empty($_GET['location_id'])) {
