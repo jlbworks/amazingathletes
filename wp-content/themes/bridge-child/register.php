@@ -70,7 +70,7 @@ if (have_posts()) : while (have_posts()) : the_post();?>
 							<div class="title_subtitle_holder">
 								<h1 style="text-align: center"><span><?php echo $page_title; ?></span></h1>								
 								<?php if (isset($franchisee_meta['franchise_name'])): ?>
-									<div style="text-align: center;"><span><?php echo am2_get_meta_value('franchise_name', $franchisee_meta); ?></span></div>
+									<h2 style="text-align: center;"><span><?php echo am2_get_meta_value('franchise_name', $franchisee_meta); ?></span></h2>
 								<?php endif; ?>
 							</div>
 						</div>
