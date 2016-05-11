@@ -1,4 +1,5 @@
 <?php
+$user = wp_get_current_user();
 $locations = get_posts(
 	array(
 		'post_type' => 'location',

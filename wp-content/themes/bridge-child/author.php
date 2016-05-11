@@ -25,8 +25,8 @@ function am2_user_data(){
 }
 
 add_action('wp_enqueue_scripts', 'am2_user_data', 12);
-?>
-<?php get_header();?>
+
+get_header();?>
 <div class="content " style="min-height: 758px;">
 						<div class="content_inner  ">
 											<div class="full_width">

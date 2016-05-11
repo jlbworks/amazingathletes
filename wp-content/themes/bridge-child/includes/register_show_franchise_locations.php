@@ -1,11 +1,10 @@
 <?php
-$user = wp_get_current_user();
 $locations = get_posts(
 	array(
 		'post_type' 		=> 'location',
 		'post_status' 		=> 'any',
 		'posts_per_page' 	=> -1,
-		'author' 			=> $curauth->ID,
+		'author' 			=> $franchisee_id,
 	)
 );
 
@@ -34,9 +33,14 @@ foreach ($classes as $c) {
 	$location_class[$c->location_id] = $c->ID;
 }
 
+if (empty($locations) and empty($franchisee)): ?>
+<strong>Invalid franchisee id.</strong>
+<?php elseif (empty($locations) and !empty($franchisee)): ?>
+<strong>There are no set locations for "<?php echo am2_get_meta_value('franchise_name', $franchisee_meta); ?>"</strong>
+<?php else:
 ?>
-<div class="state">
-	<ul class="locations">
+<div class="state" style="display: block !important;">
+	<ul class="locations" style="display: block !important;">
 	<?php 
 	foreach ($locations as $key => $loc):
 		$meta = get_post_meta($loc->ID);        
@@ -53,9 +57,9 @@ foreach ($classes as $c) {
 		foreach($meta_franchisee as $key => $val){
 		    $meta_franchisee[$key] = $val[0];
 		} ?>
-		<li class="franchise">
+		<li class="franchise" style="display: block !important;">
 			<a><?php echo get_the_title( $loc->ID );?></a>
-			<div class="franchise_details">
+			<div class="franchise_details" style="display: block !important;">
 				<span class="franchise_address"><?php echo implode(",", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></span><br/>
 				<?php if (isset($location_class[$loc->ID])): ?>
 				<a href="<?php echo site_url()."/register/?location_id=$loc->ID"; ?>" class="h1 franchise_register">Register Now</a><br/>
@@ -68,3 +72,5 @@ foreach ($classes as $c) {
 	endforeach; ?>
 	</ul>
 </div>
+<?php
+endif;
