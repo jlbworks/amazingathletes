@@ -129,7 +129,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<input type="hidden" name="loc_id" value="<?php echo $loc_id; ?>"/>
 		<input type="hidden" name="action" value="am2_edit_location" />
 
-		<input type="submit" value="submit"/>
+		<input type="submit" value="Submit"/>
 	</form>
 
 <?php if(!empty($loc_id)): ?>

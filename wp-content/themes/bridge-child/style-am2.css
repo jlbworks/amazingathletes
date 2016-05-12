@@ -7,7 +7,7 @@
     color: #fff;
     cursor: pointer;
 }
-.user_form button:hover, .user_form input[type="submit"]:hover, .user_form input[type="button"]:hover, .user_form .button:hover {
+.user_form input[type="submit"]:hover, .user_form .button:hover {
 	background-color: #2F519C  ;
 }
 .selectize-control.cities .selectize-input{
@@ -33,4 +33,29 @@
 
 .sidebar-nav h2 {
 	text-transform: uppercase;
+}
+
+.user_form input[type="submit"], .user_form .button {
+    background-color:#1E3C7E;
+    color:#fff;
+    cursor:pointer;
+}
+
+.wpcf7-form-control-wrap input[type="text"].wpcf7-form-control, .wpcf7-form-control-wrap input[type="password"], .wpcf7-form-control-wrap input[type="email"], .wpcf7-form-control-wrap input[type="date"], .wpcf7-form-control-wrap textarea.wpcf7-form-control, .wpcf7-form-control-wrap select.wpcf7-form-control {
+    border:1px solid #ccc;
+}
+
+#franchise_about .learn_more {
+    display:block;
+    clear:both;
+    float:none;
+    text-align: right;
+}
+
+.column1 {
+    background-image: none;
+}
+
+.two_columns_25_75.grid2 > .column1 {
+    background-image:url('/wp-content/uploads/2016/03/franchisee-sidebar-foot-bg.jpg');
 }

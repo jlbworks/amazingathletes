@@ -1,6 +1,6 @@
 <?php /*Template name: Register Page*/
 if (!isset($_GET['location_id']) and !isset($_GET['franchisee_id']) and !isset($_GET['class_id'])) {
-	wp_redirect(get_site_url().'/map/');
+	wp_redirect(get_site_url().'/locations/');
 }
 $page_title 		= 'Register';
 $show_register_form = true;

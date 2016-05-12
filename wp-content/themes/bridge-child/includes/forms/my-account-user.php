@@ -28,7 +28,7 @@
 	<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/> */?>
 	<input type="hidden" name="action" value="am2_user_account" />
 
-	<input type="submit" value="submit"/>
+	<input type="submit" value="Submit"/>
 
 </form>
 
@@ -43,7 +43,7 @@
 	<input type="password" name="password2" id="password2"  maxlength="128" style="" ><br/>
 
 	<input type="hidden" name="action" value="am2_user_password" />
-	<input type="submit" value="submit"/>
+	<input type="submit" value="Submit"/>
 </form>
 
 </div>
