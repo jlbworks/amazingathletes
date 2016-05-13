@@ -11,6 +11,10 @@
 
         var city_state_selects = [];
 
+        if(window.location.protocol + '//' + window.location.hostname !== window.location.href){
+            $('a[href="'+window.location.href.split('?')[0]+'"]').addClass('current');
+        }
+        
         try{
             var myId = getVideoId(author_object.video_url);
             console.log(myId);
@@ -422,6 +426,16 @@
                 am2_hide_preloader();
             });
          });
+
+        console.log(ajax_login_object.aa_state);
+        if(ajax_login_object.aa_state != "" && $('#map_base').length>0){
+            console.log('aa_state set');
+            $('#map_base').find('text:contains("'+ajax_login_object.aa_state.toUpperCase()+'")').trigger('click');
+        } 
+        else if( $('#map_base').length>0 ) {
+            console.log('please select state on the map');
+            $('.dynamic-locaion-content').html('Please choose a state on the map');
+        }
 
     });    
 

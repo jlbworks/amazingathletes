@@ -48,6 +48,8 @@ function am2_get_state_locations(){
             'post_type' => 'location',
             'post_status' => 'publish',
             'posts_per_page' => -1,
+            'orderby' => 'title',
+            'order' => 'ASC',
             'meta_query' => array(
                 array(
                     'key' => 'city__state',
@@ -57,6 +59,8 @@ function am2_get_state_locations(){
             )
         ));
     }
+
+    //var_dump($_locations);
 
     $locations = array();
 
@@ -133,4 +137,14 @@ function get_user_email($atts){
     else 
         return "";
 }
+
+function rewrite_locations_states() {    
+    global $wp,$wp_rewrite;
+
+    $wp->add_query_var('aa_state');    
+        
+    $wp_rewrite->add_rule('^locations/(.*)/?', 'index.php?pagename=locations&aa_state=$matches[1]', 'top');            
+}
+
+add_action('init','rewrite_locations_states');
 ?>

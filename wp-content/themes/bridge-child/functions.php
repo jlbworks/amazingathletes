@@ -92,6 +92,7 @@ function am2_init() {
 		'site_url' => site_url(),
 		'theme_url' => get_stylesheet_directory_uri(),
 		'states' => $states_db,
+		'aa_state' => get_query_var( 'aa_state' , '' )
 	));
 }
 
@@ -111,4 +112,5 @@ function am2_add_preloader(){?>
     </div>
     </div>
     </div>
-<?php }?>
+<?php }
+?>
