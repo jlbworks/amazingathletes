@@ -91,5 +91,9 @@
     }
 }
 
+.sidebar-link.current h2 {
+    color: #FDCE00;
+}
+
 
 
