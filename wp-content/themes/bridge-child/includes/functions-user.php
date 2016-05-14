@@ -15,7 +15,7 @@ function am2_get_meta_value($key, $meta_data) {
 global $mypages;
 
 $mypages = array(
-	'About' => 'about', 'Programs' => 'programs', 'Policies & Procedures' => 'policies_and_procedures', 'Staff' => 'staff', 'Contact' => 'contact'
+	'Home' => '', 'About' => 'about', 'Programs' => 'programs', 'Policies & Procedures' => 'policies_and_procedures', 'Staff' => 'staff', 'Contact' => 'contact'
 );
 
 add_action('wp_ajax_am2_logout', 'am2_logout');
