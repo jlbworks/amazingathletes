@@ -54,6 +54,8 @@
 
 .column1 {
     background-image: none;
+    background-repeat: no-repeat;
+    background-position: bottom;
 }
 
 .two_columns_25_75.grid2 > .column1 {
@@ -87,6 +89,10 @@
         width: 100%;
         clear:both;
     }
+}
+
+.sidebar-link.current h2 {
+    color: #FDCE00;
 }
 
 
