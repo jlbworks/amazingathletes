@@ -66,10 +66,12 @@
         clear: both;
     }
 
-    body.author .franchise_pages li {
-        display:block;
-        width:100%; 
-        clear: both;
+    .franchise_pages li {
+        display: block;
+        width: 33%;
+        padding-right: 1%;
+        box-sizing: border-box;
+        float: left;
     }
 
     .full_width_inner > .two_columns_25_75 > .column1 {
@@ -86,3 +88,6 @@
         clear:both;
     }
 }
+
+
+
