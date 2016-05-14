@@ -53,13 +53,14 @@
 }
 
 .column1 {
-    background-image: none;
-    background-repeat: no-repeat;
-    background-position: bottom;
+    
 }
 
 .two_columns_25_75.grid2 > .column1 {
     background-image:url('/wp-content/uploads/2016/03/franchisee-sidebar-foot-bg.jpg');
+    /*background-image: none;*/
+    background-repeat: no-repeat;
+    background-position: bottom;
 }
 
 @media (max-width: 960px) {
