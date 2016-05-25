@@ -14,12 +14,15 @@
         if(window.location.protocol + '//' + window.location.hostname !== window.location.href){
             //$('a[href="'+window.location.href.split('?')[0]+'"]').addClass('current');
             $('a').each(function(){
-            	var link = $(this).attr('href').replace(/\/$/, "");;
-            	var url = window.location.href.split('?')[0].replace(/\/$/, "");;
+            	try{
+            		var link = $(this).attr('href').replace(/\/$/, "");;
+	            	var url = window.location.href.split('?')[0].replace(/\/$/, "");;
 
-            	if(link == url){
-            		$(this).addClass('current');
+	            	if(link == url){
+	            		$(this).addClass('current');
+	            	}	
             	}
+            	catch(exc){}
             });
         }
         
