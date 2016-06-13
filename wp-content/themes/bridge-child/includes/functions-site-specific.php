@@ -254,9 +254,14 @@ if(isset($_GET['location_id'])){
 
 function rewrite_locations_states() {    
     global $wp,$wp_rewrite;
+    $states = array("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY");
 
     $wp->add_query_var('aa_state');    
         
+    foreach($states as $state){
+        $wp_rewrite->add_rule('^'. strtolower($state) . '/?', 'index.php?pagename=locations&aa_state='.$state, 'top');   
+    }    
+
     $wp_rewrite->add_rule('^locations/(.*)/?', 'index.php?pagename=locations&aa_state=$matches[1]', 'top');            
 }
 
