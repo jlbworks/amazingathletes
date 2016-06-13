@@ -110,6 +110,27 @@
             "disabled": 0
         },
         {
+            "key": "field_575acfd893365",
+            "label": "Zip areas",
+            "name": "zip_areas",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "readonly": 0,
+            "disabled": 0
+        },
+        {
             "key": "field_570b6f3b6c89a",
             "label": "Telephone",
             "name": "telephone",
@@ -250,5 +271,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1460482833
+    "modified": 1465571028
 }

@@ -46,7 +46,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		}?><br/>
 
 		<label>Location Name *</label>
-		<input type="text" name="location_name" maxlength="128" style="" value="<?php echo get_post_meta($loc_id, 'location_name', true); ?>" required><br/>
+		<input type="text" name="location_name" maxlength="128" style="" value="<?php echo get_the_title($loc_id); ?>" required><br/>
 
 		<label>Address *</label>
 		<input type="text" name="address" maxlength="128" style="" value="<?php echo get_post_meta($loc_id, 'address', true); ?>" required><br/>
@@ -75,6 +75,8 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<label>Zip *</label>
 		<input type="text" name="zip" maxlength="10" size="10" value="<?php echo get_post_meta($loc_id, 'zip', true); ?>" required><br/>
 
+		<label>Zip aresa covered</label>
+		<input type="text" name="zip_areas"  size="10" value="<?php echo get_post_meta($loc_id, 'zip_areas', true); ?>" ><br/>
 
 		<label>Telephone *</label>
 		<input type="text" name="telephone" maxlength="20" size="20" value="<?php echo get_post_meta($loc_id, 'telephone', true); ?>" required><br/>

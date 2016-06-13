@@ -253,7 +253,7 @@ $class_types = array('Amazing Athletes', 'Amazing Tots', 'Amazing Warriors');
 		<input type="hidden" name="do_delete" value="1">
 		<button type="submit" class="button">I really want to delete this</button>	
 		<?php else: ?>
-		<button type="submit" class="button">Save</button>
+	<button type="submit" class="button">Save</button>
 		<?php endif; ?>	
 	</form>
 </div>

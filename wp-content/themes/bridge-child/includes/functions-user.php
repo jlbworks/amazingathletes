@@ -346,7 +346,7 @@ function am2_edit_location() {
 		$loc_verb = 'edited';		
 	}		
 
-	$fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'fax', 'email', 'website', 'director', 'latlng', 'coaches');
+	$fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'zip_areas', 'telephone', 'fax', 'email', 'website', 'director', 'latlng', 'coaches');
 
 	$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 

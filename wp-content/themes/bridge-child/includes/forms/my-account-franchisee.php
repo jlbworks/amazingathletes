@@ -164,7 +164,7 @@ uploadOptions = {
 <!-- Fine Uploader template
 ====================================================================== -->
 <script type="text/template" id="qq-simple-thumbnails-template">
-  <div class="qq-uploader-selector qq-uploader">
+	<div class="qq-uploader-selector qq-uploader">
     <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
       <span>Drop files here to upload</span>
     </div>
