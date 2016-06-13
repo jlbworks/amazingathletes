@@ -178,6 +178,8 @@ function am2_user_password() {
 add_action('wp_ajax_am2_franchisee_account', 'am2_franchisee_account');
 
 function am2_franchisee_account() {
+	global $wpdb;
+
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
 
@@ -185,6 +187,7 @@ function am2_franchisee_account() {
 
 	$required_fields = array('franchise_name', 'franchise_owner', 'franchise_address', 'franchise_city_state', 'franchise_zip', 'franchise_telephone', 'franchise_email');
 
+	$i=0;$j=0;
 	foreach ($fields as $post_key => $meta_key) {
 		if($post_key == 'franchise_email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
 			$user_id = wp_update_user(array(
@@ -192,6 +195,20 @@ function am2_franchisee_account() {
 					'user_email' => $_POST[$post_key],							
 				)
 			);
+		}
+		else if($post_key == 'franchise_name'){			
+			$franchise_slug = sanitize_title_with_dashes($_POST[$post_key]);			
+			$_franchises = $wpdb->get_results("SELECT wum.meta_value, wu.ID, wu.user_login FROM $wpdb->usermeta wum JOIN $wpdb->users wu ON wu.ID = wum.user_id WHERE wu.ID != $user_id AND wum.meta_key = 'franchise_slug' AND wum.meta_value = '".$franchise_slug."' GROUP BY wu.ID");
+
+			if(is_array($_franchises) && count($_franchises) > 0 ) {
+				echo "That franchise name is already taken";
+				//var_dump($_franchises);
+				exit();		
+			}
+			else {
+				update_user_meta($user_id, $meta_key, $_POST[$post_key]);
+				update_user_meta($user_id, 'franchise_slug', $franchise_slug);
+			}
 		}
 		else if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
 			update_user_meta($user_id, $meta_key, $_POST[$post_key]);
