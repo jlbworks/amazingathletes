@@ -92,7 +92,7 @@ get_header();?>
 	<div class="wpb_text_column wpb_content_element  copy-child-page">
 		<div class="wpb_wrapper">
 			<div class="welcome">welcome to<br/></div>
-			<h1 class="entry-title" style="text-align: center;"><?php echo $user_meta['franchise_name'];?></h1>			
+			<h1 class="entry-title" style="text-align: center;"><?php echo !empty($user_meta['alternative_title']) ? $user_meta['alternative_title'] : $user_meta['franchise_name'];?></h1>			
 			<?php 
 
 			/*******locations of this franchisee********/
