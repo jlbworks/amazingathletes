@@ -135,8 +135,11 @@ if (isset($_POST['looc_id'])) {
 				'post_status' 	=> 'publish',
 				'post_title' 	=> "{$location->post_title} {$_POST['type']}",
 			)
-		);
+		);		
 	}
+
+	//var_dump($_POST, $class_id);
+	//	exit();
 
 	update_post_meta($class_id, 'location_id',	$_POST['looc_id']);
 	update_post_meta($class_id, 'day', 			$_POST['day']);
@@ -183,7 +186,7 @@ $class_type 	= false;
 $class_length 	= false;
 $class_ages 	= false;
 
-if ($location_class) {
+if (isset($location_class)) {
 	$location_class_meta = get_post_meta($class_id);	
 
 	$class_day 		= am2_get_meta_value('day', 	$location_class_meta);
@@ -203,7 +206,7 @@ $possible_days = array(
     'Saturday', 
 );
 
-$class_types = array('Amazing Athletes', 'Amazing Tots', 'Amazing Warriors');
+global $class_types;
 ?>
 <div class="user_form" style="margin-top:0">
 	<a href="<?php echo site_url();?>/my-account/locations/?loc_id=<?php echo $location->ID; ?>" class="button">Back</a>
@@ -247,7 +250,7 @@ $class_types = array('Amazing Athletes', 'Amazing Tots', 'Amazing Warriors');
 		<input type="text" name="ages" value="<?php echo $class_ages; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 		<input type="hidden" name="looc_id" value="<?php echo $loc_id; ?>">
-		<input type="hidden" name="class_id" value="<?php echo $class_id; ?>">
+		<input type="hidden" name="class_id" value="<?php echo !empty($class_id) ? $class_id : ''; ?>">
 
 		<?php if (true === $please_confirm_delete): ?>
 		<input type="hidden" name="do_delete" value="1">

@@ -5,6 +5,8 @@ global $mypages;
 $author = get_query_var('author');
 $author_name = get_query_var('author_name');
 $mypage = get_query_var('mypage');
+$locations = get_query_var( 'locations' );
+if($locations) $mypage = 'locations';
 
 $curauth = $wp_query->get_queried_object();
 $_user_meta = get_user_meta($curauth->ID);
@@ -38,8 +40,37 @@ get_header();?>
 							
 			<div class="widget widget_text">			<div class="textwidget"><span class="icon-row">
 
-    <?php foreach($mypages as $key => $val){?>
-		<div class="side-nav"><a href="<?php echo site_url();?>/franchisee/<?php echo $author_name;?>/<?php echo $val;?>" class="sidebar-link">
+    <?php 
+	foreach($mypages as $key => $val){
+		if(is_array($val)){ 
+			$val_parent = $val['menu']; ?>
+		<div class="side-nav">			
+			<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val_parent;?>" class="sidebar-link">
+             <span>
+                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
+             </span>
+             <span class="sidebar-nav">
+                 <h2><?php echo $key;?></h2>
+             </span></a>
+
+			 <!-- submenu -->
+			<?php foreach($val['submenu'] as $key2 => $val2){?>
+				<div class="side-nav sub">					
+					<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val2;?>" class="sidebar-link">
+					<span>
+						<img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
+					</span>
+					<span class="sidebar-nav">
+						<h2><?php echo $key2;?></h2>
+					</span></a>
+				</div>			
+			<?php } ?>	 
+    	</div>    	
+	<?php }
+	else { ?>
+		<div class="side-nav">
+			<?php /*<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name;?>/<?php echo $val;?>" class="sidebar-link">*/?>
+			<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val;?>" class="sidebar-link">
              <span>
                  <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
              </span>
@@ -48,14 +79,8 @@ get_header();?>
              </span></a>
     	</div>    	
     <?php } ?>
-    <div class="side-nav"><a href="<?php echo site_url();?>/franchisee/<?php echo $author_name;?>/locations" class="sidebar-link">
-             <span>
-                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
-             </span>
-             <span class="sidebar-nav">
-                 <h2>Locations</h2>
-             </span></a> 
-    	</div>
+	<?php } ?>
+  
 	<?php /*<div class="side-nav"><a href="#" class="sidebar-link">
                          <span>
                              <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
@@ -93,11 +118,60 @@ get_header();?>
 		<div class="wpb_wrapper">
 			<div class="welcome">welcome to<br/></div>
 			<h1 class="entry-title" style="text-align: center;"><?php echo !empty($user_meta['alternative_title']) ? $user_meta['alternative_title'] : $user_meta['franchise_name'];?></h1>			
-			<?php 
+			<?php
+
+			$programs = get_field('programs_description', 'option'); 
 
 			/*******locations of this franchisee********/
 			if($mypage == 'locations'){ 
 				include(locate_template( 'includes/archives/franchisee-locations.php' ));
+			}			
+
+			else if($mypage == 'programs'){
+				$_classes = get_posts(
+					array(
+						'post_type' => 'location_class',
+						'posts_per_page' => -1,
+						'post_status' => 'publish',
+						'author' => $curauth->ID,
+					)
+				);	
+
+				$classes = array();
+				foreach($_classes as $_class){
+					$classes[$_class->type] = $_class->type;
+				}			
+					
+				foreach($programs as $program){
+					foreach($classes as $class){
+						if($program['program'] == $class){
+							echo $program['description'];
+						}
+					}										
+				}
+			}
+
+			else if($mypage == 'staff'){
+				$staff = get_users(
+					array(
+						'role' => 'coach',
+						'meta_key' => 'franchisee',		
+						'meta_value' => $curauth->ID,
+					)
+				);
+
+				foreach($staff as $member){
+					$user_photo = get_field('user_photo', 'user_' . $member->ID);	
+								
+					echo "<div class=\"entry-content\">";
+					echo "<h2>{$member->display_name}</h2>";
+					if($user_photo!=null){
+						$image_url = wp_get_attachment_image_src($user_photo, 'medium');
+						echo '<img src="'. $image_url[0] . '" />';	
+					}					
+					echo $member->description;
+					echo "</div>";
+				}
 			}
 
 			/********mypages of this franchisee********/
@@ -119,13 +193,13 @@ get_header();?>
 				</div>
 				<ul class="franchise_pages">
 					<li>
-						<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/register"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/register.jpg" /></a>
+						<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/register"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/register.jpg" /></a>
 					</li>
 					<li>
-						<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/programs"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/programs.jpg" /></a>
+						<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/programs"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/programs.jpg" /></a>
 					</li>
 					<li>
-						<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/policies_and_procedures"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/policies.jpg" /></a>
+						<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/policies_and_procedures"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/policies.jpg" /></a>
 					</li>
 				</ul>
 

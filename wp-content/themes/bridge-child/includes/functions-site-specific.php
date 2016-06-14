@@ -218,24 +218,23 @@ function am2_get_state_locations(){
 function change_author_permalinks() {    
     global $wp,$wp_rewrite,$wpdb;
 
-    /*$rewrite_tag = '%franchisee%';
-    $wp_rewrite->add_rewrite_tag( $rewrite_tag, '(.+?)', 'car=' );*/
-
     $wp->add_query_var('mypage');
     $wp->add_query_var('locations');
 
     $_franchises = $wpdb->get_results("SELECT wum.meta_value, wu.ID, wu.user_login FROM $wpdb->usermeta wum JOIN $wpdb->users wu ON wu.ID = wum.user_id WHERE wum.meta_key = 'franchise_slug' GROUP BY wu.ID");
     $franchises = array();
     foreach($_franchises as $_franchise){
-        $franchises[$_franchise->meta_value] = $_franchise->user_login;
+        $franchises[$_franchise->meta_value] = $_franchise->user_login;        
+        $wp_rewrite->add_rule('^'.$_franchise->meta_value.'/locations/?', 'index.php?author_name=' . $_franchise->user_login . '&locations=1', 'top');
+        $wp_rewrite->add_rule('^'.$_franchise->meta_value.'/(.*)/?', 'index.php?author_name=' . $_franchise->user_login . '&mypage=$matches[1]', 'top');
         $wp_rewrite->add_rule('^'.$_franchise->meta_value.'/?', 'index.php?author_name=' . $_franchise->user_login, 'top');
-    }
+    }    
 
     #$wp_rewrite->add_rule('^franchisee/(.*)/locations/?', 'index.php?author_name=$matches[1]&locations=1', 'top');    
-    $wp_rewrite->add_rule('^franchisee/(.*)/(.*)/?', 'index.php?author_name=$matches[1]&mypage=$matches[2]', 'top');    
-    $wp_rewrite->add_rule('^franchisee/(.*)/?', 'index.php?author_name=$matches[1]', 'top');    
+    //$wp_rewrite->add_rule('^franchisee/(.*)/(.*)/?', 'index.php?author_name=$matches[1]&mypage=$matches[2]', 'top');    
+    //$wp_rewrite->add_rule('^franchisee/(.*)/?', 'index.php?author_name=$matches[1]', 'top');    
 
-    $wp_rewrite->flush_rules(false);      
+    //$wp_rewrite->flush_rules(false);      
 }
 
 add_action('init','change_author_permalinks');
@@ -276,4 +275,28 @@ function rewrite_locations_states() {
 }
 
 add_action('init','rewrite_locations_states');
+
+if( function_exists('acf_add_options_page') ) {    
+	
+	acf_add_options_page(array(
+		'page_title' 	=> 'Theme General Settings',
+		'menu_title'	=> 'Theme Settings',
+		'menu_slug' 	=> 'theme-general-settings',
+		'capability'	=> 'edit_posts',
+		'redirect'		=> false
+	));
+	
+	acf_add_options_sub_page(array(
+		'page_title' 	=> 'Theme Header Settings',
+		'menu_title'	=> 'Header',
+		'parent_slug'	=> 'theme-general-settings',
+	));
+	
+	acf_add_options_sub_page(array(
+		'page_title' 	=> 'Theme Footer Settings',
+		'menu_title'	=> 'Footer',
+		'parent_slug'	=> 'theme-general-settings',
+	));
+	
+}
 ?>

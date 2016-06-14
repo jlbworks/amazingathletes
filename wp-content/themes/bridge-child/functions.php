@@ -8,6 +8,7 @@ require_once 'includes/functions-menus.php';
 require_once 'includes/functions-yoast.php';
 require_once 'includes/functions-site-specific.php';
 require_once 'includes/functions-user.php';
+require_once 'includes/functions-globals.php';
 
 function am2_has_role($user, $role) {
 

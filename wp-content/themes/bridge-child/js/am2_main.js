@@ -224,17 +224,17 @@
 
         $('#frm_edit_location [name="address"], #frm_edit_location [name="city"], #frm_edit_location [name="state"], #frm_edit_location [name="zip"]').on('change', function(){
             $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()),function(res){                
-                console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());
-                if(typeof res.results[0].geometry.location != 'undefined'){
+                console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());                
+                if(typeof res != 'undefined' && typeof res.results != 'undefined' && res.length > 0){
                     $('.latlng').val(res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng);    
                     initMap();     
                 }                
             });
         });
 
-        $(document).on('click','#btn_delete_franchisee_photo', function(e){
+        $(document).on('click','#btn_delete_user_photo', function(e){
             e.preventDefault();
-            delete_digital_artwork($(this).data('attid'));
+            delete_digital_artwork($(this).data('attid'), $(this).data('user-id'));
         });
 
         $(document).on('click', 'a[href="#logout"]', function(e){
@@ -323,7 +323,7 @@
                 return;   
             }
 
-            $.post(ajax_login_object.ajaxurl, {action: 'am2_add_coach', first_name: $('#first_name').val(), last_name: $('#last_name').val(), coach_email: $('#coach_email').val() }, function(resp){
+            $.post(ajax_login_object.ajaxurl, {action: 'am2_add_coach', first_name: $('#first_name').val(), last_name: $('#last_name').val(), coach_email: $('#coach_email').val(), loc_id: $('[name="loc_id"]').val() }, function(resp){
                 if(resp.status == 'success') {
 
                     alert('Successfully added coach');
@@ -334,6 +334,30 @@
                     select_coaches.refreshOptions();
 
                     $('.add_coach_wrap').slideToggle();
+                } else {
+                    alert('Error');
+                }
+            });
+         });
+
+         $('#frm_edit_staff').on('submit', function(e){
+            e.preventDefault();
+
+            if($.trim($('#first_name').val()) == '' || $.trim($('#first_name').val()) == '' || $.trim($('#coach_email').val()) == ''){
+                alert("Please fill all the fields");
+                return;
+            }
+
+            if(!isValidEmailAddress($.trim($('#coach_email').val())) ){
+                alert("Please enter a valid email address");
+                return;   
+            }
+
+            $.post(ajax_login_object.ajaxurl, {action: $(this).find('[name="action"]').val(), first_name: $('#first_name').val(), last_name: $('#last_name').val(), coach_email: $('#coach_email').val(), coach_description: $('#coach_description').val(), user_id: $('#user_id').val() }, function(resp){
+                if(resp.status == 'success') {
+
+                    alert('Successfully edited staff member');
+            
                 } else {
                     alert('Error');
                 }
@@ -541,16 +565,16 @@
     }
 
     //Delete image
-    function delete_digital_artwork(attach_id){
+    function delete_digital_artwork(attach_id, user_id){
        jQuery.ajax({
             url:ajax_login_object.ajaxurl,
             type:'POST',
-            data:'action=ajax_delete_field&attachid=' + attach_id,
+            data:'action=ajax_delete_field&attachid=' + attach_id + '&user_id=' + user_id,
             success:function(results)
             {                     
                 jQuery('input[name="digital_file_name"]').val('');
 
-                jQuery('#btn_delete_franchisee_photo').fadeOut(400, function(){ 
+                jQuery('#btn_delete_user_photo').fadeOut(400, function(){ 
                     jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>'); 
                     jQuery('#digital_image_upload').fadeIn(); 
                     loadDigitalArtwork();
@@ -560,13 +584,15 @@
     }
 
     function loadDigitalArtwork(){
+        console.log('loadDigitalArtwork');
         if(typeof uploadOptions === 'undefined') return;
+        console.log('loadDigitalArtwork continued');
         
-        uploadOptions['request']['params']['field'] = 'franchisee_photo';
+        uploadOptions['request']['params']['field'] = 'user_photo';
         jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
            if (responseJSON.success) {
              jQuery(this).parent().delay(1000).fadeOut(400, function(){
-                  jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" width="175"/></div>').append("<a class='delete_button button' id='btn_delete_franchisee_photo' data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
+                  jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" width="175"/></div>').append("<a class='delete_button button' id='btn_delete_user_photo' data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
                   jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
               });
            }

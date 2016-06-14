@@ -96,5 +96,10 @@
     color: #FDCE00;
 }
 
+.side-nav.sub{
+    padding-left: 10px;
+}
 
-
+.side-nav.sub h2{
+    font-size:12px;
+} 

@@ -99,18 +99,19 @@ else {
 		<label> Video </label>
 		<input type="text" id="video" name="video" value="<?php echo get_user_meta($user->ID, 'video', true);?>" />
 
-		<div class="franchisee_photo_wrap">
+		<div class="user_photo_wrap">
 			<?php
-			$custom_image = get_field('franchisee_photo', 'user_' . $user->ID);
+			$custom_image = get_field('user_photo', 'user_' . $user_id);
+			
 			if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_image, 'medium');?>
 				<img src="<?php echo $custom_image_url[0]; ?>" width="175"/>
 				<br/>
-				<a class='delete_button button small-button' id='btn_delete_franchisee_photo' data-attid="<?php echo $custom_image; ?>" >Delete image</a>
+				<a class='delete_button button small-button' id='btn_delete_user_photo' data-attid="<?php echo $custom_image; ?>" data-user-id="<?php echo $user_id;?>" >Delete image</a>
 			<?php } else {?>
 				<div id="digital_image_upload"></div>
 			<?php }?>
 
-		</div>		
+		</div>
 
 		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/> */?>
 		<input type="hidden" name="action" value="am2_franchisee_account" />
@@ -148,7 +149,7 @@ uploadOptions = {
 	request: {
 	    endpoint: '<?php echo admin_url('admin-ajax.php'); ?>',
 	    params: {
-	        action: 'upload_franchise_photo',
+	        action: 'upload_user_photo',
 			user_id: '<?php echo $user->ID; ?>',
 	    }
 	},
