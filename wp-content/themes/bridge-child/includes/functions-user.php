@@ -21,8 +21,8 @@ $mypages = array(
 	'Classes' => array(
 		'menu' => 'locations', 
 		'submenu'=> array(
-			'On-Site' => 'on-site',
-			'Community Classes' => 'community-classes',
+			'On-Site' => 'locations?type=on-site',
+			'Community Classes' => 'locations?type=community-classes',
 		),
 	), 
 	'Policies' => 'policies_and_procedures',

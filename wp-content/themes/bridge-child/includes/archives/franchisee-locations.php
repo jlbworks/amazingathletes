@@ -1,13 +1,27 @@
 <?php
 $user = wp_get_current_user();
-$locations = get_posts(
-	array(
+
+$args = array(
 		'post_type' 		=> 'location',
 		'post_status' 		=> 'any',
 		'posts_per_page' 	=> -1,
 		'author' 			=> $curauth->ID,
-	)
-);
+	);
+
+if(isset($_GET['type'])){
+	$slugs = array(
+		'community-classes' => 'Community classes',
+		'on-site' => 'On-site classes',
+	);
+
+	$args['meta_query'][] = array(
+		'key'		=> 'location_type',
+		'value'		=> $slugs[$_GET['type']],
+		'compare'	=> '=',
+	);
+}
+
+$locations = get_posts($args);
 
 $_locations = array();
 
@@ -15,7 +29,7 @@ foreach ($locations as $l) {
 	$_locations[$l->ID] = $l->ID;
 }
 
-$classes = get_posts(array(
+$args = array(
 	'post_type' 		=> 'location_class',
 	'post_status' 		=> 'any',
 	'posts_per_page' 	=> -1,		
@@ -26,7 +40,11 @@ $classes = get_posts(array(
 			'compare'	=> 'IN',
 		)			
 	)
-));
+);
+
+
+
+$classes = get_posts($args);
 
 $location_class = array();
 
