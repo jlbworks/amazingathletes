@@ -353,7 +353,18 @@
                 return;   
             }
 
-            $.post(ajax_login_object.ajaxurl, {action: $(this).find('[name="action"]').val(), first_name: $('#first_name').val(), last_name: $('#last_name').val(), coach_email: $('#coach_email').val(), coach_description: $('#coach_description').val(), user_id: $('#user_id').val() }, function(resp){
+            $.post(ajax_login_object.ajaxurl, 
+                {
+                action: $(this).find('[name="action"]').val(), 
+                first_name: $('#first_name').val(), 
+                last_name: $('#last_name').val(), 
+                coach_email: $('#coach_email').val(), 
+                coach_description: $('#coach_description').val(), 
+                user_id: $('#user_id').val(),
+                attid: $('#btn_delete_user_photo').data('attid')
+                }, 
+                
+                function(resp){
                 if(resp.status == 'success') {
 
                     alert('Successfully edited staff member');

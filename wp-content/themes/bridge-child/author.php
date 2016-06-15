@@ -158,7 +158,7 @@ get_header();?>
 						'meta_key' => 'franchisee',		
 						'meta_value' => $curauth->ID,
 					)
-				);
+				);				
 
 				foreach($staff as $member){
 					$user_photo = get_field('user_photo', 'user_' . $member->ID);	
@@ -167,7 +167,7 @@ get_header();?>
 					echo "<h2>{$member->display_name}</h2>";
 					if($user_photo!=null){
 						$image_url = wp_get_attachment_image_src($user_photo, 'medium');
-						echo '<img src="'. $image_url[0] . '" />';	
+						echo '<img src="'. $image_url[0] . '" style="float:left;padding:0px 10px 10px 0px;"/>';	
 					}					
 					echo $member->description;
 					echo "</div>";

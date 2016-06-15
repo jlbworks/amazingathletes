@@ -227,7 +227,7 @@ function change_author_permalinks() {
         $franchises[$_franchise->meta_value] = $_franchise->user_login;        
         $wp_rewrite->add_rule('^'.$_franchise->meta_value.'/locations/?', 'index.php?author_name=' . $_franchise->user_login . '&locations=1', 'top');
         $wp_rewrite->add_rule('^'.$_franchise->meta_value.'/(.*)/?', 'index.php?author_name=' . $_franchise->user_login . '&mypage=$matches[1]', 'top');
-        $wp_rewrite->add_rule('^'.$_franchise->meta_value.'/?', 'index.php?author_name=' . $_franchise->user_login, 'top');
+        $wp_rewrite->add_rule('^'.$_franchise->meta_value.'$/?', 'index.php?author_name=' . $_franchise->user_login, 'top');
     }    
 
     #$wp_rewrite->add_rule('^franchisee/(.*)/locations/?', 'index.php?author_name=$matches[1]&locations=1', 'top');    

@@ -190,7 +190,7 @@ function am2_user_password() {
 add_action('wp_ajax_am2_franchisee_account', 'am2_franchisee_account');
 
 function am2_franchisee_account() {
-	global $wpdb;
+	global $wpdb, $wp_rewrite;
 
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
@@ -213,13 +213,15 @@ function am2_franchisee_account() {
 			$_franchises = $wpdb->get_results("SELECT wum.meta_value, wu.ID, wu.user_login FROM $wpdb->usermeta wum JOIN $wpdb->users wu ON wu.ID = wum.user_id WHERE wu.ID != $user_id AND wum.meta_key = 'franchise_slug' AND wum.meta_value = '".$franchise_slug."' GROUP BY wu.ID");
 
 			if(is_array($_franchises) && count($_franchises) > 0 ) {
-				echo "That franchise name is already taken";
-				//var_dump($_franchises);
+				echo "That franchise name is already taken";				
 				exit();		
 			}
 			else {
 				update_user_meta($user_id, $meta_key, $_POST[$post_key]);
 				update_user_meta($user_id, 'franchise_slug', $franchise_slug);
+
+				change_author_permalinks();
+				$wp_rewrite->flush_rules(false); 
 			}
 		}
 		else if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
@@ -229,7 +231,7 @@ function am2_franchisee_account() {
 			echo "Field $post_key is required";			
 			exit();
 		}		
-	}
+	}	 
 
 	if(!is_wp_error( $user_id )){
 		echo "Your profile was successfully saved.";	
@@ -307,31 +309,32 @@ function upload_user_photo(){
 
 	$user = get_user_by('id', $_POST['user_id']);
 
-	if($user->ID == $current_user->ID || $user->franchisee == $current_user->ID){
-    	if(!$_FILES) exit();
-		if(isset($_FILES['qqfile'])) {$files = $_FILES['qqfile'];}
-		
-		$upload_dir = wp_upload_dir();
-		$file_name = $files['name'];
-		$file_name = $upload_dir['path'] . '/' . basename($file_name);
-		
-		$upload_overrides = array( 'test_form' => false );
-		$file_post = wp_handle_upload($files,$upload_overrides); //Posts File
-		$file_link = $file_post['file'];
-		$file_type = wp_check_filetype(basename($file_link), null); //File Extension
-		$post_name = preg_replace('/.[^.]+$/', '', basename($file_link)); //Post Name
-		$attachment = array(
-			'guid' => $file_link,
-			'post_mime_type' => $file_type['type'],
-			'post_title' => $post_name,
-			'post_content' => '',
-			'post_status' => 'inherit'
-		);
-		$attach_id = wp_insert_attachment($attachment, $file_post['file']);
-		$attach_data = wp_generate_attachment_metadata($attach_id, $file_post['file']);
-		$attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
-		$attach_url = wp_get_attachment_image_src( $attach_id, 'medium' );
-		//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);	
+	if(!$_FILES) exit();
+	if(isset($_FILES['qqfile'])) {$files = $_FILES['qqfile'];}
+	
+	$upload_dir = wp_upload_dir();
+	$file_name = $files['name'];
+	$file_name = $upload_dir['path'] . '/' . basename($file_name);
+	
+	$upload_overrides = array( 'test_form' => false );
+	$file_post = wp_handle_upload($files,$upload_overrides); //Posts File
+	$file_link = $file_post['file'];
+	$file_type = wp_check_filetype(basename($file_link), null); //File Extension
+	$post_name = preg_replace('/.[^.]+$/', '', basename($file_link)); //Post Name
+	$attachment = array(
+		'guid' => $file_link,
+		'post_mime_type' => $file_type['type'],
+		'post_title' => $post_name,
+		'post_content' => '',
+		'post_status' => 'inherit'
+	);
+	$attach_id = wp_insert_attachment($attachment, $file_post['file']);
+	$attach_data = wp_generate_attachment_metadata($attach_id, $file_post['file']);
+	$attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
+	$attach_url = wp_get_attachment_image_src( $attach_id, 'medium' );
+	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);	
+
+	if($user->ID == $current_user->ID || $user->franchisee == $current_user->ID){    	
 
 		update_user_meta($user->ID ,'user_photo', $attach_id);
 
@@ -343,6 +346,10 @@ function upload_user_photo(){
 	}
 	else {
 		$response['success'] = 'false';
+		$response['file_id'] = $attach_id;
+		$response['file_url'] = $attach_url[0];
+		$response['file_name'] = basename($files['name']);
+		$response['data'] = $_FILES;
 	}	   	
    
     echo json_encode($response);
@@ -442,23 +449,30 @@ add_action('wp_ajax_am2_edit_staff', 'am2_edit_staff');
 
 function am2_edit_staff() {
 	$franchisee = get_current_user_id();
-	header("Content-Type: application/json; charset=UTF-8");	
+	header("Content-Type: application/json; charset=UTF-8");
 
-	/*$userdata = array(
-		'ID' => $_POST['user_id'],		
-		//'user_email'  => $_POST['coach_email'],	   		
-		//'role'		  => 'coach',
-	);*/
+	$user_id = $_POST['user_id']; // wp_update_post($userdata);		
 
-	$user_id = $_POST['user_id']; // wp_update_post($userdata);
+	if(empty($user_id) || $user_id == 0){
+		$userdata = array(
+			'user_login'  =>  $_POST['coach_email'],
+			'user_email'  => $_POST['coach_email'],	   
+			'user_pass'   => wp_generate_password(),
+			'role'		  => 'coach',
+		);
+		$user_id = wp_insert_user($userdata, true);
+		//var_dump($user_id);
+	}	
 
 	//On success
 	if ( ! is_wp_error( $user_id ) ) {
 	    update_user_meta($user_id, 'first_name', $_POST['first_name']);
 	    update_user_meta($user_id, 'last_name', $_POST['last_name']);
 	    update_user_meta($user_id, 'description', $_POST['coach_description']);
+		update_user_meta($user_id, 'user_photo', $_POST['attid']);
+		update_user_meta($user_id, 'franchisee', get_current_user_id() );
 		//update_user_meta($user_id, 'franchisee', $franchisee);
-	    $status = 'success';
+	    $status = 'success'; 
 	} else {
 		$status = 'error';
 	}
