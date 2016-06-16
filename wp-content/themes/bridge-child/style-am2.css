@@ -103,3 +103,10 @@
 .side-nav.sub h2{
     font-size:12px;
 } 
+
+.posts h3 {
+    margin-bottom:7px;    
+}
+.posts p{
+    margin-bottom:15px;
+}

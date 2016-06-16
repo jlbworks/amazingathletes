@@ -86,7 +86,7 @@ else {
 					
 		foreach($posts as $post){						
 			echo "<h3><a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">".get_the_title($post->ID)."</a></h3>";
-			echo apply_filters( 'the_excerpt', $post->content );
+			echo apply_filters( 'the_excerpt', $post->post_content );
 		}
 		?>
 	</div>

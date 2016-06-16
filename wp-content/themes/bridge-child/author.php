@@ -1,6 +1,6 @@
 <?php
 global $wp_query;
-global $mypages;
+global $mypages,$mypages_multi;
 
 $author = get_query_var('author');
 $author_name = get_query_var('author_name');
@@ -66,8 +66,8 @@ get_header();?>
 				</div>			
 			<?php } ?>	 
     	</div>    	
-	<?php }
-	else { ?>
+	<?php }	
+	else {	?>
 		<div class="side-nav">
 			<?php /*<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name;?>/<?php echo $val;?>" class="sidebar-link">*/?>
 			<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val;?>" class="sidebar-link">
@@ -172,6 +172,23 @@ get_header();?>
 					echo $member->description;
 					echo "</div>";
 				}
+			}
+
+			else if(in_array($mypage, $mypages_multi) ){
+				echo "<div class=\"posts\">";
+				$ctg_id = get_term_by( 'name', array_search($mypage,$mypages), 'category')->term_id;
+				$posts = get_posts(array(
+					'post_type' => 'post',
+					'post_status' => 'pubslish',
+					'posts_per_page' => -1,
+					'author' => (int)$curauth->ID,
+					'category' => $ctg_id,
+				));
+				foreach($posts as $post){											
+					echo "<h3><!--<a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">-->".get_the_title($post->ID)."<!--</a>--></h3>";
+					echo apply_filters( 'the_content', $post->post_content );					
+				}
+				echo "</div>";
 			}
 
 			/********mypages of this franchisee********/
