@@ -577,7 +577,7 @@ function am2_edit_mypage() {
 		$ctg_id = wp_insert_category( array('cat_name' => $category) );
 
 		if(empty($ctg_id)){
-			$ctg_id = get_term_by('name', $category, 'category')->term_id;
+			$ctg_id = get_term_by('slug', $category, 'category')->term_id;
 		}
 
 		//var_dump($ctg_id);

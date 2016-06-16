@@ -73,7 +73,7 @@ else {
 
 	<div class="posts">
 		<?php 
-		$ctg_id = get_term_by( 'name', array_search($_GET['page'],$mypages), 'category')->term_id;
+		$ctg_id = get_term_by( 'name', $_GET['page'], 'category')->term_id;
 
 		$args = array(
 			'post_type' => 'post',

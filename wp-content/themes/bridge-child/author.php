@@ -176,7 +176,7 @@ get_header();?>
 
 			else if(in_array($mypage, $mypages_multi) ){
 				echo "<div class=\"posts\">";
-				$ctg_id = get_term_by( 'name', array_search($mypage,$mypages), 'category')->term_id;
+				$ctg_id = get_term_by( 'slug', $mypage, 'category')->term_id;				
 				$posts = get_posts(array(
 					'post_type' => 'post',
 					'post_status' => 'pubslish',
