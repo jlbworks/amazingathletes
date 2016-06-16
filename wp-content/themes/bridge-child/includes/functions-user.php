@@ -27,7 +27,18 @@ $mypages = array(
 	), 
 	'Policies' => 'policies_and_procedures',
 	'Staff' => 'staff', 
-	'Contact' => 'contact'
+	'Contact' => 'contact',
+	'Testimonials' => 'testimonials',
+	'Blog' => 'blog',
+	'Press' => 'press',
+);
+
+global $mypages_multi;
+
+$mypages_multi = array(
+	'testimonials',
+	'blog',
+	'press',
 );
 
 add_action('wp_ajax_am2_logout', 'am2_logout');
@@ -535,23 +546,54 @@ $zip_code = get_user_meta($user_id, 'zip_code', true);
 add_action('wp_ajax_am2_edit_mypage', 'am2_edit_mypage');
 
 function am2_edit_mypage() {
-	global $mypages;
+	global $mypages, $mypages_multi;
+
 	$user_id = get_current_user_id();	
+	$post_id = (isset($_POST['post_id']) ? $_POST['post_id'] : 0);
+	$category = array_search ($_POST['mypage'], $mypages);
 
-	$page_content = get_user_meta($user_id, 'page_content', true); 
-	if(!is_array($page_content)) $page_content = array();
+	if(!in_array($_POST['mypage'], $mypages_multi)){
+		$page_content = get_user_meta($user_id, 'page_content', true); 
+		if(!is_array($page_content)) $page_content = array();
 
-	foreach($mypages as $key => $page) {			
-		if($page == $_POST['mypage']){				
-			$page_content[$page] = $_POST[$page];
-			break;
-		}			
+		foreach($mypages as $key => $page) {			
+			if($page == $_POST['mypage']){				
+				$page_content[$page] = $_POST[$page];
+				break;
+			}			
+		}
+
+		update_user_meta($user_id, 'page_content', $page_content);
+	}	
+	else if(!empty($post_id)){
+		$args = array(
+			'ID' => $post_id,
+			'post_content' => $_POST[$_POST['mypage']],			
+		);
+
+		wp_update_post($args);
+	}
+	else {
+		$ctg_id = wp_insert_category( array('cat_name' => $category) );
+
+		if(empty($ctg_id)){
+			$ctg_id = get_term_by('name', $category, 'category')->term_id;
+		}
+
+		//var_dump($ctg_id);
+
+		$args = array(			
+			'post_title' => $_POST['mypage'], 
+			'post_content' => $_POST[$_POST['mypage']],
+			'post_category' => array($ctg_id) ,
+			'post_status' => 'publish',
+		);
+
+		$post_id = wp_insert_post($args);
 	}
 
-	update_user_meta($user_id, 'page_content', $page_content);
-
 	header("Content-Type: application/json; charset=UTF-8");	
-	echo json_encode( array('status' => 'success', 'user_id' => $user_id) );
+	echo json_encode( array('status' => 'success', 'user_id' => $user_id, 'post_id' => $post_id) );
 
 	exit();
 }

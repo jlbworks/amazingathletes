@@ -137,8 +137,11 @@
             return true; //$('#frm_edit_mypage').valid();
           },
           success: function(resp) {
-            am2_hide_preloader();
+            am2_hide_preloader();            
             alert(resp.status);
+            if(typeof (resp.post_id) != 'undefined') {                
+                window.location.href = updateQueryStringParameter(window.location.href, 'post_id', resp.post_id );
+            }
           },
           error: function() {
             am2_hide_preloader();
@@ -664,3 +667,14 @@
 
     
 })(jQuery);
+
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  }
+  else {
+    return uri + separator + key + "=" + value;
+  }
+}
