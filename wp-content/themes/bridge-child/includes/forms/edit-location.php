@@ -46,10 +46,10 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		}?><br/>
 
 		<label>Location Name *</label>
-		<input type="text" name="location_name" maxlength="128" style="" value="<?php echo get_the_title($loc_id); ?>" required><br/>
+		<input type="text" name="location_name"  style="" value="<?php echo get_the_title($loc_id); ?>" required><br/>
 
 		<label>Address *</label>
-		<input type="text" name="address" maxlength="128" style="" value="<?php echo get_post_meta($loc_id, 'address', true); ?>" required><br/>
+		<input type="text" name="address"  style="" value="<?php echo get_post_meta($loc_id, 'address', true); ?>" required><br/>
 
 		<label>State *</label>
 		<select name="state"  placeholder="Select a state..." class="am2_cc_state" required style="">
@@ -62,40 +62,40 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 				foreach ($states_db AS $state) {?>
 					<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
 					<?php }
-			}
-			?>
+			
+			} ?>
 		</select><br/>
 
 		<label>City *</label>
-		<input type="text" name="city" required maxlength="128" style="" value="<?php echo $city_state[1]; ?>" class="am2_cc_city" required><br/>
+		<input type="text" name="city" required  style="" value="<?php echo $city_state[1]; ?>" class="am2_cc_city" required><br/>
 
 		<input type="hidden" name="city__state" class="cc_city_state" required/>
 		<input type="hidden" name="latlng" class="latlng" />
 
 		<label>Zip *</label>
-		<input type="text" name="zip" maxlength="10" size="10" value="<?php echo get_post_meta($loc_id, 'zip', true); ?>" required><br/>
+		<input type="text" name="zip"  size="10" value="<?php echo get_post_meta($loc_id, 'zip', true); ?>" required><br/>
 
 		<label>Zip aresa covered</label>
 		<input type="text" name="zip_areas"  size="10" value="<?php echo get_post_meta($loc_id, 'zip_areas', true); ?>" ><br/>
 
 		<label>Telephone *</label>
-		<input type="text" name="telephone" maxlength="20" size="20" value="<?php echo get_post_meta($loc_id, 'telephone', true); ?>" required><br/>
+		<input type="text" name="telephone"  size="20" value="<?php echo get_post_meta($loc_id, 'telephone', true); ?>" required><br/>
 
 
 		<label>Fax</label>
-		<input type="text" name="fax" maxlength="20" size="20" value="<?php echo get_post_meta($loc_id, 'fax', true); ?>"><br/>
+		<input type="text" name="fax"  size="20" value="<?php echo get_post_meta($loc_id, 'fax', true); ?>"><br/>
 
 
 		<label>Email</label>
-		<input type="text" name="email" maxlength="255" style="" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>
+		<input type="text" name="email"  style="" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>
 
 
 		<label>Website</label>
-		<input type="text" name="website" maxlength="255" style="" value="<?php echo get_post_meta($loc_id, 'website', true); ?>"><br/>
+		<input type="text" name="website"  style="" value="<?php echo get_post_meta($loc_id, 'website', true); ?>"><br/>
 
 
 		<label>Director *</label>
-		<input type="text" name="director" maxlength="128" style="" value="<?php echo get_post_meta($loc_id, 'director', true); ?>" required><br/>
+		<input type="text" name="director"  style="" value="<?php echo get_post_meta($loc_id, 'director', true); ?>" required><br/>
 
 		<label>Choose Coach</label>
 		<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="" multiple="multiple">		
@@ -134,7 +134,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<input type="submit" value="Submit"/>
 	</form>
 
-<?php if(!empty($loc_id)): ?>
+<?php if(!empty($loc_id)) { ?>
 	<hr>
 	<br>		
 	<div>		
@@ -169,7 +169,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		</table>	
 		<?php endif; ?>					
 	</div>
-<?php endif; ?>
+<?php } ?>
 
 </div>
 <div id="map"></div>
