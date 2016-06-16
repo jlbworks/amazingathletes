@@ -104,6 +104,9 @@
     font-size:12px;
 } 
 
+.posts {
+    margin:15px;
+}
 .posts h3 {
     margin-bottom:7px;    
 }
