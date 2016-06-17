@@ -664,7 +664,7 @@
         }
     }
 
-
+    $('#franchisee_email').val($('#hid_franchisee_email').val());
     
 })(jQuery);
 

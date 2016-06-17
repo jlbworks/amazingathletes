@@ -4,7 +4,7 @@ $user = wp_get_current_user();
 if (!is_user_logged_in()) {
 	wp_redirect(site_url() . '/login');
 } else {
-
+	wp_enqueue_media();
 }
 
 get_header();

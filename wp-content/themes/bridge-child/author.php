@@ -117,7 +117,8 @@ get_header();?>
 	<div class="wpb_text_column wpb_content_element  copy-child-page">
 		<div class="wpb_wrapper">
 			<div class="welcome">welcome to<br/></div>
-			<h1 class="entry-title" style="text-align: center;"><?php echo !empty($user_meta['alternative_title']) ? $user_meta['alternative_title'] : $user_meta['franchise_name'];?></h1>			
+			<h1 class="entry-title" style="text-align: center;"><?php echo !empty($user_meta['alternative_title']) ? $user_meta['alternative_title'] : $user_meta['franchise_name'];?></h1>
+			<input type="hidden" name="hid_franchisee_email" id="hid_franchisee_email" value="<?php echo $curauth->user_email; ?>"/>			
 			<?php
 
 			$programs = get_field('programs_description', 'option'); 
@@ -148,6 +149,12 @@ get_header();?>
 							echo $program['description'];
 						}
 					}										
+				}
+			}
+
+			else if($mypage == 'event-form'){								
+				if($curauth->show_event_form){
+					echo do_shortcode( '[contact-form-7 id="677" title="Register for an event"]' );
 				}
 			}
 
@@ -189,7 +196,7 @@ get_header();?>
 					echo apply_filters( 'the_content', $post->post_content );					
 				}
 				echo "</div>";
-			}
+			}			
 
 			/********mypages of this franchisee********/
 			else if(isset($page_content[$mypage])) { 

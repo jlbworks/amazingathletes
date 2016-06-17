@@ -47,6 +47,7 @@ function wp_schools_enqueue_scripts() {
 
 	wp_register_script('jquery.validate', get_stylesheet_directory_uri() . '/js/jquery.validation/jquery.validate.min.js');
 	wp_enqueue_script('jquery.validate');
+    
 }
 add_action('wp_enqueue_scripts', 'wp_schools_enqueue_scripts', 11);
 
@@ -85,7 +86,7 @@ function am2_init() {
 	wp_enqueue_script('am2_main');
 
 	wp_register_script('jquery.timepicker', get_stylesheet_directory_uri() . '/js/jquery.timepicker.min.js' , array('jquery'), '', true);	
-	wp_enqueue_script('jquery.timepicker');
+	wp_enqueue_script('jquery.timepicker');	
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
 	wp_localize_script('am2_main', 'ajax_login_object', array(

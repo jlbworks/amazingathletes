@@ -31,6 +31,7 @@ $mypages = array(
 	'Testimonials' => 'testimonials',
 	'Blog' => 'blog',
 	'Press' => 'press',
+	'Event form' => 'event-form',
 );
 
 global $mypages_multi;
@@ -590,6 +591,13 @@ function am2_edit_mypage() {
 		);
 
 		$post_id = wp_insert_post($args);
+	}
+
+	if(!empty($_POST['show_event_form'])){
+		update_user_meta($user_id, 'show_event_form', 1);
+	}
+	else {
+		update_user_meta($user_id, 'show_event_form', 0);
 	}
 
 	header("Content-Type: application/json; charset=UTF-8");	
