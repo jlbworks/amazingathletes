@@ -575,18 +575,16 @@ function am2_edit_mypage() {
 		wp_update_post($args);
 	}
 	else {
-		$ctg_id = wp_insert_category( array('cat_name' => $category) );
+		//$ctg_id = wp_insert_category( array('cat_name' => $category) );
 
-		if(empty($ctg_id)){
-			$ctg_id = get_term_by('slug', $category, 'category')->term_id;
-		}
-
-		//var_dump($ctg_id);
+		// if(empty($ctg_id)){
+		// 	$ctg_id = get_term_by('slug', $category, 'category')->term_id;
+		// }
 
 		$args = array(			
 			'post_title' => $_POST['mypage'], 
 			'post_content' => $_POST[$_POST['mypage']],
-			'post_category' => array($ctg_id) ,
+			'post_type' => $_POST['mypage'], // array($ctg_id) ,
 			'post_status' => 'publish',
 		);
 

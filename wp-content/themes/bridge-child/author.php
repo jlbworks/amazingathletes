@@ -154,7 +154,9 @@ get_header();?>
 
 			else if($mypage == 'event-form'){								
 				if($curauth->show_event_form){
-					echo do_shortcode( '[contact-form-7 id="677" title="Register for an event"]' );
+					$cf7_title = "Register for an event";					
+					$cf7_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$cf7_title' AND post_type = 'wpcf7_contact_form'");
+					echo do_shortcode( '[contact-form-7 id="'.$cf7_id.'" title='.$cf7_title.']' ); 
 				}
 			}
 
@@ -183,13 +185,13 @@ get_header();?>
 
 			else if(in_array($mypage, $mypages_multi) ){
 				echo "<div class=\"posts\">";
-				$ctg_id = get_term_by( 'slug', $mypage, 'category')->term_id;				
+				//$ctg_id = get_term_by( 'slug', $mypage, 'category')->term_id;				
 				$posts = get_posts(array(
-					'post_type' => 'post',
+					'post_type' => $mypage, //'post',
 					'post_status' => 'pubslish',
 					'posts_per_page' => -1,
 					'author' => (int)$curauth->ID,
-					'category' => $ctg_id,
+					//'category' => $ctg_id,
 				));
 				foreach($posts as $post){											
 					echo "<h3><!--<a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">-->".get_the_title($post->ID)."<!--</a>--></h3>";

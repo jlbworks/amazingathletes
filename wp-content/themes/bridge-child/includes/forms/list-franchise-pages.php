@@ -82,14 +82,14 @@ else {
 	<?php if(in_array($_GET['page'], $mypages_multi)){ ?>
 	<div class="posts">
 		<?php 		
-		$ctg_id = get_term_by( 'name', $_GET['page'], 'category')->term_id;
+		//$ctg_id = get_term_by( 'name', $_GET['page'], 'category')->term_id;
 
 		$args = array(
-			'post_type' => 'post',
+			//'post_type' => 'post',
 			'post_status' => 'publish',
 			'posts_per_page' => -1,
 			'author' => (int)$user->ID,
-			'category' => $ctg_id,
+			'post_type' => $_GET['page'],
 		);
 		$posts = get_posts($args);	
 					
