@@ -1,6 +1,6 @@
 <?php
 global $wp_query;
-global $mypages,$mypages_multi;
+global $mypages,$mypages_multi, $mypages_images, $mypages_optional;
 
 $author = get_query_var('author');
 $author_name = get_query_var('author_name');
@@ -41,13 +41,19 @@ get_header();?>
 			<div class="widget widget_text">			<div class="textwidget"><span class="icon-row">
 
     <?php 
-	foreach($mypages as $key => $val){
-		if(is_array($val)){ 
-			$val_parent = $val['menu']; ?>
+	$i = 0;
+	foreach($mypages as $key => $val){		
+		if(is_array($val)){ 			
+			$val_parent = $val['menu'];
+			$show_page = 'show_' . str_replace('-','_',$val_parent);
+			if(in_array($val_parent, $mypages_optional) && !$curauth->$show_page){
+				continue;
+			}
+	?>
 		<div class="side-nav">			
 			<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val_parent;?>" class="sidebar-link">
              <span>
-                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
+                 <img src="<?php echo $mypages_images[$i];?>" width="30px" class="spt-icons" >
              </span>
              <span class="sidebar-nav">
                  <h2><?php echo $key;?></h2>
@@ -58,7 +64,7 @@ get_header();?>
 				<div class="side-nav sub">					
 					<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val2;?>" class="sidebar-link">
 					<span>
-						<img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
+						<img src="<?php echo $mypages_images[$i];?>" width="30px" class="spt-icons" >
 					</span>
 					<span class="sidebar-nav">
 						<h2><?php echo $key2;?></h2>
@@ -67,19 +73,25 @@ get_header();?>
 			<?php } ?>	 
     	</div>    	
 	<?php }	
-	else {	?>
+	else {
+		$show_page = 'show_' . str_replace('-','_',$val);
+		if(in_array($val, $mypages_optional) && !$curauth->$show_page){
+			continue;
+		}
+
+	?>
 		<div class="side-nav">
 			<?php /*<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name;?>/<?php echo $val;?>" class="sidebar-link">*/?>
 			<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val;?>" class="sidebar-link">
              <span>
-                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
+                 <img src="<?php echo $mypages_images[$i%count($mypages_images)];?>" width="30px" class="spt-icons" >
              </span>
              <span class="sidebar-nav">
                  <h2><?php echo $key;?></h2>
              </span></a>
     	</div>    	
     <?php } ?>
-	<?php } ?>
+	<?php $i++; } ?>
   
 	<?php /*<div class="side-nav"><a href="#" class="sidebar-link">
                          <span>
@@ -184,20 +196,23 @@ get_header();?>
 			}
 
 			else if(in_array($mypage, $mypages_multi) ){
-				echo "<div class=\"posts\">";
-				//$ctg_id = get_term_by( 'slug', $mypage, 'category')->term_id;				
-				$posts = get_posts(array(
-					'post_type' => $mypage, //'post',
-					'post_status' => 'pubslish',
-					'posts_per_page' => -1,
-					'author' => (int)$curauth->ID,
-					//'category' => $ctg_id,
-				));
-				foreach($posts as $post){											
-					echo "<h3><!--<a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">-->".get_the_title($post->ID)."<!--</a>--></h3>";
-					echo apply_filters( 'the_content', $post->post_content );					
+				$show = 'show_'. str_replace('-','_',$mypage);
+				if($curauth->$show){
+					echo "<div class=\"posts\">";
+					//$ctg_id = get_term_by( 'slug', $mypage, 'category')->term_id;				
+					$posts = get_posts(array(
+						'post_type' => $mypage, //'post',
+						'post_status' => 'pubslish',
+						'posts_per_page' => -1,
+						'author' => (int)$curauth->ID,
+						//'category' => $ctg_id,
+					));
+					foreach($posts as $post){											
+						echo "<h3><!--<a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">-->".get_the_title($post->ID)."<!--</a>--></h3>";
+						echo apply_filters( 'the_content', $post->post_content );					
+					}
+					echo "</div>";
 				}
-				echo "</div>";
 			}			
 
 			/********mypages of this franchisee********/

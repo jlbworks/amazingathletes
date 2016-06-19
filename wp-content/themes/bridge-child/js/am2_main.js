@@ -128,7 +128,8 @@
         }
 
         $('#frm_edit_mypage input[type="submit"]').on('mousedown',function(e){
-            tinyMCE.triggerSave();
+            if(typeof(tinyMCE)!='undefined')
+                tinyMCE.triggerSave();
         });
 
         $('#frm_edit_mypage').ajaxForm({
@@ -139,7 +140,7 @@
           success: function(resp) {
             am2_hide_preloader();            
             alert(resp.status);
-            if(typeof (resp.post_id) != 'undefined') {                
+            if(typeof (resp.post_id) != 'undefined' && resp.post_id != 0) {                
                 window.location.href = updateQueryStringParameter(window.location.href, 'post_id', resp.post_id );
             }
           },

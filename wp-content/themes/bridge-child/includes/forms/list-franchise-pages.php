@@ -1,6 +1,5 @@
 <?php
-global $mypages, $mypages_multi;
-
+global $mypages, $mypages_multi, $mypages_optional; 
 
 if(!isset($_GET['page'])){	
 	?>
@@ -20,6 +19,7 @@ if(!isset($_GET['page'])){
 	</div>
 <?php }
 else { 
+	$show_editor = (!in_array($_GET['page'], $mypages_multi) || (in_array($_GET['page'], $mypages_multi) && (isset($_GET['post_id']) || isset($_GET['add']) ) ) );
 	$page_content = get_user_meta($user->ID, 'page_content', true); 
 	$content = '';
 
@@ -61,25 +61,31 @@ else {
 
 ?>
 <h2><?php echo $title;?></h2>
-<div class="user_form">
+<div class="user_form">	
 	<form id="frm_edit_mypage" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >	
-		<?php if($_GET['page'] == 'event-form'){
-			echo "<label><input type=\"checkbox\" name=\"show_event_form\" value=\"1\" ".($user->show_event_form == 1 ? 'checked' : '')."/>Show event form</label>";
+		<?php if(in_array($_GET['page'], $mypages_optional)){
+			$_mypage = str_replace("-", "_", $_GET['page']);
+			$show_mypage = "show_{$_mypage}";
+			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".($user->$show_mypage == 1 ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
+			echo "<input type=\"hidden\" name=\"mypage\" value=\"{$_GET['page']}\" />";
 		}?>	
 		<br/><br/>
+		<?php if($show_editor) { ?>
 		<?php wp_editor( $content, $page, array(
 			'media_buttons' => true,
     		'dfw' => true,
 			'textarea_name' => $page,
 			"drag_drop_upload" => true
 			) ); ?>
+		<?php } ?>
 		<input type="hidden" name="mypage" value="<?php echo $page; ?>" />
-		<input type="hidden" name="post_id" value="<?php echo (isset($_GET['post_id']) ? $_GET['post_id'] : 0);?>" />
+		<input type="hidden" name="post_id" value="<?php echo (isset($_GET['post_id']) ? $_GET['post_id'] : 0);?>" />		
 		<input type="hidden" name="action" value="am2_edit_mypage" />		
-		<input type="submit" value="Submit" />
+		<input type="submit" value="Submit" class="button"/>
 	</form>
 
 	<?php if(in_array($_GET['page'], $mypages_multi)){ ?>
+	<a href="<?php echo remove_query_arg('post_id', add_query_arg( 'add', '', $_SERVER['REQUEST_URI']) ); ?>" class="button">Add new</a>
 	<div class="posts">
 		<?php 		
 		//$ctg_id = get_term_by( 'name', $_GET['page'], 'category')->term_id;
@@ -94,7 +100,7 @@ else {
 		$posts = get_posts($args);	
 					
 		foreach($posts as $post){						
-			echo "<h3><a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">".get_the_title($post->ID)."</a></h3>";
+			echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">".get_the_title($post->ID)."</a></h3>";
 			echo apply_filters( 'the_excerpt', $post->post_content );
 		}		
 		?>

@@ -40,7 +40,7 @@ get_header();?>
 						foreach ($user->roles as $role) {
 							if ($role == 'administrator') {
 								if(!empty($_GET['page_id']) || isset($_GET['add'])) {
-									include_once 'includes/forms/edit-franchise-page.php';	
+									include_once 'includes/forms/list-franchise-pages.php';	
 								}
 								else {
 									include_once 'includes/forms/list-franchise-pages.php';
@@ -49,7 +49,7 @@ get_header();?>
 								break;
 							} else if ($role == 'franchisee') {
 								if(!empty($_GET['page_id']) || isset($_GET['add'])) {
-									include_once 'includes/forms/edit-franchise-page.php';	
+									include_once 'includes/forms/list-franchise-pages.php';	
 								}
 								else {
 									include_once 'includes/forms/list-franchise-pages.php';
@@ -58,7 +58,7 @@ get_header();?>
 								break;
 							} else if ($role == 'coach') {
 								if(!empty($_GET['page_id']) || isset($_GET['add'])) {
-									include_once 'includes/forms/edit-franchise-page.php';
+									include_once 'includes/forms/list-franchise-pages.php';
 								}
 								else {
 									include_once 'includes/forms/list-franchise-pages.php';	

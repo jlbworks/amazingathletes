@@ -42,6 +42,15 @@ $mypages_multi = array(
 	'press',
 );
 
+global $mypages_optional;
+
+$mypages_optional = array(
+	'testimonials',
+	'blog',
+	'press',
+	'event-form',
+);
+
 add_action('wp_ajax_am2_logout', 'am2_logout');
 
 function am2_logout() {
@@ -547,11 +556,11 @@ $zip_code = get_user_meta($user_id, 'zip_code', true);
 add_action('wp_ajax_am2_edit_mypage', 'am2_edit_mypage');
 
 function am2_edit_mypage() {
-	global $mypages, $mypages_multi;
+	global $mypages, $mypages_multi, $mypages_optional;
 
 	$user_id = get_current_user_id();	
 	$post_id = (isset($_POST['post_id']) ? $_POST['post_id'] : 0);
-	$category = array_search ($_POST['mypage'], $mypages);
+	$category = array_search ($_POST['mypage'], $mypages);	
 
 	if(!in_array($_POST['mypage'], $mypages_multi)){
 		$page_content = get_user_meta($user_id, 'page_content', true); 
@@ -574,12 +583,14 @@ function am2_edit_mypage() {
 
 		wp_update_post($args);
 	}
-	else {
+	else if(isset($_POST[$_POST['mypage']])){
 		//$ctg_id = wp_insert_category( array('cat_name' => $category) );
 
-		// if(empty($ctg_id)){
+		//if(empty($ctg_id)){
 		// 	$ctg_id = get_term_by('slug', $category, 'category')->term_id;
-		// }
+		//}
+
+		//var_dump(array_key_exists($_POST['mypage'], $_POST));
 
 		$args = array(			
 			'post_title' => $_POST['mypage'], 
@@ -591,12 +602,17 @@ function am2_edit_mypage() {
 		$post_id = wp_insert_post($args);
 	}
 
-	if(!empty($_POST['show_event_form'])){
-		update_user_meta($user_id, 'show_event_form', 1);
-	}
-	else {
-		update_user_meta($user_id, 'show_event_form', 0);
-	}
+	//foreach($mypages_optional as $key => $val){
+	if(isset($_POST['mypage'])){
+		$_val = str_replace('-','_',$_POST['mypage']);
+		if(isset($_POST['show_' . $_val])){
+			update_user_meta($user_id, 'show_' . $_val, 1);
+		}
+		else {
+			update_user_meta($user_id, 'show_' . $_val, 0);
+		}
+	}		
+	//}	
 
 	header("Content-Type: application/json; charset=UTF-8");	
 	echo json_encode( array('status' => 'success', 'user_id' => $user_id, 'post_id' => $post_id) );

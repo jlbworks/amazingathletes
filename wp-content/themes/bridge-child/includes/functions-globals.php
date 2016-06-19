@@ -10,4 +10,17 @@ if(is_array($programs)){
     }
 }
 
+$mypages_images = array(
+"http://amazingathletes.dev/wp-content/uploads/2016/03/my-account-volleyball-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/my-locations-soccerball-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/logout-baseball-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/my-pages-football-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/rescources-golf-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/my-account-volleyball-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/my-locations-soccerball-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/logout-baseball-icon.png",
+"http://amazingathletes.dev/wp-content/uploads/2016/03/my-pages-football-icon.png",
+)
+
 ?>
