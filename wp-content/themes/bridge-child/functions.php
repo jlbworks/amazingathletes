@@ -13,8 +13,8 @@ require_once 'includes/functions-globals.php';
 function am2_has_role($user, $role) {
 
 	if (!empty($user->roles) && is_array($user->roles)) {
-		foreach ($user->roles as $role) {
-			if ($role == $role) {	
+		foreach ($user->roles as $_role) {
+			if ($_role == $role) {	
 				return true;
 			}
 		}
