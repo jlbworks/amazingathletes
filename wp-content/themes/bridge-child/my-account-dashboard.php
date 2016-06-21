@@ -29,13 +29,15 @@ get_header();
 	<div class="wpb_text_column wpb_content_element  copy-child-page">
 		<div class="wpb_wrapper">
 			<h1 class="entry-title" style="text-align: center;">Dashboard</h1>
-<?php $notifications = get_field('notifications', 'option'); ?> 
-<?php foreach($notifications as $notification){?>
-<div>
-<h3><?php echo $notification['title'];?><span class="date"><?php echo $notification['date'];?></span></h3>
-<?php echo $notification['notification'];?>
-</div>
-<?php }?>
+<?php $notifications = get_field('notifications', 'option');
+if(is_array($notifications)) {?>
+	<?php foreach($notifications as $notification){?>
+	<div>
+		<h3><?php echo $notification['title'];?><span class="date"><?php echo $notification['date'];?></span></h3>
+		<?php echo $notification['notification'];?>
+	</div>
+	<?php }?>
+<?php } ?>
 </div> 
 	</div> 	<div class="vc_empty_space" style="height: 50px"><span class="vc_empty_space_inner">
 			<span class="empty_space_image"></span>
