@@ -1,4 +1,4 @@
-<div class="widget widget_text">            
+<div class="widget widget_text"> 
     <div class="textwidget"><span class="icon-row">
 
     <?php if(in_array('franchisee',$user->roles)): ?>
@@ -9,7 +9,18 @@
                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png" width="30px" class="spt-icons" id="fball2">
             </span>
             <span class="sidebar-nav">
-            <h2>MY ACCOUNT</h2>
+            <h2>DASHBOARD</h2>
+            </span>
+        </a>
+    </div>    
+   
+    <div style="/*padding-top: 40px;*/" class="side-nav">
+        <a href="<?php echo site_url();?>/my-account/profile/" class="sidebar-link">
+            <span>
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png" width="30px" class="spt-icons" id="fball2">
+            </span>
+            <span class="sidebar-nav">
+            <h2>PROFILE</h2>
             </span>
         </a>
     </div>    

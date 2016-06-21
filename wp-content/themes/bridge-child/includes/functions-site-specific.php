@@ -281,9 +281,19 @@ if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page(array(
 		'page_title' 	=> 'Theme General Settings',
 		'menu_title'	=> 'Theme Settings',
-		'menu_slug' 	=> 'theme-general-settings',
-		'capability'	=> 'edit_posts',
-		'redirect'		=> false
+		'menu_slug' 	=> 'theme-general-settings',				
+	));
+
+    acf_add_options_page(array(
+		'page_title' 	=> 'Programs description',
+		'menu_title'	=> 'Programs description',
+		'parent_slug' 	=> 'theme-general-settings',		
+	));
+
+    acf_add_options_page(array(
+		'page_title' 	=> 'Notifications',
+		'menu_title'	=> 'Notifications',
+		'parent_slug' 	=> 'theme-general-settings',		
 	));
 	
 	acf_add_options_sub_page(array(
@@ -293,7 +303,7 @@ if( function_exists('acf_add_options_page') ) {
 	));
 	
 	acf_add_options_sub_page(array(
-		'page_title' 	=> 'Theme Footer Settings',
+		'page_title' 	=> 'Theme Footer Settings',        
 		'menu_title'	=> 'Footer',
 		'parent_slug'	=> 'theme-general-settings',
 	));

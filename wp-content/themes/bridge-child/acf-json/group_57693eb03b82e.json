@@ -1,11 +1,11 @@
 {
-    "key": "group_575fd3c95052d",
-    "title": "Programs",
+    "key": "group_57693eb03b82e",
+    "title": "Notifications",
     "fields": [
         {
-            "key": "field_575fd3d262041",
-            "label": "Programs description",
-            "name": "programs_description",
+            "key": "field_57693ec830171",
+            "label": "Notifications",
+            "name": "notifications",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -19,12 +19,12 @@
             "min": "",
             "max": "",
             "layout": "table",
-            "button_label": "Add Row",
+            "button_label": "Add Notification",
             "sub_fields": [
                 {
-                    "key": "field_575fd3e962042",
-                    "label": "Program",
-                    "name": "program",
+                    "key": "field_57695130bf1a6",
+                    "label": "Title",
+                    "name": "title",
                     "type": "text",
                     "instructions": "",
                     "required": 0,
@@ -43,9 +43,9 @@
                     "disabled": 0
                 },
                 {
-                    "key": "field_575fd40062043",
-                    "label": "Description",
-                    "name": "description",
+                    "key": "field_57693ed930172",
+                    "label": "Notification",
+                    "name": "notification",
                     "type": "wysiwyg",
                     "instructions": "",
                     "required": 0,
@@ -59,6 +59,23 @@
                     "tabs": "all",
                     "toolbar": "full",
                     "media_upload": 1
+                },
+                {
+                    "key": "field_57695144bf1a7",
+                    "label": "Date",
+                    "name": "date",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "display_format": "d\/m\/Y",
+                    "return_format": "d\/m\/Y",
+                    "first_day": 1
                 }
             ]
         }
@@ -68,7 +85,7 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "acf-options-programs-description"
+                "value": "acf-options-notifications"
             }
         ]
     ],
@@ -80,5 +97,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1466515058
+    "modified": 1466520196
 }

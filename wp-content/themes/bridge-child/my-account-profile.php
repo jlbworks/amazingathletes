@@ -1,4 +1,4 @@
-<?php /*Template name: My account*/
+<?php /*Template name: Profile*/
 $user = wp_get_current_user();
 
 if (!is_user_logged_in()) {
