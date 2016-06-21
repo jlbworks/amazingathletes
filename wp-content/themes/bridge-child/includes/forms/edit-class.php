@@ -231,7 +231,7 @@ global $class_types;
 		<label>Time</label>
 		<input type="text" name="time" id="x-timepicker" value="<?php echo $class_time; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 		
-		<label>Type</label>		
+		<label>Program</label>		
 		<select name="type" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 			<?php foreach ($class_types as $_class): 
 				$if_class_selected = ''; 
