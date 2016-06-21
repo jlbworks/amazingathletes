@@ -30,7 +30,7 @@
                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="hockey2">
             </span>
             <span class="sidebar-nav">
-                <h2>MY APPOINTMENTS</h2>
+                <h2>MY CALENDAR</h2>
             </span>
         </a>
     </div>
