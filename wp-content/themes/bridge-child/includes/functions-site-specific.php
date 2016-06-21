@@ -38,6 +38,15 @@ function pre_get_posts_function( $query ) {
 add_action( 'pre_get_posts', 'pre_get_posts_function' );
 */
 
+add_action('wp_head','add_js_permalink_to_head');
+
+function add_js_permalink_to_head() {
+
+    $output="<script>var permalink = '".get_permalink()."';</script>";
+    echo $output;
+
+}
+
 
 add_action('wp_ajax_am2_filter_locations', 'am2_filter_locations');
 

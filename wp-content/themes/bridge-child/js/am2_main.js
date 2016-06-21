@@ -237,20 +237,26 @@
         });
 
 
-        $('[data-form="frm_delete_location"]').ajaxForm({
-          beforeSubmit: function() {            
-            am2_show_preloader();
-            return $('[data-form="frm_delete_location"]').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp.message);
-            location.href = permalink + '?deleted=true';
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
-        }); 
+        $('[data-button="delete"]').click(function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure?')) {
+                $('[data-form="frm_delete_location"]').ajaxSubmit({
+                  beforeSubmit: function() {            
+                    am2_show_preloader();
+                    return $('[data-form="frm_delete_location"]').valid();
+                  },
+                  success: function(resp) {
+                    am2_hide_preloader();
+                    alert(resp.message);
+                    location.href = permalink + '?deleted=true';
+                  },
+                  error: function() {
+                    am2_hide_preloader();
+                  }
+                }); 
+            }
+        });
+        
         
 
         $(document).on('click','#btn_delete_user_photo', function(e){

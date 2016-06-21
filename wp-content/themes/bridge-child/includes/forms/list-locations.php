@@ -50,7 +50,7 @@ $locations = get_posts(
 					<form data-form="frm_delete_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 						<input type="hidden" name="action" value="am2_delete_location">
 						<input type="hidden" name="loc_id" value="<?php echo $loc->ID; ?>"/>
-						<input type="submit" value="Delete"/>
+						<input type="submit" data-button="delete" value="Delete"/>
 					</form>
 					</h3>
 				<ul class="franchise_details">					

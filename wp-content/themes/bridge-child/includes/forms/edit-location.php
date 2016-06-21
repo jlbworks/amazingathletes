@@ -177,7 +177,5 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 </div>
 <div id="map"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4rcwbMAQu0UW62G-dQpZTlBcJXj-rMXE"></script>
-<script>
-var permalink = '<?php echo get_permalink(); ?>';
-</script>
+
 <?php }?>
