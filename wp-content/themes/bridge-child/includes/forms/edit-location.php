@@ -81,21 +81,24 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<label>Telephone *</label>
 		<input type="text" name="telephone"  size="20" value="<?php echo get_post_meta($loc_id, 'telephone', true); ?>" required><br/>
 
-
 		<label>Fax</label>
 		<input type="text" name="fax"  size="20" value="<?php echo get_post_meta($loc_id, 'fax', true); ?>"><br/>
 
-
-		<label>Email</label>
+		<label>Director Email</label>
 		<input type="text" name="email"  style="" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>
-
 
 		<label>Website</label>
 		<input type="text" name="website"  style="" value="<?php echo get_post_meta($loc_id, 'website', true); ?>"><br/>
 
-
 		<label>Director *</label>
 		<input type="text" name="director"  style="" value="<?php echo get_post_meta($loc_id, 'director', true); ?>" required><br/>
+
+		<label>Enable Kickback</label>
+		<?php $enable_kickback = get_post_meta($loc_id, 'enable_kickback', true) == 'yes';?>
+		<label><input type="radio" name="enable_kickback"  style="" value="yes" <?php echo ($enable_kickback ? 'checked' : '' ) ?>>yes</label><label><input type="radio" name="enable_kickback"  style="" value="no" <?php echo (!$enable_kickback ? 'checked' : '' ) ?>>no</label><br/>
+
+		<label>Kickback %</label>
+		<input type="text" name="kickback"  style="" value="<?php echo get_post_meta($loc_id, 'kickback', true); ?>"><br/>
 
 		<label>Choose Coach</label>
 		<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="" multiple="multiple">		
@@ -148,7 +151,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 				<tr>
 					<th>Day</th>
 					<th>Time</th>
-					<th>Type</th>
+					<th>Program</th>
 					<th>Length</th>
 					<th>Ages</th>
 					<th>Actions</th>
