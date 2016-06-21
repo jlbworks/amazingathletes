@@ -224,7 +224,7 @@
           error: function() {
             am2_hide_preloader();
           }
-        });     
+        });        
 
         $('#frm_edit_location [name="address"], #frm_edit_location [name="city"], #frm_edit_location [name="state"], #frm_edit_location [name="zip"]').on('change', function(){
             $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()),function(res){                
@@ -235,6 +235,23 @@
                 }                
             });
         });
+
+
+        $('[data-form="frm_delete_location"]').ajaxForm({
+          beforeSubmit: function() {            
+            am2_show_preloader();
+            return $('[data-form="frm_delete_location"]').valid();
+          },
+          success: function(resp) {
+            am2_hide_preloader();
+            alert(resp.message);
+            location.href = permalink + '?deleted=true';
+          },
+          error: function() {
+            am2_hide_preloader();
+          }
+        }); 
+        
 
         $(document).on('click','#btn_delete_user_photo', function(e){
             e.preventDefault();

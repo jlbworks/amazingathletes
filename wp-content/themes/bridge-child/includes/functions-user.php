@@ -434,6 +434,28 @@ function am2_edit_location() {
 
 }
 
+add_action('wp_ajax_am2_delete_location', 'am2_delete_location');
+
+function am2_delete_location() {
+	$user = wp_get_current_user();
+	$user_id = $user->ID;
+
+	if (!isset($_POST['loc_id']) || empty($_POST['loc_id'])) {
+		echo "Empty location ID!";			
+		exit();
+	}
+
+	if (isset($_POST['loc_id']) && !empty($_POST['loc_id'])) {
+		wp_delete_post(	$_POST['loc_id'] );
+		$loc_verb = 'deleted';
+	} 	
+
+	header("Content-Type: application/json; charset=UTF-8");
+	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));;	
+	exit();
+
+}
+
 
 add_action('wp_ajax_am2_add_coach', 'am2_add_coach');
 

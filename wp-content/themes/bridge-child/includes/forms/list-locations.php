@@ -44,7 +44,15 @@ $locations = get_posts(
 				$meta_franchisee[$key] = $val[0];
 			} ?>
 			<li class="franchise">
-				<h3><?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span>&nbsp;-&nbsp;<a href="<?php echo get_permalink() . '?loc_id=' . $loc->ID;?>">Edit</a></h3>
+				<h3>
+					<?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span>&nbsp;-&nbsp;
+					<a href="<?php echo get_permalink() . '?loc_id=' . $loc->ID;?>">Edit</a>&nbsp;-&nbsp;
+					<form data-form="frm_delete_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
+						<input type="hidden" name="action" value="am2_delete_location">
+						<input type="hidden" name="loc_id" value="<?php echo $loc->ID; ?>"/>
+						<input type="submit" value="Delete"/>
+					</form>
+					</h3>
 				<ul class="franchise_details">					
 				<?php foreach($classes as $c){?>
 				<li>
