@@ -121,3 +121,16 @@
 .user_form .state .locations .franchise_address {
     font-size: 12px;
 }
+
+.state .locations .franchise > h3 {
+    font-weight:normal;
+    display:block;
+    background-color: #e7eaf1;
+    font-size:20px; 
+    line-height: 60px;    
+}
+
+.state .locations .franchise > h3.selected {
+    color:red;
+    font-weight: bold;
+}

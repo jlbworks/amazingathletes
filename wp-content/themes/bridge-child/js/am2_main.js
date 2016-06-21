@@ -537,8 +537,8 @@
             });
          });
 
-         $(document).on('click', '.state .franchise a', function(e){
-            $('.state .franchise a').removeClass('selected');
+         $(document).on('click', '.state .franchise > a, .state .franchise > h3', function(e){
+            $('.state .franchise > a, .state .franchise > h3').removeClass('selected');
             $(this).addClass('selected');
             $(this).siblings('.franchise_details').slideToggle();                	
         });     
