@@ -44,7 +44,7 @@ $locations = get_posts(
 				$meta_franchisee[$key] = $val[0];
 			} ?>
 			<li class="franchise">
-				<a><?php echo get_the_title( $loc->ID );?>&nbsp;<span class="franchise_address"><?php echo implode(",", array(get_post_meta($loc->ID, 'address',true)));?></span></a>
+				<a><?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span></a>
 				<ul class="franchise_details">					
 				<?php foreach($classes as $c){?>
 				<li>
