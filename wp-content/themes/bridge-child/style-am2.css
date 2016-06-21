@@ -113,3 +113,11 @@
 .posts p{
     margin-bottom:15px;
 }
+
+.user_form .state .locations {
+    display:block;
+}
+
+.user_form .state .locations .franchise_address {
+    font-size: 12px;
+}
