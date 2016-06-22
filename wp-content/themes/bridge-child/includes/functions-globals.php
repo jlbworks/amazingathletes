@@ -1,21 +1,31 @@
 <?php
 global $class_programs, $class_types, $coach_pay_scales, $class_payment_informations;
 
-$programs = get_field('programs_description', 'option');
-$class_programs = array(/*'Amazing Athletes', 'Amazing Tots', 'Amazing Warriors'*/);
+/*$programs = get_field('programs_description', 'option');
+$class_programs = array(/*'Amazing Athletes', 'Amazing Tots', 'Amazing Warriors');*/
 
-if(is_array($programs)){
+/*if(is_array($programs)){
     foreach($programs as $program){
         $class_programs[$program['program']] = $program['program'];
     }
-}
+}*/
+
+
+$class_programs = array(
+    'Tots',
+    'Amazing Athletes',
+    'Training Academy',
+    'Summer Camp',
+    'Special Event',
+); 
 
 $class_types = array(
     'Demo',
-    'Parent pay',
-    'Session',
-    'Contract',
+    'Parent-Pay Monthly',
+    'Parent-Pay Session',
+    'Annual Contract',
     'Camp',
+    'Event'
 );
 
 $coach_pay_scales = array(
