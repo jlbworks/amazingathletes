@@ -150,6 +150,7 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'class_paynent_information', 		$_POST['class_paynent_information']);
 	update_post_meta($class_id, 'length', 		$_POST['length']);
 	update_post_meta($class_id, 'ages', 		$_POST['ages']);
+	update_post_meta($class_id, 'coaches', 		$_POST['coaches']);
 
 ?> 
 <div class="alert alert-success" role="alert"> <strong>Well done!</strong> Your class is saved.</div>
@@ -293,6 +294,36 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 
 		<label>Ages</label>	
 		<input type="text" name="ages" value="<?php echo $class_ages; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+
+		<label>Choose Coach</label>
+		<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="" multiple="multiple">		
+			<option value="">Select a coach...</option>
+			<?php
+
+			$coaches = get_users( array('role' => 'coach') ); 		
+			$sel_coaches = get_post_meta($class_id, 'coaches', true);
+
+			if(!is_array($sel_coaches)) {
+				$sel_coaches = array();
+			}
+			if (!empty($coaches)) {
+				foreach ($coaches AS $coach) {?>
+					<option <?php echo ( in_array( $coach->ID, $sel_coaches ) ? 'selected' : ''); ?> value="<?php echo $coach->ID; ?>"><?php echo implode(' ', array(get_user_meta($coach->ID, 'first_name', true), get_user_meta($coach->ID, 'last_name', true) ) ); ?></option>
+				<?php }
+			}
+			?>
+		</select>
+
+		<a class="btn_toggle_add_coach">Add coach</a>
+		<div class="hidden add_coach_wrap">
+			<label>First name</label>
+			<input type="text" id="first_name" /><br/>
+			<label>Last name</label>
+			<input type="text" id="last_name" /><br/>
+			<label>Coach email</label>
+			<input type="text" id="coach_email" /><br/>
+			<a class="btn_add_coach">Add</a>
+		</div><br/><br/>
 
 		<input type="hidden" name="looc_id" value="<?php echo $loc_id; ?>">
 		<input type="hidden" name="class_id" value="<?php echo !empty($class_id) ? $class_id : ''; ?>">
