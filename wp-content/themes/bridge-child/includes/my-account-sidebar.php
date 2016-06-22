@@ -77,7 +77,7 @@
     <div class="side-nav">
         <a href="<?php echo site_url();?>/registration/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png" width="30px" class="spt-icons" id="hockey2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png" width="30px" class="spt-icons" id="vball2">
             </span>
             <span class="sidebar-nav">
                 <h2>REGISTRATION</h2>
@@ -87,7 +87,7 @@
     <div class="side-nav">
         <a href="<?php echo site_url();?>/testimonials/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="hockey2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
             </span>
             <span class="sidebar-nav">
                 <h2>TESTIMONIALS</h2>
