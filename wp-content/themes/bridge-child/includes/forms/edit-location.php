@@ -48,7 +48,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<label>Location Name *</label>
 		<input type="text" name="location_name"  style="" value="<?php echo get_the_title($loc_id); ?>" required><br/>
 
-		<label>Address *</label>
+		<label>Address </label>
 		<input type="text" name="address"  style="" value="<?php echo get_post_meta($loc_id, 'address', true); ?>" required><br/>
 
 		<label>State *</label>
