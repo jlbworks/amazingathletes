@@ -134,3 +134,19 @@
     color:red;
     font-weight: bold;
 }
+
+.form--section {
+    padding: 20px;
+    background: #fefefe;
+    border: #eee 1px solid;
+    margin-bottom: 10px;
+}
+
+.form--section h2 {
+    font-size: 18px;
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 20px;
+    color: #888;
+    font-weight: bold;
+}

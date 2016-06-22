@@ -16,9 +16,9 @@
                 "id": ""
             },
             "choices": {
-                "Community classes": "Community classes",
-                "On-site classes": "On-site classes",
-                "Other events": "Other events"
+                "Member Only": "Member Only",
+                "Open Enrollment": "Open Enrollment",
+                "Special Event": "Special Event"
             },
             "default_value": [],
             "allow_null": 0,
@@ -131,27 +131,6 @@
             "disabled": 0
         },
         {
-            "key": "field_570b6f3b6c89a",
-            "label": "Telephone",
-            "name": "telephone",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": "",
-            "readonly": 0,
-            "disabled": 0
-        },
-        {
             "key": "field_570b6f426c89b",
             "label": "Fax",
             "name": "fax",
@@ -213,8 +192,29 @@
         },
         {
             "key": "field_570b6f546c89e",
-            "label": "Director",
-            "name": "director",
+            "label": "Location Contact Name",
+            "name": "location_contact_name",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "readonly": 0,
+            "disabled": 0
+        },
+        {
+            "key": "field_570b6f3b6c89a",
+            "label": "Location Contact Number",
+            "name": "location_contact_number",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -271,5 +271,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1465571028
+    "modified": 1466611333
 }

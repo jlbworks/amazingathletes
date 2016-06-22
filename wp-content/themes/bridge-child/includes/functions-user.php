@@ -414,7 +414,7 @@ function am2_edit_location() {
 		$loc_verb = 'edited';		
 	}		
 
-	$fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'zip_areas', 'telephone', 'fax', 'email', 'website', 'director', 'latlng', 'coaches', 'enable_kickback', 'kickback');
+	$fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'zip_areas', 'telephone', 'fax', 'email', 'website', 'location_contact_name', 'latlng', 'coaches', 'enable_kickback', 'kickback');
 
 	$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 
