@@ -6,7 +6,7 @@
     <div style="/*padding-top: 40px;*/" class="side-nav">
         <a href="<?php echo site_url();?>/my-account/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png" width="30px" class="spt-icons" id="fball2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
             </span>
             <span class="sidebar-nav">
             <h2>DASHBOARD</h2>
