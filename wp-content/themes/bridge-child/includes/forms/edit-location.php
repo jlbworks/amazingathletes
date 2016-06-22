@@ -80,6 +80,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		</div>
 	
 		<label>Zip area covered</label>
+
 		<input type="text" name="zip_areas"  size="10" value="<?php echo get_post_meta($loc_id, 'zip_areas', true); ?>" ><br/>
 
 		<label>Fax</label>
