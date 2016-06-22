@@ -152,6 +152,9 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 					<th>Day</th>
 					<th>Time</th>
 					<th>Program</th>
+					<th>Type</th>
+					<th>Coach Pay scale</th>
+					<th>Payment Information</th>
 					<th>Length</th>
 					<th>Ages</th>
 					<th>Actions</th>
@@ -162,7 +165,10 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 				<tr>
 					<td><?php echo am2_get_meta_value('day', 	$classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('time', 	$classes_meta); ?></td>
+					<td><?php echo am2_get_meta_value('program', 	$classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('type', 	$classes_meta); ?></td>
+					<td><?php echo am2_get_meta_value('coach_pay_scale', 	$classes_meta); ?></td>
+					<td><?php echo am2_get_meta_value('class_paynent_information', 	$classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('length', $classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('ages', 	$classes_meta); ?></td>
 					<td><a href="?looc_id=<?php echo $loc_id; ?>&class_id=<?php echo $c->ID; ?>&add-class=1">Edit</a> <a href="?looc_id=<?php echo $loc_id; ?>&class_id=<?php echo $c->ID; ?>&add-class=1&confirm_delete=1">Delete</a></td>

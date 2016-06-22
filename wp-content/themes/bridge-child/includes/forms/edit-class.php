@@ -144,7 +144,10 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'location_id',	$_POST['looc_id']);
 	update_post_meta($class_id, 'day', 			$_POST['day']);
 	update_post_meta($class_id, 'time', 		$_POST['time']);
+	update_post_meta($class_id, 'program', 		$_POST['program']);
 	update_post_meta($class_id, 'type', 		$_POST['type']);
+	update_post_meta($class_id, 'coach_pay_scale', 		$_POST['coach_pay_scale']);
+	update_post_meta($class_id, 'class_paynent_information', 		$_POST['class_paynent_information']);
 	update_post_meta($class_id, 'length', 		$_POST['length']);
 	update_post_meta($class_id, 'ages', 		$_POST['ages']);
 
@@ -182,7 +185,10 @@ if (isset($class_id) and !empty($class_id) and isset($_GET['confirm_delete'])) {
 
 $class_day 		= false;
 $class_time 	= false;
+$class_program 	= false;
 $class_type 	= false;
+$class_coach_pay_scale	= false;
+$class_paynent_information 	= false;
 $class_length 	= false;
 $class_ages 	= false;
 
@@ -192,7 +198,10 @@ if (isset($location_class)) {
 	$class_day 		= am2_get_meta_value('day', 	$location_class_meta);
 	$class_ages 	= am2_get_meta_value('ages', 	$location_class_meta);
 	$class_time 	= am2_get_meta_value('time', 	$location_class_meta);
+	$class_program 	= am2_get_meta_value('program', 	$location_class_meta);
 	$class_type 	= am2_get_meta_value('type', 	$location_class_meta);
+	$class_coach_pay_scale 	= am2_get_meta_value('coach_pay_scale', 	$location_class_meta);
+	$class_paynent_information 	= am2_get_meta_value('class_paynent_information', 	$location_class_meta);
 	$class_length 	= am2_get_meta_value('length', 	$location_class_meta);	
 }
 
@@ -206,7 +215,7 @@ $possible_days = array(
     'Saturday', 
 );
 
-global $class_types;
+global $class_programs, $class_types, $coach_pay_scales, $class_payment_informations;
 ?>
 <div class="user_form" style="margin-top:0">
 	<a href="<?php echo site_url();?>/my-account/locations/?loc_id=<?php echo $location->ID; ?>" class="button">Back</a>
@@ -232,14 +241,50 @@ global $class_types;
 		<input type="text" name="time" id="x-timepicker" value="<?php echo $class_time; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 		
 		<label>Program</label>		
-		<select name="type" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
-			<?php foreach ($class_types as $_class): 
+		<select name="program" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+			<?php foreach ($class_programs as $_class): 
 				$if_class_selected = ''; 
-				if ($_class == $class_type) {
+				if ($_class == $class_program) {
 					$if_class_selected = "selected=selected";
 				}
 			?>		
 			<option <?php echo $if_class_selected; ?>><?php echo $_class; ?></option>
+			<?php endforeach ?>
+		</select>
+
+		<label>Type</label>
+		<select name="type" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+			<?php foreach ($class_types as $type): 
+				$if_type_selected = ''; 
+				if ($type == $class_type) {
+					$if_type_selected = "selected=selected";
+				}
+			?>		
+			<option <?php echo $if_type_selected; ?>><?php echo $type; ?></option>
+			<?php endforeach ?>
+		</select>
+
+		<label>Pay scale</label>
+		<select name="coach_pay_scale" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+			<?php foreach ($coach_pay_scales as $payscale): 
+				$if_payscale_selected = ''; 
+				if ($payscale == $class_coach_pay_scale) {
+					$if_payscale_selected = "selected=selected";
+				}
+			?>		
+			<option <?php echo $if_payscale_selected; ?>><?php echo $payscale; ?></option>
+			<?php endforeach ?>
+		</select>
+
+		<label>Payment information</label>
+		<select name="class_paynent_information" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+			<?php foreach ($class_payment_informations as $payinfo): 
+				$if_payinfo_selected = ''; 
+				if ($payinfo == $class_paynent_information) {
+					$if_payinfo_selected = "selected=selected";
+				}
+			?>		
+			<option <?php echo $if_payinfo_selected; ?>><?php echo $payinfo; ?></option>
 			<?php endforeach ?>
 		</select>
 

@@ -1,14 +1,33 @@
 <?php
-global $class_types;
+global $class_programs, $class_types, $coach_pay_scales, $class_payment_informations;
 
 $programs = get_field('programs_description', 'option');
-$class_types = array(/*'Amazing Athletes', 'Amazing Tots', 'Amazing Warriors'*/);
+$class_programs = array(/*'Amazing Athletes', 'Amazing Tots', 'Amazing Warriors'*/);
 
 if(is_array($programs)){
     foreach($programs as $program){
-        $class_types[$program['program']] = $program['program'];
+        $class_programs[$program['program']] = $program['program'];
     }
 }
+
+$class_types = array(
+    'Demo',
+    'Parent pay',
+    'Session',
+    'Contract',
+    'Camp',
+);
+
+$coach_pay_scales = array(
+    'Per student',
+    'Hourly',
+);
+
+$class_payment_informations = array(
+    'Cash/Check',
+    'One time payment',
+    'Auto-pay Enrollment',
+);
 
 $mypages_images = array(
 site_url(). "/wp-content/uploads/2016/03/my-account-volleyball-icon.png",

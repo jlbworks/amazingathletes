@@ -152,7 +152,7 @@ get_header();?>
 
 				$classes = array();
 				foreach($_classes as $_class){
-					$classes[$_class->type] = $_class->type;
+					$classes[$_class->program] = $_class->program;
 				}			
 					
 				foreach($programs as $program){
