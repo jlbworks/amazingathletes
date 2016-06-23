@@ -65,12 +65,22 @@
         </a>
     </div>
     <div class="side-nav">
-        <a href="https://playlearnperform.com/my-account/" class="sidebar-link">
+        <a href="https://playlearnperform.com/" class="sidebar-link">
             <span>
                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
             </span>
             <span class="sidebar-nav">
-                <h2>SPORTS STORE</h2>
+                <h2>PRO SHOP</h2>
+            </span>
+        </a>
+    </div>
+    <div class="side-nav">
+        <a href="http://www.xpressdocs.com/" class="sidebar-link">
+            <span>
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2">
+            </span>
+            <span class="sidebar-nav">
+                <h2>CUSTOM PRO SHOP</h2>
             </span>
         </a>
     </div>
