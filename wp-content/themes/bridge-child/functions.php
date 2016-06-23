@@ -23,7 +23,7 @@ function am2_has_role($user, $role) {
 	return false;
 }
 
-add_action('after_setup_theme', 'remove_admin_bar');
+//add_action('after_setup_theme', 'remove_admin_bar');
 
 function remove_admin_bar() {
 	// if user is franchisee don't show admin bar on front pages
