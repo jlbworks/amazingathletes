@@ -162,6 +162,14 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'parent_pay_session_session_tuition', 		$_POST['parent_pay_session_session_tuition']);
 	update_post_meta($class_id, 'parent_pay_sessions_weeks_in_session', 		$_POST['parent_pay_sessions_weeks_in_session']);
 
+	update_post_meta($class_id, 'contracts_events_type', 		$_POST['contracts_events_type']);
+	update_post_meta($class_id, 'paid_per_class', 		$_POST['paid_per_class']);
+	update_post_meta($class_id, 'paid_per_student', 		$_POST['paid_per_student']);
+	update_post_meta($class_id, 'paid_per_hour', 		$_POST['paid_per_hour']);
+	update_post_meta($class_id, 'paid_per_day', 		$_POST['paid_per_day']);
+
+	
+
 
 ?> 
 <div class="alert alert-success" role="alert"> <strong>Well done!</strong> Your class is saved.</div>
@@ -212,6 +220,12 @@ $parent_pay_session_registration_fee 	= false;
 $parent_pay_session_session_tuition 	= false;
 $parent_pay_sessions_weeks_in_session 	= false;
 
+$contracts_events_type 			= false;
+$paid_per_class 				= false;
+$paid_per_student 				= false;
+$paid_per_hour 					= false;
+$paid_per_day 					= false;
+
 if (isset($location_class)) {
 	$location_class_meta = get_post_meta($class_id);	
 
@@ -233,6 +247,12 @@ if (isset($location_class)) {
 	$parent_pay_session_registration_fee 	= am2_get_meta_value('parent_pay_session_registration_fee', 	$location_class_meta);
 	$parent_pay_session_session_tuition 	= am2_get_meta_value('parent_pay_session_session_tuition', 	$location_class_meta);
 	$parent_pay_sessions_weeks_in_session 	= am2_get_meta_value('parent_pay_sessions_weeks_in_session', 	$location_class_meta);
+
+	$contracts_events_type 			= am2_get_meta_value('contracts_events_type', 	$location_class_meta);
+	$paid_per_class 				= am2_get_meta_value('paid_per_class', 	$location_class_meta);
+	$paid_per_student 				= am2_get_meta_value('paid_per_student', 	$location_class_meta);
+	$paid_per_hour 					= am2_get_meta_value('paid_per_hour', 	$location_class_meta);
+	$paid_per_day 					= am2_get_meta_value('paid_per_day', 	$location_class_meta);
 	
 }
 
@@ -311,32 +331,54 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 		</select>
 		
 		<div class="form--section">
-			<label>Class Costs</label><br>
+			<h2>Class Costs</h2>
 				<label><input type="radio" class="js-induce-change" data-change-to-section="class-costs" data-change-to-id="parent_pay_monthly" name="class_costs" value="Parent-Pay Monthly" <?php if($class_costs == 'Parent-Pay Monthly'){ echo 'checked="checked"'; } ?>>Parent-Pay Monthly </label>
 				<label><input type="radio" class="js-induce-change" data-change-to-section="class-costs" data-change-to-id="parent_pay_session" name="class_costs" value="Parent-Pay Session" <?php if($class_costs == 'Parent-Pay Session'){ echo 'checked="checked"'; } ?>>Parent-Pay Session </label>
 				<label><input type="radio" class="js-induce-change" data-change-to-section="class-costs" data-change-to-id="contracts_events" name="class_costs" value="Contracts/Events" <?php if($class_costs == 'Contracts/Events'){ echo 'checked="checked"'; } ?>>Contracts/Events </label>
+				
 				<div id="parent_pay_monthly" data-section="class-costs" style="display:none;">
 
 					<label>Registration Fee</label>
-					<input type="text" name="parent_pay_monthly_registration_fee" value="<?php echo $parent_pay_monthly_registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="registration_fee" value="<?php echo $registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label>Monthly Tuition</label>
-					<input type="text" name="parent_pay_monthly_monthly_tuition" value="<?php echo $parent_pay_monthly_monthly_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="monthly_tuition" value="<?php echo $monthly_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label># Classes Monthly</label>
-					<input type="text" name="parent_pay_monthly_classes_monthly" value="<?php echo $parent_pay_monthly_classes_monthly; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="classes_monthly" value="<?php echo $classes_monthly; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 				</div>
 				<div id="parent_pay_session" data-section="class-costs" style="display:none;">
 
 					<label>Registration Fee</label>
-					<input type="text" name="parent_pay_session_registration_fee" value="<?php echo $parent_pay_session_registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="registration_fee" value="<?php echo $registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label>Session Tuition</label>
-					<input type="text" name="parent_pay_session_session_tuition" value="<?php echo $parent_pay_session_session_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="session_tuition" value="<?php echo $session_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label>Weeks In Session</label>
-					<input type="text" name="parent_pay_sessions_weeks_in_session" value="<?php echo $parent_pay_sessions_weeks_in_session; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="weeks_in_session" value="<?php echo $weeks_in_session; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 				</div>
-				<div id="contracts_events" data-section="class-costs" style="display:none;">
-					contracts_events
+				<div id="contracts_events_type" data-section="class-costs" style="display:none;">
+					<label>Contracts/Events Type</label>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_class" name="contracts_events_type" value="Paid Per Class" <?php if($contract_event_type == 'Paid Per Class' || $contract_event_type === false){ echo 'checked="checked"'; } ?>>Paid Per Class</label>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_student" name="contracts_events_type" value="Paid Per Student" <?php if($contract_event_type == 'Paid Per Student'){ echo 'checked="checked"'; } ?>>Paid Per Student</label>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_hour" name="contracts_events_type" value="Paid Per Hour" <?php if($contract_event_type == 'Paid Per Hour'){ echo 'checked="checked"'; } ?>>Paid Per Hour</label>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_day" name="contracts_events_type" value="Paid Per Day" <?php if($contract_event_type == 'Paid Per Day'){ echo 'checked="checked"'; } ?>>Paid Per Day</label>
+					
+					<div id="paid_per_class" data-section="class-contract-events" style="display:none;">
+						paid_per_class
+					</div>
+
+					<div id="paid_per_student" data-section="class-contract-events" style="display:none;">
+						paid_per_student
+					</div>
+
+					<div id="paid_per_hour" data-section="class-contract-events" style="display:none;">
+						paid_per_hour
+					</div>
+
+					<div id="paid_per_day" data-section="class-contract-events" style="display:none;">
+						paid_per_day
+					</div>
+
 				</div>
 			<br>
 		</div>
