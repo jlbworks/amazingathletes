@@ -67,6 +67,9 @@ function am2_init() {
 	wp_register_style('remodal-default', get_stylesheet_directory_uri() . '/js/remodal/remodal-default-theme.css');
 	wp_enqueue_style('remodal-default');
 
+	wp_register_style('jquery.datetimepicker', get_stylesheet_directory_uri() . '/css/jquery.datetimepicker.css');
+	wp_enqueue_style('jquery.datetimepicker');
+
 	wp_register_script('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.min.js', array('jquery'));
 	wp_enqueue_script('selectize');
 
@@ -87,6 +90,9 @@ function am2_init() {
 
 	wp_register_script('jquery.timepicker', get_stylesheet_directory_uri() . '/js/jquery.timepicker.min.js' , array('jquery'), '', true);	
 	wp_enqueue_script('jquery.timepicker');	
+
+	wp_register_script('jquery.datepicker', get_stylesheet_directory_uri() . '/js/jquery.datetimepicker.min.js' , array('jquery'), '', true);	
+	wp_enqueue_script('jquery.datepicker');
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
 	wp_localize_script('am2_main', 'ajax_login_object', array(

@@ -53,7 +53,9 @@
 }
 
 .column1 {
-    
+}
+.footer_col1 {
+    background: none;
 }
 
 .two_columns_25_75.grid2 > .column1 {

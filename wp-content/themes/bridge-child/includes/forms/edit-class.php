@@ -51,6 +51,10 @@ $fieldsToGet = array(
 		'classes_per_class_day',
 		'per_hour_pay',
 		'hours_per_class_day',
+		'date',
+		'time',
+		'date_start',
+		'date_end',
 	);
 
 ?>
@@ -360,16 +364,24 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 	<form method="post">
 	
 		<label>Class Type</label>
-		<select name="type" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+		<select name="type" class="js-induce-change-select-class">	
+			<option<?php if($class_type == 'Demo'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day" data-change-to-section="class-schedule">Demo</option>	
+			<option<?php if($class_type == 'Parent-Pay Monthly'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_recurring"  data-change-to-section="class-schedule">Parent-Pay Monthly</option>	
+			<option<?php if($class_type == 'Parent-Pay Session'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_session"  data-change-to-section="class-schedule">Parent-Pay Session</option>	
+			<option<?php if($class_type == 'Annual Contract'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_recurring"  data-change-to-section="class-schedule">Annual Contract</option>	
+			<option<?php if($class_type == 'Camp'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day"  data-change-to-section="class-schedule">Camp</option>	
+			<option<?php if($class_type == 'Event'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day"  data-change-to-section="class-schedule">Event</option>
+		</select>
+		<?php /*<select name="type" class="js-induce-change-select-class" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
 			<?php foreach ($class_types as $type): 
 				$if_type_selected = ''; 
 				if ($type == $class_type) {
 					$if_type_selected = "selected=selected";
 				}
 			?>		
-			<option <?php echo $if_type_selected; ?>><?php echo $type; ?></option>
+			<option <?php echo $if_type_selected; ?> data-change-to-section="class-schedule"><?php echo $type; ?></option>
 			<?php endforeach ?>
-		</select>
+		</select>*/ ?>
 
 		<label>Program</label>		
 		<select name="program" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
@@ -384,8 +396,25 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 		</select>
 
 		<div class="form--section">
-			<h2>Scheduler</h2>
+			<h2>Scheduler (Settings depend on Class Type)</h2>
+			<div id="class_schedule_single_day" data-section="class-schedule" style="display:none;">
+				<label>Date</label>
+				<input type="text" name="date" class="datepicker" value="<?php echo $values['date']; ?>" class="ui-timepicker-input" autocomplete="off">
+			
+				<label>Time</label>
+				<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
+			</div>
+			<div id="class_schedule_recurring" data-section="class-schedule" style="display:none;">
+				Recurring
+			</div>
+			<div id="class_schedule_session" data-section="class-schedule" style="display:none;">
+				<label>Date Start</label>
+				<input type="text" name="date_start" class="datepicker" value="<?php echo $values['date_start']; ?>" class="ui-timepicker-input" autocomplete="off">
+				<label>Date End</label>
+				<input type="text" name="date_end" class="datepicker" value="<?php echo $values['date_end']; ?>" class="ui-timepicker-input" autocomplete="off">
+			
+			</div>
 		</div>
 	
 		<label>Registration Option</label>
@@ -492,12 +521,27 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 		<script type="text/javascript">
 			jQuery(document).ready(function(){
 				checkChangeToRadios();
+				checkChangeToSelectClass();
 				jQuery('.js-induce-change').on('click', function(){
 					changeToSection = jQuery(this).data('change-to-section');
-			        changeToId = jQuery(this).data('change-to-id'); console.log(changeToId);
+			        changeToId = jQuery(this).data('change-to-id'); 
+			        changeTo(changeToId, changeToSection);
+				});
+
+				jQuery('.js-induce-change-select-class').on('change', function(){
+					changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
+		            changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
 			        changeTo(changeToId, changeToSection);
 				})
+
 			})
+
+			function checkChangeToSelectClass(){
+	            changeToSection = jQuery('.js-induce-change-select-class').find(':selected').attr('data-change-to-section');
+	            changeToId = jQuery('.js-induce-change-select-class').find(':selected').attr('data-change-to-id');
+		        changeTo(changeToId, changeToSection);
+			}
+
 			function checkChangeToRadios(){
 				jQuery('.js-induce-change').each(function(){
 					 if (jQuery(this).is(':checked') || jQuery(this).is(':selected')) {
@@ -559,9 +603,6 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 			<?php endforeach ?>
 		</select>
 		
-		<label>Time</label>
-		<input type="text" name="time" id="x-timepicker" value="<?php echo $class_time; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
-
 		<label>Payment information</label>
 		<select name="class_paynent_information" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
 			<?php foreach ($class_payment_informations as $payinfo): 
@@ -621,6 +662,12 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
-	jQuery('#x-timepicker').timepicker();
+	jQuery('.timepicker').timepicker({
+		step: 15
+	});
+	jQuery('.datepicker').datetimepicker({
+		  timepicker:false,
+  		  format:'d/m/Y'
+	});
 });
 </script>
