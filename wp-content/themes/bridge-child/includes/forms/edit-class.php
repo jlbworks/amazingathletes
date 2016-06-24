@@ -1,3 +1,61 @@
+<?php
+global $values;
+
+function generateTextField($field_label, $field_name){
+	global $values;
+	global $please_confirm_delete;
+
+	$output = '';
+	$output .= '<label>'.$field_label.'</label>';
+	$output .= '<input type="text" name="'.$field_name.'" value="'.$values[$field_name].'"';
+	if (isset($please_confirm_delete) && true === $please_confirm_delete): 
+		$output .= ' disabled';
+	endif;
+	$output .= '>';
+
+	echo $output;
+
+	return;
+}
+
+$fieldsToGet = array(
+		'class_day',
+		'class_registration_option',
+		'class_ages',
+		'class_time',
+		'class_program',
+		'class_type',
+		'class_coach_pay_scale',
+		'class_paynent_information',
+		'class_length',
+		'class_costs',
+		'parent_pay_monthly_registration_fee',
+		'parent_pay_monthly_monthly_tuition',
+		'parent_pay_monthly_classes_monthly',
+		'parent_pay_session_registration_fee',
+		'parent_pay_session_session_tuition',
+		'parent_pay_sessions_weeks_in_session',
+		'contract_or_event',
+		'contracts_events_type',
+		'amount_earned_per_class',
+		'classes_per_month',
+		'amount_earned_per_student',
+		'amount_earned_per_hour',
+		'hours_per_month',
+		'amount_earned_per_day',
+		'days_per_month',
+		'coach_pay_scale',
+		'per_student_per_class_pay',
+		'new_student_bonus',
+		'per_class_pay',
+		'classes_per_class_day',
+		'per_hour_pay',
+		'hours_per_class_day',
+	);
+
+?>
+
+
 <style type="text/css">
 .alert-success {
     color: #3c763d;
@@ -161,12 +219,16 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'parent_pay_session_registration_fee', 		$_POST['parent_pay_session_registration_fee']);
 	update_post_meta($class_id, 'parent_pay_session_session_tuition', 		$_POST['parent_pay_session_session_tuition']);
 	update_post_meta($class_id, 'parent_pay_sessions_weeks_in_session', 		$_POST['parent_pay_sessions_weeks_in_session']);
-
+	
 	update_post_meta($class_id, 'contracts_events_type', 		$_POST['contracts_events_type']);
-	update_post_meta($class_id, 'paid_per_class', 		$_POST['paid_per_class']);
-	update_post_meta($class_id, 'paid_per_student', 		$_POST['paid_per_student']);
-	update_post_meta($class_id, 'paid_per_hour', 		$_POST['paid_per_hour']);
-	update_post_meta($class_id, 'paid_per_day', 		$_POST['paid_per_day']);
+	update_post_meta($class_id, 'contract_or_event', 		$_POST['contract_or_event']);
+	update_post_meta($class_id, 'amount_earned_per_class', 		$_POST['amount_earned_per_class']);
+	update_post_meta($class_id, 'classes_per_month', 		$_POST['classes_per_month']);
+
+	foreach($fieldsToGet as $fieldToGet):
+			update_post_meta($class_id, $fieldToGet, $_POST[$fieldToGet]);
+	endforeach;
+
 
 	
 
@@ -196,6 +258,7 @@ if (isset($class_id) and !empty($class_id)) {
 	}
 }
 
+global $please_confirm_delete;
 $please_confirm_delete = false;
 
 if (isset($class_id) and !empty($class_id) and isset($_GET['confirm_delete'])) {
@@ -220,14 +283,22 @@ $parent_pay_session_registration_fee 	= false;
 $parent_pay_session_session_tuition 	= false;
 $parent_pay_sessions_weeks_in_session 	= false;
 
-$contracts_events_type 			= false;
-$paid_per_class 				= false;
-$paid_per_student 				= false;
-$paid_per_hour 					= false;
-$paid_per_day 					= false;
+$contract_or_event 					= false;
+$contracts_events_type 				= false;
+$amount_earned_per_class 				= false;
+$classes_per_month 				= false;
+
+foreach($fieldsToGet as $fieldToGet):
+	$values[$fieldToGet] = false;
+endforeach;
+
 
 if (isset($location_class)) {
 	$location_class_meta = get_post_meta($class_id);	
+
+	foreach($fieldsToGet as $fieldToGet):
+		$values[$fieldToGet] = am2_get_meta_value($fieldToGet, $location_class_meta);
+	endforeach;
 
 	$class_day 		= am2_get_meta_value('day', 	$location_class_meta);
 	$class_registration_option 		= am2_get_meta_value('registration_option', 	$location_class_meta);
@@ -248,11 +319,10 @@ if (isset($location_class)) {
 	$parent_pay_session_session_tuition 	= am2_get_meta_value('parent_pay_session_session_tuition', 	$location_class_meta);
 	$parent_pay_sessions_weeks_in_session 	= am2_get_meta_value('parent_pay_sessions_weeks_in_session', 	$location_class_meta);
 
-	$contracts_events_type 			= am2_get_meta_value('contracts_events_type', 	$location_class_meta);
-	$paid_per_class 				= am2_get_meta_value('paid_per_class', 	$location_class_meta);
-	$paid_per_student 				= am2_get_meta_value('paid_per_student', 	$location_class_meta);
-	$paid_per_hour 					= am2_get_meta_value('paid_per_hour', 	$location_class_meta);
-	$paid_per_day 					= am2_get_meta_value('paid_per_day', 	$location_class_meta);
+	$contract_or_event 					= am2_get_meta_value('contract_or_event', 	$location_class_meta);
+	$contracts_events_type 				= am2_get_meta_value('contracts_events_type', 	$location_class_meta);
+	$amount_earned_per_class 			= am2_get_meta_value('amount_earned_per_class', 	$location_class_meta);
+	$classes_per_month 					= am2_get_meta_value('classes_per_month', 	$location_class_meta);
 	
 }
 
@@ -356,27 +426,64 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 					<input type="text" name="weeks_in_session" value="<?php echo $weeks_in_session; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 				</div>
-				<div id="contracts_events_type" data-section="class-costs" style="display:none;">
-					<label>Contracts/Events Type</label>
-					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_class" name="contracts_events_type" value="Paid Per Class" <?php if($contract_event_type == 'Paid Per Class' || $contract_event_type === false){ echo 'checked="checked"'; } ?>>Paid Per Class</label>
-					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_student" name="contracts_events_type" value="Paid Per Student" <?php if($contract_event_type == 'Paid Per Student'){ echo 'checked="checked"'; } ?>>Paid Per Student</label>
-					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_hour" name="contracts_events_type" value="Paid Per Hour" <?php if($contract_event_type == 'Paid Per Hour'){ echo 'checked="checked"'; } ?>>Paid Per Hour</label>
-					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_day" name="contracts_events_type" value="Paid Per Day" <?php if($contract_event_type == 'Paid Per Day'){ echo 'checked="checked"'; } ?>>Paid Per Day</label>
-					
+				<div id="contracts_events" data-section="class-costs" style="display:none;">
+					<br>
+					<label>Contracts/Events Type</label><br>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_class" name="contracts_events_type" value="Paid Per Class" <?php if($contracts_events_type == 'Paid Per Class' || $contracts_events_type === false){ echo 'checked="checked"'; } ?>>Paid Per Class</label>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_student" name="contracts_events_type" value="Paid Per Student" <?php if($contracts_events_type == 'Paid Per Student'){ echo 'checked="checked"'; } ?>>Paid Per Student</label>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_hour" name="contracts_events_type" value="Paid Per Hour" <?php if($contracts_events_type == 'Paid Per Hour'){ echo 'checked="checked"'; } ?>>Paid Per Hour</label>
+					<label><input type="radio" class="js-induce-change" data-change-to-section="class-contract-events" data-change-to-id="paid_per_day" name="contracts_events_type" value="Paid Per Day" <?php if($contracts_events_type == 'Paid Per Day'){ echo 'checked="checked"'; } ?>>Paid Per Day</label>
+
+
 					<div id="paid_per_class" data-section="class-contract-events" style="display:none;">
-						paid_per_class
+						<select name="contract_or_event">
+							<option value="Contract"<?php if($contract_or_event == 'Contract'){ ?> selected="selected"<?php } ?>>Contract</option>
+							<option value="Event"<?php if($contract_or_event == 'Event'){ ?> selected="selected"<?php } ?>>Event</option>
+						</select>
+						
+						<?php
+						generateTextField('Amount Earned per Class', 'amount_earned_per_class');
+						generateTextField('# Classes per Month', 'classes_per_month');
+						?>
+
 					</div>
 
 					<div id="paid_per_student" data-section="class-contract-events" style="display:none;">
-						paid_per_student
+						<select name="contract_or_event">
+							<option value="Contract"<?php if($contract_or_event == 'Contract'){ ?> selected="selected"<?php } ?>>Contract</option>
+							<option value="Event"<?php if($contract_or_event == 'Event'){ ?> selected="selected"<?php } ?>>Event</option>
+						</select>
+						
+						<?php
+						generateTextField('Amount Earned per Student', 'amount_earned_per_student');
+						generateTextField('# Classes per Month', 'classes_per_month');
+						?>
 					</div>
 
 					<div id="paid_per_hour" data-section="class-contract-events" style="display:none;">
-						paid_per_hour
+						<select name="contract_or_event">
+							<option value="Contract"<?php if($contract_or_event == 'Contract'){ ?> selected="selected"<?php } ?>>Contract</option>
+							<option value="Event"<?php if($contract_or_event == 'Event'){ ?> selected="selected"<?php } ?>>Event</option>
+						</select>
+						
+						<?php
+						generateTextField('Amount Earned per Hour', 'amount_earned_per_hour');
+						generateTextField('# Hours per Month', 'hours_per_month');
+						generateTextField('# Classes per Month', 'classes_per_month');
+						?>
 					</div>
 
 					<div id="paid_per_day" data-section="class-contract-events" style="display:none;">
-						paid_per_day
+						<select name="contract_or_event">
+							<option value="Contract"<?php if($contract_or_event == 'Contract'){ ?> selected="selected"<?php } ?>>Contract</option>
+							<option value="Event"<?php if($contract_or_event == 'Event'){ ?> selected="selected"<?php } ?>>Event</option>
+						</select>
+						
+						<?php
+						generateTextField('Amount Earned per Day', 'amount_earned_per_day');
+						generateTextField('# Days per Month', 'days_per_month');
+						generateTextField('# Classes per Month', 'classes_per_month');
+						?>
 					</div>
 
 				</div>
@@ -387,7 +494,7 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 				checkChangeToRadios();
 				jQuery('.js-induce-change').on('click', function(){
 					changeToSection = jQuery(this).data('change-to-section');
-			        changeToId = jQuery(this).data('change-to-id');
+			        changeToId = jQuery(this).data('change-to-id'); console.log(changeToId);
 			        changeTo(changeToId, changeToSection);
 				})
 			})
@@ -405,6 +512,40 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 				jQuery('#'+target_id).show();
 			}
 		</script>
+		<div class="form--section">
+			<h2>Coach Pay Scale</h2>
+			<label><input type="radio" class="js-induce-change" data-change-to-section="class-coach-pay-scale" data-change-to-id="unpaid" name="coach_pay_scale" value="Unpaid" <?php if($values['coach_pay_scale'] == 'Unpaid' || $values['coach_pay_scale'] === false){ echo 'checked="checked"'; } ?>>Unpaid</label>
+			<label><input type="radio" class="js-induce-change" data-change-to-section="class-coach-pay-scale" data-change-to-id="coach_paid_per_student_per_class" name="coach_pay_scale" value="Per Student per Class Pay" <?php if($values['coach_pay_scale'] == 'Per Student per Class Pay'){ echo 'checked="checked"'; } ?>>Per Student per Class Pay</label>
+			<label><input type="radio" class="js-induce-change" data-change-to-section="class-coach-pay-scale" data-change-to-id="coach_paid_per_class" name="coach_pay_scale" value="Per Class Pay" <?php if($values['coach_pay_scale'] == 'Per Class Pay'){ echo 'checked="checked"'; } ?>>Per Class Pay</label>
+			<label><input type="radio" class="js-induce-change" data-change-to-section="class-coach-pay-scale" data-change-to-id="coach_paid_per_hour" name="coach_pay_scale" value="Paid Per Day" <?php if($values['coach_pay_scale'] == 'Paid Per Day'){ echo 'checked="checked"'; } ?>>Paid Per Day</label>
+
+
+			<div id="unpaid" data-section="class-coach-pay-scale" style="display:none;">
+			</div>
+
+			<div id="coach_paid_per_student_per_class" data-section="class-coach-pay-scale" style="display:none;">
+				<?php
+				generateTextField('Per Student per Class Pay', 'per_student_per_class_pay');
+				generateTextField('New Student Bonus', 'new_student_bonus');
+				?>
+			</div>
+
+			<div id="coach_paid_per_class" data-section="class-coach-pay-scale" style="display:none;">
+				<?php
+				generateTextField('Per Class Pay', 'per_class_pay');
+				generateTextField('# Classes per Class Day', 'classes_per_class_day');
+				?>
+			</div>
+
+			<div id="coach_paid_per_hour" data-section="class-coach-pay-scale" style="display:none;">
+				<?php
+				generateTextField('Per Hour Pay', 'per_hour_pay');
+				generateTextField('# Hours per Class Day', 'hours_per_class_day');
+				?>
+			</div>
+
+		</div>
+
 
 		<label>Day</label>
 		<select name="day" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
@@ -420,18 +561,6 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 		
 		<label>Time</label>
 		<input type="text" name="time" id="x-timepicker" value="<?php echo $class_time; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
-
-		<label>Pay scale</label>
-		<select name="coach_pay_scale" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
-			<?php foreach ($coach_pay_scales as $payscale): 
-				$if_payscale_selected = ''; 
-				if ($payscale == $class_coach_pay_scale) {
-					$if_payscale_selected = "selected=selected";
-				}
-			?>		
-			<option <?php echo $if_payscale_selected; ?>><?php echo $payscale; ?></option>
-			<?php endforeach ?>
-		</select>
 
 		<label>Payment information</label>
 		<select name="class_paynent_information" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
