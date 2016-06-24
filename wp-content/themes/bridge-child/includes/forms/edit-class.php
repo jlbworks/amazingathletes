@@ -55,6 +55,9 @@ $fieldsToGet = array(
 		'time',
 		'date_start',
 		'date_end',
+		'schedule_type',
+		'date_every_year',
+		'monthly_every',
 	);
 
 ?>
@@ -340,6 +343,14 @@ $possible_days = array(
     'Saturday', 
 );
 
+$possible_every = array(
+	'First',
+	'Second',
+	'Third',
+	'Fourth',
+	'Fifth'
+);
+
 $possible_registration_options = array(
     'Standard Registration Form',
     'Session Registration Form', 
@@ -406,14 +417,68 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 
 			</div>
 			<div id="class_schedule_recurring" data-section="class-schedule" style="display:none;">
-				Recurring
+				<label>Schedule Type</label><br>
+				<label><input type="radio" class="js-induce-change" data-change-to-section="class-schedule-type" data-change-to-id="schedule_weekly" name="schedule_type" value="Weekly" <?php if($values['schedule_type'] == 'Weekly' || $values['schedule_type'] === false){ echo 'checked="checked"'; } ?>>Weekly</label>
+				<label><input type="radio" class="js-induce-change" data-change-to-section="class-schedule-type" data-change-to-id="schedule_monthly" name="schedule_type" value="Monthly" <?php if($values['schedule_type'] == 'Monthly'){ echo 'checked="checked"'; } ?>>Monthly</label>
+				<label><input type="radio" class="js-induce-change" data-change-to-section="class-schedule-type" data-change-to-id="schedule_yearly" name="schedule_type" value="Yearly" <?php if($values['schedule_type'] == 'Yearly'){ echo 'checked="checked"'; } ?>>Yearly</label>
+				
+				<div id="schedule_weekly" data-section="class-schedule-type" style="display:none;">
+					<label>Day</label>
+					<select name="day" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+						<?php foreach ($possible_days as $day): 
+							$if_day_selected = ''; 
+							if ($day == $class_day) {
+								$if_day_selected = "selected=selected";
+							}
+						?>		
+						<option <?php echo $if_day_selected; ?>><?php echo $day; ?></option>
+						<?php endforeach ?>
+					</select>	
+					<label>Time</label>
+					<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+
+				</div>
+				<div id="schedule_monthly" data-section="class-schedule-type" style="display:none;">
+					<label>Every</label>
+					<select name="monthly_every" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+						<?php foreach ($possible_every as $every): 
+							$if_every_selected = ''; 
+							if ($every == $values['monthly_every']) {
+								$if_every_selected = "selected=selected";
+							}
+						?>		
+						<option <?php echo $if_every_selected; ?>><?php echo $every; ?></option>
+						<?php endforeach ?>
+					</select>	
+
+					<label>Day</label>
+					<select name="day" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+						<?php foreach ($possible_days as $day): 
+							$if_day_selected = ''; 
+							if ($day == $class_day) {
+								$if_day_selected = "selected=selected";
+							}
+						?>		
+						<option <?php echo $if_day_selected; ?>><?php echo $day; ?></option>
+						<?php endforeach ?>
+					</select>	
+					<label>Time</label>
+					<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+
+				</div>
+				<div id="schedule_yearly" data-section="class-schedule-type" style="display:none;">
+					<label>Date Every Year</label>
+					<input type="text" name="date_every_year" class="datepicker_noyear" value="<?php echo $values['date_every_year']; ?>" class="ui-timepicker-input" autocomplete="off">
+			
+				</div>
 			</div>
 			<div id="class_schedule_session" data-section="class-schedule" style="display:none;">
 				<label>Date Start</label>
 				<input type="text" name="date_start" class="datepicker" value="<?php echo $values['date_start']; ?>" class="ui-timepicker-input" autocomplete="off">
 				<label>Date End</label>
 				<input type="text" name="date_end" class="datepicker" value="<?php echo $values['date_end']; ?>" class="ui-timepicker-input" autocomplete="off">
-			
+				
+
 			</div>
 		</div>
 	
@@ -591,19 +656,9 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 		</div>
 
 
-		<label>Day</label>
-		<select name="day" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
-			<?php foreach ($possible_days as $day): 
-				$if_day_selected = ''; 
-				if ($day == $class_day) {
-					$if_day_selected = "selected=selected";
-				}
-			?>		
-			<option <?php echo $if_day_selected; ?>><?php echo $day; ?></option>
-			<?php endforeach ?>
-		</select>
 		
-		<label>Payment information</label>
+		
+		<?php /*<label>Payment information</label>
 		<select name="class_paynent_information" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
 			<?php foreach ($class_payment_informations as $payinfo): 
 				$if_payinfo_selected = ''; 
@@ -617,7 +672,7 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 
 		<label>Ages</label>	
 		<input type="text" name="ages" value="<?php echo $class_ages; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
-
+*/ ?>
 		<label>Choose Coach</label>
 		<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="" multiple="multiple">		
 			<option value="">Select a coach...</option>
@@ -669,5 +724,11 @@ jQuery(document).ready(function(){
 		  timepicker:false,
   		  format:'d/m/Y'
 	});
+	jQuery('.datepicker_noyear').datetimepicker({
+		  timepicker:false,
+  		  format:'d/m/Y'
+	});
+
+	
 });
 </script>
