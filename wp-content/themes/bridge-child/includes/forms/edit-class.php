@@ -58,6 +58,9 @@ $fieldsToGet = array(
 		'schedule_type',
 		'date_every_year',
 		'monthly_every',
+		'payment_options',
+		'one_time_credit_card_payment_url',
+		'recurring_credit_card_payments_url',
 	);
 
 ?>
@@ -583,10 +586,37 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 				</div>
 			<br>
 		</div>
+
+		<div class="form--section">
+			<h2>Payment Options</h2>
+			<?php $values['payment_options'] = unserialize($values['payment_options']); ?>
+			<label><input type="checkbox" class="js-induce-change-checkboxes" data-change-to-section="class-payment-option" data-change-to-id="personal_check_of_cash_payment" name="payment_options[]" value="Personal Check Or Cash Payments" <?php if(is_array($values['payment_options']) && in_array('Personal Check Or Cash Payments',$values['payment_options'])){ echo 'checked="checked"'; } ?>>Personal Check Or Cash Payments</label>
+			<label><input type="checkbox" class="js-induce-change-checkboxes" data-change-to-section="class-payment-option" data-change-to-id="one_time_credit_card_payment" name="payment_options[]" value="One Time Credit Card Payment" <?php if(is_array($values['payment_options']) && in_array('One Time Credit Card Payment',$values['payment_options'])){ echo 'checked="checked"'; } ?>>One Time Credit Card Payment</label>
+			<label><input type="checkbox" class="js-induce-change-checkboxes" data-change-to-section="class-payment-option" data-change-to-id="recurring_credit_card_payments" name="payment_options[]" value="Recurring Credit Card Payments" <?php if(is_array($values['payment_options']) && in_array('Recurring Credit Card Payments',$values['payment_options'])){ echo 'checked="checked"'; } ?>>Recurring Credit Card Payments</label>
+
+			<div class="form--section" id="personal_check_of_cash_payment" data-section="class-payment-option" style="display:none;">
+				<h3>Personal Check Or Cash Payments</h3>
+				No additional options. 
+			</div>
+			<div class="form--section" id="one_time_credit_card_payment" data-section="class-payment-option" style="display:none;">
+				<h3>One Time Credit Card Payment</h3>
+				<?php 
+					generateTextField('Enter URL (Quick Link to Credit Card Payment)', 'one_time_credit_card_payment_url');
+				?>
+			</div>
+			<div class="form--section" id="recurring_credit_card_payments" data-section="class-payment-option" style="display:none;">
+				<h3>Recurring Credit Card Payments</h3>
+				<?php 
+					generateTextField('Enter URL (Quick Link to Recurring Credit Card Payment)', 'recurring_credit_card_payments_url');
+				?>
+			</div>
+		</div>
+
 		<script type="text/javascript">
 			jQuery(document).ready(function(){
 				checkChangeToRadios();
 				checkChangeToSelectClass();
+				checkChangeToCheckboxes();
 				jQuery('.js-induce-change').on('click', function(){
 					changeToSection = jQuery(this).data('change-to-section');
 			        changeToId = jQuery(this).data('change-to-id'); 
@@ -597,7 +627,11 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 					changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
 		            changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
 			        changeTo(changeToId, changeToSection);
-				})
+				});
+
+				jQuery('.js-induce-change-checkboxes').on('change', function(){
+					checkChangeToCheckboxes();
+				});
 
 			})
 
@@ -615,6 +649,20 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 			            changeTo(changeToId, changeToSection);
 			        }
 				});
+			}
+			function checkChangeToCheckboxes(){
+				jQuery('.js-induce-change-checkboxes').each(function(){
+					changeToSection = jQuery(this).data('change-to-section');
+			        changeToId = jQuery(this).data('change-to-id');
+					if (jQuery(this).is(':checked') || jQuery(this).is(':selected')) {
+			            jQuery('#'+changeToId).show();
+			        } else {
+			        	jQuery('#'+changeToId).hide();
+			        }
+				});
+				changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
+	            changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
+		        changeTo(changeToId, changeToSection);
 			}
 			function changeTo(target_id, section) {
 				jQuery('[data-section="'+section+'"]').hide();
