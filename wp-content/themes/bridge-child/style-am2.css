@@ -125,6 +125,12 @@
 	font-family:'oswald';
 }
 
+.title-align{
+text-align: center;
+}
+
+
+
 .state .locations .franchise > h3 {
     font-weight:normal;
     display:block;
