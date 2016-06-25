@@ -373,7 +373,7 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 	<a href="<?php echo site_url();?>/my-account/locations/?loc_id=<?php echo $location->ID; ?>" class="button">Back</a>
 	
 	<h3>Location: <?php echo $location->post_title; ?></h3>
-	<h4><?php echo $_title; ?></h4>	
+	<h1><?php echo $_title; ?></h1>	
 	
 	<form method="post">
 	
