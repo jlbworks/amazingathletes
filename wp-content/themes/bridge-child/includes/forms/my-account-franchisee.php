@@ -15,90 +15,35 @@ else {
 
 <h3>Account information</h3>
 
+display_market
+display_title
+display_name
+
+Individual 1 First Name
+Individual 1 Last Name
+Individual 2 First Name
+Individual 2 Last Name
+
 <form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 		<label>Franchise Name *</label>
 		<input type="text" name="franchise_name" required  style="" value="<?=get_user_meta($user_id,'franchise_name',true);?>"><br/>
+		
+		<label>Display Name *</label>
+		<input type="text" name="display_name" required  style="" value="<?=get_user_meta($user_id,'display_name',true);?>"><br/>
 
-
-		<label>Owners *</label>
-		<input type="text" name="franchise_owner" required  style="" value="<?=get_user_meta($user_id,'owners',true);?>"><br/>
-
-
-		<label>Mailing Address *</label>
-		<input type="text" name="franchise_address" required  style="" value="<?=get_user_meta($user_id,'mailing_address',true);?>"><br/>
-
-		<label>State *</label>
-		<select name="franchise_state" required placeholder="Select a state..." class="am2_cc_state" style="">
-			<option value=""></option>
-			<option value="">Select a state...</option>
-			<?php
-			$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
-			$states = array();
-			if ($states_db) {
-				foreach ($states_db AS $state) {?>
-					<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
-			<?php }
-			}
-			?>
-		</select>
-
-		</select><br/>
-
-		<label>City *</label>
-		<input type="text" name="franchise_city" required  style="" value="<?php echo $city_state[1]; ?>" class="am2_cc_city"><br/>
-
-		<input type="hidden" name="franchise_city_state" class="cc_city_state" />
-
-
-		<label>ZIP Code *</label>
-		<input type="text" name="franchise_zip" required  size="10" value="<?php echo get_user_meta($user_id,'zip_code',true); ?>"><br/>
-
-
-		<label>Telephone *</label>
+		<label>Display Title</label>
+		<input type="text" name="display_title"  style="" value="<?=get_user_meta($user_id,'display_title',true);?>"><br/>
+		
+		<label>Display Number *</label>
 		<input type="text" name="franchise_telephone" required  size="20" value="<?php echo get_user_meta($user_id,'telephone',true); ?>"><br/>
 
-
-		<label>Fax</label>
-		<input type="text" name="franchise_fax"  size="20" value="<?php echo get_user_meta($user_id,'fax',true); ?>"><br/>
-
-
-		<label>Email Address *</label>
-		<input type="text" name="franchise_email" required data-rule-email="true"  style="" value="<?php echo $user->user_email; ?>"><br/>		
-
-		<label>AA Email Address</label>
+		<label>Display Email</label>
 		<input type="text" name="franchise_aaemail" data-rule-email="true"  style="" value="<?php echo get_user_meta($user_id,'aa_email_address',true); ?>"><br/>
 
+		<label>Display Market</label>
+		<input type="text" name="display_market"  style="" value="<?php echo get_user_meta($user_id,'display_market',true); ?>"><br/>		
 
-		<label>Website Address</label>
-		<input type="text" name="franchise_website"  style="" value="<?php echo get_user_meta($user_id,'website_address',true); ?>"><br/>
-
-
-		<?php /*<label>Login Password</label>
-<input type="text" name="franchise_password"  size="8;" value="kardio"><br/>*/?>
-
-
-		<label>Market Area</label>
-		<td><textarea name="franchise_market" rows="2" style=""><?php echo get_user_meta($user_id,'market_area',true); ?></textarea></td>
-
-
-		<label> Facebook Page</label>
-		<input type="text" name="franchise_facebook"  style="" value="<?php echo get_user_meta($user_id,'facebook_page',true); ?>"><br/>
-
-
-		<label> YouTube Page</label>
-		<input type="text" name="franchise_youtube"  style="" value="<?php echo get_user_meta($user_id,'youtube_page',true); ?>"><br/>
-
-
-		<label> Twitter Page</label>
-		<input type="text" name="franchise_twitter"  style="" value="<?php echo get_user_meta($user_id,'twitter_page',true); ?>"><br/>
-
-
-		<label> Pinterest Page</label>
-		<input type="text" name="franchise_pinterest"  style="" value="<?php echo get_user_meta($user_id,'pinterest_page',true); ?>"><br/>
-
-		<label> Video </label>
-		<input type="text" id="video" name="video" value="<?php echo get_user_meta($user->ID, 'video', true);?>" />
-
+		<label>Display Photo</label>
 		<div class="user_photo_wrap">
 			<?php
 			$custom_image = get_field('user_photo', 'user_' . $user_id);
@@ -113,6 +58,111 @@ else {
 
 		</div>
 
+		<label>Display Bio</label>
+		<textarea name="display_bio"><?php echo get_user_meta($user_id,'display_bio',true); ?></textarea>
+
+		<div class="form--section">
+			<h2>Social Media</h2>
+
+			<label> Facebook Page</label>
+			<?php 
+			$link = get_user_meta($user_id,'facebook_page',true); 
+			if(empty($link)) {
+				$link = 'https://www.facebook.com/AmazingAthletes/';
+			}
+			?>
+			<input type="text" name="franchise_facebook"  style="" value="<?php echo $link; ?>"><br/>
+			
+			<label> YouTube Page</label>
+			<?php 
+			$link = get_user_meta($user_id,'youtube_page',true); 
+			if(empty($link)) {
+				$link = 'https://www.youtube.com/user/TheAmazingAthletes';
+			}
+			?>
+			<input type="text" name="franchise_youtube"  style="" value="<?php echo $link; ?>"><br/>
+
+			<label> Twitter Page</label>
+			<?php 
+			$link = get_user_meta($user_id,'twitter_page',true); 
+			if(empty($link)) {
+				$link = 'https://twitter.com/AmazingAthlete';
+			}
+			?>
+			<input type="text" name="franchise_twitter"  style="" value="<?php echo $link; ?>"><br/>
+
+			<label> Pinterest Page</label>
+			<?php 
+			$link = get_user_meta($user_id,'pinterest_page',true); 
+			if(empty($link)) {
+				$link = 'https://www.pinterest.com/amazingathletes/';
+			}
+			?>
+			<input type="text" name="franchise_pinterest"  style="" value="<?php echo $link; ?>"><br/>
+
+		</div>
+
+		<label>Individual 1 First Name *</label>
+		<input type="text" name="individual_1_first_name" style="" value="<?php echo get_user_meta($user_id,'individual_1_first_name',true); ?>"><br/>
+		
+		<label>Individual 1 Last Name *</label>
+		<input type="text" name="individual_1_last_name" style="" value="<?php echo get_user_meta($user_id,'individual_1_last_name',true); ?>"><br/>
+		
+		<label>Individual 2 First Name *</label>
+		<input type="text" name="individual_2_first_name" style="" value="<?php echo get_user_meta($user_id,'individual_2_first_name',true); ?>"><br/>
+		
+		<label>Individual 2 Last Name *</label>
+		<input type="text" name="individual_2_last_name" style="" value="<?php echo get_user_meta($user_id,'individual_2_last_name',true); ?>"><br/>
+		
+		<div class="form--section">
+			<h2>Franchise Location Info</h2>
+
+			<label>Franchise Mailing Address *</label>
+			<input type="text" name="franchise_address" required  style="" value="<?=get_user_meta($user_id,'mailing_address',true);?>"><br/>
+
+			<label>Franchise Mailing State *</label>
+			<select name="franchise_state" required placeholder="Select a state..." class="am2_cc_state" style="">
+				<option value=""></option>
+				<option value="">Select a state...</option>
+				<?php
+				$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
+				$states = array();
+				if ($states_db) {
+					foreach ($states_db AS $state) {?>
+						<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
+				<?php }
+				}
+				?>
+			</select>
+
+			</select><br/>
+
+			<label>Franchise Mailing City *</label>
+			<input type="text" name="franchise_city" required  style="" value="<?php echo $city_state[1]; ?>" class="am2_cc_city"><br/>
+
+			<input type="hidden" name="franchise_city_state" class="cc_city_state" />
+
+
+			<label>Franchise Mailing ZIP *</label>
+			<input type="text" name="franchise_zip" required  size="10" value="<?php echo get_user_meta($user_id,'zip_code',true); ?>"><br/>
+
+		</div>
+		
+		<label>Franchise Contact Number *</label>
+		<input type="text" name="franchise_telephone" required  size="20" value="<?php echo get_user_meta($user_id,'telephone',true); ?>"><br/>
+
+		<label>Franchise Contact E-Mail *</label>
+		<input type="text" name="franchise_email" required data-rule-email="true"  style="" value="<?php echo $user->user_email; ?>"><br/>		
+
+		<label>Franchise Website</label>
+		<input type="text" name="franchise_website"  style="" value="<?php echo get_user_meta($user_id,'website_address',true); ?>"><br/>
+
+		<?php /*<label>Login Password</label>
+<input type="text" name="franchise_password"  size="8;" value="kardio"><br/>*/?>
+
+		<label> Video </label>
+		<input type="text" id="video" name="video" value="<?php echo get_user_meta($user->ID, 'video', true);?>" />
+
 		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/> */?>
 		<input type="hidden" name="action" value="am2_franchisee_account" />
 
@@ -122,17 +172,19 @@ else {
 
 <div class="hr"></div>
 
-<h3>Change your password</h3>
-<form id="frm_user_password" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
-	<label>Password </label>
-	<input type="password" name="password" id="password"    style="" ><br/>
+<div class="form--section">
+	<h2>Change your password</h2>
+	<form id="frm_user_password" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
+		<label>Password </label>
+		<input type="password" name="password" id="password"    style="" ><br/>
 
-	<label>Repeat Password </label>
-	<input type="password" name="password2" id="password2"   style="" ><br/>
+		<label>Repeat Password </label>
+		<input type="password" name="password2" id="password2"   style="" ><br/>
 
-	<input type="hidden" name="action" value="am2_user_password" />
-	<input type="submit" value="Submit"/>
-</form>
+		<input type="hidden" name="action" value="am2_user_password" />
+		<input type="submit" value="Submit"/>
+	</form>
+</div>
 
 </div>
 

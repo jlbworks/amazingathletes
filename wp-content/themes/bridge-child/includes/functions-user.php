@@ -216,9 +216,41 @@ function am2_franchisee_account() {
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
 
-	$fields = array('franchise_name' => 'franchise_name', 'franchise_owner' => 'owners', 'franchise_address' => 'mailing_address', 'franchise_zip' => 'zip_code', 'franchise_telephone' => 'telephone', 'franchise_fax' => 'fax', 'franchise_email' => 'email_address', 'franchise_aaemail' => 'aa_email_address', 'franchise_website' => 'website_address', 'franchise_market' => 'market_area', 'franchise_facebook' => 'facebook_page', 'franchise_youtube' => 'youtube_page', 'franchise_twitter' => 'twitter_page', 'franchise_pinterest' => 'pinterest_page', 'franchise_city_state' => 'city__state', 'password' => 'password', 'video' => 'video' );
+	$fields = array(
+		'franchise_name' => 'franchise_name',
+		'display_title' => 'display_title', 
+		'display_market' => 'display_market', 
+		'display_name' => 'display_name', 
+		'display_bio' => 'display_bio', 
+		'franchise_address' => 'mailing_address', 
+		'franchise_zip' => 'zip_code', 
+		'franchise_telephone' => 'telephone', 
+		'franchise_email' => 'email_address', 
+		'franchise_aaemail' => 'aa_email_address', 
+		'franchise_website' => 'website_address', 
+		'franchise_market' => 'market_area', 
+		'franchise_facebook' => 'facebook_page', 
+		'franchise_youtube' => 'youtube_page', 
+		'franchise_twitter' => 'twitter_page', 
+		'franchise_pinterest' => 'pinterest_page', 
+		'franchise_city_state' => 'city__state', 
+		'password' => 'password', 
+		'video' => 'video',
+		'individual_1_first_name' => 'individual_1_first_name',
+		'individual_1_last_name' => 'individual_1_last_name',
+		'individual_2_first_name' => 'individual_2_first_name',
+		'individual_2_last_name' => 'individual_2_last_name',
+	);
 
-	$required_fields = array('franchise_name', 'franchise_owner', 'franchise_address', 'franchise_city_state', 'franchise_zip', 'franchise_telephone', 'franchise_email');
+	$required_fields = array(
+		'franchise_name', 
+		'display_name', 
+		'franchise_address', 
+		'franchise_city_state', 
+		'franchise_zip', 
+		'franchise_telephone', 
+		'franchise_email'
+	);
 
 	$i=0;$j=0;
 	foreach ($fields as $post_key => $meta_key) {
@@ -245,7 +277,7 @@ function am2_franchisee_account() {
 				$wp_rewrite->flush_rules(false); 
 			}
 		}
-		else if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
+		else if (isset($_POST[$post_key])) {
 			update_user_meta($user_id, $meta_key, $_POST[$post_key]);
 		} 
 		else if(in_array($post_key, $required_fields)){
