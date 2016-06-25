@@ -366,8 +366,24 @@
                 }
             });
          });
+        
+        $('#frm_edit_staff').validate({ /* ... */ });
+        $('#frm_edit_staff').ajaxForm({
+          beforeSubmit: function() {            
+            am2_show_preloader();
+            return $('#frm_edit_staff').valid();
+          },
+          success: function(resp) {
+            am2_hide_preloader();
+            alert(resp.message);
+            location.href = permalink + '?user_id=' + resp.user_id;
+          },
+          error: function() {
+            am2_hide_preloader();
+          }
+        });
 
-         $('#frm_edit_staff').on('submit', function(e){
+         /*$('#frm_edit_staff').on('submit', function(e){
             e.preventDefault();
 
             if($.trim($('#first_name').val()) == '' || $.trim($('#first_name').val()) == '' || $.trim($('#coach_email').val()) == ''){
@@ -400,7 +416,7 @@
                     alert('Error');
                 }
             });
-         });
+         });*/
 
         if($('.dynamic-locaion-content').length > 0){
             $('.dynamic-locaion-content').html(

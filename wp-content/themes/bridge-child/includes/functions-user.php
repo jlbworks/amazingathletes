@@ -503,19 +503,48 @@ function am2_add_coach() {
 
 	$location = get_post($_POST['loc_id']);
 
-	$user_id = wp_insert_user( $userdata ) ;
+	$user_id = wp_insert_user( $userdata );
+	$loc_verb = 'added';
 
 	//On success
 	if ( ! is_wp_error( $user_id ) ) {
-	    update_user_meta($user_id, 'first_name', $_POST['first_name']);
-	    update_user_meta($user_id, 'last_name', $_POST['last_name']);
+		$fields = array(
+			'first_name',
+			'last_name,',
+			'city__state', 
+			'street_address', 
+			'zip_code',
+			'amazing_athletes_forward',
+			'forwarding_aa_to_email',
+			'contact_number',
+			'emergency_contact_name',
+			'emergency_contact_email',
+			'birthday',
+			'title',
+			'employment_type',
+		);
+		$required_fields = array(
+			//'location_type', 
+
+		);
+
+		foreach ($fields as $post_key) {
+			if (isset($_POST[$post_key])) {
+				update_user_meta($user_id, $post_key, $_POST[$post_key]);			
+			} 
+			else if(in_array($post_key, $required_fields)){
+				echo "Field $post_key is required";			
+				exit();
+			}		
+		}	
 		update_user_meta($user_id, 'franchisee', $location->post_author);
+
 	    $status = 'success';
 	} else {
 		$status = 'error';
 	}
 
-	echo json_encode( array('status' => $status, 'user_id' => $user_id) );
+	echo json_encode( array("message"=>"Your staff was successfully $loc_verb.", 'status' => $status, 'user_id' => $user_id) );
 
 	exit();
 }
@@ -536,23 +565,60 @@ function am2_edit_staff() {
 			'role'		  => 'coach',
 		);
 		$user_id = wp_insert_user($userdata, true);
+		$loc_verb = 'added';
 		//var_dump($user_id);
-	}	
+	} else {
+		$userdata = array(
+			'ID' => $user_id,
+			'user_email'  => $_POST['coach_email'],	   
+		);
+		wp_update_user($userdata);
+		$loc_verb = 'edited';
+	}
 
 	//On success
 	if ( ! is_wp_error( $user_id ) ) {
-	    update_user_meta($user_id, 'first_name', $_POST['first_name']);
-	    update_user_meta($user_id, 'last_name', $_POST['last_name']);
-	    update_user_meta($user_id, 'description', $_POST['coach_description']);
-		update_user_meta($user_id, 'user_photo', $_POST['attid']);
+	    
+		$fields = array(
+			'first_name',
+			'last_name',
+			'coach_description',
+			'attid',
+			'city__state', 
+			'street_address', 
+			'zip_code',
+			'amazing_athletes_forward',
+			'forwarding_aa_to_email',
+			'contact_number',
+			'emergency_contact_name',
+			'emergency_contact_email',
+			'birthday',
+			'title',
+			'employment_type',
+		);
+		$required_fields = array(
+			//'location_type', 
+
+		);
+
+		foreach ($fields as $post_key) {
+			if (isset($_POST[$post_key])) {
+				update_user_meta($user_id, $post_key, $_POST[$post_key]);			
+			} 
+			else if(in_array($post_key, $required_fields)){
+				echo "Field $post_key is required";			
+				exit();
+			}		
+		}	
 		update_user_meta($user_id, 'franchisee', get_current_user_id() );
+		
 		//update_user_meta($user_id, 'franchisee', $franchisee);
 	    $status = 'success'; 
 	} else {
 		$status = 'error';
 	}
 
-	echo json_encode( array('status' => $status, 'user_id' => $user_id) );
+	echo json_encode( array("message"=>"Your location was successfully $loc_verb.", 'status' => $status, 'user_id' => $user_id) );
 
 	exit();
 }

@@ -15,15 +15,6 @@ else {
 
 <h3>Account information</h3>
 
-display_market
-display_title
-display_name
-
-Individual 1 First Name
-Individual 1 Last Name
-Individual 2 First Name
-Individual 2 Last Name
-
 <form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 		<label>Franchise Name *</label>
 		<input type="text" name="franchise_name" required  style="" value="<?=get_user_meta($user_id,'franchise_name',true);?>"><br/>
