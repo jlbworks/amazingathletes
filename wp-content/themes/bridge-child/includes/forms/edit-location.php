@@ -113,7 +113,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 	<hr>
 	<br>		
 	<div>		
-		<h1>Classes</h1>
+		<h1 class="title-align">Classes</h1>
 		<a href="?looc_id=<?php echo $loc_id; ?>&add-class=1" class="button add_new_class">Add new class</a>		
 		<?php if(empty($classes)): ?>
 			<p>No classes found...</p>
