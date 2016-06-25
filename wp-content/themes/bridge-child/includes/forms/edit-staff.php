@@ -142,7 +142,7 @@ function generate_image_field($field_name){
 
 </div>
 <?php 
-print_r($image_fields);
+//print_r($image_fields);
 ?>
 <script type="text/javascript">
 
