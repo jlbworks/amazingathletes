@@ -5,7 +5,7 @@ $current_user_id = get_current_user_id();
 
 if (!empty($_GET['user_id'])) {
 	$staff_id = (int) $_GET['user_id'];
-	$umeta = get_user_meta($staff_id);	print_r($umeta);
+	$umeta = get_user_meta($staff_id);
 	$staff = get_user_by('id',$staff_id);
 }
 
@@ -122,13 +122,20 @@ function generate_image_field($field_name){
 				<option<?php if($class_type == 'Independent Contractor'){ ?> selected="selected"<?php } ?>>Independent Contractor</option>	
 				<option<?php if($class_type == 'Employee'){ ?> selected="selected"<?php } ?> >Employee</option>
 			</select>
+
+			<label>Non-disclosure agreement</label>
+			<div class="photo_wrap">
+			<?php
+				generate_image_field('non_disclosure_agreement');
+			?>
+			</div>
 		</div>
 
 		<label>Description </label>
 		<textarea id="coach_description"  name="coach_description"  style=""  ><?php echo $staff->coach_description; ?></textarea><br/>
 
 		<div class="user_photo_wrap">
-			<?php echo 'test';
+			<?php
 				generate_image_field('user_photo');
 			?>
 		</div>			
@@ -206,9 +213,9 @@ function loadDigitalArtwork_multiple(field_name){
 jQuery(document).ready(function(){
 	<?php foreach($image_fields as $image_field): ?>
 		loadDigitalArtwork_multiple('<?php echo $image_field; ?>');
-		$(document).on('click','#btn_delete_<?php echo $image_field; ?>', function(e){
+		jQuery(document).on('click','#btn_delete_<?php echo $image_field; ?>', function(e){
 		    e.preventDefault();
-		    delete_digital_artwork($(this).data('attid'), $(this).data('user-id'), '<?php echo $image_field; ?>');
+		    delete_digital_artwork(jQuery(this).data('attid'), jQuery(this).data('user-id'), '<?php echo $image_field; ?>');
 		});
 	<?php endforeach; ?>
 });

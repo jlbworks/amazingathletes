@@ -522,6 +522,8 @@ function am2_add_coach() {
 			'birthday',
 			'title',
 			'employment_type',
+			'non_disclosure_agreement',
+			'user_photo',
 		);
 		$required_fields = array(
 			//'location_type', 
@@ -595,6 +597,8 @@ function am2_edit_staff() {
 			'birthday',
 			'title',
 			'employment_type',
+			'non_disclosure_agreement',
+			'user_photo',
 		);
 		$required_fields = array(
 			//'location_type', 
