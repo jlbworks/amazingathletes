@@ -12,18 +12,28 @@ if (!empty($_GET['user_id'])) {
 if ((!empty($staff) && $staff->franchisee == $current_user_id) || isset($_GET['add'])) { ?>
 <?php
 global $image_fields;
-function generate_image_field($field_name){
+function generate_image_field($field_name, $context, $context_id){
 
 	global $image_fields;
-	$image_fields[] = $field_name;
+	$new_field['key'] = $field_name;
+	$new_field['context'] = $context;
 
-	$custom_image = get_field($field_name, 'user_' . $staff_id);
+	$image_fields[] = $new_field;
+
+	if(empty($context)) return;
+	if(empty($context_id)) return;
+
+	if($context == 'post')
+	$custom_image_id = get_post_meta($context_id, $field_name, true);
+
+	if($context == 'user')
+	$custom_image_id = get_user_meta($context_id, $field_name, true);
+
 	$output = '';
-	if ($custom_image) {
-		$custom_image_url = wp_get_attachment_image_src($custom_image, 'medium');
-		$output .= '<img src="<?php echo $custom_image_url[0]; ?>" width="175"/>';
-		$output .= '<br/>';
-		$output .= '<a class="delete_button button small-button" id="btn_delete_'.$field_name.'" data-attid="'.$custom_image.'" data-user-id="'.$staff_id.'" >Delete image</a>';
+	if ($custom_image_id) {
+		$custom_image_url = wp_get_attachment_image_src($custom_image_id, 'medium');
+		$output .= '<img class="photo_preview" src="'.$custom_image_url[0].'" width="175"/>';
+		$output .= '<a class="delete_button button small-button" id="btn_delete_'.$field_name.'" data-attid="'.$custom_image_id.'" data-context-id="'.$context_id.'" data-context="'.$context.'" data-custom_field_key="'.$field_name.'">x</a>';
 	 } else {
 		$output .= '<div id="digital_image_upload_'.$field_name.'"></div>';
 	}
@@ -123,22 +133,100 @@ function generate_image_field($field_name){
 				<option<?php if($class_type == 'Employee'){ ?> selected="selected"<?php } ?> >Employee</option>
 			</select>
 
+			<label>Coach Photo </label>
+			<div class="photo_wrap">
+				<?php
+					generate_image_field('user_photo', 'user', $staff->ID);
+				?>
+			</div>	
+	
+			<label>Coach Bio </label>
+			<textarea id="coach_description"  name="coach_description"  style=""  ><?php echo $staff->coach_description; ?></textarea><br/>
+		</div>
+		<div class="form--section">
+			<h2>Coaching Documents</h2>
+
 			<label>Non-disclosure agreement</label>
 			<div class="photo_wrap">
-			<?php
-				generate_image_field('non_disclosure_agreement');
+			<?php 
+				generate_image_field('non_disclosure_agreement', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>Background Check</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('background_check', 'user', $staff->ID);
+			?>
+			</div>
+			
+			<label>Independent Contractor Agreement</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('independent_contractor_agreement', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>Employee Non-Compete Agreement</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('employee_noncompete_agreement', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>FingerPrint Compliance</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('fingerprint_compliance', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>TB Test</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('tb_test', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>Study Transcripts</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('study_transcripts', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>CPR Certification</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('cpr_certification', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>Certificate of Liability</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('certificate_of_liability', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>Copy of Driver's License</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('copy_of_drivers_license', 'user', $staff->ID);
+			?>
+			</div>
+
+			<label>Inventory Checklist</label>
+			<div class="photo_wrap">
+			<?php 
+				generate_image_field('inventory_checklist', 'user', $staff->ID);
 			?>
 			</div>
 		</div>
+		
 
-		<label>Description </label>
-		<textarea id="coach_description"  name="coach_description"  style=""  ><?php echo $staff->coach_description; ?></textarea><br/>
+		
 
-		<div class="user_photo_wrap">
-			<?php
-				generate_image_field('user_photo');
-			?>
-		</div>			
 
 		<input type="hidden" id="user_id" name="user_id" value="<?php echo $staff_id;?>" />	
 		
@@ -165,8 +253,8 @@ uploadOptions = {
 	request: {
 	    endpoint: '<?php echo admin_url('admin-ajax.php'); ?>',
 	    params: {
-	        action: 'upload_user_photo',
-			user_id: '<?php echo $staff_id; ?>',
+	        action: 'upload_file',
+			//context_id: '<?php echo $staff_id; ?>',
 	    }
 	},
 	validation: {
@@ -176,35 +264,44 @@ uploadOptions = {
   	multiple: false
 }
 
-function delete_digital_artwork_multiple(attach_id, user_id, field_name){
+function delete_digital_artwork_multiple(attach_id, context, context_id, field_name){
+
    jQuery.ajax({
         url:ajax_login_object.ajaxurl,
         type:'POST',
-        data:'action=ajax_delete_field&attachid=' + attach_id + '&user_id=' + user_id,
-        success:function(results)
-        {                     
-            jQuery('input[name="digital_file_name"]').val('');
-
-            jQuery('#btn_delete_user_photo_'+field_name+'').fadeOut(400, function(){ 
-                jQuery(this).parent().empty().append('<div id="digital_image_upload_'+field_name+'" style="display:none;">Upload</div>'); 
-                jQuery('#digital_image_upload_'+field_name+'').fadeIn(); 
-                loadDigitalArtwork(field_name);
-            });
+        data:'action=ajax_delete_image&attachid=' + attach_id + '&context_id=' + context_id + '&context=' + context+ '&custom_field_key=' + field_name,
+        success:function(response)
+        {       
+        console.log(response); 
+        	if(response.success){
+	            jQuery('#btn_delete_'+field_name+'').fadeOut(400, function(){ 
+	                jQuery(this).parent().empty().append('<div id="digital_image_upload_'+field_name+'" style="display:none;">Upload</div>'); 
+	                jQuery('#digital_image_upload_'+field_name+'').fadeIn(); 
+	                loadDigitalArtwork_multiple(field_name, context, context_id);
+	            });
+        	}
+            
         }
     });
 }
 
-function loadDigitalArtwork_multiple(field_name){
+function loadDigitalArtwork_multiple(field_name, context, context_id){
     console.log('loadDigitalArtwork');
     if(typeof uploadOptions === 'undefined') return;
     console.log('loadDigitalArtwork continued');
     
-    uploadOptions['request']['params']['field'] = field_name;
+    uploadOptions['request']['params']['custom_field_key'] = field_name;
+    uploadOptions['request']['params']['context'] = context;
+    uploadOptions['request']['params']['context_id'] = context_id; console.log(uploadOptions);
     jQuery('#digital_image_upload_'+field_name).fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
        if (responseJSON.success) {
-         jQuery(this).parent().delay(1000).fadeOut(400, function(){
-              jQuery(this).empty().append('<div class="upload_success"><img src="'+responseJSON.file_url+'" width="175"/></div>').append("<a class='delete_button button' id='btn_delete_"+field_name+" data-attid="+responseJSON.file_id+" >Delete file</a>").fadeIn();
-              jQuery('input[name="digital_file_name"]').val(responseJSON.file_name);
+         	  jQuery(this).parent().delay(1000).fadeOut(400, function(){
+              jQuery(this).empty().append('<div class="upload_success"><img class="photo_preview" src="'+responseJSON.file_url+'" width="175"/><a class="delete_button button small-button" id="btn_delete_'+responseJSON.custom_field_key+'" data-attid="'+responseJSON.file_id+'" data-context-id="'+responseJSON.context_id+'" data-context="'+responseJSON.context+'" data-custom_field_key="'+responseJSON.custom_field_key+'">x</a></div>').fadeIn();
+              jQuery(document).on('click','#btn_delete_'+responseJSON.custom_field_key, function(e){
+			    e.preventDefault();
+			    jQuery(this).empty().append('Deleting...');
+			    delete_digital_artwork_multiple(jQuery(this).data('attid'), jQuery(this).data('context'), jQuery(this).data('context-id'), jQuery(this).data('custom_field_key'));
+			});
           });
        }
     });
@@ -212,10 +309,11 @@ function loadDigitalArtwork_multiple(field_name){
 
 jQuery(document).ready(function(){
 	<?php foreach($image_fields as $image_field): ?>
-		loadDigitalArtwork_multiple('<?php echo $image_field; ?>');
-		jQuery(document).on('click','#btn_delete_<?php echo $image_field; ?>', function(e){
+		loadDigitalArtwork_multiple('<?php echo $image_field["key"]; ?>', '<?php echo $image_field["context"]; ?>', '<?php echo $staff->ID; ?>');
+		jQuery(document).on('click','#btn_delete_<?php echo $image_field["key"]; ?>', function(e){
 		    e.preventDefault();
-		    delete_digital_artwork(jQuery(this).data('attid'), jQuery(this).data('user-id'), '<?php echo $image_field; ?>');
+		    jQuery(this).empty().append('Deleting...');
+		    delete_digital_artwork_multiple(jQuery(this).data('attid'), jQuery(this).data('context'), jQuery(this).data('context-id'), jQuery(this).data('custom_field_key'));
 		});
 	<?php endforeach; ?>
 });

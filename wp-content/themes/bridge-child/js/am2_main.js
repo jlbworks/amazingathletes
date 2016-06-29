@@ -9,7 +9,7 @@
         var loc_state = null;
         var state_name = "";
 
-        loadDigitalArtwork();
+        //loadDigitalArtwork();
 
         var city_state_selects = [];
 
@@ -259,10 +259,10 @@
         
         
 
-        $(document).on('click','#btn_delete_user_photo', function(e){
+        /*$(document).on('click','#btn_delete_user_photo', function(e){
             e.preventDefault();
             delete_digital_artwork($(this).data('attid'), $(this).data('user-id'));
-        });
+        });*/
 
         $(document).on('click', 'a[href="#logout"]', function(e){
             e.preventDefault();             
@@ -619,7 +619,7 @@
     }
 
     //Delete image
-    function delete_digital_artwork(attach_id, user_id){
+    /*function delete_digital_artwork(attach_id, user_id){
        jQuery.ajax({
             url:ajax_login_object.ajaxurl,
             type:'POST',
@@ -635,9 +635,9 @@
                 });
             }
         });
-    }
+    }*/
 
-    function loadDigitalArtwork(){
+    /*function loadDigitalArtwork(){
         console.log('loadDigitalArtwork');
         if(typeof uploadOptions === 'undefined') return;
         console.log('loadDigitalArtwork continued');
@@ -651,7 +651,7 @@
               });
            }
         });
-    }                
+    }   */             
 
     function am2_alert(message, title, reload_redirect, callback){      
 

@@ -185,3 +185,15 @@ text-align: center;
     /* margin-top: 10px; */
     line-height: 100px;
 }
+
+.photo_wrap {
+    position: relative
+}
+.delete_button.small-button {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 0px 10px;
+    background: #d22626;
+    font-size: 12px;
+}

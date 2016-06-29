@@ -172,7 +172,8 @@ get_header();?>
 				}
 			}
 
-			else if($mypage == 'staff'){
+			else if($mypage == 'staff'){ print_r($_SERVER);
+
 				$staff = get_users(
 					array(
 						'role' => 'coach',
@@ -190,7 +191,7 @@ get_header();?>
 						$image_url = wp_get_attachment_image_src($user_photo, 'medium');
 						echo '<img src="'. $image_url[0] . '" style="float:left;padding:0px 10px 10px 0px;"/>';	
 					}					
-					echo $member->description;
+					echo $member->coach_description;
 					echo "</div>";
 				}
 			}

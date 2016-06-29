@@ -346,17 +346,112 @@ function am2_user_account() {
 }
 
 
+// UPLOAD SLIKA AJAX HANDLER
+add_action('wp_ajax_upload_file', 'upload_file');
+//for none logged-in users
+//add_action('wp_ajax_nopriv_orders_upload_action', 'orders_upload_action');
+function upload_file(){
+
+	$folder_path = str_replace("/wp-admin/admin-ajax.php","",$_SERVER['PHP_SELF']);
+	
+ 	require_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-load.php');
+    include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/media.php');
+    include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/file.php');
+    include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/image.php');
+
+	global $current_user;
+
+	$context = $_POST['context'];
+	if($context!='user' && $context!='post') {
+		$response['success'] = 'false';
+		$response['reason'] = 'Context is not valid';
+		echo json_encode($response);
+		exit();
+	} 
+
+	$custom_field_key = $_POST['custom_field_key'];
+	if(empty($custom_field_key)){
+		$response['success'] = 'false';
+		$response['reason'] = 'custom_field_key does not exist';
+		echo json_encode($response);
+		exit();
+	}
+
+	if(!$_FILES){
+		$response['success'] = 'false';
+		$response['reason'] = 'Files are not valid';
+		echo json_encode($response);
+		exit();
+	}
+	if(isset($_FILES['qqfile'])) {$files = $_FILES['qqfile'];}
+	
+	$upload_dir = wp_upload_dir();
+	$file_name = $files['name'];
+	$file_name = $upload_dir['path'] . '/' . basename($file_name);
+	
+	$upload_overrides = array( 'test_form' => false );
+	$file_post = wp_handle_upload($files,$upload_overrides); //Posts File
+	$file_link = $file_post['file'];
+	$file_type = wp_check_filetype(basename($file_link), null); //File Extension
+	$post_name = preg_replace('/.[^.]+$/', '', basename($file_link)); //Post Name
+	$attachment = array(
+		'guid' => $file_link,
+		'post_mime_type' => $file_type['type'],
+		'post_title' => $post_name,
+		'post_content' => '',
+		'post_status' => 'inherit'
+	);
+	$attach_id = wp_insert_attachment($attachment, $file_post['file']);
+	$attach_data = wp_generate_attachment_metadata($attach_id, $file_post['file']);
+	$attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
+	$attach_url = wp_get_attachment_image_src( $attach_id, 'medium' );
+	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);	
+
+	if(!empty($_POST['context_id'])){    	
+
+		if($context == 'user')
+			update_user_meta($_POST['context_id'], $custom_field_key, $attach_id);
+
+		if($context == 'post')
+			update_post_meta($_POST['context_id'], $custom_field_key, $attach_id);
+
+		$response['success'] = 'true';
+		$response['file_id'] = $attach_id;
+		$response['file_url'] = $attach_url[0];
+		$response['file_name'] = basename($files['name']);
+		$response['context'] = $context;
+		$response['context_id'] = $_POST['context_id'];
+		$response['custom_field_key'] = $custom_field_key;
+		$response['data'] = $_FILES;
+	}
+	else {
+		$response['success'] = 'false';
+		$response['file_id'] = $attach_id;
+		$response['file_url'] = $attach_url[0];
+		$response['file_name'] = basename($files['name']);
+		$response['context'] = $context;
+		$response['context_id'] = $_POST['context_id'];
+		$response['custom_field_key'] = $custom_field_key;
+		$response['data'] = $_FILES;
+	}	   	
+   
+    echo json_encode($response);
+    exit();
+}
+// END UPLOAD SLIKA
 
 // UPLOAD SLIKA AJAX HANDLER /****USER AVATAR****/
 add_action('wp_ajax_upload_user_photo', 'upload_user_photo');
 //for none logged-in users
 //add_action('wp_ajax_nopriv_orders_upload_action', 'orders_upload_action');
 function upload_user_photo(){
+
+	$folder_path = str_replace("/wp-admin/admin-ajax.php","",$_SERVER['PHP_SELF']);
 	
- 	require_once($_SERVER['DOCUMENT_ROOT']. '/wp-load.php');
-    include_once($_SERVER['DOCUMENT_ROOT']. '/wp-admin/includes/media.php');
-    include_once($_SERVER['DOCUMENT_ROOT']. '/wp-admin/includes/file.php');
-    include_once($_SERVER['DOCUMENT_ROOT']. '/wp-admin/includes/image.php');
+ 	require_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-load.php');
+    include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/media.php');
+    include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/file.php');
+    include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/image.php');
 
 	global $current_user;
 
@@ -409,6 +504,34 @@ function upload_user_photo(){
     exit();
 }
 // END UPLOAD SLIKA
+
+// Funkcija kojom brišemo slike spremljene u meta fieldove!
+function ajax_delete_image() {
+	$attachmentid = $_POST['attachid'];
+	wp_delete_attachment( $attachmentid, true ); // brišemo sliku
+	global $current_user;
+
+	$context = $_POST['context'];
+	$context_id = $_POST['context_id'];
+	$custom_field_key = $_POST['custom_field_key'];
+
+	$response= array();
+	$response['success'] = 'false';
+
+	if($context == 'post'){
+		delete_post_meta($context_id, $custom_field_key, $attachmentid);
+		$response['success'] = 'true';
+	}
+	if($context == 'user'){
+		delete_user_meta($context_id, $custom_field_key, $attachmentid);
+		$response['success'] = 'true';
+	}
+	
+	header("Content-Type: application/json; charset=UTF-8");
+	echo json_encode($response);
+	exit();
+}
+add_action('wp_ajax_ajax_delete_image', 'ajax_delete_image');
 
 // Funkcija kojom brišemo slike spremljene u meta fieldove!
 function ajax_delete_field() {
