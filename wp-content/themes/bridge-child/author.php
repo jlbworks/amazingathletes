@@ -172,7 +172,7 @@ get_header();?>
 				}
 			}
 
-			else if($mypage == 'staff'){ print_r($_SERVER);
+			else if($mypage == 'staff'){
 
 				$staff = get_users(
 					array(
@@ -185,11 +185,11 @@ get_header();?>
 				foreach($staff as $member){
 					$user_photo = get_field('user_photo', 'user_' . $member->ID);	
 								
-					echo "<div class=\"entry-content\">";
+					echo "<div class=\"entry-content clearfix\">";
 					echo "<h2>{$member->display_name}</h2>";
 					if($user_photo!=null){
 						$image_url = wp_get_attachment_image_src($user_photo, 'medium');
-						echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:none;padding:0px 10px 10px 0px;"/>';	
+						echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:left;padding:0px 10px 10px 0px;"/>';	
 					}					
 					echo $member->coach_description;
 					echo "</div>";
