@@ -526,7 +526,7 @@ function ajax_delete_image() {
 		delete_user_meta($context_id, $custom_field_key, $attachmentid);
 		$response['success'] = 'true';
 	}
-	
+
 	header("Content-Type: application/json; charset=UTF-8");
 	echo json_encode($response);
 	exit();
@@ -745,7 +745,7 @@ function am2_edit_staff() {
 		$status = 'error';
 	}
 
-	echo json_encode( array("message"=>"Your location was successfully $loc_verb.", 'status' => $status, 'user_id' => $user_id) );
+	echo json_encode( array("message"=>"Staff details were successfully $loc_verb.", 'status' => $status, 'user_id' => $user_id) );
 
 	exit();
 }
