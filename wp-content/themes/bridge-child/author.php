@@ -188,7 +188,7 @@ get_header();?>
 					echo "<h2>{$member->display_name}</h2>";
 					if($user_photo!=null){
 						$image_url = wp_get_attachment_image_src($user_photo, 'medium');
-						echo '<img src="'. $image_url[0] . '" class:"franchise-pic" style="float:none;padding:0px 10px 10px 0px;"/>';	
+						echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:none;padding:0px 10px 10px 0px;"/>';	
 					}					
 					echo $member->description;
 					echo "</div>";
