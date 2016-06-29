@@ -186,7 +186,7 @@ get_header();?>
 					$user_photo = get_field('user_photo', 'user_' . $member->ID);	
 								
 					echo "<div class=\"entry-content clearfix\">";
-					echo "<h2>{$member->display_name}</h2>";
+					echo "<h2>{$member->first_name} {$member->last_name}</h2>";
 					if($user_photo!=null){
 						$image_url = wp_get_attachment_image_src($user_photo, 'medium');
 						echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:left;padding:0px 10px 10px 0px;"/>';	
