@@ -114,7 +114,7 @@ function generate_image_field($field_name, $context, $context_id){
 			<label>Emergency Contact Name</label>
 			<input type="text" id="emergency_contact_name" name="emergency_contact_name" style="" value="<?php echo  $staff->emergency_contact_name; ?>"><br/>
 			
-			<label>Emergency Contact Email</label>
+			<label>Emergency Contact Number</label>
 			<input type="text" id="emergency_contact_email" name="emergency_contact_email" style="" value="<?php echo  $staff->emergency_contact_name; ?>"><br/>
 			
 			<label>Birthday</label>

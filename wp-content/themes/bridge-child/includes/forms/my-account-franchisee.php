@@ -34,7 +34,7 @@ else {
 		<label>Display Market</label>
 		<input type="text" name="display_market"  style="" value="<?php echo get_user_meta($user_id,'display_market',true); ?>"><br/>		
 
-		<label>Display Photo</label>
+		<label>Upload Provider Photo</label>
 		<div class="user_photo_wrap">
 			<?php
 			$custom_image = get_field('user_photo', 'user_' . $user_id);

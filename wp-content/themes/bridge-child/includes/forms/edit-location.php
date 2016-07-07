@@ -86,7 +86,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<label>Director Email</label>
 		<input type="text" name="email"  style="" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>
 
-		<label>Website</label>
+		<label>Location Website</label>
 		<input type="text" name="website"  style="" value="<?php echo get_post_meta($loc_id, 'website', true); ?>"><br/>
 
 		<label>Location Contact Name *</label>
