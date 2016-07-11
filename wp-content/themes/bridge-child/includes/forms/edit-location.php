@@ -9,7 +9,7 @@ if (!empty($_GET['loc_id'])) {
 	if (!empty($pmeta['city__state'][0])) {
 		$city_state = explode('|', $pmeta['city__state'][0]);
 	}
-	
+
 	$location = get_post($loc_id);
 
 	$classes = get_posts(array(
@@ -21,9 +21,9 @@ if (!empty($_GET['loc_id'])) {
 			array(
 				'key'	=> 'location_id',
 				'value'	=> $location->ID,
-			)			
+			)
 		)
-	));	
+	));
 }
 
 if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['add'])) { ?>
@@ -47,7 +47,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 
 		<label>Location Name *</label>
 		<input type="text" name="location_name"  style="" value="<?php echo get_the_title($loc_id); ?>" required><br/>
-		
+
 		<div class="form--section">
 
 			<h2>Location Address</h2>
@@ -65,7 +65,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 					foreach ($states_db AS $state) {?>
 						<option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
 						<?php }
-				
+
 				} ?>
 			</select>
 
@@ -78,7 +78,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 			<label>Zip *</label>
 			<input type="text" name="zip"  size="10" value="<?php echo get_post_meta($loc_id, 'zip', true); ?>" required><br/>
 		</div>
-	
+
 		<label>Zip area covered</label>
 		<input type="text" name="zip_areas"  size="10" value="<?php echo get_post_meta($loc_id, 'zip_areas', true); ?>" ><br/>
 		<p class="helper-text--small">Please enter all zip codes covered by this location. This will be used in the front end locatons page where we allow customers to search by zip code.</p>
@@ -91,7 +91,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 
 		<label>Location Contact Name *</label>
 		<input type="text" name="location_contact_name"  style="" value="<?php echo get_post_meta($loc_id, 'location_contact_name', true); ?>" required><br/>
-		
+
 		<label>Location Contact Number *</label>
 		<input type="text" name="location_contact_number"  size="20" value="<?php echo get_post_meta($loc_id, 'telephone', true); ?>" required><br/>
 
@@ -111,10 +111,10 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 
 <?php if(!empty($loc_id)) { ?>
 	<hr>
-	<br>		
-	<div>		
+	<br>
+	<div>
 		<h1 class="title-align">Classes</h1>
-		<a href="?looc_id=<?php echo $loc_id; ?>&add-class=1" class="button add_new_class">Add new class</a>		
+		<a href="?looc_id=<?php echo $loc_id; ?>&add-class=1" class="button add_new_class">Add new class</a>
 		<?php if(empty($classes)): ?>
 			<p>No classes found...</p>
 		<?php else: ?>
@@ -127,28 +127,41 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 					<th>Type</th>
 					<th>Coach Pay scale</th>
 					<th>Payment Information</th>
-					<th>Length</th>
+					<!--<th>Length</th>-->
 					<th>Ages</th>
 					<th>Actions</th>
 				</tr>
-				<?php foreach ($classes as $c): 
-					$classes_meta = get_post_meta($c->ID);					
+				<?php foreach ($classes as $c):
+					$classes_meta 	= get_post_meta($c->ID);
+					$class_type 	= am2_get_meta_value('type',	$classes_meta);
+					$has_date 		= array('Demo', 'Parent-Pay Session', 'Camp', 'Event');
+					$has_day 		= array('Parent-Pay Monthly', 'Annual Contract');
+					$when 			= '';
+
+					if (in_array($class_type, $has_date)) {
+						$when = am2_get_meta_value('date', 	$classes_meta);
+					}
+
+					if (in_array($class_type, $has_day)) {
+						$when = am2_get_meta_value('day', 	$classes_meta);
+					}
+
 				?>
 				<tr>
-					<td><?php echo am2_get_meta_value('day', 	$classes_meta); ?></td>
+					<td><?php echo $when; ?></td>
 					<td><?php echo am2_get_meta_value('time', 	$classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('program', 	$classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('type', 	$classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('coach_pay_scale', 	$classes_meta); ?></td>
 					<td><?php echo am2_get_meta_value('class_paynent_information', 	$classes_meta); ?></td>
-					<td><?php echo am2_get_meta_value('length', $classes_meta); ?></td>
+					<!--<td><?php /*echo am2_get_meta_value('length', $classes_meta);*/ ?></td>-->
 					<td><?php echo am2_get_meta_value('ages', 	$classes_meta); ?></td>
 					<td><a href="?looc_id=<?php echo $loc_id; ?>&class_id=<?php echo $c->ID; ?>&add-class=1">Edit</a> <a href="?looc_id=<?php echo $loc_id; ?>&class_id=<?php echo $c->ID; ?>&add-class=1&confirm_delete=1">Delete</a></td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
-		</table>	
-		<?php endif; ?>					
+		</table>
+		<?php endif; ?>
 	</div>
 <?php } ?>
 
