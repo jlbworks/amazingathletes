@@ -678,8 +678,6 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 			}
 
 			function changeTo(target_id, section) {
-				console.log('target_id: '+target_id);
-				console.log('section: '+section);
 
 				if ('class-schedule-type' == section) {
 					disableDay(target_id, section);
