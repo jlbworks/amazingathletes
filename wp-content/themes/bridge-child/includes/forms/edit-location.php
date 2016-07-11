@@ -134,6 +134,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 				<?php foreach ($classes as $c):
 					$classes_meta 	= get_post_meta($c->ID);
 					$class_type 	= am2_get_meta_value('type',	$classes_meta);
+					$stype 			= am2_get_meta_value('schedule_type',	$classes_meta);
 					$has_date 		= array('Demo', 'Parent-Pay Session', 'Camp', 'Event');
 					$has_day 		= array('Parent-Pay Monthly', 'Annual Contract');
 					$when 			= '';
@@ -145,6 +146,13 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 					if (in_array($class_type, $has_day)) {
 						$when = am2_get_meta_value('day', 	$classes_meta);
 					}
+
+					if ('Yearly' == $stype) {
+						$Y = date('Y');
+						$when = date("$Y/m/d", strtotime(am2_get_meta_value('date_every_year', 	$classes_meta)));
+					}
+
+					//$when = am2_get_meta_value('date_every_year', 	$classes_meta);
 
 				?>
 				<tr>

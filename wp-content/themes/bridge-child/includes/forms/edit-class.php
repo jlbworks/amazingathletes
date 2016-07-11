@@ -788,11 +788,11 @@ jQuery(document).ready(function(){
 	});
 	jQuery('.datepicker').datetimepicker({
 		  timepicker:false,
-  		  format:'d/m/Y'
+  		  format:'Y/m/d'
 	});
 	jQuery('.datepicker_noyear').datetimepicker({
 		  timepicker:false,
-  		  format:'d/m/Y'
+  		  format:'Y/m/d'
 	});
 
 
