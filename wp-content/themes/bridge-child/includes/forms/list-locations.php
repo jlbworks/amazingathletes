@@ -14,16 +14,16 @@ $locations = get_posts(
 
 	<div class="state">
 		<ul class="locations">
-		<?php 
+		<?php
 		foreach ($locations as $key => $loc):
-			$meta = get_post_meta($loc->ID);        
+			$meta = get_post_meta($loc->ID);
 			$franchisee = get_post_field( 'post_author', $loc->ID );
 			$city_state = get_post_meta($loc->ID, 'city__state', true);
 			$city_state = !empty($city_state) ? explode('|', $city_state) : array('','');
 
 			foreach($meta as $key => $val){
 				$meta[$key] = $val[0];
-			}			
+			}
 
 			$meta_franchisee = get_user_meta($franchisee);
 
@@ -36,9 +36,11 @@ $locations = get_posts(
 					array(
 						'key'	=> 'location_id',
 						'value'	=> $loc->ID,
-					)			
+					)
 				)
 			));
+
+			//var_dump($classes);
 
 			foreach($meta_franchisee as $key => $val){
 				$meta_franchisee[$key] = $val[0];
@@ -53,8 +55,8 @@ $locations = get_posts(
 						<input type="hidden" name="loc_id" value="<?php echo $loc->ID; ?>"/>
 						<input class="delete-btn" type="submit" data-button="delete" value="Delete"/>
 					</form>
-					
-				<ul class="franchise_details">					
+
+				<ul class="franchise_details_visible">
 				<?php foreach($classes as $c){?>
 				<li>
 					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array($c->time, $c->day, $c->type) ); ?></a>
