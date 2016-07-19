@@ -1,4 +1,5 @@
 <?php
+require_once 'includes/functions-am2.php';
 require_once 'includes/functions-assets.php';
 require_once 'includes/functions-cpt.php';
 require_once 'includes/functions-thumbnails.php';
@@ -35,6 +36,12 @@ function remove_admin_bar() {
 
 // enqueue the child theme stylesheet
 function wp_schools_enqueue_scripts() {
+	//wp_deregister_script( 'jquery' );
+	//wp_deregister_script( 'jquery-migrate' );
+
+	//wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js');
+	//wp_register_script( 'jquery-migrate', 'https://code.jquery.com/jquery-migrate-1.3.0.js', array('jquery'));
+	//wp_enqueue_script( 'jquery-migrate');
 
 	wp_register_style('childstyle', get_stylesheet_directory_uri() . '/style.css');
 	wp_enqueue_style('childstyle');
@@ -42,17 +49,20 @@ function wp_schools_enqueue_scripts() {
 	wp_register_style('style-am2', get_stylesheet_directory_uri() . '/style-am2.css');
 	wp_enqueue_style('style-am2');
 
-	wp_register_script('jquery', get_stylesheet_directory_uri() . '/js/jquery-1.12.3.min.js');
-	wp_enqueue_script('jquery');
+	//wp_register_script('jquery', get_stylesheet_directory_uri() . '/js/jquery-1.12.3.min.js');
+	//wp_enqueue_script('jquery');
 
 	wp_register_script('jquery.validate', get_stylesheet_directory_uri() . '/js/jquery.validation/jquery.validate.min.js');
-	wp_enqueue_script('jquery.validate');
+	wp_enqueue_script('jquery.validate');	
     
 }
 add_action('wp_enqueue_scripts', 'wp_schools_enqueue_scripts', 11);
 
 function am2_init() {
-	global $wpdb;
+	global $wpdb;	
+
+	wp_enqueue_script( 'wp-util' );
+
 	wp_register_style('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.css');
 	wp_enqueue_style('selectize');
 	
@@ -92,7 +102,7 @@ function am2_init() {
 	wp_enqueue_script('jquery.timepicker');	
 
 	wp_register_script('jquery.datepicker', get_stylesheet_directory_uri() . '/js/jquery.datetimepicker.min.js' , array('jquery'), '', true);	
-	wp_enqueue_script('jquery.datepicker');
+	wp_enqueue_script('jquery.datepicker');	
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
 	wp_localize_script('am2_main', 'ajax_login_object', array(

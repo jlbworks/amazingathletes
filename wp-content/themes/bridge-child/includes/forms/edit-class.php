@@ -34,7 +34,7 @@ $fieldsToGet = array(
 		'parent_pay_monthly_classes_monthly',
 		'parent_pay_session_registration_fee',
 		'parent_pay_session_session_tuition',
-		'parent_pay_sessions_weeks_in_session',
+		'parent_pay_session_weeks_in_session',
 		'contract_or_event',
 		'contracts_events_type',
 		'amount_earned_per_class',
@@ -228,7 +228,7 @@ if (isset($_POST['looc_id'])) {
 
 	update_post_meta($class_id, 'parent_pay_session_registration_fee', 		$_POST['parent_pay_session_registration_fee']);
 	update_post_meta($class_id, 'parent_pay_session_session_tuition', 		$_POST['parent_pay_session_session_tuition']);
-	update_post_meta($class_id, 'parent_pay_sessions_weeks_in_session', 		$_POST['parent_pay_sessions_weeks_in_session']);
+	update_post_meta($class_id, 'parent_pay_session_weeks_in_session', 		$_POST['parent_pay_session_weeks_in_session']);
 
 	update_post_meta($class_id, 'contracts_events_type', 		$_POST['contracts_events_type']);
 	update_post_meta($class_id, 'contract_or_event', 		$_POST['contract_or_event']);
@@ -291,7 +291,7 @@ $parent_pay_monthly_monthly_tuition 	= false;
 $parent_pay_monthly_classes_monthly 	= false;
 $parent_pay_session_registration_fee 	= false;
 $parent_pay_session_session_tuition 	= false;
-$parent_pay_sessions_weeks_in_session 	= false;
+$parent_pay_session_weeks_in_session 	= false;
 
 $contract_or_event 					= false;
 $contracts_events_type 				= false;
@@ -327,7 +327,7 @@ if (isset($location_class)) {
 
 	$parent_pay_session_registration_fee 	= am2_get_meta_value('parent_pay_session_registration_fee', 	$location_class_meta);
 	$parent_pay_session_session_tuition 	= am2_get_meta_value('parent_pay_session_session_tuition', 	$location_class_meta);
-	$parent_pay_sessions_weeks_in_session 	= am2_get_meta_value('parent_pay_sessions_weeks_in_session', 	$location_class_meta);
+	$parent_pay_session_weeks_in_session 	= am2_get_meta_value('parent_pay_session_weeks_in_session', 	$location_class_meta);
 
 	$contract_or_event 					= am2_get_meta_value('contract_or_event', 	$location_class_meta);
 	$contracts_events_type 				= am2_get_meta_value('contracts_events_type', 	$location_class_meta);
@@ -506,21 +506,21 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 				<div id="parent_pay_monthly" data-section="class-costs" style="display:none;">
 
 					<label>Registration Fee</label>
-					<input type="text" name="registration_fee" value="<?php echo $registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="parent_pay_monthly_registration_fee" value="<?php echo $parent_pay_monthly_registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label>Monthly Tuition</label>
-					<input type="text" name="monthly_tuition" value="<?php echo $monthly_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="parent_pay_monthly_monthly_tuition" value="<?php echo $parent_pay_monthly_monthly_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label># Classes Monthly</label>
-					<input type="text" name="classes_monthly" value="<?php echo $classes_monthly; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="parent_pay_monthly_classes_monthly" value="<?php echo $parent_pay_monthly_classes_monthly;  ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 				</div>
 				<div id="parent_pay_session" data-section="class-costs" style="display:none;">
 
 					<label>Registration Fee</label>
-					<input type="text" name="registration_fee" value="<?php echo $registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="parent_pay_session_registration_fee" value="<?php echo $parent_pay_session_registration_fee; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label>Session Tuition</label>
-					<input type="text" name="session_tuition" value="<?php echo $session_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="parent_pay_session_session_tuition" value="<?php echo $parent_pay_session_session_tuition; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 					<label>Weeks In Session</label>
-					<input type="text" name="weeks_in_session" value="<?php echo $weeks_in_session; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="parent_pay_session_weeks_in_session" value="<?php echo $parent_pay_session_weeks_in_session; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 				</div>
 				<div id="contracts_events" data-section="class-costs" style="display:none;">

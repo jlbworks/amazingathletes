@@ -24,6 +24,35 @@
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo esc_url($qode_options_proya['favicon_image']); ?>">
 	<link rel="apple-touch-icon" href="<?php echo esc_url($qode_options_proya['favicon_image']); ?>"/>
+
+<!--<script type="text/html" id="tmpl-payment-options">
+    <select class="payment_options">
+        <option value="personal_check_of_cash_payment">Personal Check or Cash Payments</option>
+        <option value="one_time_credit_card_payment">Personal Check or Cash Payments</option>
+        <option value="recurring_credit_card_payments">Personal Check or Cash Payments</option>
+    </select>
+    <div class="payment_details">
+        <div class="personal_check_of_cash_payment hidden">
+            Thank you for enrolling your child in Amazing Athletes! Complete your enrollment by leaving a personal check for “{{data.amount_due}}” made out to {{data.franchise_name}} at your child’s class location. Please be sure to put your child’s first and last name in the notes section.
+            If you have any questions regarding this payment, please don’t hesitate to contact {{data.contact_name}} at {{data.contact_number}} or {{data.contact_email}}.
+        </div>
+        <div class="one_time_credit_card_payment hidden">
+            Thank you for enrolling your child in Amazing Athletes! By selecting One-Time Credit Card Payment, you agree to be charged immediately for your selected program ({{data.program_cost}}) and the annual registration fee ({{data.registration_fee}}). 
+            Complete your enrollment by clicking “Make a One-Time Payment” below.  
+            If you have any questions regarding this payment, please don’t hesitate to contact {{data.contact_name}} at {{data.contact_number}} or {{data.contact_email}}.
+            <br/>
+            <a href="{{data.payment_link_onetime}}">New Student One-Time Payment</a>
+        </div>
+        <div class="recurring_credit_card_payments hidden">
+            Thank you for enrolling your child in Amazing Athletes! By selecting auto-pay you agree to be charged immediately for your selected program ({{data.program_cost}}) and the annual registration fee ({{data.registration_fee}}). You will then be charged again for just the monthly tuition ({{data.program_cost}}) on the 1st of every month until a 2-week written notice is received to cancel the auto-pay.
+            Complete your enrollment by clicking “Enrolling in Auto-Pay” below.  
+            If you have any questions regarding this payment, please don’t hesitate to contact {{data.contact_name}} at {{data.contact_number}} or {{data.contact_email}}.
+            <br/>
+            <a href="{{data.payment_link_auto}}">New Student Auto-Pay</a> 
+        </div>
+    </div> 
+</script>-->
+
 	<?php wp_head(); ?>
 </head>
 
