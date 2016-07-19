@@ -63,6 +63,8 @@ $fieldsToGet = array(
 		'recurring_credit_card_payments_url',
 		'external_registration_url',
 		'special_event_title',
+		'enable_kickback',
+	    'kickback'
 	);
 
 ?>
@@ -776,7 +778,8 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 		<label>Ages</label>
 		<input type="text" name="ages" value="<?php echo $class_ages; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 */ ?>
-		<label>Choose Coach</label>
+	<div class="form--section">
+		<h2>Choose Coach</h2>
 		<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" style="" multiple="multiple">
 			<option value="">Select a coach...</option>
 			<?php
@@ -801,6 +804,18 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 			<input type="text" id="coach_email" /><br/>
 			<a class="btn_add_coach">Add</a>
 		</div><br/><br/>
+	</div>
+
+	<div class="form--section">
+		<h2>Kickback</h2>
+
+		<label>Enable Kickback</label>
+		<?php $enable_kickback = get_post_meta($class_id, 'enable_kickback', true) == 'yes'; ?>
+		<label><input type="radio" name="enable_kickback"  style="" value="yes" <?php echo ($enable_kickback ? 'checked' : '' ) ?>>yes</label><label><input type="radio" name="enable_kickback"  style="" value="no" <?php echo (!$enable_kickback ? 'checked' : '' ) ?>>no</label><br/>
+
+		<label>Kickback %</label>
+		<input type="text" name="kickback"  style="" value="<?php echo get_post_meta($class_id, 'kickback', true); ?>"><br/>
+	</div>
 
 		<input type="hidden" name="looc_id" value="<?php echo $loc_id; ?>">
 		<input type="hidden" name="class_id" value="<?php echo !empty($class_id) ? $class_id : ''; ?>">
