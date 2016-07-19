@@ -61,6 +61,10 @@ $fieldsToGet = array(
 		'payment_options',
 		'one_time_credit_card_payment_url',
 		'recurring_credit_card_payments_url',
+		'external_registration_url',
+		'special_event_title',
+		'enable_kickback',
+	    'kickback'
 	);
 
 ?>
@@ -368,6 +372,15 @@ $possible_class_costs = array(
 
 
 global $class_programs, $class_types, $coach_pay_scales, $class_payment_informations;
+
+$coaches = get_users(array(
+	'role' 			=> 'coach',
+	'meta_key'		=> 'franchisee',
+	'meta_value' 	=> $user->ID,
+));
+
+$sel_coaches = get_post_meta($class_id, 'coaches', true);
+
 ?>
 <div class="user_form" style="margin-top:0">
 	<a href="<?php echo site_url();?>/my-account/locations/?loc_id=<?php echo $location->ID; ?>" class="button">Back</a>
@@ -398,7 +411,7 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 		</select>*/ ?>
 
 		<label>Program</label>
-		<select name="program" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+		<select id="program" name="program" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 			<?php foreach ($class_programs as $_class):
 				$if_class_selected = '';
 				if ($_class == $class_program) {
@@ -408,6 +421,18 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 			<option <?php echo $if_class_selected; ?>><?php echo $_class; ?></option>
 			<?php endforeach ?>
 		</select>
+
+		<span id="special_event_title"
+			<?php if ('Special Event' == $class_program): ?>
+						style="display:block"
+					<?php else: ?>
+						style="display:none"
+					<?php endif; ?>>
+			<label>Special Event Title:</label>
+			<input 	type="text"
+					name="special_event_title"
+					value="<?php echo $values['special_event_title']; ?>">
+		</span>
 
 		<div class="form--section">
 			<h2>Scheduler (Settings depend on Class Type)</h2>
@@ -485,17 +510,31 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 			</div>
 		</div>
 
-		<label>Registration Option</label>
-		<select name="registration_option" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
-			<?php foreach ($possible_registration_options as $registration_option):
-				$if_selected = '';
-				if ($registration_option == $class_registration_option) {
-					$if_selected = "selected=selected";
-				}
-			?>
-			<option <?php echo $if_selected; ?>><?php echo $registration_option; ?></option>
-			<?php endforeach ?>
-		</select>
+		<div class="form--section">
+			<h2>Registration Option</h2>
+			<select id="class-registration-options" name="registration_option" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+				<?php foreach ($possible_registration_options as $registration_option):
+					$if_selected = '';
+					if ($registration_option == $class_registration_option) {
+						$if_selected = "selected=selected";
+					}
+				?>
+				<option <?php echo $if_selected; ?>><?php echo $registration_option; ?></option>
+				<?php endforeach ?>
+			</select>
+
+			<span id="external_registration_url"
+				<?php if ('3rd Party Registrations' == $class_registration_option): ?>
+							style="display:block"
+						<?php else: ?>
+							style="display:none"
+						<?php endif; ?>>
+				<label>3rd Party Registration URL:</label>
+				<input 	type="text"
+						name="external_registration_url"
+						value="<?php echo $values['external_registration_url']; ?>">
+			</span>
+		</div>
 
 		<div class="form--section">
 			<h2>Class Costs</h2>
@@ -739,14 +778,11 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 		<label>Ages</label>
 		<input type="text" name="ages" value="<?php echo $class_ages; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 */ ?>
-		<label>Choose Coach</label>
-		<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" required style="" multiple="multiple">
+	<div class="form--section">
+		<h2>Choose Coach</h2>
+		<select name="coaches[]"  placeholder="Select a coach..." class="am2_coaches" style="" multiple="multiple">
 			<option value="">Select a coach...</option>
 			<?php
-
-			$coaches = get_users( array('role' => 'coach') );
-			$sel_coaches = get_post_meta($class_id, 'coaches', true);
-
 			if(!is_array($sel_coaches)) {
 				$sel_coaches = array();
 			}
@@ -768,6 +804,18 @@ global $class_programs, $class_types, $coach_pay_scales, $class_payment_informat
 			<input type="text" id="coach_email" /><br/>
 			<a class="btn_add_coach">Add</a>
 		</div><br/><br/>
+	</div>
+
+	<div class="form--section">
+		<h2>Kickback</h2>
+
+		<label>Enable Kickback</label>
+		<?php $enable_kickback = get_post_meta($class_id, 'enable_kickback', true) == 'yes'; ?>
+		<label><input type="radio" name="enable_kickback"  style="" value="yes" <?php echo ($enable_kickback ? 'checked' : '' ) ?>>yes</label><label><input type="radio" name="enable_kickback"  style="" value="no" <?php echo (!$enable_kickback ? 'checked' : '' ) ?>>no</label><br/>
+
+		<label>Kickback %</label>
+		<input type="text" name="kickback"  style="" value="<?php echo get_post_meta($class_id, 'kickback', true); ?>"><br/>
+	</div>
 
 		<input type="hidden" name="looc_id" value="<?php echo $loc_id; ?>">
 		<input type="hidden" name="class_id" value="<?php echo !empty($class_id) ? $class_id : ''; ?>">
@@ -788,13 +836,36 @@ jQuery(document).ready(function(){
 	});
 	jQuery('.datepicker').datetimepicker({
 		  timepicker:false,
-  		  format:'Y/m/d'
+  		  format:'m/d/Y'
 	});
 	jQuery('.datepicker_noyear').datetimepicker({
 		  timepicker:false,
-  		  format:'Y/m/d'
+  		  format:'m/d/Y'
 	});
+});
 
+jQuery(document).on('change', '#class-registration-options', function () {
+	var $self = jQuery(this),
+		$external_registration_url = jQuery('#external_registration_url');
+
+	if ('3rd Party Registrations' === $self.val()) {
+		$external_registration_url.show();
+	} else {
+		$external_registration_url.hide();
+	}
 
 });
+
+jQuery(document).on('change', '#program', function () {
+	var $self = jQuery(this),
+		$external_registration_url = jQuery('#special_event_title');
+
+	if ('Special Event' === $self.val()) {
+		$external_registration_url.show();
+	} else {
+		$external_registration_url.hide();
+	}
+
+});
+
 </script>

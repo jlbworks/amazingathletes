@@ -95,13 +95,6 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<label>Location Contact Number *</label>
 		<input type="text" name="location_contact_number"  size="20" value="<?php echo get_post_meta($loc_id, 'telephone', true); ?>" required><br/>
 
-		<label>Enable Kickback</label>
-		<?php $enable_kickback = get_post_meta($loc_id, 'enable_kickback', true) == 'yes';?>
-		<label><input type="radio" name="enable_kickback"  style="" value="yes" <?php echo ($enable_kickback ? 'checked' : '' ) ?>>yes</label><label><input type="radio" name="enable_kickback"  style="" value="no" <?php echo (!$enable_kickback ? 'checked' : '' ) ?>>no</label><br/>
-
-		<label>Kickback %</label>
-		<input type="text" name="kickback"  style="" value="<?php echo get_post_meta($loc_id, 'kickback', true); ?>"><br/>
-
 		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/>*/?>
 		<input type="hidden" name="loc_id" value="<?php echo $loc_id; ?>"/>
 		<input type="hidden" name="action" value="am2_edit_location" />

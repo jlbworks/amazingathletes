@@ -6,12 +6,12 @@ var class_costs = {
 };
 
 (function($){
-    $(document).ready(function(){   
+    $(document).ready(function(){
 
         var xhr;
         var select_state, $select_state;
         var select_city, $select_city;
-        var val_city ;   
+        var val_city ;
         var ajax_talking = false;
         var loc_state = null;
         var state_name = "";
@@ -29,12 +29,12 @@ var class_costs = {
 
 	            	if(link == url){
 	            		$(this).addClass('current');
-	            	}	
+	            	}
             	}
             	catch(exc){}
             });
         }
-        
+
         try{
             var myId = getVideoId(author_object.video_url);
             console.log(myId);
@@ -76,18 +76,18 @@ var class_costs = {
             }
         });
 
-        $select_city = $('.am2_cc_city').selectize({            
+        $select_city = $('.am2_cc_city').selectize({
             valueField: 'name',
             labelField: 'name',
             searchField: ['name'],
-            maxItems:1      
-        });  
+            maxItems:1
+        });
 
-        $select_coaches = $('.am2_coaches').selectize({   
+        $select_coaches = $('.am2_coaches').selectize({
             multiple:true,
-            maxItems:null,        
-            
-        });   
+            maxItems:null,
+
+        });
 
         if($select_city.length > 0 && $select_state.length > 0){
             select_city  = $select_city[0].selectize;
@@ -123,7 +123,7 @@ var class_costs = {
                             callback();
                         }
                     })
-                });        
+                });
             }
 
             $select_state.on('change', function(){
@@ -140,28 +140,28 @@ var class_costs = {
         });
 
         $('#frm_edit_mypage').ajaxForm({
-          beforeSubmit: function() {            
-            am2_show_preloader();            
+          beforeSubmit: function() {
+            am2_show_preloader();
             return true; //$('#frm_edit_mypage').valid();
           },
           success: function(resp) {
-            am2_hide_preloader();            
+            am2_hide_preloader();
             alert(resp.status);
-            if(typeof (resp.post_id) != 'undefined' && resp.post_id != 0) {                
+            if(typeof (resp.post_id) != 'undefined' && resp.post_id != 0) {
                 window.location.href = updateQueryStringParameter(window.location.href, 'post_id', resp.post_id );
             }
           },
           error: function() {
             am2_hide_preloader();
           }
-        });     
+        });
 
         $('#frm_franchisee_account').validate({ rules: {
-    
-        }});        
+
+        }});
 
         $('#frm_franchisee_account').ajaxForm({
-          beforeSubmit: function() {            
+          beforeSubmit: function() {
             am2_show_preloader();
             return $('#frm_franchisee_account').valid();
           },
@@ -172,7 +172,7 @@ var class_costs = {
           error: function() {
             am2_hide_preloader();
           }
-        });     
+        });
 
         $('#frm_user_account').validate({ rules: {
             //password: "",
@@ -189,8 +189,8 @@ var class_costs = {
         }});
 
         $('#frm_user_password').ajaxForm({
-          beforeSubmit: function() {    
-            am2_show_preloader();        
+          beforeSubmit: function() {
+            am2_show_preloader();
             return $('#frm_user_password').valid();
           },
           success: function(resp) {
@@ -200,11 +200,11 @@ var class_costs = {
           error: function() {
             am2_hide_preloader();
           }
-        });   
+        });
 
         $('#frm_user_account').ajaxForm({
-          beforeSubmit: function() {    
-            am2_show_preloader();        
+          beforeSubmit: function() {
+            am2_show_preloader();
             return $('#frm_user_account').valid();
           },
           success: function(resp) {
@@ -214,12 +214,12 @@ var class_costs = {
           error: function() {
             am2_hide_preloader();
           }
-        });   
+        });
 
         $('#frm_edit_location').validate({ /* ... */ });
 
         $('#frm_edit_location').ajaxForm({
-          beforeSubmit: function() {            
+          beforeSubmit: function() {
             am2_show_preloader();
             return $('#frm_edit_location').valid();
           },
@@ -231,15 +231,15 @@ var class_costs = {
           error: function() {
             am2_hide_preloader();
           }
-        });        
+        });
 
         $('#frm_edit_location [name="address"], #frm_edit_location [name="city"], #frm_edit_location [name="state"], #frm_edit_location [name="zip"]').on('change', function(){
-            $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()),function(res){                
-                console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());                
+            $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()),function(res){
+                console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());
                 if(typeof res != 'undefined' && typeof res.results != 'undefined' && res.length > 0){
-                    $('.latlng').val(res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng);    
-                    initMap();     
-                }                
+                    $('.latlng').val(res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng);
+                    initMap();
+                }
             });
         });
 
@@ -248,7 +248,7 @@ var class_costs = {
             e.preventDefault();
             if (confirm('Are you sure?')) {
                 $('[data-form="frm_delete_location"]').ajaxSubmit({
-                  beforeSubmit: function() {            
+                  beforeSubmit: function() {
                     am2_show_preloader();
                     return $('[data-form="frm_delete_location"]').valid();
                   },
@@ -260,11 +260,11 @@ var class_costs = {
                   error: function() {
                     am2_hide_preloader();
                   }
-                }); 
+                });
             }
         });
-        
-        
+
+
 
         /*$(document).on('click','#btn_delete_user_photo', function(e){
             e.preventDefault();
@@ -272,25 +272,25 @@ var class_costs = {
         });*/
 
         $(document).on('click', 'a[href="#logout"]', function(e){
-            e.preventDefault();             
-            
-            if(ajax_talking) return;    
+            e.preventDefault();
+
+            if(ajax_talking) return;
 
             $.post(ajax_login_object.ajaxurl, {action: 'am2_logout'}, function(resp){
                 if(resp=='adios!'){
-                    $('#login_box').addClass('logged_out').removeClass('logged_in');  
-                    
-                    am2_alert('You have logged out successfully. Bye!', 'Log out', true);               
+                    $('#login_box').addClass('logged_out').removeClass('logged_in');
+
+                    am2_alert('You have logged out successfully. Bye!', 'Log out', true);
                 }
                 ajax_talking = false;
             });
             ajax_talking = true;
-        });    
+        });
 
         $('#frm_login').validate({
             rules: {
                 'username': { required: true },
-                'password' : { required : true }            
+                'password' : { required : true }
             },
             /*errorPlacement: function(error, element) {
                 element.siblings(".error").html(error);
@@ -298,21 +298,21 @@ var class_costs = {
             debug: true
         });
 
-        $('#frm_login').on("submit", function(){                        
+        $('#frm_login').on("submit", function(){
             if(!$(this).valid()) return;
             if(ajax_talking) return;
 
-            var serialized_form = $(this).serialize();              
+            var serialized_form = $(this).serialize();
 
             $.post(ajax_login_object.ajaxurl, serialized_form, function(resp){
                 if(resp.loggedin){
-                    $('#login_box').addClass('logged_in').removeClass('logged_out');                        
-                    
+                    $('#login_box').addClass('logged_in').removeClass('logged_out');
+
                     am2_alert("You have logged in successfully. Welcome!", "Log in", resp.redirect);
-                    
+
                 } else {
                     am2_alert(resp.message, "Log in", false);
-                    
+
                 }
                 console.log(resp);
                 ajax_talking = false;
@@ -329,8 +329,8 @@ var class_costs = {
             if(ajax_talking) return;
 
             $.post(ajax_login_object.ajaxurl, {action: 'ajax_forgotPassword', forgot_password: $('#forgot_password').val()}, function(resp){
-                if(resp.success){       
-                    $(".forgot_password_wrap").slideToggle();   
+                if(resp.success){
+                    $(".forgot_password_wrap").slideToggle();
                 }
 
                 alert(resp.message);
@@ -354,15 +354,21 @@ var class_costs = {
 
             if(!isValidEmailAddress($.trim($('#coach_email').val())) ){
                 alert("Please enter a valid email address");
-                return;   
+                return;
             }
 
-            $.post(ajax_login_object.ajaxurl, {action: 'am2_add_coach', first_name: $('#first_name').val(), last_name: $('#last_name').val(), coach_email: $('#coach_email').val(), loc_id: $('[name="loc_id"]').val() }, function(resp){
+            $.post(ajax_login_object.ajaxurl, {
+                action    : 'am2_add_coach',
+                first_name: $('#first_name').val(),
+                last_name : $('#last_name').val(),
+                coach_email: $('#coach_email').val(),
+                loc_id: $('[name="looc_id"]').val()
+            }, function(resp) {
                 if(resp.status == 'success') {
 
                     alert('Successfully added coach');
 
-                    var select_coaches = $select_coaches[0].selectize;                    
+                    var select_coaches = $select_coaches[0].selectize;
                     select_coaches.addOption({value: resp.user_id, text: $('#first_name').val() + ' ' + $('#last_name').val()});
                     select_coaches.addItem(resp.user_id);
                     select_coaches.refreshOptions();
@@ -373,10 +379,10 @@ var class_costs = {
                 }
             });
          });
-        
+
         $('#frm_edit_staff').validate({ /* ... */ });
         $('#frm_edit_staff').ajaxForm({
-          beforeSubmit: function() {            
+          beforeSubmit: function() {
             am2_show_preloader();
             return $('#frm_edit_staff').valid();
           },
@@ -400,25 +406,25 @@ var class_costs = {
 
             if(!isValidEmailAddress($.trim($('#coach_email').val())) ){
                 alert("Please enter a valid email address");
-                return;   
+                return;
             }
 
-            $.post(ajax_login_object.ajaxurl, 
+            $.post(ajax_login_object.ajaxurl,
                 {
-                action: $(this).find('[name="action"]').val(), 
-                first_name: $('#first_name').val(), 
-                last_name: $('#last_name').val(), 
-                coach_email: $('#coach_email').val(), 
-                coach_description: $('#coach_description').val(), 
+                action: $(this).find('[name="action"]').val(),
+                first_name: $('#first_name').val(),
+                last_name: $('#last_name').val(),
+                coach_email: $('#coach_email').val(),
+                coach_description: $('#coach_description').val(),
                 user_id: $('#user_id').val(),
                 attid: $('#btn_delete_user_photo').data('attid')
-                }, 
-                
+                },
+
                 function(resp){
                 if(resp.status == 'success') {
 
                     alert('Successfully edited staff member');
-            
+
                 } else {
                     alert('Error');
                 }
@@ -440,8 +446,8 @@ var class_costs = {
             );
 
             $('#frmFilterMap').on('submit', function(e){
-                e.preventDefault();                
-                
+                e.preventDefault();
+
                 am2_show_preloader();
                 $.get(ajax_login_object.ajaxurl, $(this).serialize(), function(resp){
                     am2_hide_preloader();
@@ -451,10 +457,10 @@ var class_costs = {
 
                     $('.dynamic-locaion-content .list .state').html(init);
 
-                    $.each(resp, function(k,v){                        
+                    $.each(resp, function(k,v){
 	                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
-		                $.each(v, function(k2,v2){                        
+		                $.each(v, function(k2,v2){
 		                	$li_child = $('<li class="franchise"></li>');
 		                	$li_child.append('<a>'+v2.meta.post_title+'</a>');
 		                	$li_child.append(
@@ -465,19 +471,19 @@ var class_costs = {
 			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
 		                	'</div>'
 		                	);
-		                    
-		                    $ul_child.append($li_child);
-		                });                      
 
-		                $('.dynamic-locaion-content .list .state').append($ul_child);                        
+		                    $ul_child.append($li_child);
+		                });
+
+		                $('.dynamic-locaion-content .list .state').append($ul_child);
 		            });
                     $('.dynamic-locaion-content .list .state .locations').show();
                 });
-            });            
+            });
         }
 
 
-         $('#regions path, #text-abb text').on('click', function(){            
+         $('#regions path, #text-abb text').on('click', function(){
             loc_state = $('#text-abb text#'+$(this).attr('id')).text();
 
             $('#hidState').val(loc_state);
@@ -486,16 +492,16 @@ var class_costs = {
                 loc_state = $(this).text();
                 $('#regions path').attr('class','');
             	$('#regions path[id="'+$(this).attr('id')+'"]').attr('class','selected');
-            }   
+            }
             else {
             	$('#regions path').attr('class','');
             	$(this).attr('class','selected');
             	console.log(this);
-            }            
+            }
 
-            am2_show_preloader();            
+            am2_show_preloader();
             $.get(ajax_login_object.ajaxurl, {action:'am2_get_state_locations', am2_state:loc_state}, function(resp){
-                console.log(resp);                
+                console.log(resp);
 
                 $.each(ajax_login_object.states, function(k,v){
                 	if(v.state_code == loc_state){
@@ -506,25 +512,25 @@ var class_costs = {
                 var $state = $('<div class="state"></div>');
 
                 $state.append('<h1 class="state_title" style="text-align: center;"><span class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ loc_state +'.png" /></span><span class="td">'+state_name+'</span></h1>')
-                
+
                 if(Object.keys(resp).length>0){
                 	var $ul = $('<select class="cities"></select>');
-                
+
 	                $.each(resp, function(k,v){
 	                    var $li = $('<option value="'+k+'" data-id="'+ k +'"></option>');
-	                    $li.append(k);                    
-	                    
+	                    $li.append(k);
+
 	                    $ul.append($li);
-	                });      
+	                });
 
 	                $state.append($ul);
 
 	                $state.append('<span class="h1">Choose a Location</span>');
-	                
+
 	                $.each(resp, function(k,v){
 	                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
-		                $.each(v, function(k2,v2){                        
+		                $.each(v, function(k2,v2){
 		                	$li_child = $('<li class="franchise"></li>');
 		                	$li_child.append('<a>'+v2.meta.post_title+'</a>');
 		                	$li_child.append(
@@ -535,9 +541,9 @@ var class_costs = {
 			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
 		                	'</div>'
 		                	);
-		                    
+
 		                    $ul_child.append($li_child);
-		                });                      
+		                });
 
 		                $state.append($ul_child);
 		            });
@@ -550,13 +556,13 @@ var class_costs = {
                     options.each(function(i, o) {
                       o.value = arr[i].v;
                       $(o).text(arr[i].t);
-                    });  
+                    });
 
                     $('select.cities').html(options);
 
-	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500); 	                
+	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500);
 
-	                $('.state .cities').off('change').on('change', function(e){	                	
+	                $('.state .cities').off('change').on('change', function(e){
 	                	//$('.state .cities li').removeClass('selected');
 	                	//$(this).addClass('selected');
 	                	var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
@@ -565,19 +571,19 @@ var class_costs = {
 	                	console.log($(this).val());
 
 	                	$('.state .locations').hide();
-	                	$('.state .locations[data-id="'+data_id+'"]').show();                        	
-	                	
+	                	$('.state .locations[data-id="'+data_id+'"]').show();
+
 	                	if($locations.length>0){
-	               			$('html, body').animate({scrollTop: $locations.offset().top},500);                	
+	               			$('html, body').animate({scrollTop: $locations.offset().top},500);
 	               		}
 
 	                }).trigger('change');
 
 	                $('.state .cities').selectize();
-	                
+
                 } else {
                 	$('.dynamic-locaion-content .list').html($state);
-                }                           
+                }
 
                 am2_hide_preloader();
             });
@@ -586,25 +592,25 @@ var class_costs = {
          $(document).on('click', '.state .franchise > a, .state .franchise > h3', function(e){
             $('.state .franchise > a, .state .franchise > h3').removeClass('selected');
             $(this).addClass('selected');
-            $(this).siblings('.franchise_details').slideToggle();                	
-        });     
+            $(this).siblings('.franchise_details').slideToggle();
+        });
 
         if(ajax_login_object.aa_state != "" && $('#map_base').length>0){
             console.log('aa_state set');
             $('#map_base').find('text:contains("'+ajax_login_object.aa_state.toUpperCase()+'")').trigger('click');
-        } 
+        }
         else if( $('#map_base').length>0 ) {
             console.log('please select state on the map');
             $('.dynamic-locaion-content .list .state').html('Please choose a state on the map');
         }
 
-    });    
+    });
 
     function isValidEmailAddress(emailAddress) {
         var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
         return pattern.test(emailAddress);
     };
-    
+
     function initMap() {
       var myLatLng = $('.latlng').val().split(',');
       myLatLng = {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])};
@@ -632,12 +638,12 @@ var class_costs = {
             type:'POST',
             data:'action=ajax_delete_field&attachid=' + attach_id + '&user_id=' + user_id,
             success:function(results)
-            {                     
+            {
                 jQuery('input[name="digital_file_name"]').val('');
 
-                jQuery('#btn_delete_user_photo').fadeOut(400, function(){ 
-                    jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>'); 
-                    jQuery('#digital_image_upload').fadeIn(); 
+                jQuery('#btn_delete_user_photo').fadeOut(400, function(){
+                    jQuery(this).parent().empty().append('<div id="digital_image_upload" style="display:none;">Upload</div>');
+                    jQuery('#digital_image_upload').fadeIn();
                     loadDigitalArtwork();
                 });
             }
@@ -648,7 +654,7 @@ var class_costs = {
         console.log('loadDigitalArtwork');
         if(typeof uploadOptions === 'undefined') return;
         console.log('loadDigitalArtwork continued');
-        
+
         uploadOptions['request']['params']['field'] = 'user_photo';
         jQuery('#digital_image_upload').fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
            if (responseJSON.success) {
@@ -658,37 +664,37 @@ var class_costs = {
               });
            }
         });
-    }   */             
+    }   */
 
-    function am2_alert(message, title, reload_redirect, callback){      
+    function am2_alert(message, title, reload_redirect, callback){
 
         $('[data-remodal-id="message"] .title').html(title);
         $('[data-remodal-id="message"] .message').html(message);
         $('[data-remodal-id="message"]').remodal().open();
-        
+
         $(document).off('confirmation', '[data-remodal-id="message"]').on('confirmation', '[data-remodal-id="message"]', function () {
-          console.log('Confirmation button is clicked');      
+          console.log('Confirmation button is clicked');
           if(reload_redirect === true){
                 window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
           } else if(reload_redirect === false) {
-             
+
           } else {
-                window.location.href = reload_redirect;     
+                window.location.href = reload_redirect;
           }
-              
+
           if(callback) callback();
-            
+
         });
-        
-        $(document).off('closed', '[data-remodal-id="message"]').on('closed', '[data-remodal-id="message"]', function (e) {     
+
+        $(document).off('closed', '[data-remodal-id="message"]').on('closed', '[data-remodal-id="message"]', function (e) {
           // Reason: 'confirmation', 'cancellation'
-          console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));     
-          if(reload_redirect === true){     
+          console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));
+          if(reload_redirect === true){
             window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
           } else if(reload_redirect) {
-            window.location.href = reload_redirect;     
-          }     
-            
+            window.location.href = reload_redirect;
+          }
+
         });
     }
 
@@ -711,6 +717,7 @@ var class_costs = {
         }
     }
 
+<<<<<<< HEAD
     $('#franchisee_email').val($('#hid_franchisee_email').val()); 
 
     $(document).on('change','[data-remodal-id="popup"] .content .payment_options', function(){
@@ -718,6 +725,10 @@ var class_costs = {
         $('.payment_details > .'+$(this).val()).show();
     }); 
         
+=======
+    $('#franchisee_email').val($('#hid_franchisee_email').val());
+
+>>>>>>> a771e48a0eca4349c4644a2b9416321b039e7c8e
 })(jQuery);
 
 function show_payment_options(){

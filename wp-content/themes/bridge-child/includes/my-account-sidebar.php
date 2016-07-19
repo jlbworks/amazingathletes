@@ -1,8 +1,8 @@
-<div class="widget widget_text"> 
+<div class="widget widget_text">
     <div class="textwidget"><span class="icon-row">
 
     <?php if(in_array('franchisee',$user->roles)): ?>
-   
+
     <div style="/*padding-top: 40px;*/" class="side-nav">
         <a href="<?php echo site_url();?>/my-account/" class="sidebar-link">
             <span>
@@ -12,8 +12,8 @@
             <h2>DASHBOARD</h2>
             </span>
         </a>
-    </div>    
-   
+    </div>
+
     <div style="/*padding-top: 40px;*/" class="side-nav">
         <a href="<?php echo site_url();?>/my-account/profile/" class="sidebar-link">
             <span>
@@ -23,7 +23,7 @@
             <h2>PROFILE</h2>
             </span>
         </a>
-    </div>    
+    </div>
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/appointments/" class="sidebar-link">
             <span>
@@ -110,18 +110,18 @@
                              <h2>GET STARTED</h2>
                          </span></a>
     </div>*/ ?>
-    
-</span> 
+
+</span>
 </div>
 
-</div><?php am2_user_social();?><?php am2_franchisee_info();?>
-<div class="widget widget_text">          
+</div><?php am2_user_social();?><?php am2_franchisee_info(['show_address' => false]);?>
+<div class="widget widget_text">
     <div class="textwidget">
         <div class="vc_row wpb_row section vc_row-fluid " style=" text-align:left;">
             <div class=" full_section_inner clearfix">
                 <div class="wpb_column vc_column_container vc_col-sm-12">
                     <div class="vc_column-inner ">
-                        <div class="wpb_wrapper">  
+                        <div class="wpb_wrapper">
                             <div class="vc_empty_space  sidebar-spacer" style="height: 100px">
                                 <span class="vc_empty_space_inner"><span class="empty_space_image"></span></span>
                             </div>
@@ -131,4 +131,4 @@
             </div>
         </div>
     </div>
-</div>  
+</div>

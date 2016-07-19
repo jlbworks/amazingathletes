@@ -15,18 +15,18 @@ function am2_get_meta_value($key, $meta_data) {
 global $mypages;
 
 $mypages = array(
-	'Home' => '', 
-	'About' => 'about', 
-	'Program options' => 'programs', 
+	'Home' => '',
+	'About' => 'about',
+	'Program options' => 'programs',
 	'Classes' => array(
-		'menu' => 'locations', 
+		'menu' => 'locations',
 		'submenu'=> array(
 			'On-Site' => 'locations?type=on-site',
 			'Community Classes' => 'locations?type=community-classes',
 		),
-	), 
+	),
 	'Policies' => 'policies_and_procedures',
-	'Staff' => 'staff', 
+	'Staff' => 'staff',
 	'Contact' => 'contact',
 	'Testimonials' => 'testimonials',
 	'Blog' => 'blog',
@@ -194,16 +194,16 @@ function am2_user_password() {
 		if($_POST['password'] === $_POST['password2']) {
 			$user_id = wp_update_user(array(
 				'ID' => $user_id,
-				'user_pass' => $_POST['password'],				
+				'user_pass' => $_POST['password'],
 				)
 			);
-		}			
+		}
 
 		if(!is_wp_error($user_id)) echo "Your password was successfully changed.";
 		else echo $user_id->get_error_message();
 	} else {
 		echo "Please supply a password in both password fields";
-	}		
+	}
 
 	exit();
 }
@@ -218,23 +218,23 @@ function am2_franchisee_account() {
 
 	$fields = array(
 		'franchise_name' => 'franchise_name',
-		'display_title' => 'display_title', 
-		'display_market' => 'display_market', 
-		'display_name' => 'display_name', 
-		'display_bio' => 'display_bio', 
-		'franchise_address' => 'mailing_address', 
-		'franchise_zip' => 'zip_code', 
-		'franchise_telephone' => 'telephone', 
-		'franchise_email' => 'email_address', 
-		'franchise_aaemail' => 'aa_email_address', 
-		'franchise_website' => 'website_address', 
-		'franchise_market' => 'market_area', 
-		'franchise_facebook' => 'facebook_page', 
-		'franchise_youtube' => 'youtube_page', 
-		'franchise_twitter' => 'twitter_page', 
-		'franchise_pinterest' => 'pinterest_page', 
-		'franchise_city_state' => 'city__state', 
-		'password' => 'password', 
+		'display_title' => 'display_title',
+		'display_market' => 'display_market',
+		'display_name' => 'display_name',
+		'display_bio' => 'display_bio',
+		'franchise_address' => 'mailing_address',
+		'franchise_zip' => 'zip_code',
+		'franchise_telephone' => 'telephone',
+		'franchise_email' => 'email_address',
+		'franchise_aaemail' => 'aa_email_address',
+		'franchise_website' => 'website_address',
+		'franchise_market' => 'market_area',
+		'franchise_facebook' => 'facebook_page',
+		'franchise_youtube' => 'youtube_page',
+		'franchise_twitter' => 'twitter_page',
+		'franchise_pinterest' => 'pinterest_page',
+		'franchise_city_state' => 'city__state',
+		'password' => 'password',
 		'video' => 'video',
 		'individual_1_first_name' => 'individual_1_first_name',
 		'individual_1_last_name' => 'individual_1_last_name',
@@ -243,12 +243,12 @@ function am2_franchisee_account() {
 	);
 
 	$required_fields = array(
-		'franchise_name', 
-		'display_name', 
-		'franchise_address', 
-		'franchise_city_state', 
-		'franchise_zip', 
-		'franchise_telephone', 
+		'franchise_name',
+		'display_name',
+		'franchise_address',
+		'franchise_city_state',
+		'franchise_zip',
+		'franchise_telephone',
 		'franchise_email'
 	);
 
@@ -257,42 +257,42 @@ function am2_franchisee_account() {
 		if($post_key == 'franchise_email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
 			$user_id = wp_update_user(array(
 					'ID' => $user_id,
-					'user_email' => $_POST[$post_key],							
+					'user_email' => $_POST[$post_key],
 				)
 			);
 		}
-		else if($post_key == 'franchise_name'){			
-			$franchise_slug = sanitize_title_with_dashes($_POST[$post_key]);			
+		else if($post_key == 'franchise_name'){
+			$franchise_slug = sanitize_title_with_dashes($_POST[$post_key]);
 			$_franchises = $wpdb->get_results("SELECT wum.meta_value, wu.ID, wu.user_login FROM $wpdb->usermeta wum JOIN $wpdb->users wu ON wu.ID = wum.user_id WHERE wu.ID != $user_id AND wum.meta_key = 'franchise_slug' AND wum.meta_value = '".$franchise_slug."' GROUP BY wu.ID");
 
 			if(is_array($_franchises) && count($_franchises) > 0 ) {
-				echo "That franchise name is already taken";				
-				exit();		
+				echo "That franchise name is already taken";
+				exit();
 			}
 			else {
 				update_user_meta($user_id, $meta_key, $_POST[$post_key]);
 				update_user_meta($user_id, 'franchise_slug', $franchise_slug);
 
 				change_author_permalinks();
-				$wp_rewrite->flush_rules(false); 
+				$wp_rewrite->flush_rules(false);
 			}
 		}
 		else if (isset($_POST[$post_key])) {
 			update_user_meta($user_id, $meta_key, $_POST[$post_key]);
-		} 
+		}
 		else if(in_array($post_key, $required_fields)){
-			echo "Field $post_key is required";			
+			echo "Field $post_key is required";
 			exit();
-		}		
-	}	 
+		}
+	}
 
 	if(!is_wp_error( $user_id )){
-		echo "Your profile was successfully saved.";	
+		echo "Your profile was successfully saved.";
 	}
 	else {
 		echo $user_id->get_error_message();
 	}
-	
+
 	exit();
 
 }
@@ -313,29 +313,29 @@ function am2_user_account() {
 			if($_POST['password'] === $_POST['password2']) {
 				$user_id = wp_update_user(array(
 					'ID' => $user_id,
-					'user_pass' => $_POST[$post_key],				
+					'user_pass' => $_POST[$post_key],
 					)
 				);
-			}			
-		}	
+			}
+		}
 		else if($post_key == 'email' && isset($_POST[$post_key]) && !empty($_POST[$post_key])){
 			$user_id = wp_update_user(array(
 					'ID' => $user_id,
-					'user_email' => $_POST[$post_key],				
+					'user_email' => $_POST[$post_key],
 				)
 			);
 		}
 		else if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
 			update_user_meta($user_id, $meta_key, $_POST[$post_key]);
-		} 
+		}
 		else if(in_array($post_key, $required_fields)){
-			echo "Field $post_key is required";			
+			echo "Field $post_key is required";
 			exit();
-		}		
+		}
 	}
 
 	if(!is_wp_error( $user_id )){
-		echo "Your profile was successfully saved.";	
+		echo "Your profile was successfully saved.";
 	}
 	else {
 		echo $user_id->get_error_message();
@@ -353,7 +353,7 @@ add_action('wp_ajax_upload_file', 'upload_file');
 function upload_file(){
 
 	$folder_path = str_replace("/wp-admin/admin-ajax.php","",$_SERVER['PHP_SELF']);
-	
+
  	require_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-load.php');
     include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/media.php');
     include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/file.php');
@@ -367,7 +367,7 @@ function upload_file(){
 		$response['reason'] = 'Context is not valid';
 		echo json_encode($response);
 		exit();
-	} 
+	}
 
 	$custom_field_key = $_POST['custom_field_key'];
 	if(empty($custom_field_key)){
@@ -384,11 +384,11 @@ function upload_file(){
 		exit();
 	}
 	if(isset($_FILES['qqfile'])) {$files = $_FILES['qqfile'];}
-	
+
 	$upload_dir = wp_upload_dir();
 	$file_name = $files['name'];
 	$file_name = $upload_dir['path'] . '/' . basename($file_name);
-	
+
 	$upload_overrides = array( 'test_form' => false );
 	$file_post = wp_handle_upload($files,$upload_overrides); //Posts File
 	$file_link = $file_post['file'];
@@ -405,9 +405,9 @@ function upload_file(){
 	$attach_data = wp_generate_attachment_metadata($attach_id, $file_post['file']);
 	$attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
 	$attach_url = wp_get_attachment_image_src( $attach_id, 'medium' );
-	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);	
+	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);
 
-	if(!empty($_POST['context_id'])){    	
+	if(!empty($_POST['context_id'])){
 
 		if($context == 'user')
 			update_user_meta($_POST['context_id'], $custom_field_key, $attach_id);
@@ -433,8 +433,8 @@ function upload_file(){
 		$response['context_id'] = $_POST['context_id'];
 		$response['custom_field_key'] = $custom_field_key;
 		$response['data'] = $_FILES;
-	}	   	
-   
+	}
+
     echo json_encode($response);
     exit();
 }
@@ -447,7 +447,7 @@ add_action('wp_ajax_upload_user_photo', 'upload_user_photo');
 function upload_user_photo(){
 
 	$folder_path = str_replace("/wp-admin/admin-ajax.php","",$_SERVER['PHP_SELF']);
-	
+
  	require_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-load.php');
     include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/media.php');
     include_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-admin/includes/file.php');
@@ -459,11 +459,11 @@ function upload_user_photo(){
 
 	if(!$_FILES) exit();
 	if(isset($_FILES['qqfile'])) {$files = $_FILES['qqfile'];}
-	
+
 	$upload_dir = wp_upload_dir();
 	$file_name = $files['name'];
 	$file_name = $upload_dir['path'] . '/' . basename($file_name);
-	
+
 	$upload_overrides = array( 'test_form' => false );
 	$file_post = wp_handle_upload($files,$upload_overrides); //Posts File
 	$file_link = $file_post['file'];
@@ -480,9 +480,9 @@ function upload_user_photo(){
 	$attach_data = wp_generate_attachment_metadata($attach_id, $file_post['file']);
 	$attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
 	$attach_url = wp_get_attachment_image_src( $attach_id, 'medium' );
-	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);	
+	//update_user_meta($_POST['user_id'],$_POST['field'],$attach_id);
 
-	if($user->ID == $current_user->ID || $user->franchisee == $current_user->ID){    	
+	if($user->ID == $current_user->ID || $user->franchisee == $current_user->ID){
 
 		update_user_meta($user->ID ,'user_photo', $attach_id);
 
@@ -498,8 +498,8 @@ function upload_user_photo(){
 		$response['file_url'] = $attach_url[0];
 		$response['file_name'] = basename($files['name']);
 		$response['data'] = $_FILES;
-	}	   	
-   
+	}
+
     echo json_encode($response);
     exit();
 }
@@ -541,10 +541,10 @@ function ajax_delete_field() {
 
 	$user = get_user_by('id', $_POST['user_id']);
 
-	if($user->ID == $current_user->ID || $user->franchisee == $current_user->ID){	
+	if($user->ID == $current_user->ID || $user->franchisee == $current_user->ID){
 		var_dump(delete_user_meta($user->ID, 'user_photo', $attachmentid));
 	}
-	
+
 	exit();
 }
 add_action('wp_ajax_ajax_delete_field', 'ajax_delete_field');
@@ -560,31 +560,46 @@ function am2_edit_location() {
 			array(
 				'post_type' => 'location',
 				'post_status' => 'publish',
-				'post_title' => $_POST['location_name'],							
+				'post_title' => $_POST['location_name'],
 			)
 		);
 		$loc_verb = 'added';
 	} else {
 		$loc_id = $_POST['loc_id'];
-		$loc_verb = 'edited';		
-	}		
+		$loc_verb = 'edited';
+	}
 
-	$fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'zip_areas', 'location_contact_number', 'email', 'website', 'location_contact_name', 'latlng', 'coaches', 'enable_kickback', 'kickback');
+	$fields = array(
+	    'location_type',
+	    /*'location_name',*/
+	    'address',
+	    'city__state',
+	    'zip',
+	    'zip_areas',
+	    'location_contact_number',
+	    'email',
+	    'website',
+	    'location_contact_name',
+	    'latlng',
+	    'coaches',
+	    /*'enable_kickback',
+	    'kickback'*/
+	);
 
 	$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 
 	foreach ($fields as $post_key) {
 		if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
-			update_post_meta($loc_id, $post_key, $_POST[$post_key]);			
-		} 
+			update_post_meta($loc_id, $post_key, $_POST[$post_key]);
+		}
 		else if(in_array($post_key, $required_fields)){
-			echo "Field $post_key is required";			
+			echo "Field $post_key is required";
 			exit();
-		}		
-	}	
+		}
+	}
 
 	header("Content-Type: application/json; charset=UTF-8");
-	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));;	
+	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));;
 	exit();
 
 }
@@ -596,17 +611,17 @@ function am2_delete_location() {
 	$user_id = $user->ID;
 
 	if (!isset($_POST['loc_id']) || empty($_POST['loc_id'])) {
-		echo "Empty location ID!";			
+		echo "Empty location ID!";
 		exit();
 	}
 
 	if (isset($_POST['loc_id']) && !empty($_POST['loc_id'])) {
 		wp_delete_post(	$_POST['loc_id'] );
 		$loc_verb = 'deleted';
-	} 	
+	}
 
 	header("Content-Type: application/json; charset=UTF-8");
-	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));;	
+	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));;
 	exit();
 
 }
@@ -615,14 +630,22 @@ function am2_delete_location() {
 add_action('wp_ajax_am2_add_coach', 'am2_add_coach');
 
 function am2_add_coach() {
-	header("Content-Type: application/json; charset=UTF-8");	
+	header("Content-Type: application/json; charset=UTF-8");
 
 	$userdata = array(
 		'user_login'  =>  $_POST['coach_email'],
-		'user_email'  => $_POST['coach_email'],	   
+		'user_email'  => $_POST['coach_email'],
 		'user_pass'   => wp_generate_password(),
 		'role'		  => 'coach',
 	);
+
+	if (isset($_POST['first_name']) and !empty($_POST['first_name'])) {
+		$userdata['first_name'] = $_POST['first_name'];
+	}
+
+	if (isset($_POST['last_name']) and !empty($_POST['last_name'])) {
+		$userdata['last_name'] = $_POST['last_name'];
+	}
 
 	$location = get_post($_POST['loc_id']);
 
@@ -632,10 +655,10 @@ function am2_add_coach() {
 	//On success
 	if ( ! is_wp_error( $user_id ) ) {
 		$fields = array(
-			'first_name',
-			'last_name,',
-			'city__state', 
-			'street_address', 
+			//'first_name',
+			//'last_name,',
+			'city__state',
+			'street_address',
 			'zip_code',
 			'amazing_athletes_forward',
 			'forwarding_aa_to_email',
@@ -649,19 +672,19 @@ function am2_add_coach() {
 			'user_photo',
 		);
 		$required_fields = array(
-			//'location_type', 
+			//'location_type',
 
 		);
 
 		foreach ($fields as $post_key) {
 			if (isset($_POST[$post_key])) {
-				update_user_meta($user_id, $post_key, $_POST[$post_key]);			
-			} 
+				update_user_meta($user_id, $post_key, $_POST[$post_key]);
+			}
 			else if(in_array($post_key, $required_fields)){
-				echo "Field $post_key is required";			
+				echo "Field $post_key is required";
 				exit();
-			}		
-		}	
+			}
+		}
 		update_user_meta($user_id, 'franchisee', $location->post_author);
 
 	    $status = 'success';
@@ -680,12 +703,12 @@ function am2_edit_staff() {
 	$franchisee = get_current_user_id();
 	header("Content-Type: application/json; charset=UTF-8");
 
-	$user_id = $_POST['user_id']; // wp_update_post($userdata);		
+	$user_id = $_POST['user_id']; // wp_update_post($userdata);
 
 	if(empty($user_id) || $user_id == 0){
 		$userdata = array(
 			'user_login'  =>  $_POST['coach_email'],
-			'user_email'  => $_POST['coach_email'],	   
+			'user_email'  => $_POST['coach_email'],
 			'user_pass'   => wp_generate_password(),
 			'role'		  => 'coach',
 		);
@@ -695,7 +718,7 @@ function am2_edit_staff() {
 	} else {
 		$userdata = array(
 			'ID' => $user_id,
-			'user_email'  => $_POST['coach_email'],	   
+			'user_email'  => $_POST['coach_email'],
 		);
 		wp_update_user($userdata);
 		$loc_verb = 'edited';
@@ -703,14 +726,14 @@ function am2_edit_staff() {
 
 	//On success
 	if ( ! is_wp_error( $user_id ) ) {
-	    
+
 		$fields = array(
 			'first_name',
 			'last_name',
 			'coach_description',
 			'attid',
-			'city__state', 
-			'street_address', 
+			'city__state',
+			'street_address',
 			'zip_code',
 			'amazing_athletes_forward',
 			'forwarding_aa_to_email',
@@ -724,23 +747,23 @@ function am2_edit_staff() {
 			'user_photo',
 		);
 		$required_fields = array(
-			//'location_type', 
+			//'location_type',
 
 		);
 
 		foreach ($fields as $post_key) {
 			if (isset($_POST[$post_key])) {
-				update_user_meta($user_id, $post_key, $_POST[$post_key]);			
-			} 
+				update_user_meta($user_id, $post_key, $_POST[$post_key]);
+			}
 			else if(in_array($post_key, $required_fields)){
-				echo "Field $post_key is required";			
+				echo "Field $post_key is required";
 				exit();
-			}		
-		}	
+			}
+		}
 		update_user_meta($user_id, 'franchisee', get_current_user_id() );
-		
+
 		//update_user_meta($user_id, 'franchisee', $franchisee);
-	    $status = 'success'; 
+	    $status = 'success';
 	} else {
 		$status = 'error';
 	}
@@ -767,7 +790,7 @@ $instagram_url = !empty($instagram_url) ? $instagram_url : "https://www.instagra
 ?>
 
 
-<div class="widget widget_text">			
+<div class="widget widget_text">
 <div class="textwidget">
 <div class="vc_row wpb_row section vc_row-fluid " style=" text-align:left;">
 <div class=" full_section_inner clearfix">
@@ -814,34 +837,44 @@ $instagram_url = !empty($instagram_url) ? $instagram_url : "https://www.instagra
 <?php
 }
 
-function am2_franchisee_info(){
+function am2_franchisee_info($args=array()) {
+
+$defaults = array(
+	'show_address' 	=>	true,
+);
+
+$config = wp_parse_args($args, $defaults);
+
 $user_id = get_current_user_id();
-$user = wp_get_current_user();
+$user 	 = wp_get_current_user();
 
 $franchise_name = get_user_meta($user_id, 'franchise_name',true);
-$email_address = $user->user_email; //get_user_meta($user_id, 'email_address',true);
-$telephone = get_user_meta($user_id, 'telephone',true);
-$address = get_user_meta($user_id, 'mailing_address', true);
-$city_state = get_user_meta($user_id, 'city__state', true);
+$email_address 	= $user->user_email; //get_user_meta($user_id, 'email_address',true);
+$telephone 		= get_user_meta($user_id, 'telephone',true);
+$address 		= get_user_meta($user_id, 'mailing_address', true);
+$zip_code 		= get_user_meta($user_id, 'zip_code', true);
+$city_state 	= get_user_meta($user_id, 'city__state', true);
+
 if(!empty($city_state)){
-	$city_state = explode('|', $city_state);	
+	$city_state = explode('|', $city_state);
 } else {
 	$city_state = array("","");
 }
-
-$zip_code = get_user_meta($user_id, 'zip_code', true);
 ?>
-<div class="widget widget_text">			
+<div class="widget widget_text">
 	<div class="textwidget">
 		<div class="sidebar-text">
 			<h3><?php echo $franchise_name;?></h3>
-			<?php echo "$address, {$city_state[1]}, {$city_state[0]} $zip_code";?><br/>
+			<?php
+			if (true === $config['show_address']) {
+				echo "$address, {$city_state[1]}, {$city_state[0]} $zip_code";?><br/>
+			<?php }; ?>
 			email: <a href="<?php echo $email_address;?>"><?php echo $email_address;?></a><br/>
 			phone: <a href="<?php echo $telephone;?>"><?php echo $telephone;?></a><br/>
 		</div>
 	</div>
 </div>
-<?php 
+<?php
 }
 
 add_action('wp_ajax_am2_edit_mypage', 'am2_edit_mypage');
@@ -849,27 +882,27 @@ add_action('wp_ajax_am2_edit_mypage', 'am2_edit_mypage');
 function am2_edit_mypage() {
 	global $mypages, $mypages_multi, $mypages_optional;
 
-	$user_id = get_current_user_id();	
+	$user_id = get_current_user_id();
 	$post_id = (isset($_POST['post_id']) ? $_POST['post_id'] : 0);
-	$category = array_search ($_POST['mypage'], $mypages);	
+	$category = array_search ($_POST['mypage'], $mypages);
 
 	if(!in_array($_POST['mypage'], $mypages_multi)){
-		$page_content = get_user_meta($user_id, 'page_content', true); 
+		$page_content = get_user_meta($user_id, 'page_content', true);
 		if(!is_array($page_content)) $page_content = array();
 
-		foreach($mypages as $key => $page) {			
-			if($page == $_POST['mypage']){				
+		foreach($mypages as $key => $page) {
+			if($page == $_POST['mypage']){
 				$page_content[$page] = $_POST[$page];
 				break;
-			}			
+			}
 		}
 
 		update_user_meta($user_id, 'page_content', $page_content);
-	}	
+	}
 	else if(!empty($post_id)){
 		$args = array(
 			'ID' => $post_id,
-			'post_content' => $_POST[$_POST['mypage']],			
+			'post_content' => $_POST[$_POST['mypage']],
 		);
 
 		wp_update_post($args);
@@ -883,8 +916,8 @@ function am2_edit_mypage() {
 
 		//var_dump(array_key_exists($_POST['mypage'], $_POST));
 
-		$args = array(			
-			'post_title' => $_POST['mypage'], 
+		$args = array(
+			'post_title' => $_POST['mypage'],
 			'post_content' => $_POST[$_POST['mypage']],
 			'post_type' => $_POST['mypage'], // array($ctg_id) ,
 			'post_status' => 'publish',
@@ -902,10 +935,10 @@ function am2_edit_mypage() {
 		else {
 			update_user_meta($user_id, 'show_' . $_val, 0);
 		}
-	}		
-	//}	
+	}
+	//}
 
-	header("Content-Type: application/json; charset=UTF-8");	
+	header("Content-Type: application/json; charset=UTF-8");
 	echo json_encode( array('status' => 'success', 'user_id' => $user_id, 'post_id' => $post_id) );
 
 	exit();

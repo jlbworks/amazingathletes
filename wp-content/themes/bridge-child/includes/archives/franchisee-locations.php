@@ -32,13 +32,13 @@ foreach ($locations as $l) {
 $args = array(
 	'post_type' 		=> 'location_class',
 	'post_status' 		=> 'any',
-	'posts_per_page' 	=> -1,		
+	'posts_per_page' 	=> -1,
 	'meta_query' 		=> array(
 		array(
 			'key'		=> 'location_id',
 			'value'		=> array_values($_locations),
 			'compare'	=> 'IN',
-		)			
+		)
 	)
 );
 
@@ -55,9 +55,9 @@ foreach ($classes as $c) {
 ?>
 <div class="state">
 	<ul class="locations">
-	<?php 
+	<?php
 	foreach ($locations as $key => $loc):
-		$meta = get_post_meta($loc->ID);        
+		$meta = get_post_meta($loc->ID);
 		$franchisee = get_post_field( 'post_author', $loc->ID );
 		$city_state = get_post_meta($loc->ID, 'city__state', true);
 		$city_state = !empty($city_state) ? explode('|', $city_state) : array('','');
