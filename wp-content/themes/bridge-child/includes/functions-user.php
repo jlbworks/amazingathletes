@@ -822,28 +822,38 @@ $instagram_url = !empty($instagram_url) ? $instagram_url : "https://www.instagra
 <?php
 }
 
-function am2_franchisee_info(){
+function am2_franchisee_info($args=array()) {
+
+$defaults = array(
+	'show_address' 	=>	true,
+);
+
+$config = wp_parse_args($args, $defaults);
+
 $user_id = get_current_user_id();
-$user = wp_get_current_user();
+$user 	 = wp_get_current_user();
 
 $franchise_name = get_user_meta($user_id, 'franchise_name',true);
-$email_address = $user->user_email; //get_user_meta($user_id, 'email_address',true);
-$telephone = get_user_meta($user_id, 'telephone',true);
-$address = get_user_meta($user_id, 'mailing_address', true);
-$city_state = get_user_meta($user_id, 'city__state', true);
+$email_address 	= $user->user_email; //get_user_meta($user_id, 'email_address',true);
+$telephone 		= get_user_meta($user_id, 'telephone',true);
+$address 		= get_user_meta($user_id, 'mailing_address', true);
+$zip_code 		= get_user_meta($user_id, 'zip_code', true);
+$city_state 	= get_user_meta($user_id, 'city__state', true);
+
 if(!empty($city_state)){
 	$city_state = explode('|', $city_state);
 } else {
 	$city_state = array("","");
 }
-
-$zip_code = get_user_meta($user_id, 'zip_code', true);
 ?>
 <div class="widget widget_text">
 	<div class="textwidget">
 		<div class="sidebar-text">
 			<h3><?php echo $franchise_name;?></h3>
-			<?php echo "$address, {$city_state[1]}, {$city_state[0]} $zip_code";?><br/>
+			<?php
+			if (true === $config['show_address']) {
+				echo "$address, {$city_state[1]}, {$city_state[0]} $zip_code";?><br/>
+			<?php }; ?>
 			email: <a href="<?php echo $email_address;?>"><?php echo $email_address;?></a><br/>
 			phone: <a href="<?php echo $telephone;?>"><?php echo $telephone;?></a><br/>
 		</div>
