@@ -3,6 +3,38 @@ $user_id = $user->ID;
 $umeta = get_user_meta($user->ID); //, 'city__state',true);
 $city_state = get_user_meta($user_id,'city__state',true);
 
+global $image_fields;
+
+function generate_image_field($field_name, $context, $context_id){
+
+	global $image_fields;
+	$new_field['key'] = $field_name;
+	$new_field['context'] = $context;
+
+	$image_fields[] = $new_field;
+
+	if(empty($context)) return;
+	if(empty($context_id)) return;
+
+	if($context == 'post')
+	$custom_image_id = get_post_meta($context_id, $field_name, true);
+
+	if($context == 'user')
+	$custom_image_id = get_user_meta($context_id, $field_name, true);
+
+	$output = '';
+	if ($custom_image_id) {
+		$custom_image_url = wp_get_attachment_image_src($custom_image_id, 'medium');
+		$output .= '<img class="photo_preview" src="'.$custom_image_url[0].'" width="175"/>';
+		$output .= '<a class="delete_button button small-button" id="btn_delete_'.$field_name.'" data-attid="'.$custom_image_id.'" data-context-id="'.$context_id.'" data-context="'.$context.'" data-custom_field_key="'.$field_name.'">x</a>';
+	 } else {
+		$output .= '<div id="digital_image_upload_'.$field_name.'"></div>';
+	}
+
+	echo $output;
+	return;
+}
+
 if(isset($city_state) && !empty($city_state)){				
 	$city_state = explode('|', $city_state);
 }
@@ -35,9 +67,9 @@ else {
 		<input type="text" name="display_market"  style="" value="<?php echo get_user_meta($user_id,'display_market',true); ?>"><br/>		
 
 		<label>Upload Provider Photo</label>
-		<div class="user_photo_wrap">
+		<div class="photo_wrap">
 			<?php
-			$custom_image = get_field('user_photo', 'user_' . $user_id);
+			/*$custom_image = get_field('user_photo', 'user_' . $user_id);
 			
 			if ($custom_image) {$custom_image_url = wp_get_attachment_image_src($custom_image, 'medium');?>
 				<img src="<?php echo $custom_image_url[0]; ?>" width="175"/>
@@ -45,7 +77,9 @@ else {
 				<a class='delete_button button small-button' id='btn_delete_user_photo' data-attid="<?php echo $custom_image; ?>" data-user-id="<?php echo $user_id;?>" >Delete image</a>
 			<?php } else {?>
 				<div id="digital_image_upload"></div>
-			<?php }?>
+			<?php }?>*/
+			?>
+			<?php generate_image_field('user_photo', 'user', $user_id); ?>
 
 		</div>
 
@@ -202,6 +236,60 @@ uploadOptions = {
 	  },
   	multiple: false
 }
+
+function delete_digital_artwork_multiple(attach_id, context, context_id, field_name){
+
+   jQuery.ajax({
+        url:ajax_login_object.ajaxurl,
+        type:'POST',
+        data:'action=ajax_delete_image&attachid=' + attach_id + '&context_id=' + context_id + '&context=' + context+ '&custom_field_key=' + field_name,
+        success:function(response)
+        {       
+        console.log(response); 
+        	if(response.success){
+	            jQuery('#btn_delete_'+field_name+'').fadeOut(400, function(){ 
+	                jQuery(this).parent().empty().append('<div id="digital_image_upload_'+field_name+'" style="display:none;">Upload</div>'); 
+	                jQuery('#digital_image_upload_'+field_name+'').fadeIn(); 
+	                loadDigitalArtwork_multiple(field_name, context, context_id);
+	            });
+        	}
+            
+        }
+    });
+}
+
+function loadDigitalArtwork_multiple(field_name, context, context_id){
+    console.log('loadDigitalArtwork');
+    if(typeof uploadOptions === 'undefined') return;
+    console.log('loadDigitalArtwork continued');
+    
+    uploadOptions['request']['params']['custom_field_key'] = field_name;
+    uploadOptions['request']['params']['context'] = context;
+    uploadOptions['request']['params']['context_id'] = context_id; console.log(uploadOptions);
+    jQuery('#digital_image_upload_'+field_name).fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
+       if (responseJSON.success) {
+         	  jQuery(this).parent().delay(1000).fadeOut(400, function(){
+              jQuery(this).empty().append('<div class="upload_success"><img class="photo_preview" src="'+responseJSON.file_url+'" width="175"/><a class="delete_button button small-button" id="btn_delete_'+responseJSON.custom_field_key+'" data-attid="'+responseJSON.file_id+'" data-context-id="'+responseJSON.context_id+'" data-context="'+responseJSON.context+'" data-custom_field_key="'+responseJSON.custom_field_key+'">x</a></div>').fadeIn();
+              jQuery(document).on('click','#btn_delete_'+responseJSON.custom_field_key, function(e){
+			    e.preventDefault();
+			    jQuery(this).empty().append('Deleting...');
+			    delete_digital_artwork_multiple(jQuery(this).data('attid'), jQuery(this).data('context'), jQuery(this).data('context-id'), jQuery(this).data('custom_field_key'));
+			});
+          });
+       }
+    });
+} 
+
+jQuery(document).ready(function(){
+	<?php foreach($image_fields as $image_field): ?>
+		loadDigitalArtwork_multiple('<?php echo $image_field["key"]; ?>', '<?php echo $image_field["context"]; ?>', '<?php echo $user->ID; ?>');
+		jQuery(document).on('click','#btn_delete_<?php echo $image_field["key"]; ?>', function(e){
+		    e.preventDefault();
+		    jQuery(this).empty().append('Deleting...');
+		    delete_digital_artwork_multiple(jQuery(this).data('attid'), jQuery(this).data('context'), jQuery(this).data('context-id'), jQuery(this).data('custom_field_key'));
+		});
+	<?php endforeach; ?>
+});
 
 </script>
 

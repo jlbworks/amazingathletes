@@ -462,7 +462,7 @@ var class_costs = {
 
 		                $.each(v, function(k2,v2){
 		                	$li_child = $('<li class="franchise"></li>');
-		                	$li_child.append('<a>'+v2.meta.post_title+'</a>');
+		                	$li_child.append('<a>'+v2.meta.post_title + ', ' + v2.meta.address + '</a>');
 		                	$li_child.append(
 		                	'<div class="franchise_details">' +
 			                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
@@ -532,7 +532,7 @@ var class_costs = {
 
 		                $.each(v, function(k2,v2){
 		                	$li_child = $('<li class="franchise"></li>');
-		                	$li_child.append('<a>'+v2.meta.post_title+'</a>');
+		                	$li_child.append('<a>'+v2.meta.post_title + ', ' + v2.meta.address + '</a>');
 		                	$li_child.append(
 		                	'<div class="franchise_details">' +
 			                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
@@ -717,18 +717,12 @@ var class_costs = {
         }
     }
 
-<<<<<<< HEAD
-    $('#franchisee_email').val($('#hid_franchisee_email').val()); 
+    $('#franchisee_email').val($('#hid_franchisee_email').val());
 
     $(document).on('change','[data-remodal-id="popup"] .content .payment_options', function(){
         $('.payment_details > div').hide();
         $('.payment_details > .'+$(this).val()).show();
-    }); 
-        
-=======
-    $('#franchisee_email').val($('#hid_franchisee_email').val());
-
->>>>>>> a771e48a0eca4349c4644a2b9416321b039e7c8e
+    });
 })(jQuery);
 
 function show_payment_options(){
