@@ -710,8 +710,10 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				for (var i = day_ids.length - 1; i >= 0; i--) {
 					if ( target_id != day_ids[i] ) {
 						jQuery('#'+day_ids[i]+' select[name="day"]').prop('disabled', 'disabled');
+						jQuery('#'+day_ids[i]+' input[name="time"]').prop('disabled', 'disabled');
 					} else {
 						jQuery('#'+day_ids[i]+' select[name="day"]').prop('disabled', false);
+						jQuery('#'+day_ids[i]+' input[name="time"]').prop('disabled', false);
 					}
 				}
 			}
