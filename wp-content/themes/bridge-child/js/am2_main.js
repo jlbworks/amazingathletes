@@ -789,7 +789,7 @@ var class_costs = {
 
                 $.when( d1, d2 ).done(function(){                
 
-                    var payment_type = class_costs[resp_class.meta.class_costs];    
+                    var payment_type = class_costs[resp_class.meta.type];    
                     var registration_fee = parseInt(resp_class.meta[payment_type + '_registration_fee']);
                     var monthly_tuition = 0;
                     var session_tuition = 0;
