@@ -105,6 +105,14 @@ $coaches = get_users(array(
     'meta_value'    => $user->ID,
 ));
 
+$lid = false;
+
+if (isset($_GET['location_id']) and !empty($_GET['location_id'])) {
+    $lid = (int) $_GET['location_id'];
+    $_locations = array();
+    $_locations[$lid] = $lid;
+}
+
 $args = array(
     'post_type'         => 'location_class',
     'post_status'       => 'any',
@@ -156,17 +164,17 @@ foreach ($classes as $c) {
         <select id="filter_location" name="location_id">
             <option></option>
         <?php foreach ($locations as $l): ?>
-            <option value="<?php echo $l->ID; ?>"><?php echo $l->post_title; ?></option>
+            <option value="<?php echo $l->ID; ?>" <?php if ($lid==$l->ID): ?> selected="selected" <?php endif;?> ><?php echo $l->post_title; ?></option>
         <?php endforeach; ?>
         </select>
 
-        <label>Month:</label>
+        <!--<label>Month:</label>
         <select id="filter_location" name="location_id">
             <option></option>
         <?php for ($m=1; $m<=12; $m++): $month_name = date('F', mktime(0,0,0,$m, 1, date('Y'))); ?>
             <option value="<?php echo $m; ?>"><?php echo $month_name; ?></option>
         <?php endfor; ?>
-        </select>
+        </select>-->
 
         <label>Coach:</label>
         <select id="filter_coach" name="coach_id">
