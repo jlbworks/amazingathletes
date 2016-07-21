@@ -6,7 +6,7 @@
 
 if ( function_exists( 'acf_add_options_page' ) ) {
 	acf_add_options_page();
-	//acf_add_options_sub_page( 'Header' );
+	acf_add_options_sub_page( 'Client-Franchisee' );
 	//acf_add_options_sub_page( 'Tracking codes' );
 	//acf_add_options_sub_page( 'Footer' );
 	//acf_add_options_sub_page( 'General Settings' );

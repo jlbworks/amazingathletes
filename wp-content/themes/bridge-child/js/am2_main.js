@@ -723,78 +723,115 @@ var class_costs = {
         $('.payment_details > div').hide();
         $('.payment_details > .'+$(this).val()).show();
     });
+
+    $('#frm_registration').validate();
+
+    $('#frm_registration').on('submit', function(e){
+        e.preventDefault();
+        if($('#frm_registration').valid()){
+            $('#frm_registration').ajaxSubmit({
+                beforeSubmit: function() {
+                    console.log('before_submit');
+                    am2_show_preloader();                    
+                },
+                success: function(resp) {
+                    console.log('success_submit');
+                    am2_hide_preloader();
+                    show_payment_options();           
+                },
+                error: function() {
+                    console.log('error');
+                    am2_hide_preloader();
+                }
+            });
+        }        
+    });
+
+    $('.tabs li').on('click', function(){
+        var id = $(this).attr('id').replace('tab_','');        
+        $('.tab_content').hide();
+        $('.tab_content_' + id).show();        
+    });
+
+    $('.accord').on('click', function(){
+        var id = $(this).attr('id').replace('accord_','');        
+        $('.accord_content').hide();
+        $('.accord_content_' + id).show();        
+    });
+
+    function show_payment_options(){           
+
+        $.get(ajax_login_object.theme_url + '/includes/modals/payment-options.html', function(resp_payopt){
+            $('head').append(resp_payopt);
+            $.get(ajax_login_object.theme_url + '/includes/modals/popup.html', function(resp_popupmodal){
+                var template = wp.template( 'payment-options' );            
+
+                $('body').append(resp_popupmodal);            
+                
+                var class_id = getParameterByName('class_id');
+                var loc_id = getParameterByName('location_id');
+
+                var d1 = $.Deferred();
+                var d2 = $.Deferred();
+
+                var resp_class;
+                var resp_author;
+                
+                $.post(ajax_login_object.ajaxurl, { action: 'am2_ajax_get_postmeta', post_id: class_id }, function(resp){
+                    resp_class=resp;
+                    d1.resolve();                                                       
+                }); 
+
+                $.post(ajax_login_object.ajaxurl, { action: 'am2_ajax_get_authormeta', post_id: loc_id }, function(resp){
+                    resp_author=resp;                
+                    d2.resolve();
+                });
+
+                $.when( d1, d2 ).done(function(){                
+
+                    var payment_type = class_costs[resp_class.meta.class_costs];    
+                    var registration_fee = parseInt(resp_class.meta[payment_type + '_registration_fee']);
+                    var monthly_tuition = 0;
+                    var session_tuition = 0;
+                    try {
+                        monthly_tuition = parseInt(resp_class.meta[payment_type + '_monthly_tuition']);                
+                        session_tuition = parseInt(resp_class.meta[payment_type + '_session_tuition']);
+                    }   
+                    catch(exc){
+                        console.log(exc, monthly_tuition, session_tuition); 
+                    }                   
+                    
+                    var tuition = ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0));           
+                    var franchise_name = resp_author.meta.franchise_name;    
+                    var individual_1_first_name = resp_author.meta.individual_1_first_name;            
+                    var individual_1_last_name = resp_author.meta.individual_1_last_name;  
+                    var contact_number = resp_author.meta.telephone;
+                    var contact_email = resp_author.meta.aa_email_address;
+                    var one_time_payment_url = resp_class.meta.one_time_credit_card_payment_url;
+                    var recurring_credit_card_payments_url = resp_class.meta.recurring_credit_card_payments_url;
+
+                    $('[data-remodal-id="popup"] .content').html( template( {
+                        amount_due : registration_fee + tuition,
+                        franchise_name : franchise_name,
+                        contact_name : individual_1_first_name + ' ' + individual_1_last_name,
+                        contact_number : contact_number,
+                        contact_email : contact_email,
+                        registration_fee : registration_fee,
+                        tuition : tuition,
+                        payment_link_onetime : one_time_payment_url,
+                        payment_link_auto : recurring_credit_card_payments_url
+                    } ) ) ;
+                    
+                    remodal_popup = $('[data-remodal-id=popup]').remodal();
+                    remodal_popup.open();
+                });             
+            }); 
+        });        
+    }
+
 })(jQuery);
 
-function show_payment_options(){
-    $=jQuery;    
 
-    $.get(ajax_login_object.theme_url + '/includes/modals/payment-options.html', function(resp_payopt){
-        $('head').append(resp_payopt);
-        $.get(ajax_login_object.theme_url + '/includes/modals/popup.html', function(resp_popupmodal){
-            var template = wp.template( 'payment-options' );            
-
-            $('body').append(resp_popupmodal);            
-            
-            var class_id = getParameterByName('class_id');
-            var loc_id = getParameterByName('location_id');
-
-            var d1 = $.Deferred();
-            var d2 = $.Deferred();
-
-            var resp_class;
-            var resp_author;
-            
-            $.post(ajax_login_object.ajaxurl, { action: 'am2_ajax_get_postmeta', post_id: class_id }, function(resp){
-                resp_class=resp;
-                d1.resolve();                                                       
-            }); 
-
-            $.post(ajax_login_object.ajaxurl, { action: 'am2_ajax_get_authormeta', post_id: loc_id }, function(resp){
-                resp_author=resp;                
-                d2.resolve();
-            });
-
-            $.when( d1, d2 ).done(function(){                
-
-                var payment_type = class_costs[resp_class.meta.class_costs];    
-                var registration_fee = parseInt(resp_class.meta[payment_type + '_registration_fee']);
-                var monthly_tuition = 0;
-                var session_tuition = 0;
-                try {
-                    monthly_tuition = parseInt(resp_class.meta[payment_type + '_monthly_tuition']);                
-                    session_tuition = parseInt(resp_class.meta[payment_type + '_session_tuition']);
-                }   
-                catch(exc){
-                    console.log(exc, monthly_tuition, session_tuition); 
-                }                   
-                
-                var tuition = ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0));           
-                var franchise_name = resp_author.meta.franchise_name;    
-                var individual_1_first_name = resp_author.meta.individual_1_first_name;            
-                var individual_1_last_name = resp_author.meta.individual_1_last_name;  
-                var contact_number = resp_author.meta.telephone;
-                var contact_email = resp_author.meta.aa_email_address;
-                var one_time_payment_url = resp_class.meta.one_time_credit_card_payment_url;
-                var recurring_credit_card_payments_url = resp_class.meta.recurring_credit_card_payments_url;
-
-                $('[data-remodal-id="popup"] .content').append( template( {
-                    amount_due : registration_fee + tuition,
-                    franchise_name : franchise_name,
-                    contact_name : individual_1_first_name + ' ' + individual_1_last_name,
-                    contact_number : contact_number,
-                    contact_email : contact_email,
-                    registration_fee : registration_fee,
-                    tuition : tuition,
-                    payment_link_onetime : one_time_payment_url,
-                    payment_link_auto : recurring_credit_card_payments_url
-                } ) ) ;
-                
-                remodal_popup = $('[data-remodal-id=popup]').remodal();
-                remodal_popup.open();
-            });             
-        }); 
-    });        
-}
 
 function updateQueryStringParameter(uri, key, value) {
   var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");

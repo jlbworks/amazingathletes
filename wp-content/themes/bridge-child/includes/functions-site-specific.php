@@ -47,6 +47,70 @@ function add_js_permalink_to_head() {
 
 }
 
+add_action('wp_ajax_am2_ajax_register_for_class', 'am2_ajax_register_for_class');
+
+add_action('wp_ajax_nopriv_am2_ajax_register_for_class', 'am2_ajax_register_for_class');
+
+function am2_ajax_register_for_class(){
+    header('Content-Type: application/json');
+    $response = array('success' => false);
+
+    $to = 'ivan.svaljek@am2studio.hr';
+    $from = 'web@jlbworks.com';
+    $subject = 'Amazing Athletes registration';
+    $reply_to = $_POST['email'];
+
+    $message = 
+    'From: [parent-name] <[email]>
+    Child name: [child-first-name] [child-last-name]
+    Birthday: [child-birthday]
+    Gender: [child-gender]
+    Shirt size: [child-shirt-size]
+    Classroom/Teacher: [classroom-teacher]
+    Parent name: [parent-name]
+    Address: [address]
+    State: [state]
+    City: [city]
+    ZIP: [zipcode]
+    Phone: [primary-phone]
+    Email: [email]
+    Liability release: [liability]
+    Photo release: [photo_release]
+    Location ID: [location_id]
+    Class ID: [class_id]
+
+    Comments & Questions:
+    [comments]
+
+    --
+    This e-mail was sent from a contact form on Amazing Athletes ('.site_url().')';
+
+    function replace_with_postdata($match){
+        //var_dump($match);
+        if(!isset($_POST[$match[1]])) return '';
+        return $_POST[$match[1]];
+    }
+
+    $message = preg_replace_callback('(\[([a-zA-Z0-9-_]+?)\])', "replace_with_postdata", $message );
+    $headers = array(
+         'Reply-To' => $reply_to, 
+    );
+
+    $result = wp_mail($to, $subject, $message, $headers);
+    $response['success'] = $result;
+
+    if($result == true){        
+        
+    }   
+    else {
+
+    } 
+
+    echo json_encode($response);
+    exit();
+}
+
+
 
 add_action('wp_ajax_am2_filter_locations', 'am2_filter_locations');
 
@@ -299,11 +363,11 @@ if( function_exists('acf_add_options_page') ) {
 		'parent_slug' 	=> 'theme-general-settings',		
 	));
 
-    acf_add_options_page(array(
+    /*acf_add_options_page(array(
 		'page_title' 	=> 'Notifications',
 		'menu_title'	=> 'Notifications',
 		'parent_slug' 	=> 'theme-general-settings',		
-	));
+	));*/
 	
 	acf_add_options_sub_page(array(
 		'page_title' 	=> 'Theme Header Settings',
