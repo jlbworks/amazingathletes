@@ -1,3 +1,9 @@
+<style type="text/css">
+.fc-time{
+   display : none;
+}
+</style>
+
 <?php
 require('When/Valid.php');
 require('When/When.php');
@@ -59,11 +65,17 @@ function am2_format_event_for_calendar($_class, $data=array()) {
 
     if (isset($data['start'])) {
         $start = $data['start'];
+        $end = $data['start'];
+    }
+
+    if (isset($data['end'])) {
+        $end = $data['end'];
     }
 
     return array(
         'title' => $title,
         'start' => $start,
+        'end'   => $end,
     );
 }
 
@@ -113,7 +125,7 @@ $classes_for_calendar = [];
 foreach ($classes as $c) {
     //var_dump(get_post_meta($c->ID));
 
-    if (in_array($c->type, array('Parent-Pay', 'Session'))) {
+    if (in_array($c->type, array('Parent-Pay', 'Contract'))) {
 
         $occurrences = am2_get_occurrences($c);
 
@@ -122,6 +134,11 @@ foreach ($classes as $c) {
             $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $o->format('Y-m-d')));
         }
 
+        continue;
+    }
+
+    if ('Session' === $c->type and (!empty($c->date_start) and !empty($c->date_end))) {
+        $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $c->date_start, 'end' => $c->date_end));
         continue;
     }
 
@@ -134,29 +151,32 @@ foreach ($classes as $c) {
 //exit();
 ?>
 <div class="kolona1">
-    <label>Location:</label>
-    <select id="filter_location" name="location_id">
-        <option></option>
-    <?php foreach ($locations as $l): ?>
-        <option value="<?php echo $l->ID; ?>"><?php echo $l->post_title; ?></option>
-    <?php endforeach; ?>
-    </select>
+    <form method="get">
+        <label>Location:</label>
+        <select id="filter_location" name="location_id">
+            <option></option>
+        <?php foreach ($locations as $l): ?>
+            <option value="<?php echo $l->ID; ?>"><?php echo $l->post_title; ?></option>
+        <?php endforeach; ?>
+        </select>
 
-    <label>Month:</label>
-    <select id="filter_location" name="location_id">
-        <option></option>
-    <?php for ($m=1; $m<=12; $m++): $month_name = date('F', mktime(0,0,0,$m, 1, date('Y'))); ?>
-        <option value="<?php echo $m; ?>"><?php echo $month_name; ?></option>
-    <?php endfor; ?>
-    </select>
+        <label>Month:</label>
+        <select id="filter_location" name="location_id">
+            <option></option>
+        <?php for ($m=1; $m<=12; $m++): $month_name = date('F', mktime(0,0,0,$m, 1, date('Y'))); ?>
+            <option value="<?php echo $m; ?>"><?php echo $month_name; ?></option>
+        <?php endfor; ?>
+        </select>
 
-    <label>Coach:</label>
-    <select id="filter_coach" name="coach_id">
-        <option></option>
-    <?php foreach ($coaches as $c): ?>
-        <option value="<?php echo $c->ID; ?>"><?php echo "{$c->first_name} {$c->last_name}"; ?></option>
-    <?php endforeach; ?>
-    </select>
+        <label>Coach:</label>
+        <select id="filter_coach" name="coach_id">
+            <option></option>
+        <?php foreach ($coaches as $c): ?>
+            <option value="<?php echo $c->ID; ?>"><?php echo "{$c->first_name} {$c->last_name}"; ?></option>
+        <?php endforeach; ?>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
 </div>
 
 <div style="margin-bottom:25px;"></div>
