@@ -17,15 +17,24 @@ $class_programs = array(
     'Training Academy',
     'Summer Camp',
     'Special Event',
-); 
+);
 
-$class_types = array(
+/*$class_types = array(
     'Demo',
     'Parent-Pay Monthly',
     'Parent-Pay Session',
     'Annual Contract',
     'Camp',
     'Event'
+);*/
+
+$class_types = array(
+    'Demo',
+    'Parent-Pay',
+    'Session',
+    'Contract',
+    'Camp',
+    //'Event',
 );
 
 $coach_pay_scales = array(
