@@ -1,7 +1,7 @@
 var remodal_popup;
 var class_costs = {
-    "Parent-Pay Monthly" : "parent_pay_monthly",
-    "Parent-Pay Session" : "parent_pay_session",
+    "Parent-Pay" : "parent_pay_monthly",
+    "Session" : "parent_pay_session",
     "Contracts/Events" : "contracts_events"
 };
 
@@ -828,9 +828,7 @@ var class_costs = {
             }); 
         });        
     }
-
 })(jQuery);
-
 
 
 function updateQueryStringParameter(uri, key, value) {
@@ -853,3 +851,4 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+

@@ -364,11 +364,11 @@ $possible_registration_options = array(
     '3rd Party Registrations',
 );
 
-$possible_class_costs = array(
+/*$possible_class_costs = array(
     'Parent-Pay Monthly',
     'Parent-Pay Session',
     'Contracts/Events',
-);
+);*/
 
 
 global $class_programs, $class_types, $coach_pay_scales, $class_payment_informations;
@@ -389,15 +389,30 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 	<h1><?php echo $_title; ?></h1>
 
 	<form method="post">
-
+	<!-- Demo, parent pay, Session, Contract, Camp -->
 		<label>Class Type</label>
 		<select name="type" class="js-induce-change-select-class">
-			<option<?php if($class_type == 'Demo'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day" data-change-to-section="class-schedule">Demo</option>
-			<option<?php if($class_type == 'Parent-Pay Monthly'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_recurring"  data-change-to-section="class-schedule">Parent-Pay Monthly</option>
-			<option<?php if($class_type == 'Parent-Pay Session'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_session"  data-change-to-section="class-schedule">Parent-Pay Session</option>
-			<option<?php if($class_type == 'Annual Contract'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_recurring"  data-change-to-section="class-schedule">Annual Contract</option>
-			<option<?php if($class_type == 'Camp'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day"  data-change-to-section="class-schedule">Camp</option>
-			<option<?php if($class_type == 'Event'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day"  data-change-to-section="class-schedule">Event</option>
+			<option<?php if($class_type == 'Demo'){ ?> selected="selected"<?php } ?>
+				value="Demo"
+				data-change-to-id="class_schedule_single_day"
+				data-change-to-section="class-schedule">Demo</option>
+			<option<?php if($class_type == 'Parent-Pay'){ ?> selected="selected"<?php } ?>
+				value="Parent-Pay"
+				data-change-to-id="class_schedule_recurring"
+				data-change-to-section="class-schedule">Parent Pay</option>
+			<option<?php if($class_type == 'Session'){ ?> selected="selected"<?php } ?>
+				value="Session"
+				data-change-to-id="class_schedule_session"
+				data-change-to-section="class-schedule">Session</option>
+			<option<?php if($class_type == 'Contract'){ ?> selected="selected"<?php } ?>
+				value="Contract"
+				data-change-to-id="class_schedule_recurring"
+				data-change-to-section="class-schedule">Contract</option>
+			<option<?php if($class_type == 'Camp'){ ?> selected="selected"<?php } ?>
+				value="Camp"
+				data-change-to-id="class_schedule_single_day"
+				data-change-to-section="class-schedule">Camp</option>
+			<!--<option<?php if($class_type == 'Event'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day"  data-change-to-section="class-schedule">Event</option>-->
 		</select>
 		<?php /*<select name="type" class="js-induce-change-select-class" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
 			<?php foreach ($class_types as $type):

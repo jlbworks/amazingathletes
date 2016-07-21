@@ -25,7 +25,7 @@
         </a>
     </div>
     <div class="side-nav">
-        <a href="<?php echo site_url();?>/my-account/appointments/" class="sidebar-link">
+        <a href="<?php echo site_url();?>/my-account/my-calendar/" class="sidebar-link">
             <span>
                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
             </span>

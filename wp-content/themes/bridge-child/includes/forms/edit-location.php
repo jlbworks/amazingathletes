@@ -128,8 +128,8 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 					$classes_meta 	= get_post_meta($c->ID);
 					$class_type 	= am2_get_meta_value('type',	$classes_meta);
 					$stype 			= am2_get_meta_value('schedule_type',	$classes_meta);
-					$has_date 		= array('Demo', 'Parent-Pay Session', 'Camp', 'Event');
-					$has_day 		= array('Parent-Pay Monthly', 'Annual Contract');
+					$has_date 		= array('Demo', 'Session', 'Camp', 'Event');
+					$has_day 		= array('Parent-Pay', 'Contract');
 					$when 			= '';
 
 					if (in_array($class_type, $has_date)) {

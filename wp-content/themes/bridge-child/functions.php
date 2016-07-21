@@ -15,7 +15,7 @@ function am2_has_role($user, $role) {
 
 	if (!empty($user->roles) && is_array($user->roles)) {
 		foreach ($user->roles as $_role) {
-			if ($_role == $role) {	
+			if ($_role == $role) {
 				return true;
 			}
 		}
@@ -53,19 +53,19 @@ function wp_schools_enqueue_scripts() {
 	//wp_enqueue_script('jquery');
 
 	wp_register_script('jquery.validate', get_stylesheet_directory_uri() . '/js/jquery.validation/jquery.validate.min.js');
-	wp_enqueue_script('jquery.validate');	
-    
+	wp_enqueue_script('jquery.validate');
+
 }
 add_action('wp_enqueue_scripts', 'wp_schools_enqueue_scripts', 11);
 
 function am2_init() {
-	global $wpdb;	
+	global $wpdb;
 
 	wp_enqueue_script( 'wp-util' );
 
 	wp_register_style('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.css');
 	wp_enqueue_style('selectize');
-	
+
 	wp_register_style('svg', get_stylesheet_directory_uri() . '/js/svg/jquery.svg.css');
 	wp_enqueue_style('svg');
 
@@ -80,12 +80,15 @@ function am2_init() {
 	wp_register_style('jquery.datetimepicker', get_stylesheet_directory_uri() . '/css/jquery.datetimepicker.css');
 	wp_enqueue_style('jquery.datetimepicker');
 
+	wp_register_style('fullcalendar', get_stylesheet_directory_uri() . '/js/fullcalendar.min.css');
+	wp_enqueue_style('fullcalendar');
+
 	wp_register_script('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.min.js', array('jquery'));
 	wp_enqueue_script('selectize');
 
 	wp_register_script('remodal', get_stylesheet_directory_uri() . '/js/remodal/remodal.min.js');
 	wp_enqueue_script('remodal');
-	
+
 	wp_register_script('jquery.form', get_stylesheet_directory_uri() . '/js/jquery.form.min.js');
 	wp_enqueue_script('jquery.form');
 
@@ -95,14 +98,21 @@ function am2_init() {
 	wp_register_script('svg', get_stylesheet_directory_uri() . '/js/svg/jquery.svg.min.js');
 	wp_enqueue_script('svg');
 
-	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), '', true);	
+	wp_register_script('moment', get_stylesheet_directory_uri() . '/js/moment.min.js');
+	wp_enqueue_script('moment');
+
+	wp_register_script('fullcalendar', get_stylesheet_directory_uri() . '/js/fullcalendar.min.js' , array('jquery'));
+	wp_enqueue_script('fullcalendar');
+
+	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), '', true);
 	wp_enqueue_script('am2_main');
 
-	wp_register_script('jquery.timepicker', get_stylesheet_directory_uri() . '/js/jquery.timepicker.min.js' , array('jquery'), '', true);	
-	wp_enqueue_script('jquery.timepicker');	
+	wp_register_script('jquery.timepicker', get_stylesheet_directory_uri() . '/js/jquery.timepicker.min.js' , array('jquery'), '', true);
+	wp_enqueue_script('jquery.timepicker');
 
-	wp_register_script('jquery.datepicker', get_stylesheet_directory_uri() . '/js/jquery.datetimepicker.min.js' , array('jquery'), '', true);	
-	wp_enqueue_script('jquery.datepicker');	
+	wp_register_script('jquery.datepicker', get_stylesheet_directory_uri() . '/js/jquery.datetimepicker.min.js' , array('jquery'), '', true);
+	wp_enqueue_script('jquery.datepicker');
+
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
 	wp_localize_script('am2_main', 'ajax_login_object', array(
