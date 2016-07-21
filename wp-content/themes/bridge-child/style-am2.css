@@ -197,3 +197,82 @@ text-align: center;
     background: #d22626;
     font-size: 12px;
 }
+
+#frm_registration_wrap{
+    margin-bottom:50px;
+}
+
+#frm_registration input[type="submit"] {
+    position: relative;
+    display: inline-block;
+    width: auto;
+    height: 39px;
+    line-height: 36px;
+    margin: 0;
+    padding: 0 23px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: Raleway,sans-serif;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    outline: 0;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    -o-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
+    text-shadow: none;
+    background-color: transparent;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+    -ms-transition: all .1s linear;
+    -o-transition: all .1s linear;
+    transition: all .1s linear;
+    -webkit-box-sizing: initial;
+    -moz-box-sizing: initial;
+    box-sizing: initial;
+    border-color: #fe0000;
+    -webkit-appearance: none;
+    color:#fe0000;
+}
+
+#frm_registration .error {
+    border:1px solid red;
+}
+
+.tabs {
+    text-align:center;
+}
+
+.tabs li {
+    list-style: none;
+    display: inline-block;
+    padding: 5px 10px; 
+    margin: 0px 10px;
+    border:1px solid #FE0000;
+}
+
+.tabs li:hover {
+    cursor:pointer;
+}
+
+.tab_content {
+    display:none;
+}
+
+.accord_content {
+    display:none;
+    border: 1px solid #FE0000;
+    padding:5px 10px;
+}
+
+.accord {
+    padding:5px 10px;
+    color:white;
+    background-color:#FE0000;
+}

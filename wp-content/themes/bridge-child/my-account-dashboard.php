@@ -29,15 +29,54 @@ get_header();
 	<div class="wpb_text_column wpb_content_element  copy-child-page">
 		<div class="wpb_wrapper">
 			<h1 class="entry-title" style="text-align: center;">Dashboard</h1>
-<?php $notifications = get_field('notifications', 'option');
-if(is_array($notifications)) {?>
+<?php 
+$notifications = get_field('notifications', 'option');
+$dates = get_field('important_dates', 'option');
+$info_pages = get_field('info_pages', 'option');
+$submit_pl_statement = get_field('submit_pl_statement', 'option');
+$submit_certificate_of_liability_insurance = get_field('submit_certificate_of_liability_insurance', 'option');?>
+
+<ul class="tabs">
+	<li id="tab_notifications" class="tab">Notifications</li>
+	<li id="tab_dates" class="tab">Important dates</li>
+	<li id="tab_files" class="tab">Files</li>
+	<li id="tab_fees" class="tab">Fees</li>
+</ul>
+<br/>
+<?php if(is_array($notifications)) {?>
+<div class="ip_notifications tab_content tab_content_notifications">
 	<?php foreach($notifications as $notification){?>
 	<div>
 		<h3><?php echo $notification['title'];?><span class="date"><?php echo $notification['date'];?></span></h3>
 		<?php echo $notification['notification'];?>
 	</div>
 	<?php }?>
+</div>
 <?php } ?>
+<?php if(is_array($dates)) {?>
+<div class="ip_dates tab_content tab_content_dates">
+	<?php foreach($dates as $date){?>
+	<div>
+		<h3><?php echo $date['title'];?><span class="date"><?php echo $date['date'];?></span></h3>
+		<?php echo $date['notification'];?>
+	</div>
+	<?php }?>
+</div>
+<?php } ?>
+<div class="ip_files tab_content tab_content_files">
+	<?php if($submit_pl_statement) echo '<a href="'.$submit_pl_statement.'">Submit P&L Statement</a>'; ?><br/>
+	<?php if($submit_certificate_of_liability_insurance) echo '<a href="'.$submit_certificate_of_liability_insurance.'">Submit Certificate of Liability Insurance</a>'; ?>
+</div>
+<div class="ip_pages tab_content tab_content_fees">
+	<?php if(is_array($info_pages)) {?>
+	<?php foreach($info_pages as $key => $ip) {?>
+		<h3 id="accord_<?php echo $key; ?>" class="accord"><?php echo $ip['title'];?></h3>
+		<div  class="accord_content accord_content_<?php echo $key; ?>" >
+			<?php echo $ip['content'];?>
+		</div>
+	<?php } ?>
+	<?php } ?>
+</div>
 </div> 
 	</div> 	<div id="e-space" class="vc_empty_space" style="height: 50px"><span class="vc_empty_space_inner">
 			<span class="empty_space_image"></span>
