@@ -130,8 +130,16 @@ $classes = get_posts($args);
 
 $classes_for_calendar = [];
 
+$cid = false;
+
 foreach ($classes as $c) {
     //var_dump(get_post_meta($c->ID));
+    if (isset($_GET['coach_id']) and !empty($_GET['coach_id'])) {
+        $cid = (int) $_GET['coach_id'];
+        if(!in_array($cid, $c->coaches)) {
+            continue;
+        }
+    }
 
     if (in_array($c->type, array('Parent-Pay', 'Contract'))) {
 
@@ -180,7 +188,7 @@ foreach ($classes as $c) {
         <select id="filter_coach" name="coach_id">
             <option></option>
         <?php foreach ($coaches as $c): ?>
-            <option value="<?php echo $c->ID; ?>"><?php echo "{$c->first_name} {$c->last_name}"; ?></option>
+            <option value="<?php echo $c->ID; ?>" <?php if ($cid==$c->ID): ?> selected="selected" <?php endif;?>><?php echo "{$c->first_name} {$c->last_name}"; ?></option>
         <?php endforeach; ?>
         </select>
         <button type="submit">Filter</button>
