@@ -828,6 +828,11 @@ var class_costs = {
             }); 
         });        
     }
+
+    $('input[name="child-birthday"]').datetimepicker({
+        timepicker: false,
+        format:'m-d-Y'
+    });
 })(jQuery);
 
 
