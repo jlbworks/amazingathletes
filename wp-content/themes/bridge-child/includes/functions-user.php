@@ -33,6 +33,7 @@ $mypages = array(
 	'Press' => 'press',
 	'Event form' => 'event-form',
 	'Calendar' => 'calendar',
+	'Pay online' => 'pay_online',
 );
 
 global $mypages_multi;
@@ -51,6 +52,7 @@ $mypages_optional = array(
 	'press',
 	'event-form',
 	'calendar',
+	'Pay online',
 );
 
 add_action('wp_ajax_am2_logout', 'am2_logout');
