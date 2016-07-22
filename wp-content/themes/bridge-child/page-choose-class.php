@@ -61,7 +61,7 @@ get_header();
 		<tr>
 			<td><?php echo $day; ?></td>
 			<td><?php echo am2_get_meta_value('time', 		$classes_meta); ?></td>
-			<td><?php echo am2_get_meta_value('program', 	$classes_meta); ?></td>
+			<td><?php echo am2_get_meta_value('program', 	$classes_meta); echo '  '.$c->schedule_type;?></td>
 			<?php /*<td><?php echo am2_get_meta_value('type', 	$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('coach_pay_scale', 	$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('class_paynent_information', 	$classes_meta); ?></td>
