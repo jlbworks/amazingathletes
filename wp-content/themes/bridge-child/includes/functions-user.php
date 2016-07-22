@@ -52,7 +52,7 @@ $mypages_optional = array(
 	'press',
 	'event-form',
 	'calendar',
-	'Pay online',
+	'pay_online',
 );
 
 add_action('wp_ajax_am2_logout', 'am2_logout');
