@@ -511,7 +511,7 @@ var class_costs = {
 
                 var $state = $('<div class="state"></div>');
 
-                $state.append('<h1 class="state_title" style="text-align: center;"><span class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ loc_state +'.png" /></span><span class="td">'+state_name+'</span></h1>')
+                $state.append('<h1 class="state_title" style="text-align: center;"><div class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ loc_state +'.png" /></div><span class="td">'+state_name+'</span></h1>')
 
                 if(Object.keys(resp).length>0){
                 	var $ul = $('<select class="cities"></select>');
