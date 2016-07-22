@@ -47,4 +47,27 @@ function am2_ajax_get_authormeta() {
 	echo json_encode(array('success' => true, 'meta' => $usermeta));
 	exit();
 }
+
+function get_class_date($c) {
+	$classes_meta = get_post_meta($c->ID);
+	$day = am2_get_meta_value('day',         $classes_meta);
+
+	if (in_array($c->type, array('Camp','Demo'))) {
+		$day = am2_get_meta_value('date', $classes_meta);
+	}
+
+	if ('Yearly' == $c->schedule_type) {
+		$this_year = date('Y');
+		$day = new DateTime(date("{$this_year}-m-d", strtotime("{$c->date_every_year}")));
+		$day = $day->format('m/d/Y');
+	}
+
+	if ('Session' == $c->type) {
+		$date_start = am2_get_meta_value('date_start',     $classes_meta);
+		$date_end    = am2_get_meta_value('date_end',     $classes_meta);
+		$day = "{$date_start} - {$date_end}";
+	}
+
+	return $day;
+}
 ?>

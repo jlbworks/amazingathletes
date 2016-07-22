@@ -1,11 +1,12 @@
 <?php
   $location_id = (isset($_GET['location_id']) ? $_GET['location_id'] : null);
   $class_id = (isset($_GET['class_id']) ? $_GET['class_id'] : null);
+  $class = get_post($class_id);
 
   $location_name = get_the_title($location_id);
   $class_program = get_post_meta($class_id, 'program', true);
   $class_time = get_post_meta($class_id, 'time', true);
-  $class_date = get_post_meta($class_id, 'date', true);
+  $class_date = get_class_date($class, 'date', true);
 ?>
 
 <div role="form" class="wpcf7" id="frm_registration_wrap" lang="en-US" dir="ltr">
