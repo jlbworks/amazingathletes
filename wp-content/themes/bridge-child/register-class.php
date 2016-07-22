@@ -1,6 +1,10 @@
 <?php /* Template name: Registration form */ ?>
 <?php 
 global $wp_query;
+
+$class_id = $_GET['class_id'];
+$class_meta = get_post_meta($class_id);
+
 $id = $wp_query->get_queried_object_id();
 $sidebar = get_post_meta($id, "qode_show-sidebar", true);  
 
@@ -50,7 +54,15 @@ else { $paged = 1; }
 		<?php if(($sidebar == "default")||($sidebar == "")) : ?>
 			<?php if (have_posts()) : 
 					while (have_posts()) : the_post(); ?>
-					<?php the_content(); ?><?php require_once('includes/forms/frm_register_class.php');?>
+					<?php the_content(); ?>
+					<?php
+						if($class_meta['registration_option'][0] != '3rd Party Registrations') {
+							require_once('includes/forms/frm_register_class.php');
+						}						 
+						else {
+							echo '<a href="'.$class_meta['external_registration_url'][0].'">Off site registration</a>';
+						}						 
+						?>
 					<?php 
  $args_pages = array(
   'before'           => '<p class="single_links_pages">',
@@ -88,7 +100,14 @@ else { $paged = 1; }
 						<div class="column_inner">
 						
 						<?php the_content(); ?>	
-                        <?php require_once('includes/forms/frm_register_class.php');?>
+                        <?php
+						if($class_meta['registration_option'][0] != '3rd Party Registrations') {
+							require_once('includes/forms/frm_register_class.php');
+						}						 
+						else {
+							echo '<a href="'.$class_meta['external_registration_url'][0].'">Off site registration</a>';
+						}						 
+						?>
 						<?php 
  $args_pages = array(
   'before'           => '<p class="single_links_pages">',
@@ -131,7 +150,15 @@ else { $paged = 1; }
 						<?php if (have_posts()) : 
 							while (have_posts()) : the_post(); ?>
 							<div class="column_inner">
-							<?php the_content(); ?><?php require_once('includes/forms/frm_register_class.php');?>		
+							<?php the_content(); ?>
+							<?php
+							if($class_meta['registration_option'][0] != '3rd Party Registrations') {
+								require_once('includes/forms/frm_register_class.php');
+							}						 
+							else {
+								echo '<a href="'.$class_meta['external_registration_url'][0].'">Off site registration</a>';
+							}						 
+							?>		
 							<?php 
  $args_pages = array(
   'before'           => '<p class="single_links_pages">',
