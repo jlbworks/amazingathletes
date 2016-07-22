@@ -1,5 +1,23 @@
+<?php
+  $location_id = (isset($_GET['location_id']) ? $_GET['location_id'] : null);
+  $class_id = (isset($_GET['class_id']) ? $_GET['class_id'] : null);
+
+  $location_name = get_the_title($location_id);
+  $class_program = get_post_meta($class_id, 'program', true);
+  $class_time = get_post_meta($class_id, 'time', true);
+?>
+
 <div role="form" class="wpcf7" id="frm_registration_wrap" lang="en-US" dir="ltr">
-  <div class="screen-reader-response"></div>
+
+  <?php if(!empty($location_id) && !empty($class_id)){?>
+  <div "location_class_info">
+    <h1>Register for <?php echo $class_program;?></h1>
+    <h2>Location: <?php echo $location_name;?></h2>
+    <h2>Time: <?php echo $class_time;?></h2>    
+  </div>
+  <?php } ?>
+  <br/>
+
   <form id="frm_registration" action="<?php echo admin_url('admin-ajax.php');?>" method="post" class="wpcf7-form" >
     <p>Child's First Name *<br>
       <span class="wpcf7-form-control-wrap child-first-name">
