@@ -50,6 +50,7 @@ get_header();
     		if ('Yearly' == $c->schedule_type) {
     			$this_year = date('Y');
         		$day = new DateTime(date("{$this_year}-m-d", strtotime("{$c->date_every_year}")));
+        		$day = $day->format('m/d/Y');
     		}
 
     		if ('Session' == $c->type) {
