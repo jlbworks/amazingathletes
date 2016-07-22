@@ -172,6 +172,12 @@ get_header();?>
 				}
 			}
 
+			else if($mypage == 'calendar'){
+				if($curauth->show_calendar){					
+					include_once('includes/my-account-calendar.php'); 
+				}
+			}
+
 			else if($mypage == 'staff'){
 
 				$staff = get_users(

@@ -32,6 +32,7 @@ $mypages = array(
 	'Blog' => 'blog',
 	'Press' => 'press',
 	'Event form' => 'event-form',
+	'Calendar' => 'calendar',
 );
 
 global $mypages_multi;
@@ -49,6 +50,7 @@ $mypages_optional = array(
 	'blog',
 	'press',
 	'event-form',
+	'calendar',
 );
 
 add_action('wp_ajax_am2_logout', 'am2_logout');
