@@ -43,7 +43,7 @@ get_header();
 			$classes_meta = get_post_meta($c->ID);
 			$day = am2_get_meta_value('day', 		$classes_meta);
 
-			if (in_array($c->schedule_type, array('Camp','Demo'))) {
+			if (in_array($c->type, array('Camp','Demo'))) {
 				$day = am2_get_meta_value('date', $classes_meta);
 			}
 
@@ -52,7 +52,7 @@ get_header();
         		$day = new DateTime(date("{$this_year}-m-d", strtotime("{$c->date_every_year}")));
     		}
 
-    		if ('Session' == $c->schedule_type) {
+    		if ('Session' == $c->type) {
     			$date_start = am2_get_meta_value('date_start', 	$classes_meta);
     			$date_end	= am2_get_meta_value('date_end', 	$classes_meta);
     			$day = "{$date_start} - {$date_end}";
