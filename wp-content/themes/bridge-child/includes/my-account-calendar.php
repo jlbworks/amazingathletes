@@ -5,19 +5,20 @@
 </style>
 
 <?php
+$author_id = (int) get_query_var('author');
+if (!empty($author_id)) {
+    $user = get_user_by('ID', (int) $author_id);
+}
+
 require('When/Valid.php');
 require('When/When.php');
 
-//var_dump(date('Y-m-d', strtotime("first saturday of this month")));
-/*$start    = new DateTime('2016-07-01');
-$end      = new DateTime('2016-07-31');
-$interval = DateInterval::createFromDateString('first saturday of this month');
-$period   = new DatePeriod($start, $interval, $end, DatePeriod::EXCLUDE_START_DATE);
-foreach($period as $time) {
-    echo $time->format("F jS") . "<br>\n";
-}*/
+function stringToColorCode($str) {
+    $code = dechex(crc32($str));
+    $code = substr($code, 0, 6);
+    return "#{$code}";
 
-//exit();
+}
 
 function am2_get_occurrences($_class) {
     $r = new When\When();
@@ -61,6 +62,7 @@ function am2_format_event_for_calendar($_class, $data=array()) {
 
     if ($_class->date) {
         $start = date('Y-m-d', strtotime("{$_class->date}"));
+        $end = $start;
     }
 
     if (isset($data['start'])) {
@@ -72,10 +74,21 @@ function am2_format_event_for_calendar($_class, $data=array()) {
         $end = $data['end'];
     }
 
+    $color = '#87CEFA';
+
+    if (is_array($_class->coaches) and !empty($_class->coaches)) {
+
+        $coach = get_user_by('ID', (int) $_class->coaches[0]);
+
+        $color = stringToColorCode("{$coach->first_name} {$coach->last_name}");
+    }
+
     return array(
         'title' => $title,
         'start' => $start,
         'end'   => $end,
+        'backgroundColor'   => $color,
+        'borderColor'       => $color,
     );
 }
 
@@ -136,7 +149,7 @@ foreach ($classes as $c) {
     //var_dump(get_post_meta($c->ID));
     if (isset($_GET['coach_id']) and !empty($_GET['coach_id'])) {
         $cid = (int) $_GET['coach_id'];
-        if(!in_array($cid, $c->coaches)) {
+        if(!is_array($c->coaches) or !in_array($cid, $c->coaches)) {
             continue;
         }
     }
