@@ -54,15 +54,19 @@ add_action('wp_ajax_nopriv_am2_ajax_register_for_class', 'am2_ajax_register_for_
 function am2_ajax_register_for_class(){
     header('Content-Type: application/json');
     $response = array('success' => false);
+   
+    $location_id = $_POST['location_id'];
+    $franchisee_id = get_post($location_id)->post_author;
+    $franchisee = get_user_by('id', $franchisee_id);    
 
-    $to = 'ivan.svaljek@am2studio.hr';
+    $to = $franchisee->user_email;
     $from = 'web@jlbworks.com';
     $subject = 'Amazing Athletes registration';
     $reply_to = $_POST['email'];
 
     $message = 
-    'From: [parent-name] <[email]>
-    Child name: [child-first-name] [child-last-name]
+    //'From: [parent-name] <[email]>
+    'Child name: [child-first-name] [child-last-name]
     Birthday: [child-birthday]
     Gender: [child-gender]
     Shirt size: [child-shirt-size]
@@ -92,14 +96,25 @@ function am2_ajax_register_for_class(){
     }
 
     $message = preg_replace_callback('(\[([a-zA-Z0-9-_]+?)\])', "replace_with_postdata", $message );
-    $headers = array(
-         'Reply-To' => $reply_to, 
-    );
+    
+    $headers  = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type: text/plain; charset=utf-8" . "\r\n";
 
-    $result = wp_mail($to, $subject, $message, $headers);
-    $response['success'] = $result;
+    $headers1 = $headers;
+    $headers1 .= "Reply-To: <$reply_to>" . "\r\n";
+    
+    $headers2 = $headers;
+    $headers2 .= "Reply-To: <$to>" . "\r\n"; 
 
-    if($result == true){        
+    /*to franchisee*/
+    $result1 = wp_mail($to, $subject, $message, $headers1);
+
+    /*to parent*/
+    $result2 = wp_mail($reply_to, $subject, $message, $headers2);
+
+    $response['success'] = $result1 && $result2;
+
+    if($response['success']){        
         
     }   
     else {

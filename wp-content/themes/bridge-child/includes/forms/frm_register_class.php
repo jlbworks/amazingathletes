@@ -131,6 +131,8 @@
       </span></p>
     <div class="wpcf7-response-output wpcf7-display-none"></div>
     <input type="hidden" name="action" value="am2_ajax_register_for_class" />
+    <input type="hidden" name="location_id" value="<?php echo $_GET['location_id'];?>" />
+    <input type="hidden" name="class_id" value="<?php echo $_GET['class_id'];?>" />
     <input type="submit" value="Register" >    
   </form>
 </div>
