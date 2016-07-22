@@ -60,7 +60,7 @@ else { $paged = 1; }
 							require_once('includes/forms/frm_register_class.php');
 						}						 
 						else {
-							echo '<a href="'.$class_meta['external_registration_url'][0].'">Off site registration</a>';
+							echo 'Please register here: <a href="'.$class_meta['external_registration_url'][0].'">'.$class_meta['external_registration_url'][0].'</a>';
 						}						 
 						?>
 					<?php 
@@ -105,7 +105,7 @@ else { $paged = 1; }
 							require_once('includes/forms/frm_register_class.php');
 						}						 
 						else {
-							echo '<a href="'.$class_meta['external_registration_url'][0].'">Off site registration</a>';
+							echo 'Please register here: <a href="'.$class_meta['external_registration_url'][0].'">'.$class_meta['external_registration_url'][0].'</a>';
 						}						 
 						?>
 						<?php 
@@ -156,7 +156,7 @@ else { $paged = 1; }
 								require_once('includes/forms/frm_register_class.php');
 							}						 
 							else {
-								echo '<a href="'.$class_meta['external_registration_url'][0].'">Off site registration</a>';
+								echo 'Please register here: <a href="'.$class_meta['external_registration_url'][0].'">'.$class_meta['external_registration_url'][0].'</a>';
 							}						 
 							?>		
 							<?php 
