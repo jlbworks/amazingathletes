@@ -238,6 +238,8 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'contract_or_event', 		$_POST['contract_or_event']);
 	update_post_meta($class_id, 'amount_earned_per_class', 		$_POST['amount_earned_per_class']);
 	update_post_meta($class_id, 'classes_per_month', 		$_POST['classes_per_month']);
+	
+	update_post_meta($class_id, 'special_event_title', $_POST['special_event_title']);
 
 	foreach($fieldsToGet as $fieldToGet):
 			update_post_meta($class_id, $fieldToGet, $_POST[$fieldToGet]);
@@ -337,6 +339,7 @@ if (isset($location_class)) {
 	$contracts_events_type 				= am2_get_meta_value('contracts_events_type', 	$location_class_meta);
 	$amount_earned_per_class 			= am2_get_meta_value('amount_earned_per_class', 	$location_class_meta);
 	$classes_per_month 					= am2_get_meta_value('classes_per_month', 	$location_class_meta);
+	$special_event_title 					= am2_get_meta_value('special_event_title', 	$location_class_meta);
 
 }
 
@@ -388,7 +391,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 	<h3>Location: <?php echo $location->post_title; ?></h3>
 	<h1><?php echo $_title; ?></h1>
 
-	<form method="post">
+	<form method="post">		
 	<!-- Demo, parent pay, Session, Contract, Camp -->
 		<label>Class Type</label>
 		<select name="type" class="js-induce-change-select-class">
@@ -414,6 +417,10 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				data-change-to-section="class-schedule">Camp</option>
 			<!--<option<?php if($class_type == 'Event'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day"  data-change-to-section="class-schedule">Event</option>-->
 		</select>
+		<div class="special_event_title_wrap <?php echo (empty($values['special_event_title']) ? 'hidden' : '');?>">
+			<label>Special Event Title</label>		
+			<input type="text" name="special_event_title" value="<?php echo $values['special_event_title']; ?>"/>
+		</div>
 		<?php /*<select name="type" class="js-induce-change-select-class" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
 			<?php foreach ($class_types as $type):
 				$if_type_selected = '';
@@ -437,6 +444,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 			<?php endforeach ?>
 		</select>
 
+		<?php /*
 		<span id="special_event_title"
 			<?php if ('Special Event' == $class_program): ?>
 						style="display:block"
@@ -447,7 +455,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 			<input 	type="text"
 					name="special_event_title"
 					value="<?php echo $values['special_event_title']; ?>">
-		</span>
+		</span>*/?>
 
 		<div class="form--section">
 			<h2>Scheduler (Settings depend on Class Type)</h2>

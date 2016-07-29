@@ -4,7 +4,7 @@
   $class = get_post($class_id);
 
   $location_name = get_the_title($location_id);
-  $class_program = get_post_meta($class_id, 'program', true);
+  $class_program = (!empty(get_post_meta($class_id, 'special_event_title', true)) ? get_post_meta($class_id, 'special_event_title', true) : get_the_title($class_id) ); //get_post_meta($class_id, 'program', true);
   $class_time = get_post_meta($class_id, 'time', true);
   $class_date = get_class_date($class, 'date', true);
 ?>

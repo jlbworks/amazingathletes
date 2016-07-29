@@ -4,6 +4,7 @@ var class_costs = {
     "Session" : "parent_pay_session",
     "Contracts/Events" : "contracts_events"
 };
+var classes_with_special_title = ['Contract','Camp']; 
 
 (function($){
     $(document).ready(function(){
@@ -605,6 +606,11 @@ var class_costs = {
 
                 am2_hide_preloader();
             });
+         });
+
+         $('.js-induce-change-select-class').on('change',function(e){          
+             console.log($.inArray($(this).val(), classes_with_special_title)==-1);   
+             $('[name="special_event_title"]').closest('div.special_event_title_wrap').toggleClass('hidden', $.inArray($(this).val(), classes_with_special_title)==-1);
          });
 
          $(document).on('click', '.state .franchise > a, .state .franchise > h3', function(e){
