@@ -4,6 +4,7 @@ var class_costs = {
     "Session" : "parent_pay_session",
     "Contracts/Events" : "contracts_events"
 };
+var classes_with_special_title = ['Contract','Camp']; 
 
 (function($){
     $(document).ready(function(){
@@ -149,6 +150,23 @@ var class_costs = {
             alert(resp.status);
             if(typeof (resp.post_id) != 'undefined' && resp.post_id != 0) {
                 window.location.href = updateQueryStringParameter(window.location.href, 'post_id', resp.post_id );
+            }
+          },
+          error: function() {
+            am2_hide_preloader();
+          }
+        });
+
+        $('#frm_add_mypage').ajaxForm({
+          beforeSubmit: function() {
+            am2_show_preloader();
+            return true; //$('#frm_edit_mypage').valid();
+          },
+          success: function(resp) {
+            am2_hide_preloader();
+            alert(resp.status);
+            if(typeof (resp.mypage_slug) != 'undefined') {
+                window.location.href = updateQueryStringParameter(window.location.href, 'page', resp.mypage_slug );
             }
           },
           error: function() {
@@ -588,6 +606,11 @@ var class_costs = {
 
                 am2_hide_preloader();
             });
+         });
+
+         $('.js-induce-change-select-class').on('change',function(e){          
+             console.log($.inArray($(this).val(), classes_with_special_title)==-1);   
+             $('[name="special_event_title"]').closest('div.special_event_title_wrap').toggleClass('hidden', $.inArray($(this).val(), classes_with_special_title)==-1);
          });
 
          $(document).on('click', '.state .franchise > a, .state .franchise > h3', function(e){

@@ -29,6 +29,7 @@ get_header();
 <table class="basic small" width="100%">
 	<tbody>
 		<tr>
+			<th>Class</th>
 			<th>Day</th>
 			<th>Time</th>
 			<th>Program</th>
@@ -61,6 +62,7 @@ get_header();
 			$day = get_class_date($c);
 		?>
 		<tr>
+			<td><?php echo (!empty($classes_meta['special_event_title'][0]) ? $classes_meta['special_event_title'][0] : get_the_title($c->ID) ); ?></td>
 			<td><?php echo $day; ?></td>
 			<td><?php echo am2_get_meta_value('time', 		$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('program', 	$classes_meta); ?></td>

@@ -16,6 +16,13 @@ if(!isset($_GET['page'])){
 	}
 	echo "</ul>";
 	?>
+	<br/>
+	<h2>Add custom page</h2>
+	<form id="frm_add_mypage" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
+		<input type="hidden" name="action" value="am2_add_mypage" />
+		<input type="text" name="page_name" placeholder="Page name" />		
+		<input type="submit" value="Add page" />
+	</form>
 	</div>
 <?php }
 else { 

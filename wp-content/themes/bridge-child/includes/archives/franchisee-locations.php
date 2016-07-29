@@ -49,7 +49,7 @@ $classes = get_posts($args);
 $location_class = array();
 
 foreach ($classes as $c) {
-	$location_class[$c->location_id] = $c->ID;
+	$location_class[$c->location_id][] = $c;
 }
 
 ?>
@@ -76,7 +76,9 @@ foreach ($classes as $c) {
 			<div class="franchise_details">
 				<span class="franchise_address"><?php echo implode(",", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></span><br/>
 				<?php if (isset($location_class[$loc->ID])): ?>
-				<a href="<?php echo site_url()."/register/?location_id=$loc->ID"; ?>" class="h1 franchise_register">Register Now</a><br/>
+				<?php foreach($location_class[$loc->ID] as $loc_class) { ?>
+				<a href="<?php echo site_url()."/register/?location_id=$loc->ID&class_id=$loc_class->ID"; ?>" class="franchise_register"><?php echo (!empty(get_post_meta($loc_class->ID, 'special_event_title', true)) ? get_post_meta($loc_class->ID, 'special_event_title', true) : get_the_title($loc_class->ID) ); ?></a><br/>
+				<?php } ?>
 				<?php endif; ?>
 				<span class="franchise_name"><?php echo (isset($meta_franchisee['franchise_name']) ? $meta_franchisee['franchise_name'] : '');?></span><br/>
 				<span class="franchise_footer"><?php echo implode("", array(get_post_meta($loc->ID, 'director', true), ' | ', get_post_meta($loc->ID, 'telephone', true) ) );?></span><br/>
