@@ -12,49 +12,6 @@ function am2_get_meta_value($key, $meta_data) {
     return false;
 }
 
-global $mypages;
-
-$mypages = array(
-	'Home' => '',
-	'About' => 'about',
-	'Program options' => 'programs',
-	'Classes' => array(
-		'menu' => 'locations',
-		'submenu'=> array(
-			'On-Site' => 'locations?type=on-site',
-			'Community Classes' => 'locations?type=community-classes',
-		),
-	),
-	'Policies' => 'policies_and_procedures',
-	'Staff' => 'staff',
-	'Contact' => 'contact',
-	'Testimonials' => 'testimonials',
-	'Blog' => 'blog',
-	'Press' => 'press',
-	'Event form' => 'event-form',
-	'Calendar' => 'calendar',
-	'Pay online' => 'pay_online',
-);
-
-global $mypages_multi;
-
-$mypages_multi = array(
-	'testimonials',
-	'blog',
-	'press',
-);
-
-global $mypages_optional;
-
-$mypages_optional = array(
-	'testimonials',
-	'blog',
-	'press',
-	'event-form',
-	'calendar',
-	'pay_online',
-);
-
 add_action('wp_ajax_am2_logout', 'am2_logout');
 
 function am2_logout() {
@@ -879,6 +836,39 @@ if(!empty($city_state)){
 	</div>
 </div>
 <?php
+}
+
+
+add_action('wp_ajax_am2_add_mypage', 'am2_add_mypage');
+
+function am2_add_mypage(){
+	global $mypages, $mypages_multi, $mypages_optional;	
+	$user_id = get_current_user_id();
+
+	$custom_pages = get_user_meta($user_id, 'custom_mypages', true);
+	$mypage_title = $_REQUEST['page_name'];
+	$mypage_slug = sanitize_title_with_dashes($mypage_title);
+
+	if(is_array($custom_pages)) $mypages = array_merge($mypages, $custom_pages);
+
+	$response = array('status' => 'Scuccess');
+
+	$exists = false;
+	foreach($mypages as  $key => $mypage) {
+		if($key == $mypage_title){
+			$exists = true;
+			$response['status'] = 'The page name already exists';
+			break;
+		}
+	}	
+
+	$custom_pages[(string)$mypage_title] = $mypage_slug;
+
+	if(!$exists)	update_user_meta($user_id, 'custom_mypages', $custom_pages);
+
+	header("Content-Type: application/json; charset=UTF-8");
+	echo json_encode( $response );	
+	exit();
 }
 
 add_action('wp_ajax_am2_edit_mypage', 'am2_edit_mypage');

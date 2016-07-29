@@ -156,6 +156,23 @@ var class_costs = {
           }
         });
 
+        $('#frm_add_mypage').ajaxForm({
+          beforeSubmit: function() {
+            am2_show_preloader();
+            return true; //$('#frm_edit_mypage').valid();
+          },
+          success: function(resp) {
+            am2_hide_preloader();
+            alert(resp.status);
+            if(typeof (resp.mypage_slug) != 'undefined') {
+                window.location.href = updateQueryStringParameter(window.location.href, 'page', resp.mypage_slug );
+            }
+          },
+          error: function() {
+            am2_hide_preloader();
+          }
+        });
+
         $('#frm_franchisee_account').validate({ rules: {
 
         }});
