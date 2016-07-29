@@ -399,4 +399,34 @@ if( function_exists('acf_add_options_page') ) {
 	));
 	
 }
+
+function am2_acf_on_user_save( $post_id ) {
+    global $wp_rewrite;
+    
+    // bail early if no ACF data
+    if( empty($_POST['acf']) ) {
+        return;
+    }
+
+    if(empty($_POST['acf']['field_579b7dbe732ee'])){
+        // specific field value
+        $field = $_POST['acf']['field_570b6ce0220d8'];
+        $_POST['acf']['field_579b7dbe732ee'] = sanitize_title_with_dashes($field);
+        //var_dump(
+            update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
+        //);
+        //update_field('franchise_slug', sanitize_title_with_dashes($field), $post_id);    
+    }
+    else {
+        $field = $_POST['acf']['field_579b7dbe732ee'];
+        update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
+    }
+    change_author_permalinks();
+    $wp_rewrite->flush_rules(false);
+
+    // exit(); 
+}
+
+// run before ACF saves the $_POST['acf'] data
+add_action('acf/save_post', 'am2_acf_on_user_save', 1);
 ?>
