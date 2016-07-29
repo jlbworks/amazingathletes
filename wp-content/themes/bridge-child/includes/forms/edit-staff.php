@@ -145,83 +145,49 @@ function generate_image_field($field_name, $context, $context_id){
 		</div>
 		<div class="form--section">
 			<h2>Coaching Documents</h2>
-
-			<label>Non-disclosure agreement</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('non_disclosure_agreement', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>Background Check</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('background_check', 'user', $staff->ID);
-			?>
-			</div>
 			
-			<label>Independent Contractor Agreement</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('independent_contractor_agreement', 'user', $staff->ID);
-			?>
-			</div>
+			<select id="class-registration-options" class="js-induce-change-select-class" name="registration_option" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+				<option value="-">... Choose document type</option>
+				<?php 
+				$possible_coaching_documents = array(
+					'non_disclosure_agreement' => 'Non-disclosure Agrreement',
+					'background_check' => 'Background Check',
+					'independent_contractor_agreement' => 'Independent Contractor Agreement',
+					'employee_noncompete_agreement' => 'Employee Non-compete Agreement',
+					'fingerprint_compliance' => 'Fingerprint Compliance',
+					'tb_test' => 'TB Test',
+					'study_transcripts' => 'Study Transcripts',
+					'cpr_certification' => 'CPR certification',
+					'certificate_of_liability' => 'Certificate of Liability',
+					'copy_of_drivers_license' => 'Copy of Drivers License',
+					'inventory_checklist' => 'Inventory Checklist',
+				);
+				foreach ($possible_coaching_documents as $key => $value):
+					/*$if_selected = '';
+					if ($registration_option == $class_registration_option) {
+						$if_selected = "selected=selected";
+					}*/
+				?>
+				<option <?php echo $if_selected; ?> 
+				
+				data-change-to-id="<?php echo $key; ?>"
+				data-change-to-section="class_change_document"
+				value="<?php echo $key; ?>"><?php echo $value; ?></option>
+				<?php endforeach ?>
+			</select>
+			<?php
+			foreach ($possible_coaching_documents as $key => $value): ?>
+				<div id="<?php echo $key; ?>" data-section="class_change_document" style="display:none;">
+					<label><?php echo $value; ?></label>
+					<div class="photo_wrap">
+					<?php 
+						generate_image_field($key, 'user', $staff->ID);
+					?>
+					</div>
+				</div>
+			<?php endforeach ?>
 
-			<label>Employee Non-Compete Agreement</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('employee_noncompete_agreement', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>FingerPrint Compliance</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('fingerprint_compliance', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>TB Test</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('tb_test', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>Study Transcripts</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('study_transcripts', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>CPR Certification</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('cpr_certification', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>Certificate of Liability</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('certificate_of_liability', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>Copy of Driver's License</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('copy_of_drivers_license', 'user', $staff->ID);
-			?>
-			</div>
-
-			<label>Inventory Checklist</label>
-			<div class="photo_wrap">
-			<?php 
-				generate_image_field('inventory_checklist', 'user', $staff->ID);
-			?>
-			</div>
+			
 		</div>
 		
 
@@ -239,6 +205,65 @@ function generate_image_field($field_name, $context, $context_id){
 <?php 
 //print_r($image_fields);
 ?>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		checkChangeToRadios();
+		checkChangeToSelectClass();
+		checkChangeToCheckboxes();
+		jQuery('.js-induce-change').on('click', function(){
+			changeToSection = jQuery(this).data('change-to-section');
+	        changeToId = jQuery(this).data('change-to-id');
+	        changeTo(changeToId, changeToSection);
+		});
+
+		jQuery('.js-induce-change-select-class').on('change', function(){
+			changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
+            changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
+	        changeTo(changeToId, changeToSection);
+		});
+
+		jQuery('.js-induce-change-checkboxes').on('change', function(){
+			checkChangeToCheckboxes();
+		});
+
+	})
+
+	function checkChangeToSelectClass(){
+        changeToSection = jQuery('.js-induce-change-select-class').find(':selected').attr('data-change-to-section');
+        changeToId = jQuery('.js-induce-change-select-class').find(':selected').attr('data-change-to-id');
+        changeTo(changeToId, changeToSection);
+	}
+
+	function checkChangeToRadios(){
+		jQuery('.js-induce-change').each(function(){
+			 if (jQuery(this).is(':checked') || jQuery(this).is(':selected')) {
+	            changeToSection = jQuery(this).data('change-to-section');
+	            changeToId = jQuery(this).data('change-to-id');
+	            changeTo(changeToId, changeToSection);
+	        }
+		});
+	}
+	function checkChangeToCheckboxes(){
+		jQuery('.js-induce-change-checkboxes').each(function(){
+			changeToSection = jQuery(this).data('change-to-section');
+	        changeToId = jQuery(this).data('change-to-id');
+			if (jQuery(this).is(':checked') || jQuery(this).is(':selected')) {
+	            jQuery('#'+changeToId).show();
+	        } else {
+	        	jQuery('#'+changeToId).hide();
+	        }
+		});
+		changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
+        changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
+        changeTo(changeToId, changeToSection);
+	}
+
+	function changeTo(target_id, section) {
+
+		jQuery('[data-section="'+section+'"]').hide();
+		jQuery('#'+target_id).show();
+	}
+</script>
 <script type="text/javascript">
 
 //Options field
