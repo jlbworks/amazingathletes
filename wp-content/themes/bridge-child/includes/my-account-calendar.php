@@ -82,6 +82,8 @@ function am2_format_event_for_calendar($_class, $data=array()) {
 
         $color = stringToColorCode("{$coach->first_name} {$coach->last_name}");
     }
+    $this_site = get_bloginfo('url');
+    $register_url = "{$this_site}/register/?location_id={$_class->location_id}&class_id={$_class->ID}";
 
     return array(
         'title' => $title,
@@ -89,6 +91,7 @@ function am2_format_event_for_calendar($_class, $data=array()) {
         'end'   => $end,
         'backgroundColor'   => $color,
         'borderColor'       => $color,
+        'register_url'      => $register_url,
     );
 }
 
@@ -227,6 +230,12 @@ jQuery(document).ready(function() {
         //defaultDate: '2016-06-12',
         editable: false,
         eventLimit: true, // allow "more" link when too many events
+        eventClick: function(event) {
+            if (event.register_url) {
+                window.open(event.register_url);
+                return false;
+            }
+        }
     });
 
 });
