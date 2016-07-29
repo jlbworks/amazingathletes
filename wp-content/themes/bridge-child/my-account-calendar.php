@@ -7,6 +7,9 @@ if (!is_user_logged_in()) {
     wp_enqueue_media();
 }
 
+global $in_backend;
+$in_backend = true;
+
 get_header();
 ?>
 <div class="content " style="min-height: 758px;">

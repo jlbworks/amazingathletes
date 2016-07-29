@@ -58,6 +58,10 @@ function am2_get_occurrences($_class) {
 }
 
 function am2_format_event_for_calendar($_class, $data=array()) {
+    global $in_backend;
+    if (!$in_backend) {
+        $in_backend = false;
+    }
     $title = "{$_class->program}";
 
     if ($_class->date) {
@@ -84,6 +88,9 @@ function am2_format_event_for_calendar($_class, $data=array()) {
     }
     $this_site = get_bloginfo('url');
     $register_url = "{$this_site}/register/?location_id={$_class->location_id}&class_id={$_class->ID}";
+    if (true === $in_backend) {
+        $register_url = "{$this_site}/my-account/locations/?looc_id={$_class->location_id}&class_id={$_class->ID}&add-class=1";
+    }
 
     return array(
         'title' => $title,
