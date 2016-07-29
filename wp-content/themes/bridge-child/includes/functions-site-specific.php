@@ -295,8 +295,10 @@ function am2_get_state_locations(){
         $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
 
         $city = explode('|',$meta['city__state'])[1];
-        $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
+        $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;         
     }
+
+    ksort($locations);
 
     header('Content-Type: application/json');
     echo json_encode($locations);

@@ -516,8 +516,9 @@ var class_costs = {
                 if(Object.keys(resp).length>0){
                 	var $ul = $('<select class="cities"></select>');
 
-	                $.each(resp, function(k,v){
-	                    var $li = $('<option value="'+k+'" data-id="'+ k +'"></option>');
+                    var i=0;
+	                $.each(resp, function(k,v){                        
+	                    var $li = $('<option value="'+k+'" data-id="'+ k +'" '+(i++==0?'selected':'')+'></option>');
 	                    $li.append(k);
 
 	                    $ul.append($li);
@@ -550,15 +551,15 @@ var class_costs = {
 
 	                $('.dynamic-locaion-content .list').html($state);
 
-                    var options = $('select.cities option');
+                    /*var options = $('select.cities option');
                     var arr = options.map(function(_, o) { return { t: $(o).text(), v: o.value }; }).get();
                     arr.sort(function(o1, o2) { return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0; });
                     options.each(function(i, o) {
                       o.value = arr[i].v;
                       $(o).text(arr[i].t);
-                    });
+                    });*/
 
-                    $('select.cities').html(options);
+                    //$('select.cities').html(options);
 
 	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500);
 
