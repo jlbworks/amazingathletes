@@ -753,6 +753,8 @@ var class_costs = {
         $('.tab_content_' + id).show();        
     });
 
+    $('.tabs li:first-child').click();
+
     $('.accord').on('click', function(){
         var id = $(this).attr('id').replace('accord_','');        
         $('.accord_content').hide();
