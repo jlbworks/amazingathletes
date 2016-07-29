@@ -48,7 +48,7 @@ else {
 <h3>Account information</h3>
 
 <form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
-		<label>Franchise Name *</label>
+		<label>DBA *</label>
 		<input type="text" name="franchise_name" required  style="" value="<?=get_user_meta($user_id,'franchise_name',true);?>"><br/>
 		
 		<label>Display Name *</label>
