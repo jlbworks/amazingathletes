@@ -1,9 +1,14 @@
 var remodal_popup;
 var class_costs = {
+    "Standard Registration Form" : "parent_pay_monthly",
+    "Session Registration Form" : "parent_pay_session",
+    "3rd Party Registrations" : "contracts_events"
+};
+/*var class_costs = {
     "Parent-Pay" : "parent_pay_monthly",
     "Session" : "parent_pay_session",
     "Contracts/Events" : "contracts_events"
-};
+};*/
 var classes_with_special_title = ['Contract','Camp']; 
 
 (function($){
@@ -761,7 +766,7 @@ var classes_with_special_title = ['Contract','Camp'];
                 success: function(resp) {
                     console.log('success_submit');
                     am2_hide_preloader();
-                    show_payment_options();           
+                    show_payment_options(resp.paid_tuition);           
                 },
                 error: function() {
                     console.log('error');
@@ -785,7 +790,7 @@ var classes_with_special_title = ['Contract','Camp'];
         $('.accord_content_' + id).show();        
     });
 
-    function show_payment_options(){           
+    function show_payment_options(paid_tuition){           
 
         $.get(ajax_login_object.theme_url + '/includes/modals/payment-options.html', function(resp_payopt){
             $('head').append(resp_payopt);
@@ -815,8 +820,8 @@ var classes_with_special_title = ['Contract','Camp'];
 
                 $.when( d1, d2 ).done(function(){                
 
-                    var payment_type = class_costs[resp_class.meta.type];    
-                    var registration_fee = parseInt(resp_class.meta[payment_type + '_registration_fee']);
+                    var payment_type = class_costs[resp_class.meta.registration_option];    
+                    var registration_fee = !paid_tuition ? parseInt(resp_class.meta[payment_type + '_registration_fee']) : 0;
                     var monthly_tuition = 0;
                     var session_tuition = 0;
                     try {

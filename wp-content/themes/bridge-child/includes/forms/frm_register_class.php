@@ -150,6 +150,11 @@
     <p><span class="wpcf7-form-control-wrap comments">
       <textarea name="comments" cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea" aria-invalid="false"></textarea>
       </span></p>
+    <p>
+      <span class="wpcf7-form-control-wrap paid_tuition"><span class="wpcf7-form-control wpcf7-checkbox wpcf7-exclusive-checkbox"><span class="wpcf7-list-item first last">
+      <input type="checkbox" name="paid_tuition" value="Yes"/>&nbsp;<span class="wpcf7-list-item-label">Have you paid a tuition for this class already?</span>
+      </span></span></span>
+    </p>
     <div class="wpcf7-response-output wpcf7-display-none"></div>
     <input type="hidden" name="action" value="am2_ajax_register_for_class" />
     <input type="hidden" name="location_id" value="<?php echo $_GET['location_id'];?>" />

@@ -82,6 +82,7 @@ function am2_ajax_register_for_class(){
     Photo release: [photo_release]
     Location ID: [location_id]
     Class ID: [class_id]
+    Paid Tuition: [paid_tuition]
 
     Comments & Questions:
     [comments]
@@ -113,6 +114,7 @@ function am2_ajax_register_for_class(){
     $result2 = wp_mail($reply_to, $subject, $message, $headers2);
 
     $response['success'] = $result1 && $result2;
+    $response['paid_tuition'] = isset($_POST['paid_tuition']);
 
     if($response['success']){        
         
