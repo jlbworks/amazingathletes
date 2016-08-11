@@ -10,38 +10,28 @@ $profile = get_user_by( 'id', $id );
 $first_name 	= $profile->user_firstname;
 $last_name 		= $profile->user_lastname;
 $email	 			= $profile->user_email;
-$phone	 			= $profile->phone;
-$website      = $profile->website;
+$phone	 			= get_user_meta($id, 'telephone',true);
+$franchise_name	    = get_user_meta($id, 'franchise_name',true);
+$address            = get_user_meta($id, 'mailing_address',true);
+$zip_code           = get_user_meta($id, 'zip_code',true);
+$city_state           = get_user_meta($id, 'city__state', true);
+$city_state = explode( '|', $city_state );
 
-$bolnica_id   = $profile->bolnica_id;
-
-$role         = $profile->role;
+$role         = $profile->roles[0];
 $password     = '';
-
-$linkedin   = $profile->linkedin;
-
-$bolnice = get_posts(array(
-  'post_type'   => 'bolnice',
-  'post_status' => 'publish',
-  'posts_per_page'=>-1
-));
-foreach($bolnice as $bolnica){
-  $bolnica_options[$bolnica->ID] = $bolnica->post_title;
-}
-
 
 $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
 
 ?>
 
 <div class="card-wrapper">
-    <h3 class="card-header">Podaci</h3>
+    <h3 class="card-header">User info</h3>
     <div class="card-inner">
       <form id="user-form" class="card-form no-inline-edit js-ajax-form">
       <div class="validation-message"><ul></ul></div>
           <div class="card-table">
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Ime <span class="required">*</span></span>
+                  <span class="card-table-cell fixed250">First name <span class="required">*</span></span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
@@ -53,11 +43,11 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Prezime <span class="required">*</span></span>
+                  <span class="card-table-cell fixed250">Last name <span class="required">*</span></span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="last_name" class="form-control" title="Plase enter your last name." value="<?php echo $last_name; ?>" placeholder="eg.: Marin" required/>
+                              <input type="text" name="last_name" class="form-control" title="Please enter your last name." value="<?php echo $last_name; ?>" placeholder="eg.: Marin" required/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -78,7 +68,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
 
               <?php if( !$id>0 ) { ?>
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Lozinka <span class="required">*</span></span>
+                  <span class="card-table-cell fixed250">Password <span class="required">*</span></span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
@@ -91,11 +81,11 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               <?php } ?>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Website</span>
+                  <span class="card-table-cell fixed250">Franchise name</span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="website" class="form-control" value="<?php echo $website; ?>" placeholder="eg.: http://clubzone.com/" />
+                              <input type="text" name="franchise_name" class="form-control" value="<?php echo $franchise_name; ?>"/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -103,11 +93,11 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Telefon</span>
+                  <span class="card-table-cell fixed250">Telephone</span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input id="phone" name="phone" data-plugin-masked-input="" data-input-mask="(999) 999-9999" value="<?php echo $phone; ?>" placeholder="(123) 123-1234" class="form-control">
+                              <input id="phone" name="telephone" data-plugin-masked-input="" data-input-mask="(999) 999-9999" value="<?php echo $phone; ?>" placeholder="(123) 123-1234" class="form-control">
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -115,11 +105,11 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">LinkedIn</span>
+                  <span class="card-table-cell fixed250">Address</span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="url" name="linkedin" title="Please enter a valid url." class="form-control" value="<?php echo $linkedin; ?>" placeholder="eg.: http://linkedin.com/myprofile" />
+                              <input type="text" name="mailing_address" class="form-control" value="<?php echo $address; ?>"/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -127,42 +117,58 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Uloga</span>
+                  <span class="card-table-cell fixed250">State</span>
                   <div class="card-table-cell">
                       <div class="card-form">
-                          <fieldset class="radio-default">
-                              <div class="col-12">
-                                <span style="display:block">Doktor</span>
-                                <input type="radio" name="role" checked="checked" id="radio-role1" value="doctor" <?php if( $role=='doctor' ){ ?>checked="checked"<?php }; ?> />
-                                <label for="radio-role1"><i></i></label>
-                              </div>
-                              <div class="col-12">
-                                <span style="display:block">Admin Doktor</span>
-                                <input type="radio" name="role" id="radio-role2" value="admin_doctor" <?php if( $role=='admin_doctor' ){ ?>checked="checked"<?php }; ?> />
-                                <label for="radio-role2"><i></i></label>
-                              </div>
+                          <fieldset>
+                              <select name="state"  placeholder="Select a state..." class="am2_cc_state" required style="">
+                                  <option value=""></option>
+                                  <option value="">Select a state...</option>
+                                  <?php
+                                  $states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
+                                  $states = array();
+                                  if ($states_db) {
+                                      foreach ($states_db AS $state) {?>
+                                          <option <?php echo ($state->state_code == $city_state[0] ? 'selected' : ''); ?> value="<?php echo $state->state_code; ?>"><?php echo $state->state; ?></option>
+                                      <?php }
+
+                                  } ?>
+                              </select>
                           </fieldset>
                       </div>
                   </div>
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Bolnica</span>
+                  <span class="card-table-cell fixed250">City</span>
                   <div class="card-table-cell">
                       <div class="card-form">
-                          <fieldset class="select-dropdown-wrapper" style="width: 100%;">
-                              <?php echo dropdown( 'bolnica_id', $bolnica_id, $bolnica_options, array('data-plugin-selectTwo'=>'','class'=>"form-control populate",'required'=>'') );?>
+                          <fieldset>
+                              <input type="text" name="city" class="form-control" value="<?php echo $city_state[1];  ?>"/>
+                              <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
                   </div>
               </div>
 
+              <div class="card-table-row">
+                  <span class="card-table-cell fixed250">ZIP</span>
+                  <div class="card-table-cell">
+                      <div class="card-form">
+                          <fieldset>
+                              <input type="text" name="zip_code" class="form-control" value="<?php echo $zip_code; ?>"/>
+                              <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                          </fieldset>
+                      </div>
+                  </div>
+              </div>
+              
               <input type="hidden" name="id" value="<?php echo $id; ?>" />
               <input type="hidden" name="form_handler" value="user_edit" />
               </div>
               <div class="card-footer clearfix">
-                <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Odustani</button>
-                <button class="right btn btn--primary" type="submit">Snimi</button>
+                <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
+                <button class="right btn btn--primary" type="submit">Save</button>
               </div>
          </form>
         
@@ -171,7 +177,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
 
 <script type="text/javascript">
 
-set_title('Bolnica');
+set_title('User');
 
 $(document).ready(function () {
 

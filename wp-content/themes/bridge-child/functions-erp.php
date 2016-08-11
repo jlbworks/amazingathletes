@@ -197,7 +197,7 @@ function submit_data() {
             $user_id = wp_insert_user($userdata);
         }
 
-        $fields = array('role', 'phone', 'website', 'bolnica_id','linkedin');
+        $fields = array( 'role', 'telephone', 'mailing_address', 'zip_code', 'franchise_name' );
         foreach ($fields as $field) {
             if (empty($_POST[$field])) {
                 delete_user_meta($user_id, $field);
@@ -215,6 +215,10 @@ function submit_data() {
                 $profile->set_role($_POST['role']);
             }
         }
+
+        //set state and city
+        $city_state = sanitize_text_field( $_POST['state'] ) . '|' . sanitize_text_field( $_POST['city'] );
+        update_user_meta( $user_id, 'city__state', $city_state );
 
         if (is_wp_error($user_id)) {
             exit(json_encode(array('success' => false, 'message' => "Error creating user")));

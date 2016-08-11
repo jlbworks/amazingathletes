@@ -64,18 +64,18 @@ $(document).on('click', '.am2-ajax-modal-delete', function (event) {
   var which_id = $(this).data('id');
 
   swal({   
-    title: "Da li ste sigurni?",   
-    text: "Nećete moći vratiti ove podatke!",   
+    title: "Are you sure?",
+    text: "You cannot undo this action!",
     type: "warning",   
     showCancelButton: true,
-    cancelButtonText: "Odustani",   
+    cancelButtonText: "Cancel",
     confirmButtonColor: "#DD6B55",   
-    confirmButtonText: "Da, izbriši!",   
+    confirmButtonText: "Yes, delete!",
     closeOnConfirm: false 
   }, 
     function(){
       izbrisi(which_object,which_id)
-      swal("Izbrisano!", "Podatak uspješno izbrisan.", "success"); 
+      swal("Deleted!", "user deleted successfully.", "success");
   });
 
 });
