@@ -1,0 +1,34 @@
+.badge{
+
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: $badge_padding;
+    font-size: $badge_font_size;
+    line-height: $badge_font_size;
+    font-weight: $badge_font_weight;
+    text-transform: capitalize;
+    vertical-align: middle;
+
+    @include border-radius($badge_border_radius);
+
+    &--success{
+        color: $color_badge_success_text;
+        background-color: $color_badge_success_background;
+    }
+
+    &--info{
+        color: $color_badge_info_text;
+        background-color: $color_badge_info_background;
+    }
+
+    &--warning{
+        color: $color_badge_warning_text;
+        background-color: $color_badge_warning_background;
+    }
+
+    &--danger{
+        color: $color_badge_danger_text;
+        background-color: $color_badge_danger_background;
+    }
+
+}

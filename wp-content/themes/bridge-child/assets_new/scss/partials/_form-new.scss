@@ -1,0 +1,84 @@
+// input search
+
+.input-search {
+
+    width: 100%;
+    display: block;
+    position: relative;
+    @include border-box;
+
+    &:after {
+        top: 12px;
+        right: 10px;
+        font-size: 20px;
+        content: "\f002";
+        position: absolute;
+        font-style: normal;
+        font-weight: normal;
+        pointer-events: none;
+        color: $color_search_abs;
+        font-family: $font-awesome;
+    }
+
+    input {
+        width: 100%;
+        height: 47px;
+        display: block;
+        font-size: 17px;
+        padding: 0 15px;
+        @include border-box;
+        background-color: $color_select_background;
+        border: 1px solid $color_content_default_border;
+    }
+
+}
+
+// select -> option (dropdown)
+
+.select-wrapper {
+
+    font-size: 14px;
+    margin-left: 5px;
+    padding: 7px 15px;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: $color_select_background;
+    border: 1px solid $color_content_default_border;
+
+    label, select {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    select {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-weight: 600;
+        @include apperance;
+        background-color: transparent;
+    }
+
+    min-width: 200px;
+    .select2-container{
+        max-width: 75% !important;
+        margin: -10px 0 -10px 5px;
+    }
+
+    &.width-by-two{
+        width: 45%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    &.width-by-three{
+        width: 32.5%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    &.width-by-four{
+        width: 24%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+}

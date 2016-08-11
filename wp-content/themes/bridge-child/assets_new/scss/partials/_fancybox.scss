@@ -1,0 +1,17 @@
+.fancybox-additional-options {
+
+    top: 0;
+    left: 100%;
+    z-index: 2;
+    margin-left: -1px;
+    position: absolute;
+    padding: 5px 5px 0 0;
+    background-color: $color_fancybox_bg;
+
+    a {
+        display: block;
+        cursor: pointer;
+        margin-bottom: 5px;
+    }
+
+}

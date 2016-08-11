@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'icomoon';
+    src:    url('fonts/icomoon.eot?d9lyq9');
+    src:    url('fonts/icomoon.eot?d9lyq9#iefix') format('embedded-opentype'),
+        url('fonts/icomoon.ttf?d9lyq9') format('truetype'),
+        url('fonts/icomoon.woff?d9lyq9') format('woff'),
+        url('fonts/icomoon.svg?d9lyq9#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-enterpreneur:before {
+    content: "\e900";
+}
+.icon-visual-design:before {
+    content: "\e901";
+}
+.icon-digital-marketing:before {
+    content: "\e902";
+}
+.icon-web-development:before {
+    content: "\e903";
+}
+.icon-ux-design:before {
+    content: "\e904";
+}
+.icon-play-full:before {
+    content: "\e905";
+}
+.icon-marker-border:before {
+    content: "\e906";
+}
+.icon-play-border:before {
+    content: "\e907";
+}
+.icon-cross:before {
+    content: "\e117";
+}

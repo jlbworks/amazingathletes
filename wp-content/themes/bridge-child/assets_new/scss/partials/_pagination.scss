@@ -1,0 +1,56 @@
+.pagination {
+
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: $color_table_text;
+    padding-left: 0px;
+
+    @include MQ($sm) {
+        padding: 0;
+        width: 100%;
+        display: table;
+        margin: 0 0 30px 0;
+        table-layout: fixed;
+    }
+
+    li {
+
+        list-style-type: none;
+        display: inline-block;
+        vertical-align: middle;
+
+        @include MQ($sm) {
+
+            display: table-cell;
+            vertical-align: middle;
+
+            &:first-child, &:last-child {
+                width: 30px;
+            }
+
+        }
+
+
+    }
+    a,
+    span {
+
+        display: block;
+        margin: 0 5px;
+        padding: 0 10px;
+        line-height: 28px;
+        border: 1px solid $color_button_border;
+        background-color: $color_select_background;
+
+        @include MQ($sm) {
+            font-size: 14px;
+        }
+    }
+
+    a{
+        color: $color_table_text;
+        font-weight: 700;
+    }
+
+}

@@ -1,0 +1,168 @@
+/*** variables  ***/
+/**
+*
+* Grid 
+*
+**/
+$grid_content: 						1260px;
+$grid_content_narrow: 				1160px;
+$grid_content_wider: 				1360px;
+$grid_margin: 						45px;
+$grid_padding: 						15px;
+$grid_spacer: 						45px;
+$grid_prefix: 						"col-";
+$grid_uses_bem: 					false;
+
+/**
+*
+* Typography
+*
+**/
+$font_family: 						'Proxima Nova', Helvetica, Arial, sans-serif;
+$font_size: 						19px;
+$font_line_height: 					23px;
+$font-awesome: 'FontAwesome';
+
+
+/**
+*
+* Colors
+*
+**/
+// general
+$color_primary: 					#39b770;
+$color_secondary:					#20a0dc;
+// states
+$color_success:                     #39b770;
+$color_info:                        #20a0dc;
+$color_warning:                     #8a6d3b;
+$color_danger:                      #a94442;
+$color_btn_transparent:             #a1a1a1;
+// header
+$color_header_background: 			#1f232c;
+$color_header_text: 				#929292;
+$color_header_icon: 				$color_primary;
+$color_header_profile:              #242933;
+// sidebar
+$color_sidebar_background:			#2c2f35;
+$color_sidebar_background_opened: 	#383a40;
+$color_sidebar_text:				#929292;
+$color_sidebar_text_accent:			#fff;
+$color_sidebar_icon_badge:			$color_primary;
+$color_sidebar_item_limiter:		#383b40;
+$color_sidebar_border_active:		$color_primary;
+// content
+$color_content_background: 			#f6f6f6;
+$color_content_background_accent:	#fff;
+$color_content_text: 				#000;
+$color_content_shade:				#3f3f3f;
+$color_content_accent:				$color_primary;
+// buttons
+$color_button_background:			#fff;
+$color_button_text:					#5a5a5a;
+$color_button_border: 				#dfdfdf;
+$color_button_primary_background:	$color_primary;
+$color_button_primary_text:			#fff;
+$color_button_primary_border: 		transparent;
+$color_button_secondary_background:	$color_secondary;
+$color_button_secondary_text:		#fff;
+$color_button_secondary_border: 	transparent;
+$color_content_default_border:       #d6d6d6;
+$color_content_header_border:       #d6d6d6;
+//badges
+$color_badge_success_background:    $color_success;
+$color_badge_success_text:          #fff;
+$color_badge_info_background:       $color_info;
+$color_badge_info_text:             #fff;
+$color_badge_warning_background:    $color_warning;
+$color_badge_warning_text:          #fff;
+$color_badge_danger_background:     $color_danger;
+$color_badge_danger_text:           #fff;
+// forms
+$color_select_background: #fff;
+$color_search_abs: #7a7a7a;
+$color_input_focused: #fff8db;
+$color_toggle_border: #dfdfdf;
+$color_toggle_bg: #fff;
+// tables
+$color_table_text: #5a5a5a;
+$color_table_bg: #ffffff;
+$color_table_thead: #ededed;
+$color_table_border: #dfdfdf;
+// login
+$color_login_link:                  #1ed283;
+$color_login_border:                #d3d3d3;
+$color_login_icons:                 #cccccc;
+$color_login_default:               #868686;
+$color_login-grey:                  #f1f1f1;
+$color_login_facebook_grey:         #565a5c;
+$color_login_facebook_border:       #d3d3d3;
+$color_login_white:                 #ffffff;
+$color_login_instagram_bg:          #737475;
+$color_facebook_hex:                #3b5998;
+// fancybox
+$color_fancybox_bg:                 #ffffff;
+
+
+/**
+*
+* Borders
+*
+**/
+$border_width: 						1px;
+
+/**
+*
+* Elements
+*
+**/
+// button
+$button_border_width: 				1px;
+$button_border_radius: 				0px;
+$button_padding: 					10px 12px;
+// badge
+$badge_padding:                     4px 8px;
+$badge_font_size:                   12px;
+$badge_font_weight:                 700;
+$badge_border_radius:               8px;
+
+/**
+*
+* Layout
+*
+**/
+// header
+$header_height:						100px;
+$header_padding: 					20px 40px 0 60px;
+$header_logo_height:				50px;
+$header_logo_padding:				0 0 0 0;
+// sidebar
+$sidebar_width:						350px;
+$sidebar_width_light:				50px;
+$sidebar_submenu_indent:			30px;
+$sidebar_active_border_width:		4px;
+$sidebar_toggle_class:				'sidebar-toggled';
+// content
+$content_padding:					20px;
+
+/**
+*
+* Breakpoints
+*
+**/
+// size
+$breakpoint_extrasmall: 			"(max-width: 440px)";
+$breakpoint_small: 					"(min-width: 441px) and (max-width: 768px)";
+$breakpoint_medium: 				"(min-width: 769px) and (max-width: 992px)";
+$breakpoint_large: 					"(min-width: 993px)";
+// media
+$breakpoint_mobile: 				"(max-width: 768px)";
+$breakpoint_tablet: 				"(min-width: 769px) and (max-width: 1020px)";
+$breakpoint_desktop: 				"(min-width: 1021px)";
+// shorthand
+$mqbig: 1400px;
+$lgg: 1200px;
+$lg: 1021px;
+$md: 993px;
+$sm: 780px;
+$xs: 480px;

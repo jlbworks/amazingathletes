@@ -1,0 +1,35 @@
+@import url(https://fonts.googleapis.com/css?family=Proxima+Nova:100,300,400,600,700);
+
+h1 {
+
+    font-size: 31px;
+    font-weight: 600;
+    color: $color_content_accent;
+    line-height: line-height(34px, 44px);
+
+    small {
+        font-size: 75%;
+    }
+
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 400;
+    color: $color_content_text;
+    line-height: line-height(28px, 38px);
+}
+
+h3 {
+    font-size: 23px;
+    font-weight: 400;
+    color: $color_content_shade;
+    line-height: line-height(23px, 33px);
+}
+
+p {
+    font-size: 19px;
+    font-weight: 400;
+    color: $color_content_text;
+    line-height: line-height(19px, 23px);
+}

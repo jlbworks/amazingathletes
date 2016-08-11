@@ -1,0 +1,55 @@
+.notify{
+
+    position: relative;
+    margin: 0 0 10px 0;
+    padding: 20px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    color: $color_content_text;
+
+    @include opacity(1);
+    @include transition(opacity .5s ease-in-out);
+
+    &--removed{
+        @include opacity(0);
+    }
+
+    &--success{        
+        color: darken( $color_success, 15%);
+        background-color: lighten( $color_success, 35%);
+    }
+
+    &--info{
+        color: darken( $color_info, 15%);
+        background-color: lighten( $color_info, 35%);
+    }
+
+    &--warning{
+        color: darken( $color_warning, 15%);
+        background-color: lighten( $color_warning, 35%);
+    }
+
+    &--danger{
+        color: darken( $color_danger, 15%);
+        background-color: lighten( $color_danger, 35%);
+    }
+
+    span{
+        position: absolute;
+        display: block;
+        right: 5px;
+        top: 5px;
+        padding: 5px;
+        cursor: pointer;
+        @include transition(all .2s ease-in-out);
+        &:after{
+            font-family: "fontawesome";
+            content: '\f00d';
+        }
+        &:hover{
+            background: rgba(#fff, .2);
+        }
+    }
+
+}

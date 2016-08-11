@@ -1,0 +1,64 @@
+/* GENERAL - direct usage helpers
+* -------------------------------------- */
+.left { 
+	position: relative; 
+	float: left; 
+} 
+
+.right { 
+	position: relative; 
+	float: right; 
+} 
+
+.no-margin { 
+	margin-right: 0px; 
+	margin-left: 0px; 
+}
+
+.spacer {
+	position: relative;
+	width: 100%;
+	height: $grid_spacer;
+
+	&--half{
+		height: $grid_spacer / 2;
+	}
+
+	&--double{
+		height: $grid_spacer * 2;
+	}
+}
+
+.text-left {
+	text-align: left;
+}
+.text-center {
+	text-align: center;
+}
+.text-right {
+	text-align: right;
+}
+
+.text-ucase{
+	text-transform: uppercase;
+}
+
+.text-lcase{
+	text-transform: lowercase;
+}
+
+.text-bold{
+	font-weight: 700;
+}
+
+.text-medium{
+	font-weight: 500;
+}
+
+.text-regular{
+	font-weight: 400;
+}
+
+.text-light{
+	font-weight: 300;
+}

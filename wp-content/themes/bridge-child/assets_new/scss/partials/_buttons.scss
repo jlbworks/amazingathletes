@@ -1,0 +1,124 @@
+// button
+
+.btn {
+
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+
+    padding: $button_padding;
+
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 600;
+    text-align: center;
+
+    color: $color_button_text;
+    background-color: $color_button_background;
+
+    &:hover {
+        background-color: darken($color_button_background, 5%);
+    }
+
+    border-style: solid;
+    border-width: $button_border_width;
+    border-color: $color_button_border;
+
+    @include border-radius($button_border_radius !important);
+    @include transition(all 0.15s ease-in-out);
+
+    i {
+        //margin: 0 10px;
+    }
+
+    &--primary {
+
+        border-color: $color_button_primary_border;
+        color: $color_button_primary_text;
+        background-color: $color_button_primary_background;
+
+        &:hover {
+            background-color: darken($color_button_primary_background, 15%);
+        }
+
+    }
+    &--secondary {
+
+        border-color: $color_button_secondary_border;
+        color: $color_button_secondary_text;
+        background-color: $color_button_secondary_background;
+
+        &:hover {
+            background-color: darken($color_button_secondary_background, 15%);
+        }
+
+    }
+
+    &--success {
+        border-color: darken($color_success, 15%);
+        color: darken($color_success, 15%);
+        background-color: lighten($color_success, 35%);
+    }
+
+    &--info {
+        border-color: darken($color_info, 15%);
+        color: darken($color_info, 15%);
+        background-color: lighten($color_info, 35%);
+    }
+
+    &--warning {
+        border-color: darken($color_warning, 15%);
+        color: darken($color_warning, 15%);
+        background-color: lighten($color_warning, 35%);
+    }
+
+    &--danger {
+        border-color: darken($color_danger, 15%);
+        color: darken($color_danger, 15%);
+        background-color: lighten($color_danger, 35%);
+    }
+
+    &--transparent {
+
+        color: $color_btn_transparent;
+        background-color: transparent;
+        border-color: rgba(#000, 0.27) !important;
+
+        &:hover {
+            color: white;
+            background-color: $color_btn_transparent;
+            border-color: $color_btn_transparent !important;
+        }
+
+    }
+
+    &--noborder {
+
+        border-color: transparent;
+
+    }
+
+    &--small{
+        padding: 6px 10px;
+    }
+
+    &.is-smaller {
+
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+        line-height: 30px;
+        text-align: center;
+
+        i {
+            display: inline-block;
+        }
+
+    }
+
+}
+
+button {
+    @extend .btn;
+}

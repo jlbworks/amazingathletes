@@ -1,0 +1,57 @@
+
+/* Images
+------------------------------------------------------------ */
+figure {
+	position: relative;
+	margin: 0;
+	overflow: hidden;
+}
+
+figure img {
+	width: 100%;
+	height: auto;
+}
+
+figure a:hover img {
+	transform: scale(1.03);
+}
+
+img {
+	border: 0;
+	-webkit-backface-visibility: hidden;
+}
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+img.dummy {
+	display: block;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	width: 100%;
+}
+
+img.real_img {
+	bottom: 0;
+	display: block;
+	height: auto;
+	left: 0;
+	margin: auto;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+}
+
+img.wider {
+	height: auto !important;
+	width: 100% !important;
+}
+
+img.taller {
+	width: auto!important;
+	height: 100%!important;
+}

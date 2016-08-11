@@ -1,0 +1,243 @@
+// _decimal.scss | MIT License | gist.github.com/terkel/4373420
+
+// Round a number to specified digits.
+//
+// @param  {Number} $number A number to round
+// @param  {Number} [$digits:0] Digits to output
+// @param  {String} [$mode:round] (round|ceil|floor) How to round a number
+// @return {Number} A rounded number
+// @example
+//     decimal-round(0.333)    => 0
+//     decimal-round(0.333, 1) => 0.3
+//     decimal-round(0.333, 2) => 0.33
+//     decimal-round(0.666)    => 1
+//     decimal-round(0.666, 1) => 0.7
+//     decimal-round(0.666, 2) => 0.67
+//
+@function decimal-round ($number, $digits: 0, $mode: round) {
+    $n: 1;
+    // $number must be a number
+    @if type-of($number) != number {
+        @warn '#{$number} is not a number.';
+        @return $number;
+    }
+    // $digits must be a unitless number
+    @if type-of($digits) != number {
+        @warn '#{$digits} is not a number.';
+        @return $number;
+    } @else if not unitless($digits) {
+        @warn '#{$digits} has a unit.';
+        @return $number;
+    }
+    @for $i from 1 through $digits {
+        $n: $n * 10;
+    }
+    @if $mode == round {
+        @return round($number * $n) / $n;
+    } @else if $mode == ceil {
+        @return ceil($number * $n) / $n;
+    } @else if $mode == floor {
+        @return floor($number * $n) / $n;
+    } @else {
+        @warn '#{$mode} is undefined keyword.';
+        @return $number;
+    }
+}
+
+// Ceil a number to specified digits.
+//
+// @param  {Number} $number A number to round
+// @param  {Number} [$digits:0] Digits to output
+// @return {Number} A ceiled number
+// @example
+//     decimal-ceil(0.333)    => 1
+//     decimal-ceil(0.333, 1) => 0.4
+//     decimal-ceil(0.333, 2) => 0.34
+//     decimal-ceil(0.666)    => 1
+//     decimal-ceil(0.666, 1) => 0.7
+//     decimal-ceil(0.666, 2) => 0.67
+//
+@function decimal-ceil ($number, $digits: 0) {
+    @return decimal-round($number, $digits, ceil);
+}
+
+// Floor a number to specified digits.
+//
+// @param  {Number} $number A number to round
+// @param  {Number} [$digits:0] Digits to output
+// @return {Number} A floored number
+// @example
+//     decimal-floor(0.333)    => 0
+//     decimal-floor(0.333, 1) => 0.3
+//     decimal-floor(0.333, 2) => 0.33
+//     decimal-floor(0.666)    => 0
+//     decimal-floor(0.666, 1) => 0.6
+//     decimal-floor(0.666, 2) => 0.66
+//
+@function decimal-floor ($number, $digits: 0) {
+    @return decimal-round($number, $digits, floor);
+}
+
+@function getClassname ($classname)
+{
+    @if $grid_uses_bem == true{
+        @return '[class*="#{$grid_prefix}#{$classname}"]';
+    }
+    @else{
+        @return '.#{$grid_prefix}#{$classname}';
+    }
+}
+
+
+
+$user_width: $grid_content;
+$user_margin: $grid_margin;
+$user_padding: $grid_padding;
+
+$outer_width: $user_width + $user_padding * 2;
+$inner_width: $user_width / $outer_width * 100;
+$margin: decimal-round(($user_margin / $user_width)*100,3);
+$padding: decimal-floor($user_padding / $outer_width,3);
+
+$final_14: decimal-floor(((100-(3*$margin))/4),3);
+$final_12: decimal-floor(((100-(1*$margin))/2),3);
+$final_13: decimal-floor(((100-(2*$margin))/3),3);
+$final_23: decimal-floor(((100-(1*$margin) - $final_13)),3);
+$final_15: decimal-floor(((100-(4*$margin))/5),3);
+$final_16: decimal-floor(((100-(5*$margin))/6),3);
+$final_45: decimal-floor(100 - $final_15 - $margin,3);
+$final_25: decimal-floor((2 * $final_15) + $margin,3);
+$final_35: decimal-floor((3 * $final_15) + (2 * $margin),3);
+$final_34: decimal-floor(((100 - $margin - $final_14)),3);
+$margin_12: (($user_margin / (($final_12 / 100) * $user_width)) * 100);
+$final_12_12: decimal-floor(((100 - (1 * $margin_12)) / 2),3);
+$final_12_13: decimal-floor(((100 - (2 * $margin_12)) / 3),3);
+$margin_13: (($user_margin / (($final_13/100) * $user_width)) * 100);
+$final_13_13: decimal-floor(((100 - (1 * $margin_13)) / 2),3);
+$margin_34: (($user_margin / (($final_34/100) * $user_width)) * 100);
+$final_34_12: decimal-floor(((100 - (1 * $margin_34)) / 2),3);
+$margin_14: (($user_margin / (($final_14 / 100) * $user_width)) * 100);
+$final_14_12: decimal-floor(((100 - (1 * $margin_14)) / 2),3);
+
+#wrapper{
+    margin: 0 auto;
+}
+
+.container { 
+    width: 100%; 
+    position: relative;
+    z-index: 2;
+    padding: 0 percentage($padding);
+}
+
+#{getClassname("1")} { 
+    width: 100%; 
+}
+
+#{getClassname("12")} { 
+    width: $final_12 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("14")} { 
+    width: $final_14 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("13")} { 
+    width: $final_13 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("23")} { 
+    width: $final_23 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("15")} { 
+    width: $final_15 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("16")} { 
+    width: $final_16 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("45")} { 
+    width: $final_45 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("25")} { 
+    width: $final_25 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("35")} { 
+    width: $final_35 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+#{getClassname("34")} { 
+    width: $final_34 + unquote("%"); 
+    margin-right: $margin + unquote("%"); 
+}
+
+/* we should check this code */
+/*.col-12 .col-12{ width: $final_12_12 + unquote("%"); margin-right: $margin_12 + unquote("%"); }
+.col-12 .col-13{ width: $final_12_13 + unquote("%"); margin-right: $margin_12 + unquote("%"); }
+.col-14 .col-12{ width: $final_14_12 + unquote("%"); margin-right: $margin_14 + unquote("%"); }
+.col-34 .col-12{ width: $final_34_12 + unquote("%"); margin-right: $margin_34 + unquote("%"); } */
+
+
+#{getClassname("12")}:nth-of-type(2n) { 
+    margin-right: 0;
+}
+
+#{getClassname("14")}:nth-of-type(4n) { 
+    margin-right: 0;
+}
+
+#{getClassname("13")}:nth-of-type(3n) { 
+    margin-right: 0;
+}
+
+#{getClassname("15")}:nth-of-type(5n) { 
+    margin-right: 0;
+}
+
+#{getClassname("16")}:nth-of-type(6n) { 
+    margin-right: 0;
+}
+
+#{getClassname("12")} #{getClassname("12")}:nth-of-type(2n) { 
+    margin-right: 0;
+}
+
+#{getClassname("12")} #{getClassname("13")}:nth-of-type(3n) { 
+    margin-right: 0;
+}
+
+#{getClassname("14")} #{getClassname("12")}:nth-of-type(2n) { 
+    margin-right: 0;
+}
+
+#{getClassname("34")} #{getClassname("12")}:nth-of-type(2n) { 
+    margin-right: 0;
+}
+
+#{getClassname("1")}, 
+#{getClassname("12")}, 
+#{getClassname("13")}, 
+#{getClassname("14")}, 
+#{getClassname("15")}, 
+#{getClassname("16")}, 
+#{getClassname("34")}, 
+#{getClassname("23")}, 
+#{getClassname("45")}, 
+#{getClassname("25")}, 
+#{getClassname("35")} { 
+    position: relative; 
+    float: left; 
+}

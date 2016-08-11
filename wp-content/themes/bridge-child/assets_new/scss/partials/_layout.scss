@@ -1,0 +1,36 @@
+/* GENERAL - layout based definitions and modifiers
+* -------------------------------------- */
+.layout {
+	position: relative;
+	width: 100%;
+
+	&--narrow {
+		.wrapper {
+			max-width: $grid_content_narrow;
+		}
+	}
+
+	&--wider {
+		.wrapper {
+			max-width: $grid_content_wider;
+		}
+	}
+
+	&--full {
+		.wrapper {
+			max-width: 100%;
+		}
+	}
+}
+
+.wrapper {
+	width: 100%; 
+	max-width: $grid_content; 
+	margin: 0 auto; 
+}
+
+.container{
+	padding: 0;
+}
+
+

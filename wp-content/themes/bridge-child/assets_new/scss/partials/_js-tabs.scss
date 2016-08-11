@@ -1,0 +1,141 @@
+.js-tab {
+
+    display: none;
+
+    &.is-active {
+        display: block;
+    }
+
+}
+
+.js-tabs-header {
+
+    width: 100%;
+    display: table;
+    position: relative;
+    table-layout: fixed;
+    margin-bottom: 40px;
+
+    .js-tabs-header-line {
+        left: 0;
+        right: 0;
+        top: 50px;
+        height: 1px;
+        z-index: -1;
+        position: absolute;
+        background-color: $color_content_default_border;
+    }
+
+    .js-tabs-cell {
+
+        text-align: center;
+        display: table-cell;
+        vertical-align: top;
+
+        &:first-child {
+
+            .js-tab-link {
+                padding-left: 0;
+            }
+
+        }
+
+        &:last-child {
+
+            .js-tab-link {
+                padding-right: 0;
+            }
+
+        }
+
+        &.is-active {
+
+            .js-tab-link {
+
+                i {
+                    color: white;
+                    background-color: $color_primary;
+                    border: 1px solid $color_primary;
+                }
+
+            }
+
+        }
+
+        &.is-disabled {
+
+            .js-tab-link {
+                cursor: default;
+            }
+        }
+
+    }
+
+    .js-tab-link {
+
+        width: 144px;
+        cursor: pointer;
+        padding-left: 20px;
+        padding-right: 20px;
+        display: inline-block;
+        background-color: #f6f6f6;
+
+        i {
+            width: 104px;
+            height: 104px;
+            display: block;
+            margin: 0 auto;
+            font-size: 50px;
+            font-weight: 600;
+            line-height: 104px;
+            text-align: center;
+            font-style: normal;
+            color: $color_primary;
+            @include border-radius(100%);
+            @include transition(all 0.2s);
+            border: 1px solid rgba(#000, 0.27);
+        }
+
+        small {
+            width: 100%;
+            display: block;
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 15px;
+            color: $color_header_text;
+        }
+
+    }
+
+}
+
+.js-tabs-footer {
+
+    display: block;
+    padding-top: 20px;
+    border-top: 1px solid $color_content_default_border;
+
+    @include MQ($xs) {
+
+        .text-right {
+            text-align: left;
+        }
+
+        .btn-js-left {
+            width: 49%;
+            float: left;
+        }
+        .btn-js-right {
+            width: 49%;
+            float: right;
+        }
+
+        .btn-js-full {
+            width: 100%;
+            display: block;
+            margin-top: 10px;
+        }
+
+    }
+
+}

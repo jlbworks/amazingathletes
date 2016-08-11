@@ -1,0 +1,321 @@
+.header {
+
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $header_height;
+    //padding: $header_padding;
+    background: $color_header_background;
+    color: #fff;
+    //overflow: hidden;
+
+    @include MQ($md) {
+        position: static;
+    }
+
+    @include MQ($sm) {
+        height: auto;
+        padding-top: 20px;
+    }
+
+    &__logo {
+
+        text-align: left;
+        position: relative;
+        display: inline-block;
+        line-height: 50px;
+        padding: $header_logo_padding;
+
+        a {
+            display: block;
+        }
+
+        img {
+
+            display: block;
+            height: $header_logo_height;
+
+            @include MQ($xs) {
+                height: 30px;
+            }
+
+        }
+
+        span {
+            position: absolute;
+            bottom: -25px;
+            right: 0;
+            font-size: 14px;
+            font-weight: 500;
+            font-style: italic;
+            color: #8d8d8d;
+        }
+    }
+
+    &__actions {
+        float: right;
+    }
+
+    .action__search {
+        float: left;
+    }
+
+    .action__user {
+        float: left;
+    }
+
+}
+
+.header-table {
+
+    width: 100%;
+    height: 100%;
+    display: table;
+    table-layout: fixed;
+
+    @include MQ($sm) {
+        display: block;
+    }
+
+    .header-cell {
+
+        float: none;
+        display: table-cell;
+        vertical-align: middle;
+
+        @include MQ($sm) {
+            display: block;
+        }
+
+        &.is-left {
+
+            width: 350px;
+            text-align: center;
+
+            @include MQ($md) {
+                width: 260px;
+            }
+
+            @include MQ($sm) {
+                width: 100%;
+                text-align: left;
+                padding: 0 20px;
+            }
+
+        }
+
+    }
+
+}
+
+.profile-top {
+
+    float: right;
+    height: 100px;
+    display: table;
+    cursor: pointer;
+    padding: 0 24px;
+    text-align: left;
+    margin-left: 40px;
+    margin-right: 20px;
+    position: relative;
+    background-color: transparent;
+    @include transition(all 0.15s ease-in-out);
+
+    @include MQ($lgg) {
+        padding: 0 14px;
+        margin-left: 30px;
+    }
+
+    @include MQ($sm) {
+        top: 0;
+        right: 0;
+        margin: 0;
+        position: absolute;
+    }
+
+    @include MQ($xs) {
+        height: 80px;
+        margin-right: 20px;
+    }
+
+    .cell {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .img-wrapper {
+
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        background-color: #888889;
+        @include border-radius(100%);
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        background-image: url('../images/profile-img.png');
+
+        img {
+
+            width: 40px;
+            height: 40px;
+            border: none;
+            display: block;
+            @include border-radius(100%);
+
+            &:empty {
+                display: none;
+            }
+
+        }
+
+    }
+
+    .username {
+
+        display: block;
+        font-size: 18px;
+        padding-left: 15px;
+        position: relative;
+        padding-right: 25px;
+        color: $color_header_text;
+
+        span {
+            display: block;
+        }
+
+        @include MQ($xs) {
+            display: none;
+        }
+
+        &:after {
+
+            top: 0;
+            right: 0;
+            font-size: 15px;
+            content: "\f0d7";
+            position: absolute;
+            font-style: normal;
+            font-weight: normal;
+            color: $color_primary;
+            font-family: $font-awesome;
+
+            @include MQ($xs) {
+                left: 28px;
+            }
+
+        }
+
+    }
+
+    .user-options {
+
+        left: 0;
+        right: 0;
+        top: 100%;
+        margin: 0;
+        opacity: 0;
+        z-index: 100;
+        font-size: 16px;
+        line-height: 1.2;
+        visibility: hidden;
+        position: absolute;
+        padding: 0 0 10px 0;
+        list-style-type: none;
+        @include transition(all 0.15s ease-in-out);
+        background-color: $color_header_background;
+
+        @include MQ($xs) {
+            overflow: hidden;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+
+            display: block;
+            position: relative;
+            color: $color_header_text;
+            padding: 8px 10px 8px 70px;
+            background-color: transparent;
+            @include transition(all 0.15s ease-in-out);
+
+            &:hover {
+                color: $color_button_background;
+                background-color: $color_header_profile;
+            }
+
+            &:after {
+                top: 9px;
+                left: 30px;
+                content: "\A";
+                font-size: 15px;
+                position: absolute;
+                font-style: normal;
+                font-weight: normal;
+                font-family: $font-awesome;
+            }
+
+            &.profile-icon {
+
+                &:after {
+                    content: "\f007";
+                }
+
+            }
+
+            &.logout-icon {
+
+                &:after {
+                    content: "\f011";
+                }
+
+            }
+
+        }
+
+    }
+
+    &:hover {
+
+        background-color: $color_header_profile;
+
+        .user-options {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    }
+
+}
+
+.search-top {
+
+    width: 400px;
+    float: right;
+    height: 100px;
+    display: table;
+
+    @include MQ($lgg) {
+        width: 330px;
+    }
+
+    @include MQ($md) {
+        width: 200px;
+    }
+
+    @include MQ($sm) {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .cell {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+}

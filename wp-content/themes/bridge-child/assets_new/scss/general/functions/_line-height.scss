@@ -1,0 +1,3 @@
+@function line-height($psd-font-size, $psd-line-height: $psd-font-size) {
+    @return $psd-line-height/$psd-font-size;
+}

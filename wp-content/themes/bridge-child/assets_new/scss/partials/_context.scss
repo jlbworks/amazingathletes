@@ -1,0 +1,87 @@
+.context {
+
+    &--pageheader {
+
+        width: 100%;
+        display: block;
+        padding-top: 10px;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid $color_content_header_border;
+
+        h1 {
+
+            padding-right: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 10px;
+
+            @include MQ($sm) {
+                display: block;
+                margin-bottom: 15px;
+            }
+
+        }
+
+        .breadcrumbs {
+
+            padding: 10px 0;
+            text-align: right;
+            background-color: transparent;
+
+            @include MQ($mqbig) {
+                text-align: left;
+                margin-top: 10px;
+            }
+
+            li {
+
+                float: none;
+                display: inline-block;
+                vertical-align: middle;
+
+            }
+
+        }
+
+    }
+
+    &--formfilters {
+
+        .container {
+            padding: 0;
+        }
+
+        .right-col {
+
+            text-align: right;
+
+            .select-wrapper {
+
+                @include MQ($mqbig) {
+                    display: block;
+                    margin-left: 0;
+                    margin-top: 10px;
+                    text-align: left;
+                }
+
+            }
+
+        }
+
+    }
+
+    &--tabsheader {
+
+        overflow: hidden;
+
+        .container {
+            padding: 0;
+            width: auto;
+            margin-left: -7.3%;
+            margin-right: -7.3%;
+        }
+
+    }
+
+}

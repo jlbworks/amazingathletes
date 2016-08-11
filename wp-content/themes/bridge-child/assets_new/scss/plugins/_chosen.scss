@@ -1,0 +1,134 @@
+.select-dropdown-wrapper {
+    padding: 0;
+    display: block;
+    width: auto !important;
+    margin: 4px 0 4px -10px;
+    border: none !important;
+}
+
+.chosen-container {
+
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    user-select: none;
+    position: relative;
+    display: inline-block;
+    width: 100% !important;
+    vertical-align: middle;
+    -moz-user-select: none;
+    color: $color_button_text;
+    -webkit-user-select: none;
+
+    * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+
+    .chosen-drop {
+        top: 100%;
+        width: 100%;
+        left: -9999px;
+        z-index: 1010;
+        margin-top: -1px;
+        position: absolute;
+        border-left: 1px solid $color_toggle_border;
+        border-right: 1px solid $color_toggle_border;
+        border-bottom: 1px solid $color_toggle_border;
+    }
+
+    .chosen-single {
+
+        display: block;
+        cursor: pointer;
+        padding: 5px 12px;
+        position: relative;
+        text-decoration: none !important;
+        color: $color_button_text !important;
+        border: 1px solid $color_toggle_border;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        div {
+
+            top: 6px;
+            z-index: 1;
+            right: 20px;
+            line-height: 1;
+            position: absolute;
+            pointer-events: none;
+
+            &:after {
+                top: 0;
+                left: 0;
+                font-size: 14px;
+                content: "\f0d7";
+                position: absolute;
+                font-style: normal;
+                font-weight: normal;
+                font-family: $font-awesome;
+            }
+
+        }
+
+    }
+
+    .chosen-results {
+
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+        max-height: 200px;
+        list-style-type: none;
+        background-color: $color_button_background;
+
+        li {
+
+            cursor: pointer;
+            padding: 9px 12px;
+            list-style-type: none;
+            color: $color_button_text;
+            background-color: transparent;
+            @include transition(all 0.15s ease-in-out);
+
+            &:hover {
+                color: $color_button_background;
+                background-color: $color_primary;
+            }
+
+        }
+
+    }
+
+    &.chosen-container-single-nosearch {
+
+        .chosen-search {
+            display: none !important;
+        }
+
+    }
+
+    &.chosen-with-drop {
+
+        .chosen-drop {
+            left: 0;
+        }
+
+        .chosen-single {
+
+            div {
+
+                &:after {
+                    content: "\f0d8";
+                }
+
+            }
+
+        }
+
+    }
+
+}

@@ -10,6 +10,8 @@ require_once 'includes/functions-yoast.php';
 require_once 'includes/functions-site-specific.php';
 require_once 'includes/functions-user.php';
 require_once 'includes/functions-globals.php';
+// Include ERP functions
+require_once( 'functions-erp.php' );
 
 function am2_has_role($user, $role) {
 

@@ -1,0 +1,44 @@
+/*** Testimonials ***/
+
+    .testimonial__image {
+	    float: left;
+	    width: 25%;
+	    margin: 0 2% 0 0;
+	}
+	.testimonial__description {
+	    float: left;
+	    width: 73%;
+	}
+	h2.testimonial__name {
+	   margin: 0;
+	   padding: 0;
+	}
+	h3.testimonial__title {
+		padding: 0;
+		margin: 0;
+		font-size: 16px;
+	}
+	.testimonial__blockqoute {
+		display:block;
+	  	background: #fff;
+	  	padding: 15px 20px 15px 45px;
+	  	margin: 0 0 20px;
+	  	position: relative;
+	  	text-align: justify;
+	  	line-height: 1.2;
+	  	&:before{
+	  		content: "\201C"; 
+			font-weight: bold;
+			position: absolute;
+	 		left: 10px;
+	  		top:5px;
+	  		font-size: 55px;	
+	  	}
+	  	&:after{
+	  		content: "";	
+	  	}
+	  	p{
+	  		display: inline;
+	  	}
+	}
+ 

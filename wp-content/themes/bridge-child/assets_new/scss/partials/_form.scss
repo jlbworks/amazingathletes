@@ -1,0 +1,382 @@
+.card-form {
+
+    width: 100%;
+    display: block;
+
+    * {
+        @include border-box;
+    }
+
+    fieldset {
+
+        padding: 0;
+        display: block;
+        position: relative;
+        //margin: -1px 0 -1px -10px;
+        margin: -1px 0 -1px -10px;
+        border: 1px solid transparent;
+
+        @include MQ($sm) {
+            margin: 0;
+        }
+
+    }
+
+    input {
+
+        margin: 0;
+        width: 100%;
+        border: none;
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 38px;
+        padding: 0 50px 0 10px;
+        color: $color_table_text;
+        background-color: transparent;
+
+        &.is-green {
+            color: $color_primary;
+        }
+
+        &:disabled {
+            padding: 0 10px 0 10px;
+            min-width: 75px;
+        }
+
+    }
+
+    button[data-js="submit-field"] {
+
+        top: -1px;
+        z-index: 2;
+        opacity: 0;
+        right: -1px;
+        bottom: -1px;
+        line-height: 1;
+        font-size: 17px;
+        visibility: hidden;
+        position: absolute;
+        @include apperance;
+        color: $color_button_primary_text;
+        @include transition(all 0.15s ease-in-out);
+        background: $color_button_primary_background;
+        border: 1px solid $color_button_primary_border;
+
+        &:hover {
+            background: darken($color_button_primary_background, 15%);
+        }
+
+    }
+
+    .fieldset-overlay {
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        z-index: 20;
+        cursor: text;
+        bottom: -1px;
+        display: block;
+        position: absolute;
+    }
+
+    // FOCUSED
+
+    .is-focused {
+
+        border: 1px solid $color_table_border;
+        background-color: $color_input_focused;
+
+        button {
+            opacity: 1;
+            z-index: 10;
+            visibility: visible;
+        }
+
+        .fieldset-overlay {
+            display: none;
+        }
+
+    }
+
+}
+
+
+/*
+*  if field is not inline editable
+*  - remove fieldset overlay and fieldset submit
+*  - remove right input padding
+*/
+form{
+    &.no-inline-edit,
+    .no-inline-edit{
+        input{
+            padding: 0 10px;
+        }
+        button[data-js="submit-field"],
+        .fieldset-overlay{
+            display: none;
+        }
+    }
+}
+
+
+.form {
+
+    width: 100%;
+    display: block;
+
+    * {
+        @include border-box;
+    }
+
+    fieldset {
+
+        padding: 0;
+        width: 100%;
+        display: block;
+        position: relative;
+        margin: -1px 0 -1px 0;
+        border: 1px solid transparent;
+
+        &.inline-block {
+            width: auto;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+    }
+
+    .input-datepicker {
+
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        border: none;
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 38px;
+        color: $color_table_text;
+        background-color: transparent;
+
+    }
+
+    .form-info {
+        font-size: 16px;
+        font-weight: 600;
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+}
+
+.checkbox-toggle {
+
+    border: none !important;
+
+    input {
+        display: none;
+    }
+
+    label {
+
+        width: 45px;
+        height: 24px;
+        display: block;
+        cursor: pointer;
+        margin-top: 10px;
+        position: relative;
+        margin-bottom: 10px;
+        @include border-radius(100px);
+        background-color: $color_toggle_bg;
+        border: 1px solid $color_toggle_border;
+        @include transition(all 0.15s ease-in-out);
+
+        &:after {
+            top: -1px;
+            left: -2px;
+            width: 22px;
+            height: 22px;
+            content: "\A";
+            margin-left: 0;
+            position: absolute;
+            @include border-radius(100%);
+            background-color: $color_toggle_bg;
+            border: 1px solid $color_toggle_border;
+            @include transition(all 0.15s ease-in-out);
+            @include box-shadow(-1.7px 2.5px 4.8px 0.2px rgba(0, 0, 1, 0.1));
+        }
+
+    }
+
+    input:checked + label {
+
+        background-color: $color_primary;
+        border: 1px solid $color_primary;
+
+        &:after {
+            left: 100%;
+            margin-left: -23px;
+            border: 1px solid $color_primary;
+        }
+
+    }
+
+}
+
+.checkbox-default {
+
+    border: none !important;
+
+    input {
+        display: none;
+    }
+
+    label {
+
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        border: 1px solid $color_toggle_border;
+        background-color: $color_select_background;
+
+        &:after {
+            top: 1px;
+            left: 2px;
+            z-index: 1;
+            line-height: 1;
+            font-size: 15px;
+            content: "\f00c";
+            position: absolute;
+            font-style: normal;
+            font-weight: normal;
+            color: $color_primary;
+            font-family: $font-awesome;
+        }
+
+        &:before {
+            top: 1px;
+            right: 1px;
+            z-index: 2;
+            bottom: 1px;
+            width: 16px;
+            content: "\A";
+            position: absolute;
+            @include transition(all 0.15s ease-in-out);
+            background-color: $color_select_background;
+        }
+
+    }
+
+    input:checked + label {
+
+        &:before {
+            width: 0;
+        }
+
+    }
+
+}
+
+.radio-default {
+
+    border: none !important;
+
+    input {
+        display: none;
+    }
+
+    label {
+
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        padding-top: 3px;
+        position: relative;
+        display: inline-block;
+        @include border-radius(100%);
+        border: 1px solid $color_toggle_border;
+        background-color: $color_select_background;
+
+        i {
+            width: 12px;
+            height: 12px;
+            display: block;
+            margin: 0 auto;
+            @include scale(0);
+            @include border-radius(100%);
+            background-color: $color_primary;
+            @include transition(all 0.15s ease-in-out);
+        }
+
+    }
+
+    input:checked + label {
+
+        i {
+            @include scale(1);
+        }
+
+    }
+
+    &.is-middle-alligned {
+
+        label {
+            vertical-align: middle;
+            margin-top: -2px;
+            margin-right: 10px;
+        }
+    }
+
+}
+
+.top-search {
+
+    width: 100%;
+    display: block;
+    position: relative;
+
+    input {
+        width: 100%;
+        height: 40px;
+        display: block;
+        font-size: 16px;
+        @include border-box;
+        padding: 0 50px 0 15px;
+        background-color: transparent;
+        color: $color_button_background;
+        border: 1px solid $color_header_text;
+    }
+
+    button {
+        top: 1px;
+        right: 0;
+        margin: 0;
+        z-index: 5;
+        padding: 0;
+        bottom: 1px;
+        width: 40px;
+        border: none;
+        position: absolute;
+        color: $color_primary;
+        @include appearance(none);
+        background-color: transparent;
+    }
+
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    padding: 10px;
+    display: block;
+    font-size: 14px;
+    line-height: 1.2;
+    color: $color_table_text;
+    font-family: $font_family;
+    border: 1px solid $color_button_border;
+}

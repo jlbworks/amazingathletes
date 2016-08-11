@@ -1,0 +1,81 @@
+/*!
+Theme Name: RA theme
+Theme URI: 
+Author: AM2studio
+Author URI: http://am2studio.hr
+Description: RedAcademy theme
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+!*/
+
+/* Compass libraries */
+@import "compass/utilities";
+@import "compass/css3";
+
+/* Variables & Mixins */
+@import "general/variables";
+@import "general/variables_override";
+@import "general/mixins";
+@import "general/functions/line-height";
+
+/* Reset */
+@import 'vendor/normalize';
+
+/* Font */
+@import 'partials/font';
+
+/* Partials */
+@import "partials/base";
+@import "partials/wp-default";
+@import "partials/am2_grid";
+@import "partials/responsive";
+
+@import "partials/layout";
+@import "partials/header";
+@import "partials/sidebar";
+@import "partials/content";
+@import "partials/footer";
+@import "partials/login-page";
+
+@import "partials/badges";
+@import "partials/buttons";
+@import "partials/modules";
+@import "partials/form-new";
+@import "partials/notify";
+
+@import "partials/table";
+@import "partials/pagination";
+@import "partials/cards";
+@import "partials/form";
+
+@import "partials/js-tabs";
+
+@import "partials/context";
+
+@import "partials/fancybox";
+/*
+@import "partials/images";
+@import "partials/modal";
+@import "partials/flexible-layout";
+*/
+
+
+/* Helpers */
+@import 'partials/helpers';
+
+/* Vendor */
+//@import 'vendor/icomoon';
+@import 'vendor/fontawesome';
+
+/* Plugins */
+@import 'plugins/select2';
+//@import 'plugins/chosen';
+@import 'plugins/tooltipster';
+@import 'plugins/fancybox';
+@import "plugins/pikaday";
+@import "plugins/clockpicker";
+@import 'plugins/pnotify';
+@import 'plugins/remodal';
+@import 'plugins/dropzone';
+@import 'plugins/sweetalert';

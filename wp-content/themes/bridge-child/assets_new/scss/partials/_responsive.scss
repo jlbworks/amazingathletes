@@ -1,0 +1,21 @@
+.break-big {
+
+    @include MQ($mqbig) {
+        margin: 0;
+        float: none;
+        width: 100%;
+        display: block;
+    }
+
+}
+
+.break-xs {
+
+    @include MQ($xs) {
+        margin: 0;
+        float: none;
+        width: 100%;
+        display: block;
+    }
+
+}

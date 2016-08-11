@@ -1,0 +1,15 @@
+.am2-slider{
+	@include element('item') {
+		.dummy {
+			//
+		}
+		.real_img {
+			// 
+		}
+	}
+	@include element('content') {
+		// 
+	}
+	
+	
+}

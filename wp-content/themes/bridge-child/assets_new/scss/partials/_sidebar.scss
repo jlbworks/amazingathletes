@@ -1,0 +1,308 @@
+.sidebar {
+
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: $sidebar_width;
+    height: 100%;
+    padding-top: $header_height;
+    overflow-y: auto;
+    background: $color_sidebar_background;
+    @include transition(width .15s ease-in-out);
+
+    @include MQ($md) {
+        width: 100%;
+        padding-top: 0;
+        position: static;
+    }
+
+    // toggle button on top of sidebar
+    .sidebar-toggle {
+
+        display: block;
+        padding: 10px 20px 10px ($sidebar_submenu_indent + 30); // 30px is the compensation of space for the left icon (used in other items)
+        color: darken($color_sidebar_text, 30%);
+        background: darken($color_sidebar_background, 3%);
+        @include transition(all .15s ease-in-out);
+
+        @include MQ($md) {
+            padding: 10px 20px 10px 23px;
+        }
+
+        i {
+            float: right;
+        }
+
+        &:hover {
+            color: $color_sidebar_text;
+            background: darken($color_sidebar_background, 5%);
+        }
+    }
+
+    // main ul sidebar menu
+    ul.menu {
+
+        display: block;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        @include MQ($md) {
+            overflow: hidden;
+            max-height: 3000px;
+            @include transition(all .15s ease-in-out);
+        }
+
+        > li {
+            display: block;
+            border-left: $sidebar_active_border_width solid $color_sidebar_background;
+
+            // links
+            a {
+                position: relative;
+                display: block;
+                padding: 20px 20px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-transform: uppercase;
+                font-size: 16px;
+                line-height: 16px;
+                font-weight: 700;
+                color: $color_sidebar_text;
+                border-bottom: $border_width solid $color_sidebar_item_limiter;
+                @include transition(all .15s ease-in-out);
+                i {
+                    width: 20px;
+                    padding-right: 20px;
+                }
+                svg{
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                    fill: $color_sidebar_text;
+                    vertical-align: middle;
+                    @include transform( scale(1,-1) translateY(3px) );
+                }
+            }
+
+            // mark numbers
+            mark {
+                float: right;
+                color: #fff;
+                background: none;
+                font-size: 15px;
+                line-height: 25px;
+                @include transition(all .15s ease-in-out);
+                &.bg {
+                    float: none;
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    padding: 5px 10px;
+                    line-height: 15px;
+                    background: $color_sidebar_icon_badge;
+                    @include border-radius(15px);
+                }
+            }
+
+            // hover state
+            &:hover {
+                > a {
+                    color: #fff;
+                }
+            }
+
+            // hover and not active state
+            &:hover:not(.active) {
+                border-left-color: $color_sidebar_background_opened;
+                background-color: $color_sidebar_background_opened;
+            }
+
+            // active li state
+            &.active {
+                background-color: $color_sidebar_background_opened;
+                border-left-color: $color_sidebar_border_active;
+                > a {
+                    color: #fff;
+                }
+            }
+
+            // li with submenu : submenu states
+            &.has_submenu {
+
+                position: relative;
+
+                > a{
+                    &:after {
+                        position: absolute;
+                        top: 20px;
+                        right: 25px;
+                        font-family: "FontAwesome";
+                        content: '\f107';
+                        color: #fff;
+                        @include transition(all .15s ease-in-out);
+                    }
+                }
+
+                .submenu {
+                    max-height: 0;
+                    overflow: hidden;
+                    margin: 0;
+                    padding: 0 0 0 $sidebar_submenu_indent;
+                    @include opacity(0);
+                    @include transition(all .15s ease-in-out);
+                }
+
+                &.active {
+                    background-color: $color_sidebar_background_opened;
+                    border-left: $sidebar_active_border_width solid $color_sidebar_border_active !important;
+                    .submenu {
+                        max-height: 1000px;
+                        padding: 0 0 15px $sidebar_submenu_indent;
+                        @include opacity(1);
+                    }
+                    > a{
+                        &:after {
+                            content: '\f106';
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // submenu ul
+    ul.submenu {
+        > li {
+            a {
+                padding: 5px 25px;
+                font-size: 15px;
+                font-weight: 700;
+                text-transform: none;
+                color: $color_sidebar_text;
+                @include transition(all .15s ease-in-out);
+                &:hover {
+                    color: #fff;
+                    mark {
+                        color: #fff;
+                    }
+                }
+            }
+
+            mark {
+                color: $color_sidebar_text;
+            }
+
+            &.active {
+                a {
+                    color: #fff;
+                    mark {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+// toggled states
+body.#{$sidebar_toggle_class} {
+
+    @include MQ($md) {
+
+        .sidebar {
+
+            ul.menu {
+                max-height: 0;
+            }
+
+        }
+
+    }
+
+    @include MQ($md, min-width) {
+
+        .sidebar {
+            width: $sidebar_width_light;
+
+            .sidebar-toggle {
+
+                padding: 10px 15px;
+
+                i {
+                    float: none;
+                }
+
+            }
+
+            li {
+                //border-left: none;
+                a {
+                    padding: 20px 15px;
+                }
+            }
+
+            span {
+                display: none;
+            }
+
+            mark {
+                display: none;
+            }
+
+            .has_submenu:after {
+                display: none;
+            }
+
+            .submenu {
+                display: none;
+                position: absolute;
+                background: darken($color_sidebar_background, 5%);
+                padding: 0;
+                left: $sidebar_width_light - $sidebar_active_border_width;
+                li {
+                    a {
+                        padding: 10px 15px;
+                    }
+                }
+            }
+
+            .menu > li:hover {
+                width: $sidebar_width;
+
+                > a {
+                    color: #fff;
+                }
+
+                &.has_submenu:after {
+                    display: block;
+                }
+                i {
+                    float: left;
+                }
+                span {
+                    float: left;
+                    display: block;
+                }
+                mark {
+                    display: block;
+                }
+
+                .submenu {
+                    display: block;
+                    padding: 0 !important;
+                    width: $sidebar_width - $sidebar_width_light;
+                }
+            }
+
+        }
+
+        .main {
+            padding-left: $sidebar_width_light + $content_padding;
+        }
+
+    }
+
+}
