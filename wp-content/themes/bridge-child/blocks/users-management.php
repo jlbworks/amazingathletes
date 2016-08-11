@@ -25,12 +25,16 @@ $users = get_users();
                 <table class="table js-responsive-table" id="datatable-editable">
                     <thead>
                         <tr>
-                            <th>Ime</th>
-                            <th>Prezime</th>
+                            <th>First name</th>
+                            <th>Last name</th>
                             <th>Email</th>
-                            <th>Bolnica</th>
                             <th>Role</th>
-                            <th>Akcije</th>
+                            <th>Franchise Name</th>
+                            <th>Telephone</th>
+                            <th>Address</th>
+                            <th>ZIP</th>
+                            <th>City, State</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,15 +43,14 @@ $users = get_users();
                           <td><a class="am2-ajax-modal modal-with-move-anim" data-modal="<?php echo get_ajax_url('modal','user_edit') .'&id='.$user->ID; ?>"><?php echo $user->user_firstname; ?></a></td>
                           <td><?php echo $user->user_lastname; ?></td>
                           <td><?php echo formatEmail($user->user_email); ?></td>
-                          <td><?php
-                            if( $user->bolnica_id>0 ){
-                              echo formatBolnicaTitle($user->bolnica_id);
-                            }else{
-                              echo '-';
-                            }
-                          ?></td>
-                          <td><?php echo $user->role; ?></td>
-                          <td>
+                          <td><?php echo ucwords($user->roles[0]); ?></td>
+                          <td><?php echo get_user_meta($user->ID, 'franchise_name',true); ?></td>
+                          <td><?php echo get_user_meta($user->ID, 'telephone',true); ?></td>
+                          <td><?php echo get_user_meta($user->ID, 'mailing_address',true); ?></td>
+                          <td><?php echo get_user_meta($user->ID, 'zip_code',true); ?></td>
+                          <td><?php echo get_user_meta($user->ID, 'city__state',true); ?></td>
+
+                            <td>
                             <a class="am2-ajax-modal btn btn--primary is-smaller"
                             data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                             data-modal="<?php echo get_ajax_url('modal','user_edit') .'&id='.$user->ID; ?>"><i class="fa fa-pencil"></i></a>
