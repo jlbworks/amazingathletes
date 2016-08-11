@@ -162,7 +162,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                       </div>
                   </div>
               </div>
-              
+
               <input type="hidden" name="id" value="<?php echo $id; ?>" />
               <input type="hidden" name="form_handler" value="user_edit" />
               </div>

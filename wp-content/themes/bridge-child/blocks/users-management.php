@@ -4,7 +4,7 @@ get_currentuserinfo();
 
 restrict_access('administrator,admin_doctor');
 
-$users = get_users();
+$customers = get_users();
 ?>
 
     <!-- CONTENT HEADER -->
@@ -38,7 +38,7 @@ $users = get_users();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($users as $user){ ?>
+                        <?php foreach($customers as $user){ ?>
                         <tr class="gradeA">
                           <td><a class="am2-ajax-modal modal-with-move-anim" data-modal="<?php echo get_ajax_url('modal','user_edit') .'&id='.$user->ID; ?>"><?php echo $user->user_firstname; ?></a></td>
                           <td><?php echo $user->user_lastname; ?></td>

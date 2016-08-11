@@ -385,6 +385,56 @@ function submit_data() {
     }
 
     /**
+     * Edit customer
+     */
+    if ($_POST['form_handler'] == 'customer_edit') {
+        $post_data = array(
+            'ID' => $_POST['id'],
+            'post_type' => 'customer',
+            'post_title' => stripslashes($_POST['childs_first_name']) . ' ' . stripslashes($_POST['childs_last_name']) . ' (' . stripslashes($_POST['parents_name']) . ')',
+            'post_name' => sanitize_title($_POST['childs_first_name']),
+            'post_status' => 'publish',
+        );
+
+        $meta_data = array();
+        $meta_fields = array(
+            'childs_first_name', 'childs_last_name', 'childs_birthday',
+            'childs_gender', 'childs_shirt_size', 'classroom_number_or_teachers_name',
+            'parents_name', 'address', 'state', 'city', 'zip_code', 'telephone', 'email'
+        );
+        foreach ($meta_fields as $field) {
+            $meta_data[$field] = $_POST[$field];
+        }
+
+
+        $created = false;
+        // update
+        if ($_POST['id'] > 0) {
+            $post_id = $_POST['id'];
+            wp_update_post($post_data);
+
+            // insert
+        } else {
+            $post_id = wp_insert_post($post_data);
+            $created = true;
+        }
+
+        // meta
+        foreach ($meta_fields as $field) {
+            if (empty($meta_data[$field])) {
+                delete_post_meta($post_id, $field);
+            } else {
+               update_post_meta($post_id, $field, $meta_data[$field]);
+            }
+        }
+
+        if (is_wp_error($user_id)) {
+            exit(json_encode(array('success' => false, 'message' => "Customer not saved")));
+        }
+
+        exit(json_encode(array('success' => true, 'message' => "Customer saved successfully")));
+    }
+    /**
       END OF SUBMIT FORM HANDLERS
      */
     //

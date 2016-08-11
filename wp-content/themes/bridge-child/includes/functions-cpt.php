@@ -201,6 +201,37 @@ function am2_cpt() {
 
 	register_post_type( 'franchise_page', $args );*/
 
+    $labels = array(
+        'name'               => _x( 'Customer', 'post type general name' ),
+        'singular_name'      => _x( 'Customer', 'post type singular name' ),
+        'add_new'            => _x( 'Add New', 'Customer' ),
+        'add_new_item'       => __( 'Add New Customer' ),
+        'edit_item'          => __( 'Edit Customer' ),
+        'new_item'           => __( 'New Customer' ),
+        'view_item'          => __( 'View Customer' ),
+        'search_items'       => __( 'Search Customers' ),
+        'not_found'          => __( 'No Customers found' ),
+        'not_found_in_trash' => __( 'No Customers found in the trash' ),
+        'parent_item_colon'  => '',
+        'show_in_nav_menus'  => true
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'query_var'          => false,
+        'has_archive'        => true,
+        'capability_type'    => 'post',
+        'hierarchical'       => true,
+        'menu_position'      => null,
+        'supports'           => array( 'title', 'author', 'editor'),
+        'taxonomies'         => array( )
+    );
+
+    register_post_type( 'customer', $args );
+
 }
 
 ?>
