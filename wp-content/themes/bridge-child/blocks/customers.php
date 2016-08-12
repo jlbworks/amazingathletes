@@ -60,7 +60,7 @@ $customers = get_posts($args);
                             <a class="am2-ajax-modal btn btn--primary is-smaller"
                             data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                             data-modal="<?php echo get_ajax_url('modal','customer_edit') .'&id='.$customer->ID; ?>"><i class="fa fa-pencil"></i></a>
-                                
+
                             <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                             data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                             data-object="user" data-id="<?php echo $customer->ID; ?>"><i class="fa fa-trash-o"></i></a>

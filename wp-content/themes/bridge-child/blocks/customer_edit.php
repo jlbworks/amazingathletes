@@ -20,6 +20,8 @@ $city = get_post_meta( $id, 'city', true );
 $zip_code = get_post_meta( $id, 'zip_code', true );
 $telephone = get_post_meta( $id, 'telephone', true );
 $email = get_post_meta( $id, 'email', true );
+$liability_release = get_post_meta( $id, 'liability_release', true );
+$photo_release = get_post_meta( $id, 'photo_release', true );
 
 $role         = $profile->roles[0];
 $password     = '';
@@ -200,6 +202,30 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                       <div class="card-form">
                           <fieldset>
                               <input type="email" name="email" class="form-control" title="Please enter an email address." value="<?php echo $email; ?>" placeholder="eg.: john@gmail.com" required/>
+                              <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                          </fieldset>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="card-table-row">
+                  <span class="card-table-cell fixed250">Liability Release</span>
+                  <div class="card-table-cell">
+                      <div class="card-form">
+                          <fieldset>
+                              <input type="checkbox" name="liability_release" class="form-control" title="I agree to the Liability Release to" value="1" <?php checked( '1', $liability_release, 1 ); ?>"/>
+                              <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                          </fieldset>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="card-table-row">
+                  <span class="card-table-cell fixed250">Photo Release</span>
+                  <div class="card-table-cell">
+                      <div class="card-form">
+                          <fieldset>
+                              <input type="checkbox" name="photo_release" class="form-control" title="I agree to the Photo Release to" value="1" <?php checked( '1', $photo_release, 1 ); ?>"/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
