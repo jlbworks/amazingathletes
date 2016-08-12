@@ -401,7 +401,7 @@ function submit_data() {
             'childs_first_name', 'childs_last_name', 'childs_birthday',
             'childs_gender', 'childs_shirt_size', 'classroom_number_or_teachers_name',
             'parents_name', 'address', 'state', 'city', 'zip_code', 'telephone', 'email',
-            'liability_release', 'photo_release'
+            'liability_release', 'photo_release', 'location_id'
         );
         foreach ($meta_fields as $field) {
             $meta_data[$field] = $_POST[$field];
@@ -483,6 +483,21 @@ function delete_object() {
     if ($object == 'client_note' and $id > 0) {
         deleteClientNote($id);
         exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Note deleted")));
+    }
+
+    if ($object == 'customer' and $id > 0) {
+        if( !current_user_can( 'edit_posts' ) ) {
+            exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
+
+        }
+
+        $customer_object = array(
+            'ID' => $id,
+            'post_status' => 'trash'
+        );
+        wp_update_post( $customer_object );
+        exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Customer deleted")));
+
     }
 
 

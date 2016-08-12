@@ -47,12 +47,13 @@ $customers = get_posts($args);
                         <?php foreach($customers as $customer){
                             $franchise = get_userdata( get_post_meta( $customer->ID, 'franchise_id', true ) );
                             $franchise_name = get_user_meta( $franchise->ID, 'franchise_name', true );
+                            $location = get_post( get_post_meta( $customer->ID, 'location_id', true ) );
                             ?>
                         <tr class="gradeA">
                           <td><a class="am2-ajax-modal modal-with-move-anim" data-modal="<?php echo get_ajax_url('modal','customer_edit') .'&id='.$customer->ID; ?>"><?php echo get_post_meta($customer->ID, 'parents_name',true); ?></a></td>
                           <td><?php echo get_post_meta($customer->ID, 'childs_first_name',true) . " " . get_post_meta($customer->ID, 'childs_last_name',true) ?></td>
                           <td><?php echo $franchise_name; ?></td>
-                          <td><?php echo get_post_meta($customer->ID, 'location',true); ?></td>
+                          <td><?php echo $location->post_title ?></td>
                           <td><?php echo get_post_meta($customer->ID, 'city',true); ?></td>
                           <td><?php echo formatEmail($customer->user_email); ?></td>
 
@@ -63,7 +64,7 @@ $customers = get_posts($args);
 
                             <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                             data-original-title="Delete" data-placement="top" data-toggle="tooltip"
-                            data-object="user" data-id="<?php echo $customer->ID; ?>"><i class="fa fa-trash-o"></i></a>
+                            data-object="customer" data-id="<?php echo $customer->ID; ?>"><i class="fa fa-trash-o"></i></a>
                           </td>
                         </tr>
                         <?php }; ?>

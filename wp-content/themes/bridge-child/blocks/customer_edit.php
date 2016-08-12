@@ -2,7 +2,7 @@
 global $wpdb;
 global $current_user; 
 
-restrict_access('administrator,admin_doctor');
+restrict_access('administrator,franchisee');
 
 $id = $_REQUEST['id'];
 $profile = get_user_by( 'id', $id );
@@ -23,6 +23,8 @@ $email = get_post_meta( $id, 'email', true );
 $liability_release = get_post_meta( $id, 'liability_release', true );
 $photo_release = get_post_meta( $id, 'photo_release', true );
 $franchise_id = get_post_meta( $id, 'franchise_id', true );
+$location_id = get_post_meta( $id, 'location_id', true );
+
 
 $role         = $profile->roles[0];
 $password     = '';
@@ -243,7 +245,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                                   <option value=""></option>
                                   <option value="">Select a franchise..</option>
                                   <?php
-                                  $franchises = get_users( array( role => 'franchisee' ) );
+                                  $franchises = get_users( array( 'role' => 'franchisee' ) );
                                   if ( $franchises ) {
                                       foreach ( $franchises AS $franchise ) {?>
                                           <option <?php echo ($franchise->ID == $franchise_id ? 'selected' : ''); ?> value="<?php echo $franchise->ID; ?>"><?php echo $franchise->user_nicename; ?></option>
@@ -255,6 +257,27 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   </div>
               </div>
               <?php endif; ?>
+
+              <div class="card-table-row">
+                  <span class="card-table-cell fixed250">Location</span>
+                  <div class="card-table-cell">
+                      <div class="card-form">
+                          <fieldset>
+                              <select name="location_id"  placeholder="Select a location..." class="am2_cc_state" required style="">
+                                  <option value=""></option>
+                                  <option value="">Select a location..</option>
+                                  <?php
+                                  $locations = get_posts( array( 'post_type' => 'location', 'post_author' => $id ) );
+                                  if ( $locations ) {
+                                      foreach ( $locations AS $location ) {?>
+                                          <option <?php echo ($location->ID == $location_id ? 'selected' : ''); ?> value="<?php echo $location->ID; ?>"><?php echo $location->post_title; ?></option>
+                                      <?php }
+                                  } ?>
+                              </select>
+                          </fieldset>
+                      </div>
+                  </div>
+              </div>
 
               <input type="hidden" name="id" value="<?php echo $id; ?>" />
               <input type="hidden" name="form_handler" value="customer_edit" />

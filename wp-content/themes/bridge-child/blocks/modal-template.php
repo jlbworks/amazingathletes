@@ -75,7 +75,7 @@ $(document).on('click', '.am2-ajax-modal-delete', function (event) {
   }, 
     function(){
       izbrisi(which_object,which_id)
-      swal("Deleted!", "user deleted successfully.", "success");
+      swal("Deleted!", "Deleted successfully.", "success");
   });
 
 });
