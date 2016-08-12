@@ -22,6 +22,7 @@ $telephone = get_post_meta( $id, 'telephone', true );
 $email = get_post_meta( $id, 'email', true );
 $liability_release = get_post_meta( $id, 'liability_release', true );
 $photo_release = get_post_meta( $id, 'photo_release', true );
+$franchise_id = get_post_meta( $id, 'franchise_id', true );
 
 $role         = $profile->roles[0];
 $password     = '';
@@ -231,6 +232,29 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                       </div>
                   </div>
               </div>
+
+              <?php if( current_user_can( 'administrator' ) ): ?>
+              <div class="card-table-row">
+                  <span class="card-table-cell fixed250">Franchise</span>
+                  <div class="card-table-cell">
+                      <div class="card-form">
+                          <fieldset>
+                              <select name="franchise_id"  placeholder="Select a franchise..." class="am2_cc_state" required style="">
+                                  <option value=""></option>
+                                  <option value="">Select a franchise..</option>
+                                  <?php
+                                  $franchises = get_users( array( role => 'franchisee' ) );
+                                  if ( $franchises ) {
+                                      foreach ( $franchises AS $franchise ) {?>
+                                          <option <?php echo ($franchise->ID == $franchise_id ? 'selected' : ''); ?> value="<?php echo $franchise->ID; ?>"><?php echo $franchise->user_nicename; ?></option>
+                                      <?php }
+                                  } ?>
+                              </select>
+                          </fieldset>
+                      </div>
+                  </div>
+              </div>
+              <?php endif; ?>
 
               <input type="hidden" name="id" value="<?php echo $id; ?>" />
               <input type="hidden" name="form_handler" value="customer_edit" />

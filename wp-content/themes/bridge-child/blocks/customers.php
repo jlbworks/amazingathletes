@@ -2,14 +2,14 @@
 global $current_user; 
 get_currentuserinfo();
 
-restrict_access('administrator,admin_doctor');
+restrict_access('administrator,franchisee');
 
 $args = array(
     'post_type'   => 'customer',
     'post_status' => 'publish',
     'posts_per_page'=> -1,
 );
-if(is_role('franchise')) {
+if(is_role('franchisee')) {
     $args['meta_query']  = array(
         array( 'key'=>'franchise_id','value'=> get_current_user_id() )
     );

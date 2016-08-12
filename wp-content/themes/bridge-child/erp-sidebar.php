@@ -14,15 +14,15 @@
             <li>
                 <a href="#users-management"><i class="fa fa-user-md" aria-hidden="true"></i> <span>Users</span></a>
             </li>
-            <?php } if( is_role('administrator') || is_role('franchise') ){ ?>
+            <?php } if( is_role('administrator') || is_role('franchisee') ){ ?>
             <li>
                 <a href="#customers"><i class="fa fa-briefcase" aria-hidden="true"></i> <span>Customers</span> </a>
             </li>
-            <?php } if( is_role('administrator') || is_role('franchise') ){ ?>
+            <?php } if( is_role('administrator') || is_role('franchisee') ){ ?>
             <li>
                 <a href="#payments"><i class="fa fa-users" aria-hidden="true"></i> <span>Payments</span> </a>
             </li>
-            <?php } if( is_role('administrator') ||  is_role('franchise') ){ ?>
+            <?php } if( is_role('administrator') ||  is_role('franchisee') ){ ?>
             <li>
                 <a href="#attendance"><i class="fa fa-users" aria-hidden="true"></i> <span>Attendance</span> </a>
             </li>

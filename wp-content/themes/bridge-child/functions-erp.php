@@ -400,7 +400,8 @@ function submit_data() {
         $meta_fields = array(
             'childs_first_name', 'childs_last_name', 'childs_birthday',
             'childs_gender', 'childs_shirt_size', 'classroom_number_or_teachers_name',
-            'parents_name', 'address', 'state', 'city', 'zip_code', 'telephone', 'email', 'liability_release', 'photo_release'
+            'parents_name', 'address', 'state', 'city', 'zip_code', 'telephone', 'email',
+            'liability_release', 'photo_release'
         );
         foreach ($meta_fields as $field) {
             $meta_data[$field] = $_POST[$field];
@@ -427,6 +428,15 @@ function submit_data() {
                update_post_meta($post_id, $field, $meta_data[$field]);
             }
         }
+
+        if( current_user_can( 'administrator' ) ) {
+            $franchise_id = $_POST['franchise_id'];
+        }
+        else {
+            $franchise_id = $current_user->ID;
+        }
+
+        update_post_meta( $post_id, 'franchise_id', $franchise_id );
 
         if (is_wp_error($user_id)) {
             exit(json_encode(array('success' => false, 'message' => "Customer not saved")));
