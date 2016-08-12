@@ -22,6 +22,8 @@ $telephone = get_post_meta( $id, 'telephone', true );
 $email = get_post_meta( $id, 'email', true );
 $liability_release = get_post_meta( $id, 'liability_release', true );
 $photo_release = get_post_meta( $id, 'photo_release', true );
+$comments_or_questions = get_post_meta( $id, 'comments_or_questions', true );
+$paid_tuition = get_post_meta( $id, 'paid_tuition', true );
 $franchise_id = get_post_meta( $id, 'franchise_id', true );
 $location_id = get_post_meta( $id, 'location_id', true );
 
@@ -228,7 +230,33 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="checkbox" name="photo_release" class="form-control" title="I agree to the Photo Release to" value="1" <?php checked( '1', $photo_release, 1 ); ?>"/>
+                              <input type="checkbox" name="photo_release" class="form-control" title="I agree to the Photo Release" value="1" <?php checked( '1', $photo_release, 1 ); ?>"/>
+                              <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                          </fieldset>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="card-table-row">
+                  <span class="card-table-cell fixed250">Comments or Questions</span>
+                  <div class="card-table-cell">
+                      <div class="card-form">
+                          <fieldset>
+                              <textarea type="checkbox" name="comments_or_questions" class="form-control">
+                                <?php echo $comments_or_questions; ?>
+                              </textarea>
+                              <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                          </fieldset>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="card-table-row">
+                  <span class="card-table-cell fixed250">Already paid tuition</span>
+                  <div class="card-table-cell">
+                      <div class="card-form">
+                          <fieldset>
+                              <input type="checkbox" name="paid_tuition" class="form-control" title="Have you already payed tuition for this class?" value="1" <?php checked( '1', $paid_tuition, 1 ); ?>"/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>

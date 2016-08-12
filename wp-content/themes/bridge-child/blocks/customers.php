@@ -55,9 +55,8 @@ $customers = get_posts($args);
                           <td><?php echo $franchise_name; ?></td>
                           <td><?php echo $location->post_title ?></td>
                           <td><?php echo get_post_meta($customer->ID, 'city',true); ?></td>
-                          <td><?php echo formatEmail($customer->user_email); ?></td>
-
-                            <td>
+                          <td><?php echo get_post_meta($customer->ID, 'email',true); ?></td>
+                          <td>
                             <a class="am2-ajax-modal btn btn--primary is-smaller"
                             data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                             data-modal="<?php echo get_ajax_url('modal','customer_edit') .'&id='.$customer->ID; ?>"><i class="fa fa-pencil"></i></a>
