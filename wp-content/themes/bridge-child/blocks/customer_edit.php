@@ -308,19 +308,6 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               </div>
 
               <div class="row">
-                  <?php echo listClientNotes($company); ?>
-              </div>
-
-              <div class="row">
-                  <div class="">
-                      <label class="col-sm-12"><b>Leave a note as <?php echo $current_user->first_name.' '.$current_user->last_name; ?></b></label>
-                      <div class="col-sm-12">
-                          <textarea class="form-control" rows="4" id="textarea_client_note" name="client_note"></textarea>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="row">
                   <div class="col-sm-12 text-left">
                       <button class="btn btn-primary" onclick="addClientNote();return false;">Leave a note</button>
                   </div>
