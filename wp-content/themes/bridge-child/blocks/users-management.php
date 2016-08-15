@@ -33,7 +33,7 @@ $customers = get_users();
                             <th>Telephone</th>
                             <th>Address</th>
                             <th>ZIP</th>
-                            <th>City, State</th>
+                            <th>State, City</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
