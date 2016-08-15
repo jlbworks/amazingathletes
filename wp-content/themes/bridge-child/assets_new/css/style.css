@@ -1711,7 +1711,8 @@ a img.aligncenter {
   content: "\A";
   margin-right: 10px;
   position: absolute;
-  background: url("../images/sign.png") no-repeat transparent top left;
+  background: url("../images/logo.jpg") no-repeat transparent top left;
+  background-size: 52px;
 }
 .login-form fieldset {
   padding: 0;

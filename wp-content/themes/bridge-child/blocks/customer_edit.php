@@ -307,6 +307,25 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   </div>
               </div>
 
+              <div class="row">
+                  <?php echo listClientNotes($company); ?>
+              </div>
+
+              <div class="row">
+                  <div class="">
+                      <label class="col-sm-12"><b>Leave a note as <?php echo $current_user->first_name.' '.$current_user->last_name; ?></b></label>
+                      <div class="col-sm-12">
+                          <textarea class="form-control" rows="4" id="textarea_client_note" name="client_note"></textarea>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-sm-12 text-left">
+                      <button class="btn btn-primary" onclick="addClientNote();return false;">Leave a note</button>
+                  </div>
+              </div>
+
               <input type="hidden" name="id" value="<?php echo $id; ?>" />
               <input type="hidden" name="form_handler" value="customer_edit" />
               </div>
@@ -349,5 +368,27 @@ $(document).ready(function () {
     });
 
 });
+
+function addClientNote(){
+    var note = $('#textarea_client_note').val();
+    $('#textarea_client_note').val('');
+    $.ajax({
+        url: '<?php echo site_url();?>/admin/admin-ajax.php?action=submit_data',
+        type: 'POST',
+        dataType: 'json',
+        data: {form_handler:'add-note-to-customer',company_id:'<?php echo $id;?>',note: note},
+    })
+        .done(function() {
+            show_candidate_notes('<?php echo $id;?>');
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+
+    return false;
+}
 
 </script>
