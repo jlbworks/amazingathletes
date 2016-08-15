@@ -121,7 +121,7 @@ $responsibilities = $profile->responsibilities;
                 <div class="card-table-cell">
                   <div class="card-form">
                     <fieldset>
-                      <input type="text" name="password" class="form-control" value="" required />
+                      <input type="p" name="password" class="form-control" placeholder="******" value="" required />
                        <input type="hidden" name="id" value="<?php echo $profile->ID; ?>" />
                         <input type="hidden" name="form_handler" value="user_changepassword" />
                     </fieldset>
