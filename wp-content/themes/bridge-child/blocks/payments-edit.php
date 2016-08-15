@@ -6,6 +6,9 @@ $id = $_REQUEST['id'];
 
 restrict_access('administrator,doctor,admin_doctor');
 
+echo( "<div>In Development</div>" );
+return;
+
 $pacijent = get_post($id);
 
 $first_name     = $pacijent->first_name;

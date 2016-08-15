@@ -4,9 +4,8 @@ get_currentuserinfo();
 
 restrict_access('administrator,franchise');
 
-// Mozda staviti da kada je admin, da izbaci meta query ?
 $args = array(
-  'post_type'   => 'payments',
+  'post_type'   => 'payment',
   'post_status' => 'publish',
   'posts_per_page'=> -1,
 );
@@ -35,53 +34,57 @@ $payments = get_posts($args);
             <div class="col-1 break-big">
                 <!-- TABLE (LIST OF USERS) -->
                 <table class="table js-responsive-table" id="datatable-editable">
-                  <thead>
+                    <thead>
                     <tr>
-                      <th><span>Ime</span></th>
-                      <th><span>Doktor</span></th>
-                      <th><span>Bolnica</span></th>
-                      <th><span>Ulica</span></th>
-                      <th><span>Grad</span></th>
-                      <th><span>Telefon</span></th>
-                      <th><span>Email</span></th>
-                      <th><span>Akcije</span></th>
+                        <th><span>Customer Name</span></th>
+                        <th><span>Franchise</span></th>
+                        <th><span>Location</span></th>
+                        <th><span>Class</span></th>
+                        <th><span>Date</span></th>
+                        <th><span>Paid amount</span></th>
+                        <th><span>Type</span></th>
+                        <th><span>Description</span></th>
+                        <th><span>Actions</span></th>
                     </tr>
-                  </thead>
-                  <tbody>
+                    </thead>
+                    <tbody>
                     <?php
-                      foreach($payments as $payment){
-                        // $bolnica_users = get_bolnica_users($payment->ID);
-                    ?>
-                    <tr class="gradeA">
-                      <td style="white-space:nowrap"><a class="am2-ajax-modal"
-                        data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                        data-modal="<?php echo get_ajax_url('modal','payments-edit') .'&id='.$payment->ID; ?>"><?php echo $payment->post_title; ?></a></td>
-                      <td><?php $user_info = get_userdata($payment->doktor); echo $user_info->first_name.' '.$user_info->last_name; ?></td>
-                      <td><?php echo get_the_title($payment->bolnica); ?></td>
-                      <td><?php echo $payment->address; ?></td>
-                      <td><?php echo $payment->city; ?></td>
-                      <td><?php echo $payment->phone; ?></td>
-                      <td><?php
-                          $email = trim($payment->contact_email);
-                          if( empty($email) ){
-                            echo '';//'-'
-                          }else{
-                            echo '<a target="_blank" href="mailto:'.$email.'">'.$email.'</a>';
-                          }
-                      ?></td>
+                    foreach($payments as $payment){
+                        $franchise_id = get_post_meta( $payment->ID, 'payment_franchise_id', true );
+                        $location_id = get_post_meta( $payment->ID, 'payment_location_id', true );
+                        $customer_id = get_post_meta( $payment->ID, 'payment_customer_id', true );
+                        $class_id = get_post_meta( $payment->ID, 'payment_class_id', true );
 
-                      <td>
-                        <a class="am2-ajax-modal btn btn--primary is-smaller"
-                        data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                        data-modal="<?php echo get_ajax_url('modal','payments-edit') .'&id='.$payment->ID; ?>"><i class="fa fa-pencil"></i></a>
-                        <?php if( is_role('administrator') ){ ?>
-                          <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
-                          data-original-title="Delete" data-placement="top" data-toggle="tooltip"
-                          data-object="payment" data-id="<?php echo $payment->ID; ?>"><i class="fa fa-trash-o"></i></a>
-                        <?php }; ?>
-                    </tr>
+                        $franchise = get_user_meta( (int)$franchise_id, 'franchise_name', true);
+                        $location = get_post( (int)$location_id );
+                        $customer = get_post( (int)$customer_id );
+                        $class = get_post( (int)$class_id );
+
+                        ?>
+                        <tr class="gradeA">
+                            <td style="white-space:nowrap"><a class="am2-ajax-modal"
+                                                              data-original-title="Edit" data-placement="top" data-toggle="tooltip"
+                                                              data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$payment->ID; ?>"><?php echo $customer->post_title ?></a></td>
+                            <td><?php echo $franchise; ?></td>
+                            <td><?php echo $location->post_title; ?></td>
+                            <td><?php echo $class->post_title; ?></td>
+                            <td><?php echo get_post_meta( $payment->ID, 'payment_paid_date', true ); ?></td>
+                            <td><?php echo get_post_meta( $payment->ID, 'payment_paid_amount', true ); ?></td>
+                            <td><?php echo get_post_meta( $payment->ID, 'payment_type', true ); ?></td>
+                            <td><?php echo get_post_meta( $payment->ID, 'payment_description', true ); ?></td>
+
+                            <td>
+                                <a class="am2-ajax-modal btn btn--primary is-smaller"
+                                   data-original-title="Edit" data-placement="top" data-toggle="tooltip"
+                                   data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$payment->ID; ?>"><i class="fa fa-pencil"></i></a>
+                                <?php if( is_role('administrator') ){ ?>
+                                    <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
+                                       data-original-title="Delete" data-placement="top" data-toggle="tooltip"
+                                       data-object="attend" data-id="<?php echo $payment->ID; ?>"><i class="fa fa-trash-o"></i></a>
+                                <?php }; ?>
+                        </tr>
                     <?php }; ?>
-                  </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
