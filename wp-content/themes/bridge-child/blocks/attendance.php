@@ -2,15 +2,14 @@
 global $current_user; 
 get_currentuserinfo();
 
-restrict_access('administrator,franchise');
+restrict_access('administrator,franchisee');
 
-// Mozda staviti da kada je admin, da izbaci meta query ?
 $args = array(
   'post_type'   => 'attendance',
   'post_status' => 'publish',
   'posts_per_page'=> -1,
 );
-if(is_role('franchise')) {
+if(is_role('franchisee')) {
   $args['meta_query']  = array(
     array( 'key'=>'franchise_id','value'=> get_current_user_id() )
   );
@@ -37,39 +36,32 @@ $attendance = get_posts($args);
                 <table class="table js-responsive-table" id="datatable-editable">
                   <thead>
                     <tr>
-                      <th><span>Ime</span></th>
-                      <th><span>Doktor</span></th>
-                      <th><span>Bolnica</span></th>
-                      <th><span>Ulica</span></th>
-                      <th><span>Grad</span></th>
-                      <th><span>Telefon</span></th>
-                      <th><span>Email</span></th>
-                      <th><span>Akcije</span></th>
+                        <th><span>Franchise</span></th>
+                        <th><span>Location</span></th>
+                        <th><span>Customer Name</span></th>
+                        <th><span>Date</span></th>
+                        <th><span>Actions</span></th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
                       foreach($attendance as $attend){
-                        // $bolnica_users = get_bolnica_users($attend->ID);
+                          $franchise_id = get_post_meta( $attend->ID, 'attendance_franchise_id', true );
+                          $location_id = get_post_meta( $attend->ID, 'attendance_location_id', true );
+                          $customer_id = get_post_meta( $attend->ID, 'attendance_customer_id', true );
+
+                          $franchise = get_user_meta( (int)$franchise_id, 'franchise_name', true);
+                          $location = get_post( (int)$location_id );
+                          $customer = get_post( (int)$customer_id );
+
                     ?>
                     <tr class="gradeA">
                       <td style="white-space:nowrap"><a class="am2-ajax-modal"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                        data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$attend->ID; ?>"><?php echo $attend->post_title; ?></a></td>
-                      <td><?php $user_info = get_userdata($attend->doktor); echo $user_info->first_name.' '.$user_info->last_name; ?></td>
-                      <td><?php echo get_the_title($attend->bolnica); ?></td>
-                      <td><?php echo $attend->address; ?></td>
-                      <td><?php echo $attend->city; ?></td>
-                      <td><?php echo $attend->phone; ?></td>
-                      <td><?php
-                          $email = trim($attend->contact_email);
-                          if( empty($email) ){
-                            echo '';//'-'
-                          }else{
-                            echo '<a target="_blank" href="mailto:'.$email.'">'.$email.'</a>';
-                          }
-                      ?></td>
-
+                        data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$attend->ID; ?>"><?php echo $franchise; ?></a></td>
+                      <td><?php echo $location->post_title; ?></td>
+                      <td><?php echo $customer->post_title ?></td>
+                      <td><?php echo get_the_date( 'Y/m/d', $attend->ID ) ?></td>
                       <td>
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
