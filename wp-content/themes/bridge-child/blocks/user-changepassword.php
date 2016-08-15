@@ -23,7 +23,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
 ?>
 
 <div class="card-wrapper">
-    <h3 class="card-header">Promjeni lozinku za <?php echo $profile->first_name.' '.$profile->last_name; ?></h3>
+    <h3 class="card-header">Change password for <?php echo $profile->first_name.' '.$profile->last_name; ?></h3>
     <div class="card-inner">
         <form id="user-form" class="card-form no-inline-edit js-ajax-form">
         <div class="validation-message"><ul></ul></div>
@@ -31,7 +31,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               <!-- INPUT DEFAULT (GREEN AND BOLD) -->
               <?php if( $id>0 ){ ?>
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Nova Lozinka <span class="required">*</span></span>
+                  <span class="card-table-cell fixed250">New Password <span class="required">*</span></span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
@@ -45,8 +45,8 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
             <input type="hidden" name="form_handler" value="user_changepassword" />
           </div>
           <div class="card-footer clearfix">
-              <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Odustani</button>
-              <button class="right btn btn--primary" type="submit">Snimi</button>
+              <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
+              <button class="right btn btn--primary" type="submit">Save</button>
           </div>
         </form>
     </div>

@@ -1,3 +1,26 @@
+<!--<div id="dialog" class="modal-block mfp-hide">-->
+<!--	<section class="panel">-->
+<!--		<header class="panel-heading">-->
+<!--			<h2 class="panel-title">Are you sure?</h2>-->
+<!--		</header>-->
+<!--		<div class="panel-body">-->
+<!--			<div class="modal-wrapper">-->
+<!--				<div class="modal-text">-->
+<!--					<p>Are you sure that you want to delete this row?</p>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--		<footer class="panel-footer">-->
+<!--			<div class="row">-->
+<!--				<div class="col-md-12 text-right">-->
+<!--					<button id="dialogConfirm" class="btn btn-primary">Confirm</button>-->
+<!--					<button id="dialogCancel" class="btn btn-default">Cancel</button>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</footer>-->
+<!--	</section>-->
+<!--</div>-->
+
 
 	<!-- Vendor -->
 	<script src="<?php bloginfo('stylesheet_directory'); ?>/assets_new/js/plugins.js"></script>
