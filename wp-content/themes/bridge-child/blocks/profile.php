@@ -19,7 +19,7 @@ $responsibilities = $profile->responsibilities;
 <div class="layout context--pageheader">
     <div class="container clearfix">
         <div class="col-12 break-big">
-            <h1>Profil</h1>
+            <h1>Profile</h1>
         </div>
     </div>
 </div>
@@ -34,27 +34,27 @@ $responsibilities = $profile->responsibilities;
               <form id="profile-form" class="card-form no-inline-edit js-ajax-form">
 
                 <div class="card-wrapper">
-                  <h3 class="card-header">Informacije</h3>
+                  <h3 class="card-header">Information</h3>
                   <div class="card-inner">
                     <div class="card-table">
 
                       <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Ime</span>
+                        <span class="card-table-cell fixed250">First Name</span>
                         <div class="card-table-cell">
                           <div class="card-form">
                             <fieldset>
-                              <input type="text" name="first_name" class="form-control" title="Plase enter your first name." value="<?php echo $first_name; ?>" placeholder="eg.: John" required/>
+                              <input type="text" name="first_name" class="form-control" title="Please enter your first name." value="<?php echo $first_name; ?>" placeholder="eg.: John" required/>
                             </fieldset>
                           </div>
                         </div>
                       </div>
 
                       <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Prezime</span>
+                        <span class="card-table-cell fixed250">Last Name</span>
                         <div class="card-table-cell">
                           <div class="card-form">
                             <fieldset>
-                              <input type="text" name="last_name" class="form-control" title="Plase enter your last name." value="<?php echo $last_name; ?>" placeholder="eg.: Doe" required/>
+                              <input type="text" name="last_name" class="form-control" title="Please enter your last name." value="<?php echo $last_name; ?>" placeholder="eg.: Doe" required/>
                             </fieldset>
                           </div>
                         </div>
@@ -83,7 +83,7 @@ $responsibilities = $profile->responsibilities;
                       </div>
 
                       <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Telefon</span>
+                        <span class="card-table-cell fixed250">Phone</span>
                         <div class="card-table-cell">
                           <div class="card-form">
                               <fieldset>
@@ -99,7 +99,7 @@ $responsibilities = $profile->responsibilities;
           </div>
         <input type="hidden" name="form_handler" value="profile" />
         <div class="card-footer clearfix">
-            <button class="right btn btn--primary" type="submit">Snimi</button>
+            <button class="right btn btn--primary" type="submit">Save</button>
         </div>
       </form>
     </div>
@@ -112,12 +112,12 @@ $responsibilities = $profile->responsibilities;
       <form id="user-pass-form" class="card-form no-inline-edit js-ajax-form">
 
         <div class="card-wrapper">
-          <h3 class="card-header">Lozinka Promjena</h3>
+          <h3 class="card-header">Change Password</h3>
           <div class="card-inner">
             <div class="card-table">
 
               <div class="card-table-row">
-                <span class="card-table-cell fixed250">Nova Lozinka</span>
+                <span class="card-table-cell fixed250">New Password</span>
                 <div class="card-table-cell">
                   <div class="card-form">
                     <fieldset>
@@ -132,7 +132,7 @@ $responsibilities = $profile->responsibilities;
         </div>  
       </div>
       <div class="card-footer clearfix">
-            <button class="right btn btn--primary" type="submit">Snimi</button>
+            <button class="right btn btn--primary" type="submit">Save</button>
         </div>
     </form>
   </div>
