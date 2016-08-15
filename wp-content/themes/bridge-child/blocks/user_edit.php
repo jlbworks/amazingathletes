@@ -35,7 +35,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="first_name" class="form-control" title="Please enter your first name." value="<?php echo esc_attr( $first_name ); ?>" placeholder="eg.: Marko" required />
+                              <input type="text" name="first_name" class="form-control" title="Please enter your first name." value="<?php echo esc_attr( $first_name ); ?>" placeholder="eg.: John" required />
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -47,7 +47,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="last_name" class="form-control" title="Please enter your last name." value="<?php echo $last_name; ?>" placeholder="eg.: Marin" required/>
+                              <input type="text" name="last_name" class="form-control" title="Please enter your last name." value="<?php echo $last_name; ?>" placeholder="eg.: Doe" required/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -59,7 +59,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="email" name="email" class="form-control" title="Please enter an email address." value="<?php echo $email; ?>" placeholder="eg.: marko@gmail.com" required/>
+                              <input type="email" name="email" class="form-control" title="Please enter an email address." value="<?php echo $email; ?>" placeholder="eg.: john.doe@gmail.com" required/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -72,7 +72,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="password" name="password" class="form-control" title="Please enter account password." value="<?php echo $password; ?>" placeholder="eg.: lozinka123" required/>
+                              <input type="password" name="password" class="form-control" title="Please enter account password." value="<?php echo $password; ?>" placeholder="eg.: password123" required/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
