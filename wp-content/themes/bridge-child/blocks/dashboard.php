@@ -1,11 +1,5 @@
 <?php
 
-if( is_role('client') ){
-  include(dirname(__FILE__).'/bolnica-dashboard.php');
-  exit();
-}
-
-
 $args = array(
   'role' => 'franchisee'
 );
