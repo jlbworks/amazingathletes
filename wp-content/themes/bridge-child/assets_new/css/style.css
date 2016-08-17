@@ -5879,6 +5879,7 @@ textarea {
   padding: 0;
   position: relative;
   vertical-align: middle;
+  z-index: 99999;
 }
 .select2-container * {
   outline: none !important;

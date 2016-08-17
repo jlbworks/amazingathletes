@@ -1,10 +1,10 @@
 <?php
-global $current_user; 
-get_currentuserinfo(); 
+global $current_user;
+get_currentuserinfo();
 
 $id = $_REQUEST['id'];
 
-restrict_access('administrator,doctor,admin_doctor');
+restrict_access('administrator,franchisee');
 
 /*echo( "<div>In Development</div>" );
 return;*/
@@ -15,7 +15,6 @@ $customer_id    = get_post_meta( $payment->ID, 'payment_customer_id', true );
 $customer       = get_post( $customer_id );
 
 $class_id       = get_post_meta( $payment->ID, 'payment_class_id', true );
-$class          = get_post( $class_id );
 
 $franchise_id   = get_post_meta( $payment->ID, 'payment_franchise_id', true );
 $franchise      = get_post( $franchise_id );
@@ -26,6 +25,7 @@ $location      = get_post( $location_id );
 $paid_amount    = get_post_meta( $payment->ID, 'payment_paid_amount', true );
 $paid_date    = get_post_meta( $payment->ID, 'payment_paid_date', true );
 $payment_type    = get_post_meta( $payment->ID, 'payment_type', true );
+$payment_description    = get_post_meta( $payment->ID, 'payment_description', true );
 
 $customers_args = array(
     'post_type'         => 'customer',
@@ -35,7 +35,7 @@ $customers_args = array(
 if( is_role( 'franchisee' ) ) {
     $customers_args['meta_query'] = array(
         array(
-            'key'       => 'payment_franchise_id',
+            'key'       => 'franchise_id',
             'value'     => get_current_user_id(),
             'compare'   => '='
         )
@@ -44,20 +44,20 @@ if( is_role( 'franchisee' ) ) {
 $customers = get_posts( $customers_args );
 
 $class_args = array(
-    'post_type'         => 'class',
+    'post_type'         => 'location_class',
     'post_status'       => 'publish',
     'posts_per_page'    => -1
 );
-if( is_role( 'franchisee' ) ) {
+if( $location_id) {
     $class_args['meta_query'] = array(
         array(
-            'key'       => 'payment_franchise_id',
-            'value'     => get_current_user_id(),
+            'key'       => 'location_id',
+            'value'     => $location_id,
             'compare'   => '='
         )
     );
 }
-$customers = get_posts( $class_args );
+$classes = get_posts( $class_args );
 
 $location_args = array(
     'post_type' => 'location',
@@ -68,6 +68,17 @@ if( is_role( 'franchisee' ) ) {
     $location_args['post_author'] = get_current_user_id();
 }
 $locations = get_posts( $location_args );
+
+$franchise_args = array(
+    'role' => 'franchisee'
+);
+if( is_role( 'franchisee' ) ) {
+    $franchise_args['include'] = array(
+        get_current_user_id(),
+    );
+}
+
+$franchises = get_users( $franchise_args );
 
 ?>
 
@@ -83,12 +94,12 @@ $locations = get_posts( $location_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="customer_id" class="form-control">
+                            <select name="payment_customer_id" class="form-control">
                                 <?php foreach( $customers as $cust ) :
                                     $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
                                     $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
                                     $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
-                                <option value="<?php echo $cust->ID; ?>"><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
+                                <option value="<?php echo $cust->ID; ?>" <?php selected( $customer_id, $cust->ID, true ); ?>><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <!-- /# -->
@@ -102,7 +113,7 @@ $locations = get_posts( $location_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="number" name="paid_amount" class="form-control" title="Please enter the paid amount." value="<?php echo esc_attr( $paid_amount ); ?>" placeholder="eg.: 20" required/>
+                            <input type="number" name="payment_paid_amount" class="form-control" title="Please enter the paid amount." value="<?php echo esc_attr( $paid_amount ); ?>" placeholder="eg.: 20" required/>
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
@@ -113,7 +124,7 @@ $locations = get_posts( $location_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" data-js="datepicker-format" name="paid_date" class="form-control" title="Please choose the date." value="<?php echo esc_attr( $paid_date ); ?>" required/>
+                            <input type="text" data-js="datepicker-format" name="payment_paid_date" class="form-control" title="Please choose the date." value="<?php echo esc_attr( $paid_date ); ?>" required/>
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
@@ -151,17 +162,15 @@ $locations = get_posts( $location_args );
                     </div>
                 </div>
             </div>
+            <?php if( is_role( 'administrator') ) : ?>
             <div class="card-table-row">
                 <span class="card-table-cell fixed250">Franchise <span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="class_id" class="form-control">
-                                <?php foreach( $customers as $cust ) :
-                                    $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
-                                    $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
-                                    $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
-                                    <option value="<?php echo $cust->ID; ?>"><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
+                            <select name="payment_franchise_id" class="form-control">
+                                <?php foreach( $franchises as $franchisee ) : ?>
+                                    <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchisee->first_name . ' ' . $franchisee->last_name; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <!-- /# -->
@@ -170,19 +179,17 @@ $locations = get_posts( $location_args );
                     </div>
                 </div>
             </div>
-
+            <?php endif; ?>
             <div class="card-table-row">
                 <span class="card-table-cell fixed250">Location <span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="location_id" class="form-control" id="location_id">
+                            <select name="payment_location_id" class="form-control" id="location_id">
+                                <option value=""></option>
                                 <?php
-                                foreach( $locations as $loc ) :
-                                    $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
-                                    $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
-                                    $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
-                                    <option value="<?php echo $loc->ID; ?>">sadasdasdad<?php echo get_field( 'location_name', $loc->ID );?></option>
+                                foreach( $locations as $loc ) : ?>
+                                    <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?>><?php echo get_field( 'location_name', $loc->ID );?></option>
                                 <?php endforeach; ?>
                             </select>
                             <!-- /# -->
@@ -197,13 +204,11 @@ $locations = get_posts( $location_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="class_id" class="form-control">
-                                <?php foreach( $customers as $cust ) :
-                                    $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
-                                    $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
-                                    $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
-                                    <option value="<?php echo $cust->ID; ?>"><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
-                                <?php endforeach; ?>
+                            <select name="payment_class_id" class="form-control" id="class_id">
+                                <option value=""></option>
+                                <?php foreach( $classes as $class ) : ?>
+                                    <option value="<?php echo $class->ID; ?>" <?php selected($class_id, $class->ID, true );?>><?php echo $class->post_title; ?></option>
+                                   <?php endforeach; ?>
                             </select>
                             <!-- /# -->
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
@@ -211,12 +216,8 @@ $locations = get_posts( $location_args );
                     </div>
                 </div>
             </div>
-
-
             <input type="hidden" name="id" value="<?php echo $id; ?>" />
-            <input type="hidden" name="doktor" value="<?php echo $current_user->ID; ?>" />
-            <input type="hidden" name="bolnica" value="<?php echo get_user_meta($current_user->ID,'bolnica_id',true); ?>" />
-            <input type="hidden" name="form_handler" value="pacijent" />
+            <input type="hidden" name="form_handler" value="payment" />
             </div>
             <div class="card-footer clearfix">
                 <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
@@ -225,7 +226,7 @@ $locations = get_posts( $location_args );
         </form>
     </div>
 </div>
-        
+
 
 <script type="text/javascript">
 
@@ -234,21 +235,25 @@ set_title('Bolnica');
 
 $(document).ready(function () {
 
-    $("#pacijent-form").validate({
+    $("#payment-form").validate({
         // any other options,
-        errorContainer: $("#pacijent-form").find( 'div.validation-message' ),
-    		errorLabelContainer: $("#pacijent-form").find( 'div.validation-message ul' ),
+        errorContainer: $("#payment-form").find( 'div.validation-message' ),
+    		errorLabelContainer: $("#payment-form").find( 'div.validation-message ul' ),
     		wrapper: "li",
     });
 
-    $("#pacijent-form").ajaxForm({
+    $("#payment-form").ajaxForm({
         // any other options,
         beforeSubmit: function () {
             //$('#sales_reps').val();
-            return $("#pacijent-form").valid(); // TRUE when form is valid, FALSE will cancel submit
+            return $("#payment-form").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (json) {
-      		am2.main.notify('pnotify','success', json.message);
+            var success = 'success';
+            if( !json.success ) {
+               success = 'error';
+            }
+            am2.main.notify('pnotify', success, json.message);
             var inst = $('[data-remodal-id=modal]').remodal({hashTracking: false});
             inst.destroy();
             load_screen('REFRESH');
@@ -259,8 +264,33 @@ $(document).ready(function () {
     });
 
     $('#location_id').select2({
-        placeholder: 'Choose now'
+        placeholder: 'Select a location',
+        width: '100%'
+    })
+    .on('select2:select', function() {
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_classes',
+                location_id: $('#location_id').val()
+            },
+            success: function(data) {
+                $('#class_id').html('').select2({
+                    placeholder: 'Select a class',
+                    data: data,
+                    width: '100%'
+                });
+            }
+        })
     });
+
+    $('#class_id').select2({
+        placeholder: 'Select a location first',
+        width: '100%'
+    });
+
 
 });
 

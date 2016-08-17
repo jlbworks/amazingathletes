@@ -2,17 +2,15 @@
 global $current_user; 
 get_currentuserinfo();
 
-restrict_access('administrator,franchise');
+restrict_access('administrator,franchisee');
 
 $args = array(
   'post_type'   => 'payment',
   'post_status' => 'publish',
   'posts_per_page'=> -1,
 );
-if(is_role('franchise')) {
-  $args['meta_query']  = array(
-    array( 'key'=>'franchise_id','value'=> get_current_user_id() )
-  );
+if( is_role( 'franchisee'  ) ) {
+  $args['author']  = get_current_user_id();
 }
 $payments = get_posts($args);
 
@@ -76,7 +74,7 @@ $payments = get_posts($args);
                             <td>
                                 <a class="am2-ajax-modal btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                                   data-modal="<?php echo get_ajax_url('modal','payment-edit') .'&id='.$payment->ID; ?>"><i class="fa fa-pencil"></i></a>
+                                   data-modal="<?php echo get_ajax_url('modal','payments-edit') .'&id='.$payment->ID; ?>"><i class="fa fa-pencil"></i></a>
                                 <?php if( is_role('administrator') ){ ?>
                                     <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"

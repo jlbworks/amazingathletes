@@ -444,6 +444,104 @@ function submit_data() {
 
         exit(json_encode(array('success' => true, 'message' => "Customer saved successfully")));
     }
+
+    /**
+     * Add/Edit payment
+     */
+    if ($_POST['form_handler'] == 'payment') {
+        $id = sanitize_text_field( $_POST['id'] );
+        if( $id && !current_user_can( 'edit_post', (int)$id ) ) {
+            exit( json_encode( array( 'success' => false, 'message' => "Unauthorized action.", 'id' => $id ) ) );
+        }
+        $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['id'], 'childs_first_name' ) );
+        $class = get_post( sanitize_term_field( $_POST['payment_class_id'] ) );
+        $title = $customer_childs_name . ' ' . $class->post_title;
+        $post_data = array(
+            'ID' => $id,
+            'post_type' => 'payment',
+            'post_title' => $title,
+            'post_name' => sanitize_title_with_dashes( $title ),
+            'post_status' => 'publish',
+            //'post_author' =>
+        );
+
+        $meta_data = array();
+        $meta_fields = array(
+           'payment_class_id', 'payment_customer_id', 'payment_description',
+            'payment_location_id', 'payment_paid_amount', 'payment_paid_date', 'payment_type'
+        );
+        foreach ( $meta_fields as $field ) {
+            $meta_data[$field] = sanitize_text_field($_POST[$field]);
+        }
+
+
+        $created = false;
+        // update
+        if ( $id > 0 ) {
+            $post_id = $id;
+            wp_update_post($post_data);
+
+            // insert
+        } else {
+            $post_id = wp_insert_post($post_data);
+            $created = true;
+        }
+
+        // meta
+        foreach ( $meta_fields as $field ) {
+            if  (empty( $meta_data[$field] ) ) {
+                delete_post_meta( $post_id, $field );
+            } else {
+                update_post_meta( $post_id, $field, $meta_data[$field] );
+            }
+        }
+
+        if( current_user_can( 'administrator' ) ) {
+            $franchise_id = $_POST['payment_franchise_id'];
+        }
+        else {
+            $franchise_id = $current_user->ID;
+        }
+
+        update_post_meta( $post_id, 'payment_franchise_id', $franchise_id );
+
+        exit(json_encode(array('success' => true, 'message' => "Payment saved successfully")));
+    }
+
+    /**
+     * Return list of classes for location
+     */
+    if ($_POST['form_handler'] == 'get_classes') {
+        $location_id = sanitize_text_field( $_POST['location_id'] );
+        /*if( !current_user_can( 'edit_post', $location_id ) ) {
+            exit( json_encode( array( 'success' => false, 'message' => "Unauthorized action." ) ) );
+        }*/
+
+        $args = array(
+            'post_type'         => 'location_class',
+            'posts_per_page'    => -1,
+            'post_status'       => 'publish',
+            'meta_query'        => array (
+                array (
+                    'key'       => 'location_id',
+                    'value'     => $location_id,
+                    'compare'   => '='
+                )
+            )
+        );
+
+        $classes_unordered = get_posts( $args );
+        $classes = array();
+
+        foreach( $classes_unordered as $class ) {
+            $single_class['id'] = $class->ID;
+            $single_class['text'] = $class->post_title;
+
+            $classes[] = $single_class;
+        }
+
+        exit(json_encode( $classes ) );
+    }
     /**
       END OF SUBMIT FORM HANDLERS
      */
@@ -650,42 +748,6 @@ function get_modal_page() {
 
     exit();
 }
-
-
-/**
-  GET CLIENTS COMPANY DATA, USED IN WORK ORDERS WHEN SELECTING CLIENT
- */
-/*add_action('wp_ajax_get_client_data', 'get_client_data');
-
-function get_client_data() {
-    header('Content-type: application/json');
-    $json = array();
-    $id = $_REQUEST['bolnica_id'];
-    if (!empty($id)) {
-        $bolnica = get_post($id);
-        $json['bolnica_id'] = $bolnica->ID;
-        $json['am_rep'] = $bolnica->am_rep;
-        // find and set sales rep
-        $sales_reps = $bolnica->sales_reps;
-        if (is_array($sales_reps)) {
-            foreach ($sales_reps as $index => $sr_id) {
-                $json['sales_rep'] = $sr_id;
-                break;
-            }
-        } else {
-            $json['sales_rep'] = '';
-        }
-
-        // find and set billing currency
-        if ($bolnica->country == 'Canada') {
-            $json['currency'] = 'CAD';
-        } else {
-            $json['currency'] = 'USD';
-        }
-    }
-    exit(json_encode($json));
-}*/
-
 /**
   PROFILE PHOTO UPLOAD
  */
@@ -737,107 +799,6 @@ function am2_handle_media_upload($files) {
     $attach_final = wp_update_attachment_metadata($attach_id, $attach_data);
     return $attach_id;
 }
-
-// fx to delete photos saved to meta fields
-/*function ajax_delete_field() {
-    $type = $_POST['type'];
-    $field = $_POST['field'];
-    $item_id = $_POST['item_id'];
-    if ($type == 'user') { // Gledamojel treba zvati user_meta ili post_meta
-        $attachmentid = get_user_meta($_POST['item_id'], $_POST['field'], true); //vadimo att_id
-        delete_user_meta($_POST['item_id'], $_POST['field']); // brišemo custom field
-        wp_delete_attachment($attachmentid, true); // brišemo sliku
-    }
-
-    if ($type == 'post') {
-        $attachmentid = get_post_meta($_POST['item_id'], $_POST['field'], true);
-        delete_post_meta($_POST['item_id'], $_POST['field']);
-        wp_delete_attachment($attachmentid, true);
-    }
-
-    if ($type == 'photos') {
-        $attachmentid = $_POST['item_id'];
-
-        $gallery = get_post_meta($_POST['post_id'], $_POST['field'], true);
-
-        $a_gallery = $gallery;
-        $b_old_gallery = false;
-
-        if (isset($a_gallery['photos'])) {
-            $a_gallery = $a_gallery['photos'];
-        } //$a_gallery = $gallery;// explode(",",$gallery);
-        if (isset($a_gallery['old_gallery'])) {
-            $b_old_gallery = $a_gallery['old_gallery'];
-        };
-
-        $i = 0;
-        foreach ($a_gallery as $key => $att) {
-            if ($att == $attachmentid) {
-                unset($a_gallery[$key]);
-                $a_gallery = array_values($a_gallery);
-                break;
-            }
-            $i++;
-        }
-
-        if ($b_old_gallery) {
-            $gallery = $a_gallery;
-            update_post_meta($_POST['post_id'], $_POST['field'], $gallery);
-        } else {
-            $gallery = array('old_gallery' => $b_old_gallery, 'photos' => $a_gallery); // $a_gallery; // implode(",", $a_gallery);
-            update_post_meta($_POST['post_id'], $_POST['field'], $gallery);
-            //delete_post_meta($_POST['item_id'],$_POST['field']);
-            wp_delete_attachment($attachmentid, true);
-        }
-    } elseif ($type == 'places') {
-        $attachmentid = $_POST['item_id'];
-
-        $gallery = get_post_meta($_POST['post_id'], $_POST['field'], true);
-
-        $a_gallery = $gallery;
-
-        $i = 0;
-        foreach ($a_gallery as $key => $att) {
-            if ($att == $attachmentid) {
-                unset($a_gallery[$key]);
-                $a_gallery = array_values($a_gallery);
-                break;
-            }
-            $i++;
-        }
-
-
-        $gallery = $a_gallery;
-        update_post_meta($_POST['post_id'], $_POST['field'], $gallery);
-        //delete_post_meta($_POST['item_id'],$_POST['field']);
-        wp_delete_attachment($attachmentid, true);
-    } elseif ($type == 'artists') {
-        $attachmentid = $_POST['item_id'];
-
-        $gallery = get_post_meta($_POST['post_id'], $_POST['field'], true);
-
-        $a_gallery = $gallery;
-
-        $i = 0;
-        foreach ($a_gallery as $key => $att) {
-            if ($att == $attachmentid) {
-                unset($a_gallery[$key]);
-                $a_gallery = array_values($a_gallery);
-                break;
-            }
-            $i++;
-        }
-
-
-        $gallery = $a_gallery;
-        update_post_meta($_POST['post_id'], $_POST['field'], $gallery);
-        //delete_post_meta($_POST['item_id'],$_POST['field']);
-        wp_delete_attachment($attachmentid, true);
-    }
-    die();
-}
-
-add_action('wp_ajax_ajax_delete_field', 'ajax_delete_field');*/
 
 /**
   GET USER ROLE
