@@ -531,7 +531,12 @@ function submit_data() {
         );
 
         $classes_unordered = get_posts( $args );
-        $classes = array();
+        $classes = array(
+            array(
+                'id'    => '',
+                'text'  => ''
+            )
+        );
 
         foreach( $classes_unordered as $class ) {
             $single_class['id'] = $class->ID;
@@ -541,6 +546,37 @@ function submit_data() {
         }
 
         exit(json_encode( $classes ) );
+    }
+
+    /**
+     * Return list of locations for a franchise
+     */
+    if ($_POST['form_handler'] == 'get_locations') {
+        $franchise_id = sanitize_text_field( $_POST['franchise_id'] );
+
+        $args = array(
+            'post_type'         => 'location',
+            'posts_per_page'    => -1,
+            'post_status'       => 'publish',
+            'author'            => $franchise_id
+        );
+
+        $locations_unordered = get_posts( $args );
+        $locations = array(
+            array(
+                'id'    => '',
+                'text'  => ''
+            )
+        );
+
+        foreach( $locations_unordered as $location ) {
+            $single_location['id'] = $location->ID;
+            $single_location['text'] = $location->post_title;
+
+            $locations[] = $single_location;
+        }
+
+        exit(json_encode( $locations ) );
     }
     /**
       END OF SUBMIT FORM HANDLERS
