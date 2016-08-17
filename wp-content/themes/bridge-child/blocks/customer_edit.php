@@ -27,6 +27,17 @@ $paid_tuition = get_post_meta( $id, 'paid_tuition', true );
 $franchise_id = get_post_meta( $id, 'franchise_id', true );
 $location_id = get_post_meta( $id, 'location_id', true );
 
+$locations_args = array(
+    'post_type' => 'location',
+    'posts_per_page' => -1,
+    'post_status'   => 'publish'
+);
+if( is_role( 'franchisee' ) ) {
+    $locations_args['author'] = get_current_user_id();
+}
+
+$locations = get_posts( $locations_args );
+
 
 $role         = $profile->roles[0];
 $password     = '';
@@ -70,7 +81,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="date" name="childs_birthday" class="form-control" value="<?php echo esc_attr( $childs_birthday ); ?>" required />
+                              <input type="text" data-js="datepicker-format" name="childs_birthday" class="form-control" value="<?php echo esc_attr( $childs_birthday ); ?>" required />
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -295,7 +306,6 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                                   <option value=""></option>
                                   <option value="">Select a location..</option>
                                   <?php
-                                  $locations = get_posts( array( 'post_type' => 'location', 'post_author' => $id ) );
                                   if ( $locations ) {
                                       foreach ( $locations AS $location ) {?>
                                           <option <?php echo ($location->ID == $location_id ? 'selected' : ''); ?> value="<?php echo $location->ID; ?>"><?php echo $location->post_title; ?></option>
