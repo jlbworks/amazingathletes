@@ -92,6 +92,7 @@ function load_screen(hash){
 			if( typeof(html.success) !== "undefined" ){
 				am2_notify(html);
 			}
+			$('.remodal-wrapper').remove();
 		}
 	});
 
