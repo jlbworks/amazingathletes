@@ -41,7 +41,7 @@ get_currentuserinfo();
 </title>
 		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/assets_new/css/style.css" />
 		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/style.css" />
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/assets_new/css/plugins/sweetalert.css" />
+
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" />
 
 		<!-- Head Libs -->

@@ -6,72 +6,133 @@ $id = $_REQUEST['id'];
 
 restrict_access('administrator,doctor,admin_doctor');
 
-echo( "<div>In Development</div>" );
-return;
+/*echo( "<div>In Development</div>" );
+return;*/
 
-$pacijent = get_post($id);
+$payment = get_post($id);
 
-$first_name     = $pacijent->first_name;
-$last_name      = $pacijent->last_name;
-$datum_rodjenja = $pacijent->datum_rodjenja;
-$address        = $pacijent->address;
-$city           = $pacijent->city;
-$zip            = $pacijent->zip;
+$customer_id    = get_post_meta( $payment->ID, 'payment_customer_id', true );
+$customer       = get_post( $customer_id );
 
-$contact_email  = $pacijent->contact_email;
-$phone          = $pacijent->phone;
+$class_id       = get_post_meta( $payment->ID, 'payment_class_id', true );
+$class          = get_post( $class_id );
 
-$doktor         = $pacijent->doktor;
-$bolnica        = $pacijent->bolnica;
+$franchise_id   = get_post_meta( $payment->ID, 'payment_franchise_id', true );
+$franchise      = get_post( $franchise_id );
+
+$location_id   = get_post_meta( $payment->ID, 'payment_location_id', true );
+$location      = get_post( $location_id );
+
+$paid_amount    = get_post_meta( $payment->ID, 'payment_paid_amount', true );
+$paid_date    = get_post_meta( $payment->ID, 'payment_paid_date', true );
+$payment_type    = get_post_meta( $payment->ID, 'payment_type', true );
+
+$customers_args = array(
+    'post_type'         => 'customer',
+    'post_status'       => 'publish',
+    'posts_per_page'    => -1
+);
+if( is_role( 'franchisee' ) ) {
+    $customers_args['meta_query'] = array(
+        array(
+            'key'       => 'payment_franchise_id',
+            'value'     => get_current_user_id(),
+            'compare'   => '='
+        )
+    );
+}
+$customers = get_posts( $customers_args );
+
+$class_args = array(
+    'post_type'         => 'class',
+    'post_status'       => 'publish',
+    'posts_per_page'    => -1
+);
+if( is_role( 'franchisee' ) ) {
+    $class_args['meta_query'] = array(
+        array(
+            'key'       => 'payment_franchise_id',
+            'value'     => get_current_user_id(),
+            'compare'   => '='
+        )
+    );
+}
+$customers = get_posts( $class_args );
+
+$location_args = array(
+    'post_type' => 'location',
+    'post_status'       => 'publish',
+    'posts_per_page'    => -1
+);
+if( is_role( 'franchisee' ) ) {
+    $location_args['post_author'] = get_current_user_id();
+}
+$locations = get_posts( $location_args );
 
 ?>
 
 <div class="card-wrapper">
-    <h3 class="card-header">Pacijent<?php if( !empty($first_name) ) echo " : $first_name"." ".$last_name; ?></h3>
+    <h3 class="card-header">Payment</h3>
     <div class="card-inner">
-        <form id="pacijent-form" class="card-form no-inline-edit js-ajax-form">
+        <form id="payment-form" class="card-form no-inline-edit js-ajax-form">
         <div class="validation-message"><ul></ul></div>
             <div class="card-table">
             <!-- INPUT DEFAULT (GREEN AND BOLD) -->
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Ime pacijenta <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Customer Name (Child Name)<span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" name="first_name" class="form-control" title="Please enter pacijent title." value="<?php echo esc_attr( $first_name ); ?>" placeholder="eg.: Marko" required/>
+                            <select name="customer_id" class="form-control">
+                                <?php foreach( $customers as $cust ) :
+                                    $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
+                                    $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
+                                    $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
+                                <option value="<?php echo $cust->ID; ?>"><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <!-- /# -->
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
                 </div>
             </div>
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Prezime pacijenta <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Paid amount<span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" name="last_name" class="form-control" title="Please enter pacijent title." value="<?php echo esc_attr( $last_name ); ?>" placeholder="eg.: Marin" required/>
+                            <input type="number" name="paid_amount" class="form-control" title="Please enter the paid amount." value="<?php echo esc_attr( $paid_amount ); ?>" placeholder="eg.: 20" required/>
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
                 </div>
             </div>
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Datum rođenja <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Date <span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" data-js="datepicker-format" name="datum_rodjenja" class="form-control" title="Please enter pacijent title." value="<?php echo esc_attr( $datum_rodjenja ); ?>" placeholder="eg.: Marin" required/>
+                            <input type="text" data-js="datepicker-format" name="paid_date" class="form-control" title="Please choose the date." value="<?php echo esc_attr( $paid_date ); ?>" required/>
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
                 </div>
             </div>
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Adresa <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Payment Type <span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" name="address" class="form-control" title="Please enter address." value="<?php echo esc_attr( $address ); ?>" placeholder="eg.: Kralja Zvonimira 123" />
+                            <select name="payment_type" class="form-control">
+                                <option value="registration" class="option" <? selected( 'registration', $payment_type, 1 ); ?>Registration</option>
+                                <!-- /.option -->
+                                <option value="tuition" class="option" <? selected( 'tuition', $payment_type, 1 ); ?>Tuition</option>
+                                <!-- /.option -->
+                                <option value="other" class="option" <? selected( 'other', $payment_type, 1 ); ?>Other</option>
+                                <!-- /.option -->
+                            </select>
+                            <!-- /# -->
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
@@ -79,11 +140,31 @@ $bolnica        = $pacijent->bolnica;
             </div>
 
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Grad <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Description <span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" name="city" class="form-control" title="Please enter city." value="<?php echo esc_attr( $city ); ?>" placeholder="eg.: Zagreb" required/>
+                            <textarea name="payment_description" cols="30" rows="10"><?php echo $payment_description; ?></textarea>
+                            <!-- /# -->
+                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="card-table-row">
+                <span class="card-table-cell fixed250">Franchise <span class="required">*</span></span>
+                <div class="card-table-cell">
+                    <div class="card-form">
+                        <fieldset>
+                            <select name="class_id" class="form-control">
+                                <?php foreach( $customers as $cust ) :
+                                    $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
+                                    $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
+                                    $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
+                                    <option value="<?php echo $cust->ID; ?>"><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <!-- /# -->
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
@@ -91,11 +172,20 @@ $bolnica        = $pacijent->bolnica;
             </div>
 
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">ZIP / Poštanski broj <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Location <span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" name="zip" class="form-control" title="Please enter city." value="<?php echo esc_attr( $zip ); ?>" placeholder="eg.: 10000" />
+                            <select name="location_id" class="form-control" id="location_id">
+                                <?php
+                                foreach( $locations as $loc ) :
+                                    $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
+                                    $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
+                                    $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
+                                    <option value="<?php echo $loc->ID; ?>">sadasdasdad<?php echo get_field( 'location_name', $loc->ID );?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <!-- /# -->
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
@@ -103,29 +193,25 @@ $bolnica        = $pacijent->bolnica;
             </div>
 
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Broj telefona <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Class <span class="required">*</span></span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input id="phone" name="phone" title="Unesite broj telefona." data-plugin-masked-input="" data-input-mask="(999) 999-9999" value="<?php echo esc_attr( $phone ); ?>" placeholder="(123) 123-1234" class="form-control" />
+                            <select name="class_id" class="form-control">
+                                <?php foreach( $customers as $cust ) :
+                                    $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
+                                    $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
+                                    $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
+                                    <option value="<?php echo $cust->ID; ?>"><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <!-- /# -->
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
                 </div>
             </div>
 
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Kontakt Email<span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" name="contact_email" class="form-control" value="<?php echo esc_attr( $contact_email ); ?>" placeholder="eg.: contact@pacijent.com" />
-                            <button data-js="submit-field" type="submit"><i class="fa fa-check"></i></button>
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
 
             <input type="hidden" name="id" value="<?php echo $id; ?>" />
             <input type="hidden" name="doktor" value="<?php echo $current_user->ID; ?>" />
@@ -133,8 +219,8 @@ $bolnica        = $pacijent->bolnica;
             <input type="hidden" name="form_handler" value="pacijent" />
             </div>
             <div class="card-footer clearfix">
-                <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Odustani</button>
-                <button class="right btn btn--primary" type="submit">Snimi</button>
+                <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
+                <button class="right btn btn--primary" type="submit">Save</button>
             </div>
         </form>
     </div>
@@ -172,7 +258,10 @@ $(document).ready(function () {
     		dataType: 'json'
     });
 
+    $('#location_id').select2({
+        placeholder: 'Choose now'
+    });
+
 });
 
 </script>
-

@@ -64,7 +64,7 @@ $payments = get_posts($args);
                         <tr class="gradeA">
                             <td style="white-space:nowrap"><a class="am2-ajax-modal"
                                                               data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                                                              data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$payment->ID; ?>"><?php echo $customer->post_title ?></a></td>
+                                                              data-modal="<?php echo get_ajax_url('modal','payments-edit') .'&id='.$payment->ID; ?>"><?php echo $customer->post_title ?></a></td>
                             <td><?php echo $franchise; ?></td>
                             <td><?php echo $location->post_title; ?></td>
                             <td><?php echo $class->post_title; ?></td>
@@ -76,7 +76,7 @@ $payments = get_posts($args);
                             <td>
                                 <a class="am2-ajax-modal btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                                   data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$payment->ID; ?>"><i class="fa fa-pencil"></i></a>
+                                   data-modal="<?php echo get_ajax_url('modal','payment-edit') .'&id='.$payment->ID; ?>"><i class="fa fa-pencil"></i></a>
                                 <?php if( is_role('administrator') ){ ?>
                                     <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"

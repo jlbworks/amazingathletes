@@ -9,20 +9,20 @@ restrict_access('administrator,doctor,admin_doctor');
 echo( "<div>In Development</div>" );
 return;
 
-$pacijent = get_post($id);
+$payment = get_post($id);
 
-$first_name     = $pacijent->first_name;
-$last_name      = $pacijent->last_name;
-$datum_rodjenja = $pacijent->datum_rodjenja;
-$address        = $pacijent->address;
-$city           = $pacijent->city;
-$zip            = $pacijent->zip;
+$first_name     = $payment->first_name;
+$last_name      = $payment->last_name;
+$datum_rodjenja = $payment->datum_rodjenja;
+$address        = $payment->address;
+$city           = $payment->city;
+$zip            = $payment->zip;
 
-$contact_email  = $pacijent->contact_email;
-$phone          = $pacijent->phone;
+$contact_email  = $payment->contact_email;
+$phone          = $payment->phone;
 
-$doktor         = $pacijent->doktor;
-$bolnica        = $pacijent->bolnica;
+$doktor         = $payment->doktor;
+$bolnica        = $payment->bolnica;
 
 ?>
 

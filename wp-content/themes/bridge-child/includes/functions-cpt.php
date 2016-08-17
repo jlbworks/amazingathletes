@@ -226,7 +226,7 @@ function am2_cpt() {
         'capability_type'    => 'post',
         'hierarchical'       => true,
         'menu_position'      => null,
-        'supports'           => array( 'title', 'author', 'editor'),
+        'supports'           => array( 'title', 'author', 'editor', 'custom-fields'),
         'taxonomies'         => array( )
     );
 
