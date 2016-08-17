@@ -14,6 +14,8 @@ $payment = get_post($id);
 $customer_id    = get_post_meta( $payment->ID, 'payment_customer_id', true );
 $customer       = get_post( $customer_id );
 
+$customer_location_id = get_post_meta( $customer_id, 'location_id' );
+
 $class_id       = get_post_meta( $payment->ID, 'payment_class_id', true );
 
 $franchise_id   = get_post_meta( $payment->ID, 'payment_franchise_id', true );
@@ -65,7 +67,7 @@ $location_args = array(
     'posts_per_page'    => -1
 );
 if( is_role( 'franchisee' ) ) {
-    $location_args['post_author'] = get_current_user_id();
+    $location_args['author'] = get_current_user_id();
 }
 $locations = get_posts( $location_args );
 
@@ -94,7 +96,7 @@ $franchises = get_users( $franchise_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="payment_customer_id" class="form-control">
+                            <select id="customer_id" name="payment_customer_id" class="form-control">
                                 <?php foreach( $customers as $cust ) :
                                     $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
                                     $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
@@ -136,11 +138,11 @@ $franchises = get_users( $franchise_args );
                     <div class="card-form">
                         <fieldset>
                             <select name="payment_type" class="form-control">
-                                <option value="registration" class="option" <? selected( 'registration', $payment_type, 1 ); ?>Registration</option>
+                                <option value="registration" class="option" <?php selected( 'registration', $payment_type, 1 ); ?>>Registration</option>
                                 <!-- /.option -->
-                                <option value="tuition" class="option" <? selected( 'tuition', $payment_type, 1 ); ?>Tuition</option>
+                                <option value="tuition" class="option" <?php selected( 'tuition', $payment_type, 1 ); ?>>Tuition</option>
                                 <!-- /.option -->
-                                <option value="other" class="option" <? selected( 'other', $payment_type, 1 ); ?>Other</option>
+                                <option value="other" class="option" <?php selected( 'other', $payment_type, 1 ); ?>>Other</option>
                                 <!-- /.option -->
                             </select>
                             <!-- /# -->
@@ -187,9 +189,8 @@ $franchises = get_users( $franchise_args );
                         <fieldset>
                             <select name="payment_location_id" class="form-control" id="location_id">
                                 <option value=""></option>
-                                <?php
-                                foreach( $locations as $loc ) : ?>
-                                    <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?>><?php echo get_field( 'location_name', $loc->ID );?></option>
+                                <?php foreach( $locations as $loc ) : ?>
+                                    <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?>><?php echo get_field( 'location_name', $loc->ID      );?></option>
                                 <?php endforeach; ?>
                             </select>
                             <!-- /# -->
@@ -263,6 +264,12 @@ $(document).ready(function () {
     		dataType: 'json'
     });
 
+    $('#customer_id').select2({
+        placeholder: 'Select a customer',
+        width: '100%',
+        minimumResultsForSearch: -1
+    });
+
     $('#location_id').select2({
         placeholder: 'Select a location',
         width: '100%'
@@ -290,8 +297,6 @@ $(document).ready(function () {
         placeholder: 'Select a location first',
         width: '100%'
     });
-
-
 });
 
 </script>

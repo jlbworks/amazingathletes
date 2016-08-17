@@ -450,19 +450,19 @@ function submit_data() {
      */
     if ($_POST['form_handler'] == 'payment') {
         $id = sanitize_text_field( $_POST['id'] );
-        if( $id && !current_user_can( 'edit_post', (int)$id ) ) {
-            exit( json_encode( array( 'success' => false, 'message' => "Unauthorized action.", 'id' => $id ) ) );
-        }
-        $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['id'], 'childs_first_name' ) );
-        $class = get_post( sanitize_term_field( $_POST['payment_class_id'] ) );
+        $franchise_id = sanitize_text_field( $_POST['payment_franchise_id'] );
+        $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['payment_customer_id'] ), 'childs_first_name', true );
+        $class = get_post( sanitize_text_field( $_POST['payment_class_id'] ) );
         $title = $customer_childs_name . ' ' . $class->post_title;
+        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+
         $post_data = array(
             'ID' => $id,
             'post_type' => 'payment',
             'post_title' => $title,
             'post_name' => sanitize_title_with_dashes( $title ),
             'post_status' => 'publish',
-            //'post_author' =>
+            'post_author' => $author,
         );
 
         $meta_data = array();
@@ -595,6 +595,21 @@ function delete_object() {
         );
         wp_update_post( $customer_object );
         exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Customer deleted")));
+
+    }
+
+    if ($object == 'payment' and $id > 0) {
+        if( !current_user_can( 'edit_posts' ) ) {
+            exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
+
+        }
+
+        $payment_object = array(
+            'ID' => $id,
+            'post_status' => 'trash'
+        );
+        wp_update_post( $payment_object );
+        exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Payment deleted")));
 
     }
 
