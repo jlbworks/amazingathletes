@@ -27,22 +27,41 @@ $paid_tuition = get_post_meta( $id, 'paid_tuition', true );
 $franchise_id = get_post_meta( $id, 'franchise_id', true );
 $location_id = get_post_meta( $id, 'location_id', true );
 
-$locations_args = array(
-    'post_type' => 'location',
-    'posts_per_page' => -1,
-    'post_status'   => 'publish'
-);
-if( is_role( 'franchisee' ) ) {
-    $locations_args['author'] = get_current_user_id();
+$locations = array();
+if( !$franchise_id &&  is_role( 'franchisee' )) {
+    $location_args = array(
+        'post_type' => 'location',
+        'post_status'       => 'publish',
+        'posts_per_page'    => -1,
+        'author'            => get_current_user_id()
+    );
+    $locations = get_posts( $location_args );
 }
-
-$locations = get_posts( $locations_args );
-
+elseif( $franchise_id ) {
+    $location_args = array(
+        'post_type' => 'location',
+        'post_status'       => 'publish',
+        'posts_per_page'    => -1,
+        'author'            => $franchise_id
+    );
+    $locations = get_posts( $location_args );
+}
 
 $role         = $profile->roles[0];
 $password     = '';
 
 $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
+
+$franchise_args = array(
+    'role' => 'franchisee'
+);
+if( is_role( 'franchisee' ) ) {
+    $franchise_args['include'] = array(
+        get_current_user_id(),
+    );
+}
+
+$franchises = get_users( $franchise_args );
 
 ?>
 
@@ -93,7 +112,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="childs_gender" class="form-control" >
+                              <select name="childs_gender" data-js="select" class="form-control" >
                                   <option value="boy" <?php selected( $childs_gender, 'boy' ); ?>>Boy</option>
                                   <option value="girl" <?php selected( $childs_gender, 'girl' ); ?>>Girl</option>
                               </select>
@@ -107,7 +126,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="childs_shirt_size" class="form-control" >
+                              <select name="childs_shirt_size" data-js="select" class="form-control" >
                                   <option value="x-small" <?php selected( $childs_shirt_size, 'x-small' ); ?>>Child X-Small (2-4)</option>
                                   <option value="small" <?php selected( $childs_shirt_size, 'small' ); ?>>Child Small (6-8)</option>
                                   <option value="medium" <?php selected( $childs_shirt_size, 'medium' ); ?>>Child Medium (10-12)</option>
@@ -158,7 +177,7 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="state"  placeholder="Select a state..." class="am2_cc_state" required style="">
+                              <select name="state" data-js="select" placeholder="Select a state..." class="am2_cc_state" required style="">
                                   <option value=""></option>
                                   <option value="">Select a state...</option>
                                   <?php
@@ -280,17 +299,14 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="franchise_id"  placeholder="Select a franchise..." class="am2_cc_state" required style="">
+                              <select id="franchise_id" name="payment_franchise_id" class="form-control" required>
                                   <option value=""></option>
-                                  <option value="">Select a franchise..</option>
-                                  <?php
-                                  $franchises = get_users( array( 'role' => 'franchisee' ) );
-                                  if ( $franchises ) {
-                                      foreach ( $franchises AS $franchise ) {?>
-                                          <option <?php echo ($franchise->ID == $franchise_id ? 'selected' : ''); ?> value="<?php echo $franchise->ID; ?>"><?php echo $franchise->user_nicename; ?></option>
-                                      <?php }
-                                  } ?>
+                                  <?php foreach( $franchises as $franchisee ) : ?>
+                                      <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchisee->first_name . ' ' . $franchisee->last_name; ?></option>
+                                  <?php endforeach; ?>
                               </select>
+                              <!-- /# -->
+                              <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
                   </div>
@@ -302,9 +318,8 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="location_id"  placeholder="Select a location..." class="am2_cc_state" required style="">
+                              <select id="location_id" name="location_id"  class="am2_cc_state" required>
                                   <option value=""></option>
-                                  <option value="">Select a location..</option>
                                   <?php
                                   if ( $locations ) {
                                       foreach ( $locations AS $location ) {?>
@@ -314,12 +329,6 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                               </select>
                           </fieldset>
                       </div>
-                  </div>
-              </div>
-
-              <div class="row">
-                  <div class="col-sm-12 text-left">
-                      <button class="btn btn-primary" onclick="addClientNote();return false;">Leave a note</button>
                   </div>
               </div>
 
@@ -364,6 +373,39 @@ $(document).ready(function () {
         dataType: 'json'
     });
 
+    $('[data-js="select"]').select2({
+        width: '100%',
+    });
+
+    $('#location_id').select2({
+        placeholder: 'Select a location',
+        width: '100%'
+    });
+
+    $('#franchise_id').select2({
+        placeholder: 'Select a franchise',
+        width: '100%',
+        minimumResultsForSearch: -1
+    })
+        .on('select2:select', function() {
+            $.ajax({
+                url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    form_handler: 'get_locations',
+                    franchise_id: $('#franchise_id').val()
+                },
+                success: function(data) {
+                    $('#location_id').html('').select2({
+                        placeholder: 'Select a location',
+                        width: '100%',
+                        data: data
+                    });
+                }
+            })
+        });
+
 });
 
 function addClientNote(){
@@ -387,5 +429,6 @@ function addClientNote(){
 
     return false;
 }
+
 
 </script>
