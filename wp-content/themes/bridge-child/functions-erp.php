@@ -509,6 +509,69 @@ function submit_data() {
     }
 
     /**
+     * Add/Edit attendance
+     */
+    if ($_POST['form_handler'] == 'attendace') {
+        $id = sanitize_text_field( $_POST['id'] );
+        $franchise_id = sanitize_text_field( $_POST['attendance_franchise_id'] );
+        $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['attendance_customer_id'] ), 'childs_first_name', true );
+        $class = get_post( sanitize_text_field( $_POST['attendance_class_id'] ) );
+        $title = $customer_childs_name . ' ' . $class->post_title;
+        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+
+        $post_data = array(
+            'ID' => $id,
+            'post_type' => 'attendance',
+            'post_title' => $title,
+            'post_name' => sanitize_title_with_dashes( $title ),
+            'post_status' => 'publish',
+            'post_author' => $author,
+        );
+
+        $meta_data = array();
+        $meta_fields = array(
+            'attendance_class_id', 'attendance_customer_id',
+            'attendance_location_id', 'attendance_date'
+        );
+        foreach ( $meta_fields as $field ) {
+            $meta_data[$field] = sanitize_text_field($_POST[$field]);
+        }
+
+
+        $created = false;
+        // update
+        if ( $id > 0 ) {
+            $post_id = $id;
+            wp_update_post($post_data);
+
+            // insert
+        } else {
+            $post_id = wp_insert_post($post_data);
+            $created = true;
+        }
+
+        // meta
+        foreach ( $meta_fields as $field ) {
+            if  (empty( $meta_data[$field] ) ) {
+                delete_post_meta( $post_id, $field );
+            } else {
+                update_post_meta( $post_id, $field, $meta_data[$field] );
+            }
+        }
+
+        if( current_user_can( 'administrator' ) ) {
+            $franchise_id = $_POST['attendance_franchise_id'];
+        }
+        else {
+            $franchise_id = $current_user->ID;
+        }
+
+        update_post_meta( $post_id, 'attendance_franchise_id', $franchise_id );
+
+        exit(json_encode(array('success' => true, 'message' => "Attendance saved successfully")));
+    }
+
+    /**
      * Return list of classes for location
      */
     if ($_POST['form_handler'] == 'get_classes') {

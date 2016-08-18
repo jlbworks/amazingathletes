@@ -4,137 +4,192 @@ get_currentuserinfo();
 
 $id = $_REQUEST['id'];
 
-restrict_access('administrator,doctor,admin_doctor');
-
+restrict_access('administrator,franchisee');
+/*
 echo( "<div>In Development</div>" );
-return;
+return;*/
 
-$payment = get_post($id);
+$attendance = get_post($id);
 
-$first_name     = $payment->first_name;
-$last_name      = $payment->last_name;
-$datum_rodjenja = $payment->datum_rodjenja;
-$address        = $payment->address;
-$city           = $payment->city;
-$zip            = $payment->zip;
+$customer_id    = get_post_meta( $attendance->ID, 'payment_customer_id', true );
+$customer       = get_post( $customer_id );
 
-$contact_email  = $payment->contact_email;
-$phone          = $payment->phone;
+$customer_location_id = get_post_meta( $customer_id, 'location_id' );
 
-$doktor         = $payment->doktor;
-$bolnica        = $payment->bolnica;
+$class_id       = get_post_meta( $attendance->ID, 'payment_class_id', true );
+
+$franchise_id   = get_post_meta( $attendance->ID, 'payment_franchise_id', true );
+$franchise      = get_post( $franchise_id );
+
+$location_id   = get_post_meta( $attendance->ID, 'payment_location_id', true );
+$location      = get_post( $location_id );
+
+$customers_args = array(
+    'post_type'         => 'customer',
+    'post_status'       => 'publish',
+    'posts_per_page'    => -1
+);
+if( is_role( 'franchisee' ) ) {
+    $customers_args['meta_query'] = array(
+        array(
+            'key'       => 'franchise_id',
+            'value'     => get_current_user_id(),
+            'compare'   => '='
+        )
+    );
+}
+$customers = get_posts( $customers_args );
+
+$classes = array();
+if( $location_id) {
+    $class_args = array(
+        'post_type'         => 'location_class',
+        'post_status'       => 'publish',
+        'posts_per_page'    => -1,
+        'meta_query'        => array(
+            array(
+                'key'       => 'location_id',
+                'value'     => $location_id,
+                'compare'   => '='
+            )
+        )
+    );
+
+    $classes = get_posts( $class_args );
+}
+
+$locations = array();
+if( !$franchise_id &&  is_role( 'franchisee' )) {
+    $location_args = array(
+        'post_type' => 'location',
+        'post_status'       => 'publish',
+        'posts_per_page'    => -1,
+        'author'            => get_current_user_id()
+    );
+    $locations = get_posts( $location_args );
+}
+elseif( $franchise_id ) {
+    $location_args = array(
+        'post_type' => 'location',
+        'post_status'       => 'publish',
+        'posts_per_page'    => -1,
+        'author'            => $franchise_id
+    );
+    $locations = get_posts( $location_args );
+}
+
+$franchise_args = array(
+    'role' => 'franchisee'
+);
+if( is_role( 'franchisee' ) ) {
+    $franchise_args['include'] = array(
+        get_current_user_id(),
+    );
+}
+
+$franchises = get_users( $franchise_args );
 
 ?>
 
 <div class="card-wrapper">
-    <h3 class="card-header">Pacijent<?php if( !empty($first_name) ) echo " : $first_name"." ".$last_name; ?></h3>
+    <h3 class="card-header">Attendance<?php if( !empty($first_name) ) echo " : $first_name"." ".$last_name; ?></h3>
     <div class="card-inner">
-        <form id="pacijent-form" class="card-form no-inline-edit js-ajax-form">
+        <form id="attendance-form" class="card-form no-inline-edit js-ajax-form">
         <div class="validation-message"><ul></ul></div>
             <div class="card-table">
-            <!-- INPUT DEFAULT (GREEN AND BOLD) -->
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Ime pacijenta <span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" name="first_name" class="form-control" title="Please enter pacijent title." value="<?php echo esc_attr( $first_name ); ?>" placeholder="eg.: Marko" required/>
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
+                <?php if( is_role( 'administrator') ) : ?>
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Franchise <span class="required">*</span></span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                                <fieldset>
+                                    <select id="franchise_id" name="attendance_franchise_id" class="form-control" required>
+                                        <option value=""></option>
+                                        <?php foreach( $franchises as $franchisee ) : ?>
+                                            <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchisee->first_name . ' ' . $franchisee->last_name; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <!-- /# -->
+                                    <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Location <span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select name="attendance_location_id" class="form-control" id="location_id">
+                                    <option value=""></option>
+                                    <?php foreach( $locations as $loc ) : ?>
+                                        <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?> required><?php echo get_field( 'location_name', $loc->ID      );?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Prezime pacijenta <span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" name="last_name" class="form-control" title="Please enter pacijent title." value="<?php echo esc_attr( $last_name ); ?>" placeholder="eg.: Marin" required/>
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Datum rođenja <span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" data-js="datepicker-format" name="datum_rodjenja" class="form-control" title="Please enter pacijent title." value="<?php echo esc_attr( $datum_rodjenja ); ?>" placeholder="eg.: Marin" required/>
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Adresa <span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" name="address" class="form-control" title="Please enter address." value="<?php echo esc_attr( $address ); ?>" placeholder="eg.: Kralja Zvonimira 123" />
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
 
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Grad <span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" name="city" class="form-control" title="Please enter city." value="<?php echo esc_attr( $city ); ?>" placeholder="eg.: Zagreb" required/>
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Class <span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select name="attendance_class_id" class="form-control" id="class_id">
+                                    <option value=""></option>
+                                    <?php foreach( $classes as $class ) : ?>
+                                        <option value="<?php echo $class->ID; ?>" <?php selected($class_id, $class->ID, true );?> required><?php echo $class->post_title; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">ZIP / Poštanski broj <span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" name="zip" class="form-control" title="Please enter city." value="<?php echo esc_attr( $zip ); ?>" placeholder="eg.: 10000" />
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Child Name (Parents Name)<span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select id="customer_id" name="payment_customer_id" class="form-control">
+                                    <?php foreach( $customers as $cust ) :
+                                        $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
+                                        $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
+                                        $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
+                                        <option value="<?php echo $cust->ID; ?>" <?php selected( $customer_id, $cust->ID, true ); ?>><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Broj telefona <span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input id="phone" name="phone" title="Unesite broj telefona." data-plugin-masked-input="" data-input-mask="(999) 999-9999" value="<?php echo esc_attr( $phone ); ?>" placeholder="(123) 123-1234" class="form-control" />
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Date <span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="datepicker-format" name="attendance_date" class="form-control" title="Please choose the date." value="<?php echo esc_attr( $paid_date ); ?>" required/>
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="card-table-row">
-                <span class="card-table-cell fixed250">Kontakt Email<span class="required">*</span></span>
-                <div class="card-table-cell">
-                    <div class="card-form">
-                        <fieldset>
-                            <input type="text" name="contact_email" class="form-control" value="<?php echo esc_attr( $contact_email ); ?>" placeholder="eg.: contact@pacijent.com" />
-                            <button data-js="submit-field" type="submit"><i class="fa fa-check"></i></button>
-                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
 
             <input type="hidden" name="id" value="<?php echo $id; ?>" />
-            <input type="hidden" name="doktor" value="<?php echo $current_user->ID; ?>" />
-            <input type="hidden" name="bolnica" value="<?php echo get_user_meta($current_user->ID,'bolnica_id',true); ?>" />
-            <input type="hidden" name="form_handler" value="pacijent" />
+            <input type="hidden" name="form_handler" value="attendance" />
             </div>
             <div class="card-footer clearfix">
-                <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Odustani</button>
-                <button class="right btn btn--primary" type="submit">Snimi</button>
+                <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
+                <button class="right btn btn--primary" type="submit">Save</button>
             </div>
         </form>
     </div>
@@ -148,18 +203,18 @@ set_title('Bolnica');
 
 $(document).ready(function () {
 
-    $("#pacijent-form").validate({
+    $("#attendance-form").validate({
         // any other options,
-        errorContainer: $("#pacijent-form").find( 'div.validation-message' ),
-    		errorLabelContainer: $("#pacijent-form").find( 'div.validation-message ul' ),
+        errorContainer: $("#attendance-form").find( 'div.validation-message' ),
+    		errorLabelContainer: $("#attendance-form").find( 'div.validation-message ul' ),
     		wrapper: "li",
     });
 
-    $("#pacijent-form").ajaxForm({
+    $("#attendance-form").ajaxForm({
         // any other options,
         beforeSubmit: function () {
             //$('#sales_reps').val();
-            return $("#pacijent-form").valid(); // TRUE when form is valid, FALSE will cancel submit
+            return $("#attendance-form").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (json) {
       		am2.main.notify('pnotify','success', json.message);
@@ -172,6 +227,68 @@ $(document).ready(function () {
     		dataType: 'json'
     });
 
+    $('#franchise_id').select2({
+        placeholder: 'Select a franchise',
+        width: '100%',
+        minimumResultsForSearch: -1
+    })
+    .on('select2:select', function() {
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_locations',
+                franchise_id: $('#franchise_id').val()
+            },
+            success: function(data) {
+                $('#location_id').html('').select2({
+                    placeholder: 'Select a location',
+                    width: '100%',
+                    data: data
+                });
+
+                $('#class_id').html('').select2({
+                    placeholder: 'Select a location first',
+                    width: '100%'
+                });
+            }
+        })
+    });
+
+    $('#customer_id').select2({
+        placeholder: 'Select a customer',
+        width: '100%',
+        minimumResultsForSearch: -1
+    });
+
+    $('#location_id').select2({
+        placeholder: 'Select a location',
+        width: '100%'
+    })
+    .on('select2:select', function() {
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_classes',
+                location_id: $('#location_id').val()
+            },
+            success: function(data) {
+                $('#class_id').html('').select2({
+                    placeholder: 'Select a class',
+                    data: data,
+                    width: '100%'
+                });
+            }
+        })
+    });
+
+    $('#class_id').select2({
+        placeholder: 'Select a location first',
+        width: '100%'
+    });
 });
 
 </script>
