@@ -108,7 +108,7 @@ $franchises = get_users( $franchise_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select id="customer_id" name="payment_customer_id" class="form-control">
+                            <select id="customer_id" name="payment_customer_id" class="form-control" required>
                                 <?php foreach( $customers as $cust ) :
                                     $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
                                     $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
@@ -149,7 +149,7 @@ $franchises = get_users( $franchise_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="payment_type" class="form-control" required>
+                            <select name="payment_type" data-js="select" class="form-control" title="Select a payment type" required>
                                 <option value="registration" class="option" <?php selected( 'registration', $payment_type, 1 ); ?>>Registration</option>
                                 <!-- /.option -->
                                 <option value="tuition" class="option" <?php selected( 'tuition', $payment_type, 1 ); ?>>Tuition</option>
@@ -165,7 +165,7 @@ $franchises = get_users( $franchise_args );
             </div>
 
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Description <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Description</span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
@@ -182,7 +182,7 @@ $franchises = get_users( $franchise_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select id="franchise_id" name="payment_franchise_id" class="form-control" required>
+                            <select id="franchise_id" name="payment_franchise_id" class="form-control" title="Select a franchise." required>
                                 <option value=""></option>
                                 <?php foreach( $franchises as $franchisee ) : ?>
                                     <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchisee->first_name . ' ' . $franchisee->last_name; ?></option>
@@ -200,7 +200,7 @@ $franchises = get_users( $franchise_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="payment_location_id" class="form-control" id="location_id">
+                            <select name="payment_location_id" class="form-control" id="location_id" title="Select a location." required>
                                 <option value=""></option>
                                 <?php foreach( $locations as $loc ) : ?>
                                     <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?> required><?php echo get_field( 'location_name', $loc->ID      );?></option>
@@ -218,7 +218,7 @@ $franchises = get_users( $franchise_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="payment_class_id" class="form-control" id="class_id">
+                            <select name="payment_class_id" class="form-control" id="class_id" title="Select a class." required>
                                 <option value=""></option>
                                 <?php foreach( $classes as $class ) : ?>
                                     <option value="<?php echo $class->ID; ?>" <?php selected($class_id, $class->ID, true );?> required><?php echo $class->post_title; ?></option>
@@ -249,12 +249,7 @@ set_title('Payment');
 
 $(document).ready(function () {
 
-    $("#payment-form").validate({
-        // any other options,
-        errorContainer: $("#payment-form").find( 'div.validation-message' ),
-    		errorLabelContainer: $("#payment-form").find( 'div.validation-message ul' ),
-    		wrapper: "li",
-    });
+    $("#payment-form").validate({});
 
     $("#payment-form").ajaxForm({
         // any other options,
@@ -304,6 +299,11 @@ $(document).ready(function () {
                 });
             }
         })
+    });
+
+    $('[data-js="select"]').select2({
+        width: '100%',
+        minimumResultsForSearch: -1
     });
 
     $('#customer_id').select2({

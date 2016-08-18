@@ -76,7 +76,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="childs_first_name" class="form-control" title="Please child's first name." value="<?php echo esc_attr( $childs_first_name ); ?>" placeholder="eg.: John" required />
+                              <input type="text" name="childs_first_name" class="form-control" title="Please enter child's first name." value="<?php echo esc_attr( $childs_first_name ); ?>" placeholder="eg.: John" required />
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -100,7 +100,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" data-js="datepicker-format" name="childs_birthday" class="form-control" value="<?php echo esc_attr( $childs_birthday ); ?>" required />
+                              <input type="text" data-js="datepicker-format" name="childs_birthday" class="form-control" title="Please choose child's birthday." value="<?php echo esc_attr( $childs_birthday ); ?>" required />
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -112,7 +112,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="childs_gender" data-js="select" class="form-control" >
+                              <select name="childs_gender" data-js="select" class="form-control" title="Please choose child's gender." required>
                                   <option value="boy" <?php selected( $childs_gender, 'boy' ); ?>>Boy</option>
                                   <option value="girl" <?php selected( $childs_gender, 'girl' ); ?>>Girl</option>
                               </select>
@@ -126,7 +126,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="childs_shirt_size" data-js="select" class="form-control" >
+                              <select name="childs_shirt_size" data-js="select" class="form-control" title="Please choose child's shirt size." required>
                                   <option value="x-small" <?php selected( $childs_shirt_size, 'x-small' ); ?>>Child X-Small (2-4)</option>
                                   <option value="small" <?php selected( $childs_shirt_size, 'small' ); ?>>Child Small (6-8)</option>
                                   <option value="medium" <?php selected( $childs_shirt_size, 'medium' ); ?>>Child Medium (10-12)</option>
@@ -137,11 +137,11 @@ $franchises = get_users( $franchise_args );
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Classroom # or Teacher's Name<span class="required">*</span></span>
+                  <span class="card-table-cell fixed250">Classroom # or Teacher's Name</span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="classroom_number_or_teachers_name" class="form-control" value="<?php echo esc_attr( $classroom_number_or_teachers_name ); ?>" required />
+                              <input type="text" name="classroom_number_or_teachers_name" class="form-control" value="<?php echo esc_attr( $classroom_number_or_teachers_name ); ?>" />
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -153,7 +153,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="parents_name" class="form-control" value="<?php echo esc_attr( $parents_name ); ?>" required />
+                              <input type="text" name="parents_name" class="form-control" title="Please enter parents name." value="<?php echo esc_attr( $parents_name ); ?>" required />
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -165,7 +165,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="address" class="form-control" value="<?php echo esc_attr( $address ); ?>" required />
+                              <input type="text" name="address" class="form-control" title="Please enter an address." value="<?php echo esc_attr( $address ); ?>" required />
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -173,11 +173,11 @@ $franchises = get_users( $franchise_args );
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">State</span>
+                  <span class="card-table-cell fixed250">State<span class="required">*</span></span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="state" data-js="select" placeholder="Select a state..." class="am2_cc_state" required style="">
+                              <select name="state" data-js="select" class="am2_cc_state" title="Please choose a state." required>
                                   <option value=""></option>
                                   <option value="">Select a state...</option>
                                   <?php
@@ -196,11 +196,11 @@ $franchises = get_users( $franchise_args );
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">City</span>
+                  <span class="card-table-cell fixed250">City<span class="required">*</span></span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="city" class="form-control" value="<?php echo $city  ?>"/>
+                              <input type="text" name="city" class="form-control" title="Please enter a city." value="<?php echo $city  ?>" required/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -212,7 +212,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="text" name="zip_code" class="form-control"  value="<?php echo $zip_code; ?>" required/>
+                              <input type="text" name="zip_code" class="form-control" title="Please enter a ZIP code." value="<?php echo $zip_code; ?>" required/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -220,11 +220,11 @@ $franchises = get_users( $franchise_args );
               </div>
 
               <div class="card-table-row">
-                  <span class="card-table-cell fixed250">Telephone</span>
+                  <span class="card-table-cell fixed250">Primary Phone Number <span class="required">*</span></span>
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input id="phone" name="telephone" data-plugin-masked-input="" data-input-mask="(999) 999-9999" value="<?php echo $telephone; ?>" placeholder="(123) 123-1234" class="form-control">
+                              <input id="phone" name="telephone" data-plugin-masked-input="" data-input-mask="(999) 999-9999" title="Please enter a phone number." value="<?php echo $telephone; ?>" placeholder="(123) 123-1234" class="form-control" required>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -248,7 +248,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="checkbox" name="liability_release" class="form-control" title="I agree to the Liability Release to" value="1" <?php checked( '1', $liability_release, 1 ); ?>"/>
+                              <input type="checkbox" name="liability_release" class="form-control" title="This field is required." value="1" <?php checked( '1', $liability_release, 1 ); ?>" required/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -260,7 +260,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="checkbox" name="photo_release" class="form-control" title="I agree to the Photo Release" value="1" <?php checked( '1', $photo_release, 1 ); ?>"/>
+                              <input type="checkbox" name="photo_release" class="form-control" value="1" <?php checked( '1', $photo_release, 1 ); ?>"/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -286,7 +286,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="checkbox" name="paid_tuition" class="form-control" title="Have you already payed tuition for this class?" value="1" <?php checked( '1', $paid_tuition, 1 ); ?>"/>
+                              <input type="checkbox" name="paid_tuition" class="form-control" value="1" <?php checked( '1', $paid_tuition, 1 ); ?>"/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
@@ -299,7 +299,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select id="franchise_id" name="payment_franchise_id" class="form-control" required>
+                              <select id="franchise_id" name="payment_franchise_id" class="form-control" title="You must select a franchise." required>
                                   <option value=""></option>
                                   <?php foreach( $franchises as $franchisee ) : ?>
                                       <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchisee->first_name . ' ' . $franchisee->last_name; ?></option>
@@ -318,7 +318,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select id="location_id" name="location_id"  class="am2_cc_state" required>
+                              <select id="location_id" name="location_id"  class="am2_cc_state" title="Please select a location." required>
                                   <option value=""></option>
                                   <?php
                                   if ( $locations ) {
@@ -352,9 +352,9 @@ $(document).ready(function () {
 
     $("#customer-form").validate({
         // any other options,
-        errorContainer: $("#user-form").find( 'div.validation-message' ),
-        errorLabelContainer: $("#user-form").find( 'div.validation-message ul' ),
-        wrapper: "li",
+       /* errorContainer: $("#customer-form").find( 'div.validation-message' ),
+        errorLabelContainer: $("#customer-form").find( 'div.validation-message ul' ),
+        wrapper: "li",*/
     });
 
     $("#customer-form").ajaxForm({
