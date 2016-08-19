@@ -93,7 +93,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<input type="text" name="location_contact_name"  style="" value="<?php echo get_post_meta($loc_id, 'location_contact_name', true); ?>" required><br/>
 
 		<label>Location Contact Number *</label>
-		<input type="text" name="location_contact_number"  size="20" value="<?php echo get_post_meta($loc_id, 'telephone', true); ?>" required><br/>
+		<input type="text" name="location_contact_number"  size="20" value="<?php echo get_post_meta($loc_id, 'location_contact_number', true); ?>" required><br/>
 
 		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/>*/?>
 		<input type="hidden" name="loc_id" value="<?php echo $loc_id; ?>"/>
@@ -132,7 +132,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 					$has_day 		= array('Parent-Pay', 'Contract');
 					$when 			= '';
 
-					if (in_array($class_type, $has_date)) {
+					/*if (in_array($class_type, $has_date)) {
 						$when = am2_get_meta_value('date', 	$classes_meta);
 					}
 
@@ -143,7 +143,9 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 					if ('Yearly' == $stype) {
 						$Y = date('Y');
 						$when = date("$Y/m/d", strtotime(am2_get_meta_value('date_every_year', 	$classes_meta)));
-					}
+					}*/
+
+					$when = get_class_date($c);
 
 					//$when = am2_get_meta_value('date_every_year', 	$classes_meta);
 

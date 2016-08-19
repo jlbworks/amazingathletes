@@ -59,7 +59,8 @@ $locations = get_posts(
 				<ul class="franchise_details_visible">
 				<?php foreach($classes as $c){?>
 				<li>
-					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array($c->time, $c->day, $c->type) ); ?></a>
+					<?php /*** when array_filter is called without second parameter it removes empty values from the array ***/?>
+					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array($c->time, get_class_date($c), $c->type)) ); ?></a>
 				</li>
 				<?php } ?>
 				</ul>
