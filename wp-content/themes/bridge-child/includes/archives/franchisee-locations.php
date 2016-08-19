@@ -80,7 +80,8 @@ foreach ($classes as $c) {
 				<?php if (isset($location_class[$loc->ID])): ?>
 				<?php krsort ($location_class[$loc->ID]);?>
 				<?php foreach($location_class[$loc->ID] as $datetime => $loc_class) { ?>
-				<a href="<?php echo site_url()."/register/?location_id=$loc->ID&class_id=$loc_class->ID"; ?>" class="franchise_register"><?php echo implode( ' - ', array_filter(array(date('m/d/Y', strtotime($datetime)), ($c->time), (!empty(get_post_meta($loc_class->ID, 'special_event_title', true)) ? get_post_meta($loc_class->ID, 'special_event_title', true) : get_the_title($loc_class->ID) ) ) ) ) ;?></a><br/>
+				<a href="<?php echo site_url()."/register/?location_id=$loc->ID&class_id=$loc_class->ID"; ?>" class="franchise_register"><?php echo implode( ' - ', array_filter(array(date('m/d/Y', strtotime($datetime)), ($c->time), 
+				(!empty($special_event_title) ? $special_event_title : get_the_title($loc_class->ID) ) ) ) ) ;?></a><br/>
 				<?php } ?>
 				<?php endif; ?>
 				<span class="franchise_name"><?php echo (isset($meta_franchisee['franchise_name']) ? $meta_franchisee['franchise_name'] : '');?></span><br/>
