@@ -485,10 +485,10 @@ var classes_with_special_title = ['Contract','Camp'];
 
 		                $.each(v, function(k2,v2){
 		                	$li_child = $('<li class="franchise"></li>');
-		                	$li_child.append('<a>'+v2.meta.post_title + ', ' + v2.meta.address + '</a>');
+		                	$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
 		                	$li_child.append(
 		                	'<div class="franchise_details">' +
-			                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
+			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
 			                	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
 			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
 			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
@@ -556,10 +556,10 @@ var classes_with_special_title = ['Contract','Camp'];
 
 		                $.each(v, function(k2,v2){
 		                	$li_child = $('<li class="franchise"></li>');
-		                	$li_child.append('<a>'+v2.meta.post_title + ', ' + v2.meta.address + '</a>');
+		                	$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
 		                	$li_child.append(
 		                	'<div class="franchise_details">' +
-			                	'<span class="franchise_address">' + v2.meta.address + ', ' + k + ', ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
+			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
 			                	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
 			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
 			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +

@@ -137,6 +137,7 @@ get_header();?>
 
 			/*******locations of this franchisee********/
 			if($mypage == 'locations'){ 
+				
 				include(locate_template( 'includes/archives/franchisee-locations.php' ));
 			}			
 

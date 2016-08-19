@@ -50,15 +50,15 @@ else {
 <form id="frm_franchisee_account" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 		<label>DBA *</label>
 		<input type="text" name="franchise_name" required  style="" value="<?=get_user_meta($user_id,'franchise_name',true);?>"><br/>
+
+		<label>Display Number *</label>
+		<input type="text" name="franchise_telephone" required  size="20" value="<?php echo get_user_meta($user_id,'telephone',true); ?>"><br/>
 		
 		<label>Display Name *</label>
 		<input type="text" name="display_name" required  style="" value="<?=get_user_meta($user_id,'display_name',true);?>"><br/>
 
 		<label>Display Title</label>
-		<input type="text" name="display_title"  style="" value="<?=get_user_meta($user_id,'display_title',true);?>"><br/>
-		
-		<label>Display Number *</label>
-		<input type="text" name="franchise_telephone" required  size="20" value="<?php echo get_user_meta($user_id,'telephone',true); ?>"><br/>
+		<input type="text" name="display_title"  style="" value="<?=get_user_meta($user_id,'display_title',true);?>"><br/>	
 
 		<label>Display Email</label>
 		<input type="text" name="franchise_aaemail" data-rule-email="true"  style="" value="<?php echo get_user_meta($user_id,'aa_email_address',true); ?>"><br/>

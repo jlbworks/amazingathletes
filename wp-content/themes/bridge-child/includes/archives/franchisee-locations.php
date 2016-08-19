@@ -49,9 +49,11 @@ $classes = get_posts($args);
 $location_class = array();
 
 foreach ($classes as $c) {
-	$location_class[$c->location_id][] = $c;
+	$location_class[$c->location_id][get_class_date($c,true). ' ' . $c->time] = $c;
 }
 
+ //var_dump($location_class);
+ //var_dump(456456);
 ?>
 <div class="state">
 	<ul class="locations">
@@ -60,7 +62,7 @@ foreach ($classes as $c) {
 		$meta = get_post_meta($loc->ID);
 		$franchisee = get_post_field( 'post_author', $loc->ID );
 		$city_state = get_post_meta($loc->ID, 'city__state', true);
-		$city_state = !empty($city_state) ? explode('|', $city_state) : array('','');
+		$city_state = !empty($city_state) ? explode('|', $city_state) : array('','');		
 
 		foreach($meta as $key => $val){
 		    $meta[$key] = $val[0];
@@ -74,10 +76,11 @@ foreach ($classes as $c) {
 		<li class="franchise">
 			<a><?php echo get_the_title( $loc->ID );?></a>
 			<div class="franchise_details">
-				<span class="franchise_address"><?php echo implode(",", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></span><br/>
+				<span class="franchise_address"><?php echo implode(" - ", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></span><br/>
 				<?php if (isset($location_class[$loc->ID])): ?>
-				<?php foreach($location_class[$loc->ID] as $loc_class) { ?>
-				<a href="<?php echo site_url()."/register/?location_id=$loc->ID&class_id=$loc_class->ID"; ?>" class="franchise_register"><?php echo (!empty(get_post_meta($loc_class->ID, 'special_event_title', true)) ? get_post_meta($loc_class->ID, 'special_event_title', true) : get_the_title($loc_class->ID) ); ?></a><br/>
+				<?php krsort ($location_class[$loc->ID]);?>
+				<?php foreach($location_class[$loc->ID] as $datetime => $loc_class) { ?>
+				<a href="<?php echo site_url()."/register/?location_id=$loc->ID&class_id=$loc_class->ID"; ?>" class="franchise_register"><?php echo implode( ' - ', array_filter(array(date('m/d/Y', strtotime($datetime)), ($c->time), (!empty(get_post_meta($loc_class->ID, 'special_event_title', true)) ? get_post_meta($loc_class->ID, 'special_event_title', true) : get_the_title($loc_class->ID) ) ) ) ) ;?></a><br/>
 				<?php } ?>
 				<?php endif; ?>
 				<span class="franchise_name"><?php echo (isset($meta_franchisee['franchise_name']) ? $meta_franchisee['franchise_name'] : '');?></span><br/>

@@ -143,4 +143,8 @@ function am2_add_preloader(){?>
     </div>
     </div>
 <?php }
+
+add_action('wp_footer', function(){
+	echo '<!-- page_template: ' . basename( get_page_template() ) . ' -->'; 
+})
 ?>
