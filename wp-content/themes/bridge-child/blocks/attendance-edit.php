@@ -11,18 +11,20 @@ return;*/
 
 $attendance = get_post($id);
 
-$customer_id    = get_post_meta( $attendance->ID, 'payment_customer_id', true );
+$customer_id    = get_post_meta( $attendance->ID, 'attendance_customer_id', true );
 $customer       = get_post( $customer_id );
 
 $customer_location_id = get_post_meta( $customer_id, 'location_id' );
 
-$class_id       = get_post_meta( $attendance->ID, 'payment_class_id', true );
+$class_id       = get_post_meta( $attendance->ID, 'attendance_class_id', true );
 
-$franchise_id   = get_post_meta( $attendance->ID, 'payment_franchise_id', true );
+$franchise_id   = get_post_meta( $attendance->ID, 'attendance_franchise_id', true );
 $franchise      = get_post( $franchise_id );
 
-$location_id   = get_post_meta( $attendance->ID, 'payment_location_id', true );
+$location_id   = get_post_meta( $attendance->ID, 'attendance_location_id', true );
 $location      = get_post( $location_id );
+
+$attendance_date = get_post_meta( $attendance->ID, 'attendance_date', true );
 
 $customers_args = array(
     'post_type'         => 'customer',
@@ -103,7 +105,7 @@ $franchises = get_users( $franchise_args );
                         <div class="card-table-cell">
                             <div class="card-form">
                                 <fieldset>
-                                    <select id="franchise_id" name="attendance_franchise_id" class="form-control" title="Please select a franchise." required>
+                                    <select id="attendance_franchise_id" name="attendance_franchise_id" class="form-control" title="Please select a franchise." required>
                                         <option value=""></option>
                                         <?php foreach( $franchises as $franchisee ) : ?>
                                             <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchisee->first_name . ' ' . $franchisee->last_name; ?></option>
@@ -121,7 +123,7 @@ $franchises = get_users( $franchise_args );
                     <div class="card-table-cell">
                         <div class="card-form">
                             <fieldset>
-                                <select name="attendance_location_id" class="form-control" id="location_id" title="Please select a location." required>
+                                <select name="attendance_location_id" class="form-control" id="attendance_location_id" title="Please select a location." required>
                                     <option value=""></option>
                                     <?php foreach( $locations as $loc ) : ?>
                                         <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?> required><?php echo get_field( 'location_name', $loc->ID      );?></option>
@@ -139,7 +141,7 @@ $franchises = get_users( $franchise_args );
                     <div class="card-table-cell">
                         <div class="card-form">
                             <fieldset>
-                                <select name="attendance_class_id" class="form-control" id="class_id" title="Please select a class." required>
+                                <select name="attendance_class_id" class="form-control" id="attendance_class_id" title="Please select a class." required>
                                     <option value=""></option>
                                     <?php foreach( $classes as $class ) : ?>
                                         <option value="<?php echo $class->ID; ?>" <?php selected($class_id, $class->ID, true );?> required><?php echo $class->post_title; ?></option>
@@ -157,7 +159,7 @@ $franchises = get_users( $franchise_args );
                     <div class="card-table-cell">
                         <div class="card-form">
                             <fieldset>
-                                <select id="customer_id" name="payment_customer_id" class="form-control" title="Please select a customer." required>
+                                <select id="attendance_customer_id" name="attendance_customer_id" class="form-control" title="Please select a customer." required>
                                     <?php foreach( $customers as $cust ) :
                                         $childs_first_name = get_post_meta( $cust->ID, 'childs_first_name', true );
                                         $childs_last_name = get_post_meta( $cust->ID, 'childs_last_name', true );
@@ -177,7 +179,7 @@ $franchises = get_users( $franchise_args );
                     <div class="card-table-cell">
                         <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="datepicker-format" name="attendance_date" class="form-control" title="Please choose the date." value="<?php echo esc_attr( $paid_date ); ?>" required/>
+                                <input type="text" data-js="datepicker-format" name="attendance_date" class="form-control" title="Please choose the date." value="<?php echo esc_attr( $attendance_date ); ?>" required/>
                                 <i class="fieldset-overlay" data-js="focus-on-field"></i>
                             </fieldset>
                         </div>
@@ -214,15 +216,20 @@ $(document).ready(function () {
         success: function (json) {
       		am2.main.notify('pnotify','success', json.message);
             var inst = $('[data-remodal-id=modal]').remodal({hashTracking: false});
-            inst.destroy();
-            load_screen('REFRESH');
+            if(inst) {
+                inst.destroy();
+                load_screen('REFRESH');
+            }
+            else {
+                empty_form($("#attendance-form"));
+            }
         },
     		url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
     		type: 'post',
     		dataType: 'json'
     });
 
-    $('#franchise_id').select2({
+    $('#attendance_franchise_id').select2({
         placeholder: 'Select a franchise',
         width: '100%',
         minimumResultsForSearch: -1
@@ -234,16 +241,16 @@ $(document).ready(function () {
             dataType: 'json',
             data: {
                 form_handler: 'get_locations',
-                franchise_id: $('#franchise_id').val()
+                franchise_id: $('#attendance_franchise_id').val()
             },
             success: function(data) {
-                $('#location_id').html('').select2({
+                $('#attendance_location_id').html('').select2({
                     placeholder: 'Select a location',
                     width: '100%',
                     data: data
                 });
 
-                $('#class_id').html('').select2({
+                $('#attendance_class_id').html('').select2({
                     placeholder: 'Select a location first',
                     width: '100%'
                 });
@@ -251,13 +258,13 @@ $(document).ready(function () {
         })
     });
 
-    $('#customer_id').select2({
+    $('#attendance_customer_id').select2({
         placeholder: 'Select a customer',
         width: '100%',
         minimumResultsForSearch: -1
     });
 
-    $('#location_id').select2({
+    $('#attendance_location_id').select2({
         placeholder: 'Select a location',
         width: '100%'
     })
@@ -268,10 +275,10 @@ $(document).ready(function () {
             dataType: 'json',
             data: {
                 form_handler: 'get_classes',
-                location_id: $('#location_id').val()
+                location_id: $('#attendance_location_id').val()
             },
             success: function(data) {
-                $('#class_id').html('').select2({
+                $('#attendance_class_id').html('').select2({
                     placeholder: 'Select a class',
                     data: data,
                     width: '100%'
@@ -280,11 +287,10 @@ $(document).ready(function () {
         })
     });
 
-    $('#class_id').select2({
+    $('#attendance_class_id').select2({
         placeholder: 'Select a location first',
         width: '100%'
     });
 });
-
 </script>
 

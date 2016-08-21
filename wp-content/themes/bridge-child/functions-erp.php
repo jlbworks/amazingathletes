@@ -511,7 +511,7 @@ function submit_data() {
     /**
      * Add/Edit attendance
      */
-    if ($_POST['form_handler'] == 'attendace') {
+    if ($_POST['form_handler'] == 'attendance') {
         $id = sanitize_text_field( $_POST['id'] );
         $franchise_id = sanitize_text_field( $_POST['attendance_franchise_id'] );
         $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['attendance_customer_id'] ), 'childs_first_name', true );
@@ -1280,4 +1280,51 @@ function _array_connect_keys($values, $options, $delimiter = null) {
 
 
 // ------------------------------------------------------------------------
+
+/**
+ * Prepare and return variables for dashboard view
+ */
+
+function get_dashboard_data() {
+    $data = array();
+
+    $args = array(
+        'role' => 'franchisee'
+    );
+    $data['total_franchises'] = count(get_users($args));
+
+
+    $args = array(
+        'post_type'   => 'location',
+        'post_status' => 'publish',
+        'posts_per_page'=>-1
+    );
+    if( is_role( 'franchisee' ) ) {
+        $args['author'] = get_current_user_id();
+    }
+    $data['total_locations'] = count(get_posts($args));
+
+
+    $args = array(
+        'role' => 'coach'
+    );
+    if( is_role( 'franchisee' ) ) {
+        $args['meta_key'] = 'franchisee';
+        $args['meta_value'] = get_current_user_id();
+        $args['meta_compare'] = '=';
+    }
+    $data['total_coaches'] = count(get_users($args));
+
+    $args = array(
+        'post_type'   => 'customer',
+        'post_status' => 'publish',
+        'posts_per_page'=>-1
+    );
+    if( is_role( 'franchisee' ) ) {
+        $args['author'] = get_current_user_id();
+    }
+    $data['total_customers'] = count(get_posts($args));
+
+    return $data;
+}
 ?>

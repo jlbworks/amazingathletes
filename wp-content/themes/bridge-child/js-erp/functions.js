@@ -183,11 +183,11 @@ function delete_client_note(btn){
 	});
 }
 
-
-
-
-
-
+function empty_form(form) {
+	$(form).find('input:visible,textarea').val('');
+	$(form).find('select').select2('val','');
+	$(form).find('textarea').text('');
+}
 
 function set_title(title){
 	$('.page-header h2').empty().append(title).fadeIn();

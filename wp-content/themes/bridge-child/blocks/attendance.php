@@ -61,7 +61,7 @@ $attendance = get_posts($args);
                         data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$attend->ID; ?>"><?php echo $franchise; ?></a></td>
                       <td><?php echo $location->post_title; ?></td>
                       <td><?php echo $customer->post_title ?></td>
-                      <td><?php echo get_the_date( 'Y/m/d', $attend->ID ) ?></td>
+                      <td><?php echo get_post_meta( $attend->ID, 'attendance_date', true ); ?></td>
                       <td>
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"

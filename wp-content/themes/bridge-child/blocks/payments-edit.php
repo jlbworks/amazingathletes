@@ -264,12 +264,17 @@ $(document).ready(function () {
             }
             am2.main.notify('pnotify', success, json.message);
             var inst = $('[data-remodal-id=modal]').remodal({hashTracking: false});
-            inst.destroy();
-            load_screen('REFRESH');
+            if(inst) {
+                inst.destroy();
+                load_screen('REFRESH');
+            }
+            else {
+                empty_form($("#payment-form"));
+            }
         },
-    		url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
-    		type: 'post',
-    		dataType: 'json'
+        url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+        type: 'post',
+        dataType: 'json'
     });
 
     $('#franchise_id').select2({
