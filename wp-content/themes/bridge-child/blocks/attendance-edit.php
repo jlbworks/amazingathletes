@@ -196,7 +196,7 @@ $franchises = get_users( $franchise_args );
         </form>
     </div>
 </div>
-        
+<?php am2_add_preloader(); ?>
 
 <script type="text/javascript">
 
@@ -210,7 +210,7 @@ $(document).ready(function () {
     $("#attendance-form").ajaxForm({
         // any other options,
         beforeSubmit: function () {
-            //$('#sales_reps').val();
+            am2_show_preloader();
             return $("#attendance-form").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (json) {
@@ -223,6 +223,7 @@ $(document).ready(function () {
             else {
                 empty_form($("#attendance-form"));
             }
+            am2_hide_preloader();
         },
     		url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
     		type: 'post',
@@ -243,6 +244,9 @@ $(document).ready(function () {
                 form_handler: 'get_locations',
                 franchise_id: $('#attendance_franchise_id').val()
             },
+            beforeSend: function() {
+                am2_show_preloader();
+            },
             success: function(data) {
                 $('#attendance_location_id').html('').select2({
                     placeholder: 'Select a location',
@@ -254,6 +258,8 @@ $(document).ready(function () {
                     placeholder: 'Select a location first',
                     width: '100%'
                 });
+
+                am2_hide_preloader();
             }
         })
     });
@@ -277,12 +283,16 @@ $(document).ready(function () {
                 form_handler: 'get_classes',
                 location_id: $('#attendance_location_id').val()
             },
+            beforeSend: function() {
+                am2_show_preloader();
+            },
             success: function(data) {
                 $('#attendance_class_id').html('').select2({
                     placeholder: 'Select a class',
                     data: data,
                     width: '100%'
                 });
+                am2_hide_preloader();
             }
         })
     });

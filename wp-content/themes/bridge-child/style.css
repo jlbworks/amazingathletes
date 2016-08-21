@@ -571,11 +571,9 @@ padding: 10px;
 #preloader_wrap{    
     width: 54px;
     height: 25px;
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -27px;
-    margin-top: -10px;
     z-index: 10001;
 }
 
@@ -628,8 +626,8 @@ animation-delay: .8s;
     height:100%;
     top:0px;
     left:0px;
-    z-index: 1000;
-    position: fixed;
+    z-index: 999999;
+    position: absolute;
     background-color: rgba(255,255,255,0.8);
 }
 
@@ -803,3 +801,23 @@ animation-delay: .8s;
     display:block;
 }
 
+.select2-loader {
+    display: inline-block;
+    z-index: 2000;
+    width: 14px;
+    height: 14px;
+    border: solid 2px transparent;
+    border-top-color: #29d;
+    border-left-color: #29d;
+    border-radius: 14px;
+    -webkit-animation: pace-spinner 400ms linear infinite;
+    -moz-animation: pace-spinner 400ms linear infinite;
+    -ms-animation: pace-spinner 400ms linear infinite;
+    -o-animation: pace-spinner 400ms linear infinite;
+    animation: pace-spinner 400ms linear infinite;
+    -webkit-pointer-events: none;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}

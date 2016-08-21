@@ -193,6 +193,14 @@ function set_title(title){
 	$('.page-header h2').empty().append(title).fadeIn();
 }
 
+function am2_show_preloader(){
+	$('#preloader_overlay').show();
+}
+
+function am2_hide_preloader(){
+	$('#preloader_overlay').hide();
+}
+
 $( window ).load(function(){
 
 	if( window.location.hash == "" ){
