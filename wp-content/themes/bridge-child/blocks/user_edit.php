@@ -121,9 +121,8 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select name="state"  placeholder="Select a state..." class="am2_cc_state" required style="">
+                              <select name="state"  placeholder="Select a state..." data-js="select" class="am2_cc_state" required style="">
                                   <option value=""></option>
-                                  <option value="">Select a state...</option>
                                   <?php
                                   $states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
                                   $states = array();
@@ -180,15 +179,15 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
 set_title('User');
 
 $(document).ready(function () {
-
-    $("#user-form").validate({
+    var form = $("#user-form");
+    form.validate({
         // any other options,
         errorContainer: $("#user-form").find( 'div.validation-message' ),
         errorLabelContainer: $("#user-form").find( 'div.validation-message ul' ),
         wrapper: "li",
     });
 
-    $("#user-form").ajaxForm({
+    form.ajaxForm({
         // any other options,
         beforeSubmit: function () {
             return $("#user-form").valid(); // TRUE when form is valid, FALSE will cancel submit
@@ -203,6 +202,11 @@ $(document).ready(function () {
         type: 'post',
         dataType: 'json'
     });
+
+    $('[data-js="select"]').select2({
+        width: '100%',
+    });
+
 
 });
 
