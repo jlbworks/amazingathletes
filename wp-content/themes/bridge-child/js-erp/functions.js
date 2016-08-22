@@ -193,12 +193,22 @@ function set_title(title){
 	$('.page-header h2').empty().append(title).fadeIn();
 }
 
-function am2_show_preloader(){
-	$('#preloader_overlay').show();
+function am2_show_preloader(elem){
+    if(elem) {
+        $(elem).find('.preloader_overlay').show();
+    }
+    else {
+		$('.preloader_overlay').show();
+	}
 }
 
-function am2_hide_preloader(){
-	$('#preloader_overlay').hide();
+function am2_hide_preloader(elem){
+	if(elem) {
+		$(elem).find('.preloader_overlay').hide();
+	}
+	else {
+		$('.preloader_overlay').hide();
+	}
 }
 
 $( window ).load(function(){

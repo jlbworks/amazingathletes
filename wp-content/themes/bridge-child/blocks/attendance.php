@@ -9,10 +9,8 @@ $args = array(
   'post_status' => 'publish',
   'posts_per_page'=> -1,
 );
-if(is_role('franchisee')) {
-  $args['meta_query']  = array(
-    array( 'key'=>'franchise_id','value'=> get_current_user_id() )
-  );
+if( is_role('franchisee') ) {
+  $args['author ']  =  get_current_user_id();
 }
 $attendance = get_posts($args);
 

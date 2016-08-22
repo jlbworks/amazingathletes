@@ -237,10 +237,10 @@ $franchises = get_users( $franchise_args );
                 <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
                 <button class="right btn btn--primary" type="submit">Save</button>
             </div>
+            <?php am2_add_preloader(); ?>
         </form>
     </div>
 </div>
-
 
 <script type="text/javascript">
 
@@ -249,12 +249,14 @@ set_title('Payment');
 
 $(document).ready(function () {
 
-    $("#payment-form").validate({});
+    var form = $("#payment-form");
+    form.validate({});
 
-    $("#payment-form").ajaxForm({
+    form.ajaxForm({
         // any other options,
         beforeSubmit: function () {
             //$('#sales_reps').val();
+            am2_show_preloader(form);
             return $("#payment-form").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (json) {
@@ -271,6 +273,7 @@ $(document).ready(function () {
             else {
                 empty_form($("#payment-form"));
             }
+            am2_hide_preloader(form);
         },
         url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
         type: 'post',
@@ -291,6 +294,9 @@ $(document).ready(function () {
                 form_handler: 'get_locations',
                 franchise_id: $('#franchise_id').val()
             },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
             success: function(data) {
                 $('#location_id').html('').select2({
                     placeholder: 'Select a location',
@@ -302,6 +308,7 @@ $(document).ready(function () {
                     placeholder: 'Select a location first',
                     width: '100%'
                 });
+                am2_hide_preloader(form);
             }
         })
     });
@@ -330,12 +337,16 @@ $(document).ready(function () {
                 form_handler: 'get_classes',
                 location_id: $('#location_id').val()
             },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
             success: function(data) {
                 $('#class_id').html('').select2({
                     placeholder: 'Select a class',
                     data: data,
                     width: '100%'
                 });
+                am2_hide_preloader(form);
             }
         })
     });

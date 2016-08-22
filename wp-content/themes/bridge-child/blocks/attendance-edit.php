@@ -193,10 +193,10 @@ $franchises = get_users( $franchise_args );
                 <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
                 <button class="right btn btn--primary" type="submit">Save</button>
             </div>
+            <?php am2_add_preloader(); ?>
         </form>
     </div>
 </div>
-<?php am2_add_preloader(); ?>
 
 <script type="text/javascript">
 
@@ -205,12 +205,13 @@ set_title('Bolnica');
 
 $(document).ready(function () {
 
-    $("#attendance-form").validate({});
+    var form = $("#attendance-form");
+    form.validate({});
 
-    $("#attendance-form").ajaxForm({
+    form.ajaxForm({
         // any other options,
         beforeSubmit: function () {
-            am2_show_preloader();
+            am2_show_preloader(form);
             return $("#attendance-form").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (json) {
@@ -223,7 +224,7 @@ $(document).ready(function () {
             else {
                 empty_form($("#attendance-form"));
             }
-            am2_hide_preloader();
+            am2_hide_preloader(form);
         },
     		url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
     		type: 'post',
@@ -245,7 +246,7 @@ $(document).ready(function () {
                 franchise_id: $('#attendance_franchise_id').val()
             },
             beforeSend: function() {
-                am2_show_preloader();
+                am2_show_preloader(form);
             },
             success: function(data) {
                 $('#attendance_location_id').html('').select2({
@@ -259,7 +260,7 @@ $(document).ready(function () {
                     width: '100%'
                 });
 
-                am2_hide_preloader();
+                am2_hide_preloader(form);
             }
         })
     });
@@ -284,7 +285,7 @@ $(document).ready(function () {
                 location_id: $('#attendance_location_id').val()
             },
             beforeSend: function() {
-                am2_show_preloader();
+                am2_show_preloader(form);
             },
             success: function(data) {
                 $('#attendance_class_id').html('').select2({
@@ -292,7 +293,7 @@ $(document).ready(function () {
                     data: data,
                     width: '100%'
                 });
-                am2_hide_preloader();
+                am2_hide_preloader(form);
             }
         })
     });
