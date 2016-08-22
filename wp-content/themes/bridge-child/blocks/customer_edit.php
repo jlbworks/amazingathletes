@@ -179,7 +179,6 @@ $franchises = get_users( $franchise_args );
                           <fieldset>
                               <select name="state" data-js="select" class="am2_cc_state" title="Please choose a state." required>
                                   <option value=""></option>
-                                  <option value="">Select a state...</option>
                                   <?php
                                   $states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
                                   $states = array();
