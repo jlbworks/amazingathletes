@@ -81,6 +81,23 @@ $attendance = get_posts($args);
 
 set_title('Attendance');
 
+$(document).ready(function() {
+    $('#datatable-editable').DataTable({
+        dom: 'Blfrtip',
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        buttons: [
+            {
+                extend: 'csv',
+                className: 'btn btn--secondary',
+                exportOptions: {
+                    columns: [0,1,2,3]
+                }
+            },
+        ]
+    });
+});
 </script>
 
 <?php get_template_part('blocks/modal-template'); ?>

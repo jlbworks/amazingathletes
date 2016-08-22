@@ -821,3 +821,5 @@ animation-delay: .8s;
     -moz-user-select: none;
     user-select: none;
 }
+
+.dataTables_filter { visibility: hidden; display: none;}

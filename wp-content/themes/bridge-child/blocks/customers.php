@@ -41,6 +41,7 @@ $customers = get_posts($args);
                             <th>Location</th>
                             <th>City</th>
                             <th>Email</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,7 +76,24 @@ $customers = get_posts($args);
 
 <script type="text/javascript">    
 set_title('Users Management');
-// Prekopirati sa erp-a data-tables po potrebi.
+
+$(document).ready(function() {
+    $('#datatable-editable').DataTable({
+        dom: 'Blfrtip',
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        buttons: [
+            {
+                extend: 'csv',
+                className: 'btn btn--secondary',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5]
+                }
+            },
+        ]
+    });
+});
 </script>
 
 <?php get_template_part('blocks/modal-template'); ?>

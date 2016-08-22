@@ -73,7 +73,25 @@ $customers = get_users();
 
 <script type="text/javascript">    
 set_title('Users Management');
-// Prekopirati sa erp-a data-tables po potrebi.
+
+
+$(document).ready(function() {
+    $('#datatable-editable').DataTable({
+        dom: 'Blfrtip',
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        buttons: [
+            {
+                extend: 'csv',
+                className: 'btn btn--secondary',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7,8]
+                }
+            },
+        ]
+    });
+});
 </script>
 
 <?php get_template_part('blocks/modal-template'); ?>

@@ -91,6 +91,24 @@ $payments = get_posts($args);
 <script type="text/javascript">
 
 set_title('Payments');
+
+$(document).ready(function() {
+    $('#datatable-editable').DataTable({
+        dom: 'Blfrtip',
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        buttons: [
+            {
+                extend: 'csv',
+                className: 'btn btn--secondary',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7]
+                }
+            },
+        ]
+    });
+});
 </script>
 
 <?php get_template_part('blocks/modal-template'); ?>

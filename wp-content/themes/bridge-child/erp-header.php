@@ -42,7 +42,7 @@ get_currentuserinfo();
 		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/assets_new/css/style.css" />
 		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/style.css" />
 
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.12/b-1.2.2/b-flash-1.2.2/b-html5-1.2.2/r-2.1.0/datatables.min.css" />
 
 		<!-- Head Libs -->
 		<script src="<?php bloginfo('stylesheet_directory'); ?>/js-erp/vendor/modernizr/modernizr.js"></script>
