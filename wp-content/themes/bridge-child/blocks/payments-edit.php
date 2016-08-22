@@ -271,7 +271,7 @@ $(document).ready(function () {
                 load_screen('REFRESH');
             }
             else {
-                empty_form($("#payment-form"));
+                empty_form(form);
             }
             am2_hide_preloader(form);
         },

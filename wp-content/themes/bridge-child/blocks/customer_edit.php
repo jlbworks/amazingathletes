@@ -339,6 +339,7 @@ $franchises = get_users( $franchise_args );
                 <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
                 <button class="right btn btn--primary" type="submit">Save</button>
               </div>
+          <?php am2_add_preloader(); ?>
          </form>
         
     </div>
@@ -350,23 +351,31 @@ set_title('Customer');
 
 $(document).ready(function () {
 
-    $("#customer-form").validate({
+    var form = $("#customer-form");
+    form.validate({
         // any other options,
        /* errorContainer: $("#customer-form").find( 'div.validation-message' ),
         errorLabelContainer: $("#customer-form").find( 'div.validation-message ul' ),
         wrapper: "li",*/
     });
 
-    $("#customer-form").ajaxForm({
+    form.ajaxForm({
         // any other options,
         beforeSubmit: function () {
+            am2_show_preloader(form);
             return $("#customer-form").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (json) {
             am2.main.notify('pnotify','success', json.message);
             var inst = $('[data-remodal-id=modal]').remodal({hashTracking: false});
-            inst.destroy();
-            load_screen('REFRESH');
+            if(inst) {
+                inst.destroy();
+                load_screen('REFRESH');
+            }
+            else {
+                empty_form(form);
+            }
+            am2_hide_preloader(form);
         },
         url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
         type: 'post',
@@ -396,12 +405,18 @@ $(document).ready(function () {
                     form_handler: 'get_locations',
                     franchise_id: $('#franchise_id').val()
                 },
+                beforeSend: function() {
+                    am2_show_preloader(form);
+                },
                 success: function(data) {
+                    var placeholder = data.length == 1 ? "No locations found for this franchise" : "Choose location";
+
                     $('#location_id').html('').select2({
-                        placeholder: 'Select a location',
+                        placeholder: placeholder,
                         width: '100%',
                         data: data
                     });
+                    am2_hide_preloader(form);
                 }
             })
         });
