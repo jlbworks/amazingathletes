@@ -298,8 +298,10 @@ $(document).ready(function () {
                 am2_show_preloader(form);
             },
             success: function(data) {
+                var placeholder = data.length == 1 ? "No locations found for this franchise" : "Choose location";
+
                 $('#location_id').html('').select2({
-                    placeholder: 'Select a location',
+                    placeholder: placeholder,
                     width: '100%',
                     data: data
                 });
@@ -326,7 +328,7 @@ $(document).ready(function () {
 
     $('#location_id').select2({
         placeholder: 'Select a location',
-        width: '100%'
+        width: '100%',
     })
     .on('select2:select', function() {
         $.ajax({
@@ -341,8 +343,10 @@ $(document).ready(function () {
                 am2_show_preloader(form);
             },
             success: function(data) {
+                var placeholder = data.length == 1 ? "No classes found for this location" : "Choose class";
+
                 $('#class_id').html('').select2({
-                    placeholder: 'Select a class',
+                    placeholder: placeholder,
                     data: data,
                     width: '100%'
                 });
@@ -353,7 +357,7 @@ $(document).ready(function () {
 
     $('#class_id').select2({
         placeholder: 'Select a location first',
-        width: '100%'
+        width: '100%',
     });
 });
 
