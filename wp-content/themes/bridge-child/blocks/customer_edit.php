@@ -298,7 +298,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <select id="franchise_id" name="payment_franchise_id" class="form-control" title="You must select a franchise." required>
+                              <select id="franchise_id" name="franchise_id" class="form-control" title="You must select a franchise." required>
                                   <option value=""></option>
                                   <?php foreach( $franchises as $franchisee ) : ?>
                                       <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchisee->first_name . ' ' . $franchisee->last_name; ?></option>
