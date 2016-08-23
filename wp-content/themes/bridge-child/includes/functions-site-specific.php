@@ -48,8 +48,10 @@ function add_js_permalink_to_head() {
 }
 
 add_action('wp_ajax_am2_ajax_register_for_class', 'am2_ajax_register_for_class');
+add_action('am2_register_for_class_complete', 'am2_insert_customer');
 
 add_action('wp_ajax_nopriv_am2_ajax_register_for_class', 'am2_ajax_register_for_class');
+add_action('am2_register_for_class_complete', 'am2_insert_customer');
 
 function am2_ajax_register_for_class(){
     header('Content-Type: application/json');
@@ -108,16 +110,16 @@ function am2_ajax_register_for_class(){
     $headers2 .= "Reply-To: <$to>" . "\r\n"; 
 
     /*to franchisee*/
-    $result1 = wp_mail($to, $subject, $message, $headers1);
+    //$result1 = wp_mail($to, $subject, $message, $headers1);
 
     /*to parent*/
-    $result2 = wp_mail($reply_to, $subject, $message, $headers2);
+    //$result2 = wp_mail($reply_to, $subject, $message, $headers2);
 
-    $response['success'] = $result1 && $result2;
+    $response['success'] = 'true';
     $response['paid_tuition'] = isset($_POST['paid_tuition']);
 
     if($response['success']){        
-        
+       do_action( 'am2_register_for_class_complete' ); 
     }   
     else {
 

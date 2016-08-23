@@ -1327,4 +1327,80 @@ function get_dashboard_data() {
 
     return $data;
 }
+
+function am2_insert_customer( ) {
+    global $wpdb;
+    $state = sanitize_text_field( $_POST['state'] );
+    $state_code = $wpdb->get_var("SELECT state_code FROM states WHERE state = '$state'");
+
+    $date_epoch = date_create_from_format( 'm-d-Y', $_POST['child-birthday'] );
+    $date = $date_epoch->format( 'd/m/Y' );
+
+    $customer_data = array(
+        'childs_first_name'                 => $_POST['child-first-name'],
+        'childs_last_name'                  => $_POST['child-last-name'],
+        'childs_birthday'                   => $date,
+        'childs_gender'                    => strtolower( $_POST['child-gender'] ),
+        'childs_shirt_size'                 => stripos( $_POST['child-shirt-size'], 'x-small' ) ? 'x-small' :
+                                                stripos( $_POST['child-shirt-size'], 'small' ) ? 'small' : 'medium',
+        'classroom_number_or_teachers_name' => $_POST['classroom-teacher'],
+        'parents_name'  => $_POST['parent-name'],
+        'address'   => $_POST['address'],
+        'state'   => $state_code,
+        'city'   => $_POST['city'],
+        'zip_code'   => $_POST['zipcode'],
+        'telephone'   => $_POST['primary-phone'],
+        'email'   => $_POST['email'],
+        'liability_release'   => !empty( $_POST['liability'][0] ) ? 1 : '',
+        'photo_release'   => !empty( $_POST['photo_release'][0] ) ? 1 : '',
+        'comments_or_questions'   => $_POST['comments'],
+        'paid_tuition'   => !empty( $_POST['paid_tuition'] ) ? 1 : '' ,
+        'location_id'   => $_POST['location_id'],
+        'class_id'   => $_POST['class_id'],
+        'franchise_id'  => get_post( $_POST['location_id'] )->post_author
+    );
+
+    $post_data = array(
+        'post_type' => 'customer',
+        'post_title' => stripslashes($customer_data['childs_first_name']) . ' ' . stripslashes($customer_data['childs_last_name']) . ' (' . stripslashes($customer_data['parents_name']) . ')',
+        'post_name' => sanitize_title($customer_data['childs_first_name']),
+        'post_status' => 'publish',
+    );
+
+    $meta_data = array();
+    $meta_fields = array(
+        'childs_first_name', 'childs_last_name', 'childs_birthday',
+        'childs_gender', 'childs_shirt_size', 'classroom_number_or_teachers_name',
+        'parents_name', 'address', 'state', 'city', 'zip_code', 'telephone', 'email',
+        'liability_release', 'photo_release', 'comments_or_questions', 'paid_tuition', 'location_id',
+        'franchise_id'
+    );
+    foreach ($meta_fields as $field) {
+        $meta_data[$field] = $customer_data[$field];
+    }
+
+
+    $created = false;
+    // update
+    if ($_POST['id'] > 0) {
+        $post_id = $_POST['id'];
+        wp_update_post($post_data);
+
+        // insert
+    } else {
+        $post_id = wp_insert_post($post_data);
+        $created = true;
+    }
+
+    // meta
+    foreach ($meta_fields as $field) {
+        if (empty($meta_data[$field])) {
+            delete_post_meta($post_id, $field);
+        } else {
+           update_post_meta($post_id, $field, $meta_data[$field]);
+        }
+    }
+    
+}
+
 ?>
