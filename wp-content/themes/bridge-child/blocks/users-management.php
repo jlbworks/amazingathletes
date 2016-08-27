@@ -28,7 +28,6 @@ $customers = get_users();
                             <th>Email</th>
                             <th>First name</th>
                             <th>Last name</th>
-                            
                             <th>Role</th>
                             <th>Franchise Name</th>
                             <th>Telephone</th>
@@ -78,10 +77,12 @@ set_title('Users Management');
 
 
 $(document).ready(function() {
+
      $('#datatable-editable thead th').each( function () {
         var title = $(this).text();
         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
     } );
+
     var table = $('#datatable-editable').DataTable({
         dom: 'Blfrtip',
         "paging":   false,

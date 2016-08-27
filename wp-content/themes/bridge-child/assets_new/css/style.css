@@ -2231,6 +2231,9 @@ a img.aligncenter {
 .dataTables_wrapper table th input {
   padding: 6px;
   border: #d0d0d0 1px solid;
+  width: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
     
 .table th:last-child, .table td:last-child {
