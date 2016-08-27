@@ -98,8 +98,9 @@ $franchises = get_users( $franchise_args );
 
 <div class="card-wrapper">
     <h3 class="card-header">Payment</h3>
+    <form id="payment-form" class="card-form no-inline-edit js-ajax-form">
     <div class="card-inner">
-        <form id="payment-form" class="card-form no-inline-edit js-ajax-form">
+        
         <div class="validation-message"><ul></ul></div>
             <div class="card-table">
             <!-- INPUT DEFAULT (GREEN AND BOLD) -->
@@ -233,13 +234,14 @@ $franchises = get_users( $franchise_args );
             <input type="hidden" name="id" value="<?php echo $id; ?>" />
             <input type="hidden" name="form_handler" value="payment" />
             </div>
+             </div>
             <div class="card-footer clearfix">
                 <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
                 <button class="right btn btn--primary" type="submit">Save</button>
             </div>
             <?php am2_add_preloader(); ?>
         </form>
-    </div>
+   
 </div>
 
 <script type="text/javascript">

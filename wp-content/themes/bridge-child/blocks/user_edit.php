@@ -26,8 +26,9 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
 
 <div class="card-wrapper">
     <h3 class="card-header">User info</h3>
+    <form id="user-form" class="card-form no-inline-edit js-ajax-form">
     <div class="card-inner">
-      <form id="user-form" class="card-form no-inline-edit js-ajax-form">
+      
       <div class="validation-message"><ul></ul></div>
           <div class="card-table">
               <div class="card-table-row">
@@ -165,13 +166,14 @@ $capabilities = $profile->{$wpdb->prefix . 'capabilities'};
               <input type="hidden" name="id" value="<?php echo $id; ?>" />
               <input type="hidden" name="form_handler" value="user_edit" />
               </div>
+              </div>
               <div class="card-footer clearfix">
                 <button data-remodal-action="cancel" class="left btn btn--secondary" type="button">Cancel</button>
                 <button class="right btn btn--primary" type="submit">Save</button>
               </div>
          </form>
         
-    </div>
+    
 </div>
 
 <script type="text/javascript">

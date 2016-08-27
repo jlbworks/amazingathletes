@@ -1,6 +1,6 @@
     <!-- SIDEBAR -->
     <div class="sidebar">
-        <a href="#" class="sidebar-toggle js-sidebar-toggle"> <span>Navigation</span><i class="fa fa-bars"></i></a>
+        <a href="javascript:void(0)" class="sidebar-toggle js-sidebar-toggle"> <span>Navigation</span><i class="fa fa-bars"></i></a>
         <ul class="menu">
             <?php if( is_role('administrator') ){ ?>
             <li> 

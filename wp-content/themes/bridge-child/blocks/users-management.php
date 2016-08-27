@@ -25,9 +25,10 @@ $customers = get_users();
                 <table class="table js-responsive-table" id="datatable-editable">
                     <thead>
                         <tr>
+                            <th>Email</th>
                             <th>First name</th>
                             <th>Last name</th>
-                            <th>Email</th>
+                            
                             <th>Role</th>
                             <th>Franchise Name</th>
                             <th>Telephone</th>
@@ -40,9 +41,10 @@ $customers = get_users();
                     <tbody>
                         <?php foreach($customers as $user){ ?>
                         <tr class="gradeA">
+                          <td><?php echo formatEmail($user->user_email); ?></td>
                           <td><a class="am2-ajax-modal modal-with-move-anim" data-modal="<?php echo get_ajax_url('modal','user_edit') .'&id='.$user->ID; ?>"><?php echo $user->user_firstname; ?></a></td>
                           <td><?php echo $user->user_lastname; ?></td>
-                          <td><?php echo formatEmail($user->user_email); ?></td>
+                          
                           <td><?php echo ucwords($user->roles[0]); ?></td>
                           <td><?php echo get_user_meta($user->ID, 'franchise_name',true); ?></td>
                           <td><?php echo get_user_meta($user->ID, 'telephone',true); ?></td>
@@ -76,11 +78,16 @@ set_title('Users Management');
 
 
 $(document).ready(function() {
-    $('#datatable-editable').DataTable({
+     $('#datatable-editable thead th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+    var table = $('#datatable-editable').DataTable({
         dom: 'Blfrtip',
         "paging":   false,
         "ordering": false,
         "info":     false,
+        responsive: true,
         buttons: [
             {
                 extend: 'csv',
@@ -91,6 +98,18 @@ $(document).ready(function() {
             },
         ]
     });
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.header() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
 });
 </script>
 
