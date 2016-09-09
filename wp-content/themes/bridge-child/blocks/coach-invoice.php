@@ -163,7 +163,7 @@ $(document).ready(function () {
   });
 
   $('.js-add-to-total').on('keyup',function() {
-     
+     addToTotal();
   });
 
   $('.currency').maskMoney({thousands:',', decimal:'.', allowZero: true, prefix: '$'});
