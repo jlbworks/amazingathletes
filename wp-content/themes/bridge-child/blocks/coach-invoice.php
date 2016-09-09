@@ -73,6 +73,9 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
 
    
 </div>
+<div class="col-1 break-big">
+ INVOICE HTML GOES HERE (Work in progress)
+</div>
 </div>
 </div>
 </div>
