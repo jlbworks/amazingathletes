@@ -22,6 +22,7 @@
 
     }
 
+
     input {
 
         margin: 0;
@@ -379,4 +380,11 @@ textarea {
     color: $color_table_text;
     font-family: $font_family;
     border: 1px solid $color_button_border;
+}
+
+
+.fields-group {
+    border: none;
+    background: #fcfcfc;
+    padding: 20px;
 }

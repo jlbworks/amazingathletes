@@ -77,12 +77,67 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
 <div class="card-wrapper">
     <div class="card-inner">
 <form method="POST" class="form-horizontal well" role="form">
+<fieldset class="fields-group">
+<h3>Some Group Of Services</h3>
+    <div class="clearfix">
+        <div class="col-14">
+            Description
+        </div>
+        <div class="col-14">
+            Quantity
+        </div>
+        <div class="col-14">
+            Amount
+        </div>
+        <div class="col-14">
+            Actions
+        </div>
+    </div>
     <div class="repeater-custom-show-hide card-table">
-       Here we will add invoice dynamic calculation (work in progress)
+      <div data-repeater-list="item">
+        <div data-repeater-item="">
+          <div class="form-group clearfix">
+            
+            <div class="col-14">
+              <select name="item[0][type]" class="form-control">
+                <option value="" selected="">Choose description</option>
+                <option value="service2">Service 2</option>
+                <option value="service3">Service 3</option>
+              </select>
+            </div>
+
+            
+            <div class="col-14">
+              <input type="text" name="item[0][quantity]" value="0" class="form-control number js-quantity" placeholder="Quantity">
+            </div>
+            
+            
+            <div class="col-14">
+              <input type="text" name="item[0][amount]" value="0" class="form-control currency js-add-to-total" placeholder="Amount">
+            </div>
+            
+
+            <div class="col-14">
+              <a class="am2-ajax-modal-delete btn btn--danger is-smaller" data-repeater-delete=""
+                                       data-original-title="Delete" data-placement="top" data-toggle="tooltip"
+                                       data-object="S" data-id=""><i class="fa fa-trash-o"></i></a>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+      <div class="form-group clearfix">
+        <div class="col-14">
+            <a class="left btn btn--primary" data-repeater-create=""><i class="fa fa-plus"></i> Add</a>
+
+        </div>
+      </div>
+
 
 
     </div>
-    
+</fieldset>
         
         <div class="validation-message"><ul></ul></div>
 
@@ -92,7 +147,7 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
                         <div class="card-table-cell">
                             <div class="card-form">
                                 <fieldset>
-                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-total" title="Please add bonus" value="$2,000.00" disabled />
+                                <input type="text"  id="js-total" data-js="" name="bonus" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$0.00" disabled />
                                 </fieldset>
                             </div>
                         </div>
@@ -103,7 +158,7 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-total" title="Please add bonus" value="$0.00" />
+                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$0.00" />
                             </fieldset>
                         </div>
                         </div>
@@ -114,18 +169,18 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="equipment_deductions" class="form-control currency js-add-to-total" title="Please add equipment deductions" value="$0.00" />
+                                <input type="text" data-js="" name="equipment_deductions" class="form-control currency js-add-to-grand-total" title="Please add equipment deductions" value="$0.00" />
                             </fieldset>
                         </div>
                         </div>
                     </div>
 
                     <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Bonus </span>
+                        <span class="card-table-cell fixed250">Insurance </span>
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-total" title="Please add bonus" value="$0.00" />
+                                <input type="text" data-js="" name="Insurance" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$0.00" />
                             </fieldset>
                         </div>
                         </div>
@@ -154,23 +209,37 @@ $(document).ready(function () {
   $('.repeater-custom-show-hide').repeater({
     show: function () {
       $(this).slideDown();
+      initMasks();
     },
     hide: function (remove) {
-      if(confirm('Are you sure you want to remove this item?')) {
+      //if(confirm('Are you sure you want to remove this item?')) {
         $(this).slideUp(remove);
-      }
-    }
+      //}
+    },
+    isFirstItemUndeletable: true,
   });
 
-  $('.js-add-to-total').on('keyup',function() {
+  $(document).on('keyup', '.js-add-to-total', function() {
+     addToTotal();
+  });
+  $(document).on('keyup', '.js-add-to-grand-total', function() {
+     addToTotal();
+  });
+  $(document).on('keyup', '.js-quantity', function() {
      addToTotal();
   });
 
-  $('.currency').maskMoney({thousands:',', decimal:'.', allowZero: true, prefix: '$'});
+ 
 
   addToTotal();
+  initMasks();
 
 });
+
+function initMasks() {
+    $('.currency').maskMoney({thousands:',', decimal:'.', allowZero: true, prefix: '$'});
+    $('.number').maskMoney({thousands:'', decimal:'', precision: 0, allowZero: true, prefix: ''});
+}
 
 function parseCurrency( num ) {
     num = num.replace('$','');
@@ -178,15 +247,27 @@ function parseCurrency( num ) {
   }
 
   function addToTotal() {
+
+    var total = 0;
+    $('.js-add-to-total').each(function() {
+        var this_val = parseCurrency($(this).val());
+        var this_quantity = $(this).closest('.form-group').find('.js-quantity').val(); console.log(this_quantity);
+        total = total + (this_val*this_quantity);
+        //
+
+    });
+    total = parseFloat(total).toFixed(2);
+    $('#js-total').val(parseFloat(total).toFixed(2));
+
     var grand_total = 0;
-      $('.js-add-to-total').each(function() {
+    $('.js-add-to-grand-total').each(function() {
         var this_val = parseCurrency($(this).val());
         grand_total = grand_total + this_val;
         //
 
-      });
-      grand_total = parseFloat(grand_total).toFixed(2);
-     $('#js-grand-total').empty().append(parseFloat(grand_total).toFixed(2));
+    });
+    grand_total = parseFloat(grand_total).toFixed(2);
+    $('#js-grand-total').empty().append(parseFloat(grand_total).toFixed(2));
   }
 </script>
 
