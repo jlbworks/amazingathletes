@@ -69,6 +69,7 @@ function load_screen(hash){
 		$('#preloader_page_change').show();
 	});
 	*/
+	console.log(url.page);
 	$.ajax({
 		url: SITEURL+'/wp-admin/admin-ajax.php',
 		//url: SITEURL+'/ajax-endpoint.php',

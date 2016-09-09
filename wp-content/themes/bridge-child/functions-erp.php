@@ -509,6 +509,53 @@ function submit_data() {
     }
 
     /**
+     * Add new coach invoice
+     */
+    if ($_POST['form_handler'] == 'add_coach_invoice') {
+        $coach_id = sanitize_text_field( $_POST['coach_id'] );
+        $franchise_id = sanitize_text_field( $_POST['franchise_id'] );
+        $date_start = sanitize_text_field( $_POST['date_start'] );
+        $date_end = sanitize_text_field( $_POST['date_end'] );
+        $author = get_current_user_id();
+
+        $post_data = array(
+            'post_type' => 'invoice',
+            'post_title' => 'Coach Invoice',
+            'post_status' => 'publish',
+            'post_author' => $author,
+        );
+
+        $meta_data = array();
+        $meta_fields = array(
+            'date_start', 'date_end',
+            'coach_id', 'franchise_id', 'invoice_type'
+        );
+        foreach ( $meta_fields as $field ) {
+            $meta_data[$field] = sanitize_text_field($_POST[$field]);
+        }
+
+
+        $created = false;
+        // update
+
+        $post_id = wp_insert_post($post_data);
+        $created = true;
+
+
+        // meta
+        foreach ( $meta_fields as $field ) {
+            if  (empty( $meta_data[$field] ) ) {
+                delete_post_meta( $post_id, $field );
+            } else {
+                update_post_meta( $post_id, $field, $meta_data[$field] );
+            }
+        }
+
+        exit(json_encode(array('success' => true, 'message' => "Coach Invoice Created successfully")));
+    }
+
+
+    /**
      * Add/Edit attendance
      */
     if ($_POST['form_handler'] == 'attendance') {
