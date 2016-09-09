@@ -1,4 +1,4 @@
-.user_form button, .user_form input[type="submit"], .user_form input[type="button"], .user_form .button {
+﻿.user_form button, .user_form input[type="submit"], .user_form input[type="button"], .user_form .button {
     padding: 8px 16px;
     border: 1px solid #1E3C7E  ;
     margin: 10px 0px;
@@ -7,6 +7,7 @@
     color: #fff;
     cursor: pointer;
 }
+/* TEST COMMENT*/
 .user_form input[type="submit"]:hover, .user_form .button:hover {
 	background-color: #2F519C  ;
 }
@@ -59,7 +60,6 @@
 }
 
 .two_columns_25_75.grid2 > .column1 {
-    background-image:url('/wp-content/uploads/2016/03/franchisee-sidebar-foot-bg.jpg');
     /*background-image: none;*/
     background-repeat: no-repeat;
     background-position: bottom;
