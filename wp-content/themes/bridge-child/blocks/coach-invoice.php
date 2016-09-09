@@ -74,125 +74,119 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
    
 </div>
 <div class="col-1 break-big">
- INVOICE HTML GOES HERE (Work in progress)
+<div class="card-wrapper">
+    <div class="card-inner">
+<form method="POST" class="form-horizontal well" role="form">
+    <div class="repeater-custom-show-hide card-table">
+       Here we will add invoice dynamic calculation (work in progress)
+
+
+    </div>
+    
+        
+        <div class="validation-message"><ul></ul></div>
+
+            <div class="card-table">
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250"><strong>Total</strong> </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                                <fieldset>
+                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-total" title="Please add bonus" value="$2,000.00" disabled />
+                                </fieldset>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Bonus </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-total" title="Please add bonus" value="$0.00" />
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Equipment deductions </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="" name="equipment_deductions" class="form-control currency js-add-to-total" title="Please add equipment deductions" value="$0.00" />
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Bonus </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-total" title="Please add bonus" value="$0.00" />
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250"><strong>Grand Total</strong> </span>
+                        <div class="card-table-cell">
+                            $<strong><span id="js-grand-total">0.00</span></strong>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+</form>
+
 </div>
 </div>
 </div>
 </div>
+<script src="<?php bloginfo('stylesheet_directory'); ?>/js-erp/vendor/jquery.repeater/jquery.repeater.js"></script>
+<script src="<?php bloginfo('stylesheet_directory'); ?>/js-erp/vendor/jquery.maskMoney/jquery.maskMoney.js"></script>
 <script type="text/javascript">
-
-set_title('Coach Invoice');
-
-
 $(document).ready(function () {
+  'use strict';
 
-    var form = $("#attendance-form");
-    form.validate({});
+  $('.repeater-custom-show-hide').repeater({
+    show: function () {
+      $(this).slideDown();
+    },
+    hide: function (remove) {
+      if(confirm('Are you sure you want to remove this item?')) {
+        $(this).slideUp(remove);
+      }
+    }
+  });
 
-    form.ajaxForm({
-        // any other options,
-        beforeSubmit: function () {
-            am2_show_preloader(form);
-            return $("#attendance-form").valid(); // TRUE when form is valid, FALSE will cancel submit
-        },
-        success: function (json) {
-      		am2.main.notify('pnotify','success', json.message);
-            var inst = $('[data-remodal-id=modal]').remodal({hashTracking: false});
-            if(inst) {
-                inst.destroy();
-                load_screen('REFRESH');
-            }
-            else {
-                empty_form($("#attendance-form"));
-            }
-            am2_hide_preloader(form);
-        },
-    		url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
-    		type: 'post',
-    		dataType: 'json'
-    });
+  $('.js-add-to-total').on('keyup',function() {
+     
+  });
 
-    $('#coach_id').select2({
-        placeholder: 'Select a coach',
-        width: '100%',
-        minimumResultsForSearch: -1
-    });
+  $('.currency').maskMoney({thousands:',', decimal:'.', allowZero: true, prefix: '$'});
 
-    $('#attendance_franchise_id').select2({
-        placeholder: 'Select a franchise',
-        width: '100%',
-        minimumResultsForSearch: -1
-    })
-    .on('select2:select', function() {
-        $.ajax({
-            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                form_handler: 'get_locations',
-                franchise_id: $('#attendance_franchise_id').val()
-            },
-            beforeSend: function() {
-                am2_show_preloader(form);
-            },
-            success: function(data) {
-                var placeholder = data.length == 1 ? "No locations found for this franchise" : "Select a location";
+  addToTotal();
 
-                $('#attendance_location_id').html('').select2({
-                    placeholder: placeholder,
-                    width: '100%',
-                    data: data
-                });
-
-                $('#attendance_class_id').html('').select2({
-                    placeholder: 'Select a location first',
-                    width: '100%'
-                });
-
-                am2_hide_preloader(form);
-            }
-        })
-    });
-
-    $('#attendance_customer_id').select2({
-        placeholder: 'Select a customer',
-        width: '100%',
-        minimumResultsForSearch: -1
-    });
-
-    $('#attendance_location_id').select2({
-        placeholder: 'Select a location',
-        width: '100%'
-    })
-    .on('select2:select', function() {
-        $.ajax({
-            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                form_handler: 'get_classes',
-                location_id: $('#attendance_location_id').val()
-            },
-            beforeSend: function() {
-                am2_show_preloader(form);
-            },
-            success: function(data) {
-                var placeholder = data.length == 1 ? "No classes found for this location" : "Select a class";
-
-                $('#attendance_class_id').html('').select2({
-                    placeholder: placeholder,
-                    data: data,
-                    width: '100%'
-                });
-                am2_hide_preloader(form);
-            }
-        })
-    });
-
-    $('#attendance_class_id').select2({
-        placeholder: 'Select a location first',
-        width: '100%'
-    });
 });
+
+function parseCurrency( num ) {
+    num = num.replace('$','');
+    return parseFloat( num.replace( /,/g, '') );
+  }
+
+  function addToTotal() {
+    var grand_total = 0;
+      $('.js-add-to-total').each(function() {
+        var this_val = parseCurrency($(this).val());
+        grand_total = grand_total + this_val;
+        //
+
+      });
+      grand_total = parseFloat(grand_total).toFixed(2);
+     $('#js-grand-total').empty().append(parseFloat(grand_total).toFixed(2));
+  }
 </script>
 
