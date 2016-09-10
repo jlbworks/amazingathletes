@@ -554,6 +554,35 @@ function submit_data() {
         exit(json_encode(array('success' => true, 'message' => "Coach Invoice Created successfully")));
     }
 
+    /**
+     * Edit coach invoice
+     */
+    if ($_POST['form_handler'] == 'edit_coach_invoice') {
+        $post_id = sanitize_text_field( $_POST['invoice_id'] );
+        if(empty($post_id)) {
+            exit(json_encode(array('success' => false, 'message' => "Missing ID")));
+        }
+
+        $meta_data = array();
+        $meta_fields = array(
+            'total', 'bonus'
+        );
+        foreach ( $meta_fields as $field ) {
+            $meta_data[$field] = str_replace('$','',sanitize_text_field($_POST[$field]));
+        }
+
+        // meta
+        foreach ( $meta_fields as $field ) {
+            if  (empty( $meta_data[$field] ) ) {
+                delete_post_meta( $post_id, $field );
+            } else {
+                update_post_meta( $post_id, $field, $meta_data[$field] );
+            }
+        }
+
+        exit(json_encode(array('success' => true, 'message' => "Coach Invoice Edited successfully")));
+    }
+
 
     /**
      * Add/Edit attendance

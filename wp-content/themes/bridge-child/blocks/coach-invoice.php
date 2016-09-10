@@ -19,6 +19,13 @@ $coach_name = $coach->display_name;
 if(!empty($coach->first_name) || !empty($coach->last_name)) {
     $coach_name = $coach->first_name . ' ' . $coach->last_name;
 }
+
+/* Invoice data */
+$total = '0.00';
+if(!empty($coach_invoice->total)) $total = $coach_invoice->total;
+$bonus = '0.00';
+if(!empty($coach_invoice->bonus)) $bonus = $coach_invoice->bonus;
+
 ?>
 <!-- CONTENT HEADER -->
 <div class="layout context--pageheader">
@@ -75,8 +82,10 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
 </div>
 <div class="col-1 break-big">
 <div class="card-wrapper">
+<div class="card-header">
+    </div>
     <div class="card-inner">
-<form method="POST" class="form-horizontal well" role="form">
+<form method="POST" class="form-horizontal well" role="form" id="coach-invoice-form">
 <fieldset class="fields-group">
 <h3>Some Group Of Services</h3>
     <div class="clearfix">
@@ -93,7 +102,7 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
             Actions
         </div>
     </div>
-    <div class="repeater-custom-show-hide card-table">
+    <div class="repeater repeater-custom-show-hide card-table">
       <div data-repeater-list="item">
         <div data-repeater-item="">
           <div class="form-group clearfix">
@@ -147,7 +156,7 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
                         <div class="card-table-cell">
                             <div class="card-form">
                                 <fieldset>
-                                <input type="text"  id="js-total" data-js="" name="bonus" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$0.00" disabled />
+                                <input type="text"  id="js-total" data-js="" name="total" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$<?php echo $total; ?>" readonly />
                                 </fieldset>
                             </div>
                         </div>
@@ -158,7 +167,7 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$0.00" />
+                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$<?php echo $bonus; ?>" />
                             </fieldset>
                         </div>
                         </div>
@@ -189,11 +198,25 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
                     <div class="card-table-row">
                         <span class="card-table-cell fixed250"><strong>Grand Total</strong> </span>
                         <div class="card-table-cell">
-                            $<strong><span id="js-grand-total">0.00</span></strong>
+                        <div class="card-form">
+                            <fieldset>
+                            <input type="text" id="js-grand-total" data-js="" name="grand_total" class="form-control currency js-grand-total" title="Grand Total" value="$<?php echo $grand_total; ?>" readonly />
+                            </fieldset>
+                        </div>
                         </div>
                         </div>
                     </div>
+
+                    <input type="hidden" name="invoice_type" value="coach" />
+                    <input type="hidden" name="invoice_id" value="<?php echo $id; ?>" />
+                    <input type="hidden" name="form_handler" value="edit_coach_invoice" />
+
+                    <div class="card-table-row clearfix">
+                        <button class="left btn btn--primary" type="submit">Save Invoice</button>
+                    </div>
+                    <div class="spacer"></div>
             </div>
+    
 </form>
 
 </div>
@@ -205,6 +228,24 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
 <script type="text/javascript">
 $(document).ready(function () {
   'use strict';
+
+  var form = $("#coach-invoice-form");
+    form.validate({});
+
+    form.ajaxForm({
+        // any other options,
+        beforeSubmit: function () {
+            am2_show_preloader(form);
+            return $("#coach-invoice-form").valid(); // TRUE when form is valid, FALSE will cancel submit
+        },
+        success: function (json) {
+            am2.main.notify('pnotify','success', json.message);
+            am2_hide_preloader(form);
+        },
+        url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+        type: 'post',
+        dataType: 'json'
+    });
 
   $('.repeater-custom-show-hide').repeater({
     show: function () {
@@ -257,7 +298,7 @@ function parseCurrency( num ) {
 
     });
     total = parseFloat(total).toFixed(2);
-    $('#js-total').val(parseFloat(total).toFixed(2));
+    $('#js-total').val('$'+parseFloat(total).toFixed(2));
 
     var grand_total = 0;
     $('.js-add-to-grand-total').each(function() {
@@ -267,7 +308,7 @@ function parseCurrency( num ) {
 
     });
     grand_total = parseFloat(grand_total).toFixed(2);
-    $('#js-grand-total').empty().append(parseFloat(grand_total).toFixed(2));
+    $('#js-grand-total').val('$'+parseFloat(grand_total).toFixed(2));
   }
 </script>
 
