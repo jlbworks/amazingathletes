@@ -45,6 +45,9 @@ function wp_schools_enqueue_scripts() {
 	//wp_register_script( 'jquery-migrate', 'https://code.jquery.com/jquery-migrate-1.3.0.js', array('jquery'));
 	//wp_enqueue_script( 'jquery-migrate');
 
+	wp_register_script('fancybox', get_stylesheet_directory_uri() . '/js/fancybox/jquery.fancybox.pack.js');
+	wp_enqueue_script('fancybox');
+
 	wp_register_style('childstyle', get_stylesheet_directory_uri() . '/style.css');
 	wp_enqueue_style('childstyle');
 
@@ -65,6 +68,9 @@ function am2_init() {
 
 	wp_enqueue_script( 'wp-util' );
 
+	wp_register_style('fancybox', get_stylesheet_directory_uri() . '/js/fancybox/jquery.fancybox.css');
+	wp_enqueue_style('fancybox');	
+	
 	wp_register_style('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.css');
 	wp_enqueue_style('selectize');
 
