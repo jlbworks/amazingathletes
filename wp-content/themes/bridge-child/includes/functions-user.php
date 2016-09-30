@@ -525,37 +525,49 @@ function am2_edit_location() {
 			)
 		);
 		$loc_verb = 'added';
-	} else {
+
+	} else {		
 		$loc_id = $_POST['loc_id'];
-		$loc_verb = 'edited';
+		$loc_verb = 'edited';		
 	}
 
-	$fields = array(
-	    'location_type',
-	    /*'location_name',*/
-	    'address',
-	    'city__state',
-	    'zip',
-	    'zip_areas',
-	    'location_contact_number',
-	    'email',
-	    'website',
-	    'location_contact_name',
-	    'latlng',
-	    'coaches',
-	    /*'enable_kickback',
-	    'kickback'*/
-	);
+	$location = get_post($loc_id);			
 
-	$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
+	if($location->post_author == $user_id){
 
-	foreach ($fields as $post_key) {
-		if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
-			update_post_meta($loc_id, $post_key, $_POST[$post_key]);
-		}
-		else if(in_array($post_key, $required_fields)){
-			echo "Field $post_key is required";
-			exit();
+		wp_update_post(array(
+			'ID' => $location->ID,
+			'post_title' => $_POST['location_name'],
+		));
+
+		$fields = array(
+			'location_type',
+			/*'location_name',*/
+			'address',
+			'city__state',
+			'zip',
+			'zip_areas',
+			'location_contact_number',
+			'email',
+			'website',
+			'location_contact_name',
+			'latlng',
+			'coaches',
+			'unit_number',
+			/*'enable_kickback',
+			'kickback'*/
+		);
+
+		$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
+
+		foreach ($fields as $post_key) {
+			if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
+				update_post_meta($loc_id, $post_key, $_POST[$post_key]);
+			}
+			else if(in_array($post_key, $required_fields)){
+				echo "Field $post_key is required";
+				exit();
+			}
 		}
 	}
 
