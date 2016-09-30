@@ -2,6 +2,7 @@
 global $wpdb;
 $loc_id = 0;
 $city_state = array('', '');
+$current_user = wp_get_current_user();
 
 if (!empty($_GET['loc_id'])) {
 	$loc_id = (int) $_GET['loc_id'];
@@ -26,11 +27,23 @@ if (!empty($_GET['loc_id'])) {
 	));
 }
 
+$territories = get_field('territories','user_'.$current_user->ID);
+
 if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['add'])) { ?>
 
 <div class="user_form">
 	<a class="button" href="<?php the_permalink();?>">Back</a>
 	<form id="frm_edit_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
+		<label>Unit Number</label>
+		<?php 
+		echo '<select name="unit_number" >';
+		echo "<option value=\"\"></option>";
+		foreach ($territories as $k => $v) {
+			echo '<option ' . ($v['unit_number'] == $location->unit_number ? 'selected' : '') . ' value="' . $v['unit_number'] . '">' . $v['territory_name'] . '</option>';
+		}
+		echo '</select>';
+		?>
+
 		<label>Location Type *</label>
 		<?php
 		$field_key = "field_570b6ef56c895";
