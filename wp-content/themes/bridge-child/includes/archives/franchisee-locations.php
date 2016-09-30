@@ -8,7 +8,7 @@ $args = array(
 		'author' 			=> $curauth->ID,
 	);
 
-if(isset($_GET['type'])){
+if(isset($_GET['type'])){	
 	$slugs = array(
 		'community-classes' => 'Community classes',
 		'on-site' => 'On-site classes',
@@ -19,6 +19,10 @@ if(isset($_GET['type'])){
 		'value'		=> $slugs[$_GET['type']],
 		'compare'	=> '=',
 	);
+}
+
+if(!empty($_GET['city'])){
+	$args['meta_query'][] = array( 'key' => 'city__state' , 'value' => '|' . $_GET['city'], 'compare' => 'LIKE' );
 }
 
 $locations = get_posts($args);
@@ -38,11 +42,9 @@ $args = array(
 			'key'		=> 'location_id',
 			'value'		=> array_values($_locations),
 			'compare'	=> 'IN',
-		)
+		),		
 	)
 );
-
-
 
 $classes = get_posts($args);
 
@@ -77,13 +79,14 @@ foreach ($classes as $c) {
 			<a><?php echo get_the_title( $loc->ID );?></a>
 			<div class="franchise_details">
 				<span class="franchise_address"><?php echo implode(" - ", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></span><br/>
-				<?php if (isset($location_class[$loc->ID])): ?>
+				<a class="h1 franchise_register" data-fancybox-type="iframe"  href="<?php echo site_url();?>/choose-class/?location_id=<?php echo $loc->ID;?>&iframe">Register Now</a><br/>
+				<?php /* if (isset($location_class[$loc->ID])): ?>
 				<?php krsort ($location_class[$loc->ID]);?>
 				<?php foreach($location_class[$loc->ID] as $datetime => $loc_class) { ?>
 				<a href="<?php echo site_url()."/register/?location_id=$loc->ID&class_id=$loc_class->ID"; ?>" class="franchise_register"><?php echo implode( ' - ', array_filter(array(date('m/d/Y', strtotime($datetime)), ($c->time), 
 				(!empty($special_event_title) ? $special_event_title : get_the_title($loc_class->ID) ) ) ) ) ;?></a><br/>
 				<?php } ?>
-				<?php endif; ?>
+				<?php endif;*/ ?>
 				<span class="franchise_name"><?php echo (isset($meta_franchisee['franchise_name']) ? $meta_franchisee['franchise_name'] : '');?></span><br/>
 				<span class="franchise_footer"><?php echo implode("", array(get_post_meta($loc->ID, 'director', true), ' | ', get_post_meta($loc->ID, 'telephone', true) ) );?></span><br/>
 			</div>
@@ -92,3 +95,12 @@ foreach ($classes as $c) {
 	endforeach; ?>
 	</ul>
 </div>
+
+<script>
+	(function($){
+		$(document).ready(function(){
+			$('a[data-fancybox-type="iframe"]').fancybox();
+		});
+	})(jQuery);
+	
+</script>

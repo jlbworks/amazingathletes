@@ -20,9 +20,9 @@ $classes = get_posts(array(
 	)
 ));
 
-get_header();
+if(!isset($_GET['iframe'])) get_header(); else wp_head();
 ?>
-<div style="margin-top: 100px">
+<div <?php if(!isset($_GET['iframe'])) {?> style="margin-top: 100px"<?php } ?>>
 <?php if(empty($classes)): ?>
 <p>This location has no classes.</p>
 <?php else: ?>
@@ -79,4 +79,18 @@ get_header();
 <?php endif; ?>
 </div>
 
-<?php get_footer();
+<?php if(!isset($_GET['iframe'])) get_footer(); else wp_footer();
+
+ if(isset($_GET['iframe'])) {?>
+<script>
+	(function($){
+		$(document).ready(function(){
+			$('a').on('click',function(e){
+				e.preventDefault();
+				top.location = $(this).attr('href');
+				return;
+			});
+		});
+	})(jQuery);	
+</script>	
+<?php } ?>
