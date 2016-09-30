@@ -71,7 +71,7 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 			<td><?php echo am2_get_meta_value('class_paynent_information', 	$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('length', $classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('ages', 	$classes_meta); ?></td>*/?>
-			<td><a href="<?php echo site_url(); ?>/register/?location_id=<?php echo $location_id; ?>&class_id=<?php echo $c->ID; ?>">Register</a></td>
+			<td><a target="_top" href="<?php echo site_url(); ?>/register/?location_id=<?php echo $location_id; ?>&class_id=<?php echo $c->ID; ?>">Register</a></td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>
@@ -83,7 +83,7 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 
  if(isset($_GET['iframe'])) {?>
 <script>
-	(function($){
+	/*(function($){
 		$(document).ready(function(){
 			$('a').on('click',function(e){
 				e.preventDefault();
@@ -91,6 +91,6 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 				return;
 			});
 		});
-	})(jQuery);	
+	})(jQuery);	*/
 </script>	
 <?php } ?>
