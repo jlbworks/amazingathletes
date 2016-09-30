@@ -274,15 +274,19 @@ function am2_get_state_locations(){
         $meta = get_post_meta($_loc->ID);            
         $author_id = get_post_field( 'post_author', $_loc->ID );
 
-        $author_name = get_user_by('ID', $author_id)->user_nicename;
+        $author = get_user_by('ID', $author_id);
+
+        $author_name = $author->user_nicename;
+        $display_name = $author->display_name;
 
         foreach($meta as $key => $val){
             $meta[$key] = $val[0];
         }
 
-        $meta_franchisee = get_user_meta($author_id);        
+        $_meta_franchisee = get_user_meta($author_id);    
+        $meta_franchisee = array();    
 
-        foreach($meta_franchisee as $key => $val){
+        /*foreach($meta_franchisee as $key => $val){
 
             $meta_franchisee[$key] = $val[0];
 
@@ -293,10 +297,17 @@ function am2_get_state_locations(){
             if ('page_content' == $key) {
                 unset($meta_franchisee[$key]);
             }
-        }
+        }*/
 
         $meta['post_title'] = get_the_title( $_loc->ID );
         $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
+        $meta_franchisee['franchisee'] = $display_name;     
+        $meta_franchisee['franchise_slug'] = $_meta_franchisee['franchise_slug'][0];
+        $meta_franchisee['franchise_name'] = $_meta_franchisee['franchise_name'][0];      
+        $meta_franchisee['franchise_phone'] = $_meta_franchisee['telephone'][0];
+        $meta_franchisee['franchise_email'] = $_meta_franchisee['email_address'][0];
+        $meta_franchisee['franchise_photo'] = wp_get_attachment_image_src( (int) $_meta_franchisee['user_photo'][0] , 'medium' )[0];
+
 
         $city = explode('|',$meta['city__state'])[1];
         $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;         
