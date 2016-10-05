@@ -64,12 +64,12 @@
       <span class="wpcf7-form-control-wrap address">
       <input type="text" name="address" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required>
       </span> </p>
-    <p>State *<br>
-    </p>
 	<p>City *<br>
      <span class="wpcf7-form-control-wrap city">
      <input type="text" name="city" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required>
      </span> </p>
+	 <p>State *<br>
+    </p>
     <p><span class="wpcf7-form-control-wrap state">
       <select name="state" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required>
         <option value="">---</option>
