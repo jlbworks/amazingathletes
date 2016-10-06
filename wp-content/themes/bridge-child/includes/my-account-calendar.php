@@ -20,42 +20,45 @@ function stringToColorCode($str) {
 
 }
 
-function am2_get_occurrences($_class) {
-    $r = new When\When();
+// function am2_get_occurrences($_class) {
+//     $r = new When\When();
 
-    if (date('l') == $_class->day) {
-        $r->startDate(new DateTime(date('Y-m-d')));
-    } else {
-        $r->startDate(new DateTime(date('Y-m-d', strtotime("next {$_class->day}"))));
-    }
+//     if (date('l') == $_class->day) {
+//         $r->startDate(new DateTime(date('Y-m-d')));
+//     } else {
+//         $r->startDate(new DateTime(date('Y-m-d', strtotime("next {$_class->day}"))));
+//     }
 
-    $r->count(365);
+//     $r->count(365);
 
-    if ('Weekly' === $_class->schedule_type) {
-        $r->byday(substr($_class->day, 0, 2));
-        $r->freq('weekly');
-    }
+//     if ('Weekly' === $_class->schedule_type) {
+//         $r->byday(substr($_class->day, 0, 2));
+//         $r->freq('weekly');
+//     }
 
-    if ('Monthly' == $_class->schedule_type) {
-        $r->startDate(new DateTime(date('Y-m-d', strtotime("{$_class->monthly_every} {$_class->day} of this month"))));
-        $r->byday(substr($_class->day, 0, 2));
-        $r->count(365);
-        $r->freq('monthly');
-        //$r->bymonthday(1);
-    }
+//     if ('Monthly' == $_class->schedule_type) {
+//         $r->startDate(new DateTime(date('Y-m-d', strtotime("{$_class->monthly_every} {$_class->day} of this month"))));        
+//         $r->count(365);
+//         $r->freq('monthly');
+//         $r->byday(substr($_class->day, 0, 2));
+//         var_dump('monthly');        
+//         //$r->bymonthday(1);
+//     }
 
-    if ('Yearly' == $_class->schedule_type) {
-        $this_year = date('Y');
-        $r->startDate(new DateTime(date("{$this_year}-m-d", strtotime("{$_class->date_every_year}"))));
-        //$r->bymonthday(date('d', strtotime("{$_class->day}")));
-        $r->count(10);
-        $r->freq('yearly');
-    }
+//     if ('Yearly' == $_class->schedule_type) {
+//         $this_year = date('Y');
+//         $r->startDate(new DateTime(date("{$this_year}-m-d", strtotime("{$_class->date_every_year}"))));
+//         //$r->bymonthday(date('d', strtotime("{$_class->day}")));
+//         $r->count(10);
+//         $r->freq('yearly');
+//     }
 
-    $r->generateOccurrences();
+//     $r->generateOccurrences();
 
-    return $r->occurrences;
-}
+//     $occurences = $r->occurrences;    
+
+//     return  $occurences;
+// }
 
 function am2_format_event_for_calendar($_class, $data=array()) {
     global $in_backend;
@@ -64,10 +67,17 @@ function am2_format_event_for_calendar($_class, $data=array()) {
     }
     $title = "{$_class->program}";
 
-    if ($_class->date) {
-        $start = date('Y-m-d', strtotime("{$_class->date}"));
-        $end = $start;
-    }
+    /*if ($_class->date) {
+        //$dates = get_post_meta($_class->ID, 'date', false);
+        // if(is_array($dates) && count($dates)>0){
+        //     $start = '--';
+        //     $end = '--';
+        // }
+        // else {
+            $start = date('Y-m-d', strtotime("{$_class->date}"));
+            $end = $start;
+        //}        
+    }*/
 
     if (isset($data['start'])) {
         $start = $data['start'];
@@ -157,28 +167,43 @@ $cid = false;
 
 foreach ($classes as $c) {
     //var_dump(get_post_meta($c->ID));
-    if (isset($_GET['coach_id']) and !empty($_GET['coach_id'])) {
-        $cid = (int) $_GET['coach_id'];
-        if(!is_array($c->coaches) or !in_array($cid, $c->coaches)) {
-            continue;
-        }
-    }
+    // if (isset($_GET['coach_id']) and !empty($_GET['coach_id'])) {
+    //     $cid = (int) $_GET['coach_id'];
+    //     if(!is_array($c->coaches) or !in_array($cid, $c->coaches)) {
+    //         continue;
+    //     }
+    // }    
 
-    if (in_array($c->type, array('Parent-Pay', 'Contract'))) {
+    if ('recurring' == $c->datetype ) {
 
         $occurrences = am2_get_occurrences($c);
 
         foreach ($occurrences as $o) {
-
             $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $o->format('Y-m-d')));
         }
 
         continue;
     }
 
-    if ('Session' === $c->type and (!empty($c->date_start) and !empty($c->date_end))) {
+    if ('session' === $c->datetype and (!empty($c->date_start) and !empty($c->date_end))) {
         $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $c->date_start, 'end' => $c->date_end));
         continue;
+    }
+
+    if ('dates' === $c->datetype) {
+        $dates = get_post_meta($c->ID, 'date', false);
+        if(is_array($dates) && count($dates)>0){
+            foreach($dates as $date){
+                //var_dump($date);
+                $date = DateTime::createFromFormat('m/d/Y', $date);
+                if($date){
+                    //var_dump( $date->format('Y-m-d') );
+                    $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $date->format('Y-m-d') ) );
+                }
+                
+            }
+            continue;
+        }
     }
 
     if (!$c->date) {
@@ -187,6 +212,8 @@ foreach ($classes as $c) {
 
     $classes_for_calendar[] = am2_format_event_for_calendar($c);
 }
+
+//var_dump($classes_for_calendar);
 //exit();
 ?>
 <div class="kolona1">

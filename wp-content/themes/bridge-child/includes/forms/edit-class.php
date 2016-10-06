@@ -240,10 +240,19 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'classes_per_month', 		$_POST['classes_per_month']);
 	
 	update_post_meta($class_id, 'special_event_title', $_POST['special_event_title']);
+	update_post_meta($class_id, 'datetype', $_POST['datetype']);
 
 	foreach($fieldsToGet as $fieldToGet):
 			update_post_meta($class_id, $fieldToGet, $_POST[$fieldToGet]);
 	endforeach;
+
+	$dates = explode(',', $_POST['date']);
+	if(is_array($dates) && count($dates)>0){
+		delete_post_meta($class_id,'date');
+		foreach($dates as $date){
+			add_post_meta($class_id,'date',$date);
+		}
+	}
 
 
 
@@ -341,6 +350,17 @@ if (isset($location_class)) {
 	$classes_per_month 					= am2_get_meta_value('classes_per_month', 	$location_class_meta);
 	$special_event_title 					= am2_get_meta_value('special_event_title', 	$location_class_meta);
 
+	$date = $location_class_meta['date'];
+	$dates = array();
+	if(is_array($date)){
+		foreach($date as $d){
+			if(!empty($d))
+			{
+				$dates[] = $d;
+			}			
+		}
+	}
+	//var_dump($date);
 }
 
 $possible_days = array(
@@ -458,10 +478,20 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 		</span>*/?>
 
 		<div class="form--section">
-			<h2>Scheduler (Settings depend on Class Type)</h2>
-			<div id="class_schedule_single_day" data-section="class-schedule" style="display:none;">
+			<h2>Choose Date Type</h2>
+			<fieldset>			
+				<label><input type="radio" name="datetype" data-change-to-id="class_schedule_single_day"  value="dates" <?php echo (isset($location_class_meta['datetype']) ? ($location_class_meta['datetype'][0] == 'dates' ? 'checked="checked"' : '') : 'checked' );?> />Single/Multi Date</label>
+				<label><input type="radio" name="datetype" data-change-to-id="class_schedule_recurring" value="recurring" <?php echo (isset($location_class_meta['datetype']) ? ($location_class_meta['datetype'][0] == 'recurring' ? 'checked="checked"' : '') : '' );?> />Recurring</label>
+				<label><input type="radio" name="datetype" data-change-to-id="class_schedule_session" value="session" <?php echo (isset($location_class_meta['datetype']) ? ($location_class_meta['datetype'][0] == 'session' ? 'checked="checked"' : '') : '' );?>/>Session</label>
+			</fieldset>	
+			<hr/>		
+			<?php /*<p><a href="#custom-dates">Choose Custom/Multiple dates</a></p>*/?>
+			<div id="class_schedule_single_day" data-section="class-schedule" style="display:none;">			
+
 				<label>Date</label>
-				<input type="text" name="date" class="datepicker" value="<?php echo $values['date']; ?>" class="ui-timepicker-input" autocomplete="off">
+				<?php /*<input type="text" name="date" id="datepicker"  value="<?php echo $values['date']; ?>"  autocomplete="off">*/?>
+				<div id="datepicker"></div>
+				<input type="hidden" name="date" value="<?php echo implode(",", $location_class_meta['date']);?>"/>
 
 				<label>Time</label>
 				<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
@@ -678,21 +708,21 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 			jQuery(document).ready(function(){
 				checkChangeToRadios();
 				checkChangeToSelectClass();
-				checkChangeToCheckboxes();
+				//checkChangeToCheckboxes();
 				jQuery('.js-induce-change').on('click', function(){
 					changeToSection = jQuery(this).data('change-to-section');
 			        changeToId = jQuery(this).data('change-to-id');
 			        changeTo(changeToId, changeToSection);
 				});
 
-				jQuery('.js-induce-change-select-class').on('change', function(){
+				/*jQuery('.js-induce-change-select-class').on('change', function(){
 					changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
 		            changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
 			        changeTo(changeToId, changeToSection);
-				});
+				});*/
 
 				jQuery('.js-induce-change-checkboxes').on('change', function(){
-					checkChangeToCheckboxes();
+					//checkChangeToCheckboxes();
 				});
 
 			})
@@ -749,6 +779,8 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 				jQuery('[data-section="'+section+'"]').hide();
 				jQuery('#'+target_id).show();
+
+				
 			}
 		</script>
 		<div class="form--section">
@@ -855,19 +887,49 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 </div>
 
 <script type="text/javascript">
-jQuery(document).ready(function(){
-	jQuery('.timepicker').timepicker({
-		step: 15
+(function($){
+	$(document).ready(function(){
+		$('.timepicker').timepicker({
+			step: 15
+		});
+
+		$('[name="datetype"]').on('change',function(e){
+			console.log($(this).data());
+			changeToSection = 'class-schedule'; //jQuery('.js-induce-change-select-class').find(':selected').attr('data-change-to-section');
+	        changeToId = $(this).data('change-to-id');
+		    changeTo(changeToId, changeToSection);
+		});
+		$('[name="datetype"]:checked').trigger('change');
+
+		//var dates = <?php echo json_encode($location_class_meta);?>;
+
+		$("#datepicker").multiDatesPicker({
+			onSelect: function(dateText,inst){
+				var dates = $("#datepicker").multiDatesPicker('getDates');
+				$('[name="date"]').val(dates.join(','));
+				console.log(dates);
+			}
+
+			<?php 
+			;
+			
+			if(is_array($dates) && count($dates)>0) { ?>
+			,addDates: <?php echo json_encode($date);?>
+			<?php } ?>
+		});
+		$(".datepicker").datepicker({maxPicks: 1});
+		$(".datepicker_noyear").datepicker({maxPicks: 1});
+
+		/*jQuery('.datepicker').datetimepicker({
+			timepicker:false,
+			format:'m/d/Y'
+		});
+		jQuery('.datepicker_noyear').datetimepicker({
+			timepicker:false,
+			format:'m/d/Y'
+		});*/
 	});
-	jQuery('.datepicker').datetimepicker({
-		  timepicker:false,
-  		  format:'m/d/Y'
-	});
-	jQuery('.datepicker_noyear').datetimepicker({
-		  timepicker:false,
-  		  format:'m/d/Y'
-	});
-});
+})(jQuery);
 
 jQuery(document).on('change', '#class-registration-options', function () {
 	var $self = jQuery(this),

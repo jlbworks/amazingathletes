@@ -153,20 +153,36 @@ var am2 = window.am2 || {};
 		},
 
 		datepicker: function () {
+			var $pikaday;
 
 			// DATEPICKER DEFAULT
 			$("body").on("focus",'[data-js="datepicker"]',function(){
-				$(this).pikaday();	
+				$pikaday = $(this).pikaday();	
 			});
 
 			// DATEPICKER DEFAULT
 			$("body").on("focus",'[data-js="datepicker-format"]',function(){
-				$(this).pikaday({
+
+				console.log(class_dates[0], class_dates[class_dates.length-1]);
+				console.log(moment(class_dates[0], 'MM/DD/YYYY').toDate());
+				console.log(moment(class_dates[class_dates.length-1], 'MM/DD/YYYY').toDate());
+
+				var available_dates = class_dates.map(function(str){
+					return moment(str,'MM/DD/YYYY').toDate();
+				});
+
+				if($pikaday){
+					$pikaday.pikaday('destroy');					
+				}
+
+				$pikaday = $(this).pikaday({
 					position: 'bottom left',
 					firstDay: 1,
-					maxDate: new Date(),
+					/*minDate: moment(class_dates[0], 'MM/DD/YYYY').toDate(),
+					maxDate: moment(class_dates[class_dates.length-1], 'MM/DD/YYYY').toDate(),*/
+					availableDates: available_dates,
 					yearRange: [1997, 2035],
-					format: "DD/MM/YYYY"
+					format: "MM/DD/YYYY"
 				});
 			});
 

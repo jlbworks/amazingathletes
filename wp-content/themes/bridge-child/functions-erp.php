@@ -1473,10 +1473,40 @@ function am2_insert_customer( ) {
         if (empty($meta_data[$field])) {
             delete_post_meta($post_id, $field);
         } else {
-           update_post_meta($post_id, $field, $meta_data[$field]);
+            update_post_meta($post_id, $field, $meta_data[$field]);
+        }
+    }   
+}
+
+add_action('wp_ajax_get_class_dates', 'erp_get_class_dates');
+function erp_get_class_dates(){    
+
+    $class_id = $_REQUEST['class_id'];
+    $class = get_post($class_id);
+
+    $dates = array();
+
+    if($class->datetype == 'dates'){
+        $dates = get_post_meta($class_id, 'date', false);
+    }
+    else if($class->datetype == 'session'){
+        $occurrences = am2_get_occurrences($class);
+
+        foreach ($occurrences as $o) {
+            $dates[] = $o->format('m/d/Y');
         }
     }
-    
+    else if($class->datetype == 'recurring') {
+        $occurrences = am2_get_occurrences($class);
+
+        foreach ($occurrences as $o) {
+            $dates[] = $o->format('m/d/Y');
+        }
+    }    
+
+    header('Content-Type: application/json');
+    echo json_encode($dates);   
+    exit();
 }
 
 ?>

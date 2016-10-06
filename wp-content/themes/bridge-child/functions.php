@@ -45,8 +45,13 @@ function wp_schools_enqueue_scripts() {
 	//wp_register_script( 'jquery-migrate', 'https://code.jquery.com/jquery-migrate-1.3.0.js', array('jquery'));
 	//wp_enqueue_script( 'jquery-migrate');
 
-	wp_register_script('fancybox', get_stylesheet_directory_uri() . '/js/fancybox/jquery.fancybox.pack.js');
-	wp_enqueue_script('fancybox');
+	wp_register_style('fancybox', get_stylesheet_directory_uri() . '/js/fancybox/jquery.fancybox.css');
+	wp_enqueue_style('fancybox');
+
+	wp_register_style('jquery-ui.structure', get_stylesheet_directory_uri() . '/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css');
+	wp_enqueue_style('jquery-ui.structure');
+	wp_register_style('jquery-ui.css', get_stylesheet_directory_uri() . '/js/jquery-ui-1.12.1.custom/jquery-ui.css');
+	wp_enqueue_style('jquery-ui.css');
 
 	wp_register_style('childstyle', get_stylesheet_directory_uri() . '/style.css');
 	wp_enqueue_style('childstyle');
@@ -57,8 +62,7 @@ function wp_schools_enqueue_scripts() {
 	//wp_register_script('jquery', get_stylesheet_directory_uri() . '/js/jquery-1.12.3.min.js');
 	//wp_enqueue_script('jquery');
 
-	wp_register_script('jquery.validate', get_stylesheet_directory_uri() . '/js/jquery.validation/jquery.validate.min.js');
-	wp_enqueue_script('jquery.validate');
+	
 
 }
 add_action('wp_enqueue_scripts', 'wp_schools_enqueue_scripts', 11);
@@ -68,8 +72,17 @@ function am2_init() {
 
 	wp_enqueue_script( 'wp-util' );
 
-	wp_register_style('fancybox', get_stylesheet_directory_uri() . '/js/fancybox/jquery.fancybox.css');
-	wp_enqueue_style('fancybox');	
+	wp_register_script('jquery-ui', get_stylesheet_directory_uri() . '/js/jquery-ui-1.12.1.custom/jquery-ui.min.js');
+	wp_enqueue_script('jquery-ui');
+
+	wp_register_script('jquery-ui.multidatespicker', get_stylesheet_directory_uri() . '/js/jquery-ui.multidatespicker.js');
+	wp_enqueue_script('jquery-ui.multidatespicker');	
+
+	wp_register_script('jquery.validate', get_stylesheet_directory_uri() . '/js/jquery.validation/jquery.validate.min.js');
+	wp_enqueue_script('jquery.validate');
+
+	wp_register_script('fancybox', get_stylesheet_directory_uri() . '/js/fancybox/jquery.fancybox.pack.js');
+	wp_enqueue_script('fancybox');
 	
 	wp_register_style('selectize', get_stylesheet_directory_uri() . '/js/selectize/selectize.css');
 	wp_enqueue_style('selectize');
@@ -152,5 +165,54 @@ function am2_add_preloader(){?>
 
 add_action('wp_footer', function(){
 	echo '<!-- page_template: ' . basename( get_page_template() ) . ' -->'; 
-})
+});
+
+function am2_get_occurrences($_class) {
+	require_once('includes/When/Valid.php');
+    require_once('includes/When/When.php');
+
+    $r = new When\When();
+
+	if($_class->datetype == 'recurring'){
+		if (date('l') == $_class->day) {
+			$r->startDate(new DateTime(date('Y-m-d')));
+		} else {
+			$r->startDate(new DateTime(date('Y-m-d', strtotime("next {$_class->day}"))));
+		}
+
+		$r->count(365);
+
+		if ('Weekly' === $_class->schedule_type) {
+			$r->byday(substr($_class->day, 0, 2));
+			$r->freq('weekly');
+		}
+
+		if ('Monthly' == $_class->schedule_type) {
+			$r->startDate(new DateTime(date('Y-m-d', strtotime("{$_class->monthly_every} {$_class->day} of this month"))));        
+			$r->count(365);
+			$r->freq('monthly');
+			$r->byday(substr($_class->day, 0, 2));      
+			//$r->bymonthday(1);
+		}
+
+		if ('Yearly' == $_class->schedule_type) {
+			$this_year = date('Y');
+			$r->startDate(new DateTime(date("{$this_year}-m-d", strtotime("{$_class->date_every_year}"))));
+			//$r->bymonthday(date('d', strtotime("{$_class->day}")));
+			$r->count(10);
+			$r->freq('yearly');
+		}
+	}    
+	else {
+		$r->startDate(new DateTime(date('Y-m-d', strtotime("{$_class->date_start}"))));
+		$r->until(new DateTime(date('Y-m-d', strtotime("{$_class->date_end}"))));
+		$r->freq('daily');
+	}
+
+    $r->generateOccurrences();
+
+    $occurences = $r->occurrences;    
+
+    return  $occurences;
+}
 ?>

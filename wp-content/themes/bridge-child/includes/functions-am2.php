@@ -62,10 +62,10 @@ function get_class_date($c, $only_start_date = false) {
 	else 
 		$day = am2_get_meta_value('day',         $classes_meta);
 
-	if (in_array($c->type, array('Camp','Demo'))) {
+	if (in_array($c->datetype, array('dates'))) {
 		if($only_start_date){
 			$day = am2_get_meta_value('date', $classes_meta);
-			$day = date('Y-m-d', strtotime($day));
+			$day = date('m/d/Y', strtotime($day));
 		}
 		else 
 			$day = am2_get_meta_value('date', $classes_meta);
@@ -76,18 +76,18 @@ function get_class_date($c, $only_start_date = false) {
 		$day = new DateTime(date("{$this_year}-m-d", strtotime("{$c->date_every_year}")));
 
 		if($only_start_date){
-			$day = $day->format('Y-m-d');
+			$day = $day->format('m/d/Y');
 		}
 		else
 			$day = $day->format('m/d/Y');
 	}
 
-	if ('Session' == $c->type) {
+	if ('session' == $c->datetype) {
 		$date_start = am2_get_meta_value('date_start',     $classes_meta);
 		$date_end    = am2_get_meta_value('date_end',     $classes_meta);
 
 		if($only_start_date){
-			$day = date('Y-m-d', strtotime("{$date_start}"));
+			$day = date('m/d/Y', strtotime("{$date_start}"));
 		}
 		else 
 			$day = "{$date_start} - {$date_end}";

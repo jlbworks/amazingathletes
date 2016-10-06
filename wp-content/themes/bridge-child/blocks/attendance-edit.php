@@ -204,6 +204,7 @@ $franchises = get_users( $franchise_args );
 
 set_title('Bolnica');
 
+var class_dates;
 
 $(document).ready(function () {
 
@@ -307,6 +308,14 @@ $(document).ready(function () {
     $('#attendance_class_id').select2({
         placeholder: 'Select a location first',
         width: '100%'
+    }).on('change',function(){
+        $('[data-js="datepicker-format"]').prop('disabled',true);
+        $.get('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=get_class_dates', {class_id:$('#attendance_class_id').val()},function(resp){
+            class_dates = resp;
+            console.log(class_dates);
+            $('[data-js="datepicker-format"]').prop('disabled',false);
+        })
+        //var class_dates = <?php //echo json_encode();?>;
     });
 });
 </script>
