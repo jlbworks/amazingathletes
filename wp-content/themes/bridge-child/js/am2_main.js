@@ -458,7 +458,7 @@ var classes_with_special_title = ['Contract','Camp'];
             $('.dynamic-locaion-content').html(
                 '<form id="frmFilterMap">' +
                     '<input type="text" name="franchise_name" id="txtFranchiseName" placeholder="franchise name" />'+
-                    '<input type="text" name="zip_code" id="txtZipCode" placeholder="zip code" />'+
+                    '<input type="text" name="zip_code" id="txtZipCode" placeholder="enter zip code" />'+
                     '<input type="hidden" name="state" id="hidState" />'+
                     '<input type="hidden" name="action" id="hidAction" value="am2_filter_locations" />'+
                     '<input type="submit" value="filter" />'+
