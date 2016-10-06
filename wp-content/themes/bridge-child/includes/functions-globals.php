@@ -17,7 +17,7 @@ global $mypages;
 $mypages = array(
 	'Home' => '',
 	'About' => 'about',
-	'Program options' => 'programs',
+	'Programs' => 'programs',
 	'Classes' => array(
 		'menu' => 'locations',
 		'submenu'=> array(
