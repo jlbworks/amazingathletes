@@ -9840,3 +9840,7 @@ body.stop-scrolling {
     transform: rotate(360deg);
   }
 }
+
+#filter select {
+    width:20%;
+}

@@ -51,55 +51,74 @@ $args['meta_query'] = $meta_query;
 
 $roster = get_posts($args);
 
-$args = array(
-    'role' => 'franchisee'         
-);
 if(is_role('franchisee')){
+    $args = array(
+        'role' => 'franchisee'         
+    );
     $args['include'] = get_current_user_id();
-}
-$franchises = get_users($args);
 
-$args = array(
-    'post_type' => 'location',
-    'post_status' => 'publish',
-    'posts_per_page' => -1,
-);
-if(is_role('franchisee')){
-    $args['author']  =  get_current_user_id();
-}
-$locations = get_posts($args);
-$location_ids = array_map(function($loc){
-    return $loc->ID;
-}, $locations);
+    $franchises = get_users($args);
 
-$classes = get_posts(
-    array(
-        'post_type' => 'location_class',
+    $args = array(
+        'post_type' => 'location',
         'post_status' => 'publish',
         'posts_per_page' => -1,
-        'meta_query' => array(
-            array( 'key' => 'location_id', 'value' => $location_ids, 'compare' => 'IN'),
-        )
-    )        
-);
-$class_ids = array_map(function($class){
-    return $class->ID;
-}, $classes);
+    );
 
-$coach_ids = array();
-foreach($classes as $class){
-    if(is_array($class->coaches)){
-        foreach($class->coaches as $coach){
-            $coach_ids[] = $coach;
+    $args['author']  =  get_current_user_id();
+
+    $locations = get_posts($args);
+    $location_ids = array_map(function($loc){
+        return $loc->ID;
+    }, $locations);
+
+    $classes = get_posts(
+        array(
+            'post_type' => 'location_class',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'meta_query' => array(
+                array( 'key' => 'location_id', 'value' => $location_ids, 'compare' => 'IN'),
+            )
+        )        
+    );
+    $class_ids = array_map(function($class){
+        return $class->ID;
+    }, $classes);
+
+    $coach_ids = array();
+    foreach($classes as $class){
+        if(is_array($class->coaches)){
+            foreach($class->coaches as $coach){
+                $coach_ids[] = $coach;
+            }
         }
     }
+
+    $coaches = get_users(
+        array(
+            'role' => 'coach',        
+        )                
+    );
 }
 
-$coaches = get_users(
-    array(
-        'role' => 'coach',        
-    )                
-);
+if(is_role('coach')){
+    $classes = get_posts(
+        array(
+            'post_type' => 'location_class',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'meta_query' => array(
+                array('key' => 'coaches', 'value' => '"' .  get_current_user_id() . '"', 'compare' => 'LIKE' ),
+            )
+        )
+    );
+    $class_ids = array_map(function($class){
+        return $class->ID;
+    }, $classes);
+}
+
+
 ?>
 
     <!-- CONTENT HEADER -->
@@ -117,18 +136,20 @@ $coaches = get_users(
         <div class="container clearfix">
             <div class="col-1 break-big" id="filter">
                 Filter by: 
+                <?php if(is_role('administrator')||is_role('franchisee')){?>
                 <select id="f_franchise_id" name="f_franchise_id" >
                     <option value="">Choose Franchise</option>
                     <?php foreach($franchises as $franchise){  ?>
                     <option value="<?php echo $franchise->ID;?>" <?php if($hash_query['f_franchise_id'] == $franchise->ID) echo "selected";?>><?php echo $franchise->franchise_name;?></option>
                     <?php } ?>
-                </select>
+                </select>                
                 <select id="f_location_id" name="f_location_id" >
                     <option value="">Choose Location</option>
                     <?php foreach($locations as $location){ if(!in_array($location->ID, $location_ids)) continue; ?>
                     <option value="<?php echo $location->ID;?>" <?php if($hash_query['f_location_id'] == $location->ID) echo "selected";?>><?php echo $location->post_title;?></option>
                     <?php } ?>
                 </select>
+                
                 <select id="f_class_id" name="f_class_id" >
                     <option value="">Choose Class</option>
                     <?php foreach($classes as $class){ if(!in_array($class->ID, $class_ids)) continue;?>
@@ -141,6 +162,16 @@ $coaches = get_users(
                     <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach->display_name;?></option>
                     <?php } ?>
                 </select>
+                <?php }                
+                
+                else if(is_role('coach')){?>                
+                <select id="f_class_id" name="f_class_id" >
+                    <option value="">Choose Class</option>
+                    <?php foreach($classes as $class){ if(!in_array($class->ID, $class_ids)) continue;?>
+                    <option value="<?php echo $class->ID;?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title;?></option>
+                    <?php } ?>
+                </select>
+                <?php } ?>
             </div>
             <br/>
             <br/>
