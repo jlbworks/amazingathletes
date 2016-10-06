@@ -578,7 +578,10 @@ var classes_with_special_title = ['Contract','Camp'];
                                 var $li_child = $('<li class="franchise" id="franchise_'+v2.meta_franchisee.franchise_slug+'"></li>');
                                 $li_child.append(
                                     '<div class="franchise_left">'+
-                                        '<img src="' + v2.meta_franchisee.franchise_photo + '"/>'+
+                                        (v2.meta_franchisee.franchise_photo ? 
+                                        '<img src="' + v2.meta_franchisee.franchise_photo + '"/>' :
+                                        '<img src="' + ajax_login_object.theme_url  + '/images/no-image.jpg"/>' )                                        
+                                        +
                                     '</div>'+
                                     '<div class="franchise_right">' +
                                         '<h3 class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></h3>' +
