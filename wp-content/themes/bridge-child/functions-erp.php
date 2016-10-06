@@ -120,6 +120,37 @@ function my_custom4_init() {
     );
     register_post_type('attendance', $args);
 
+    // Registruj Pacijent CPT
+    $labels = array(
+        'name' => _x('Roster', 'post type general name'),
+        'singular_name' => _x('Roster', 'post type singular name'),
+        'add_new' => _x('Add new', 'Roster'),
+        'add_new_item' => __('Add new Roster'),
+        'edit_item' => __('Edit Roster'),
+        'new_item' => __('New Roster'),
+        'view_item' => __('View Roster'),
+        'search_items' => __('Search Roster'),
+        'not_found' => __('Not found'),
+        'not_found_in_trash' => __('Not found in trash'),
+        'parent_item_colon' => ''
+    );
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'has_archive' => false,
+        //'rewrite' => true,
+        'rewrite' => array('slug' => 'roster'),
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'menu_position' => null,
+        'supports' => array('title', 'author', 'editor', 'custom-fields'),
+        'taxonomies' => array()
+    );
+    register_post_type('roster', $args);
+
 }
 
 function get_ajax_url($action = '', $target_page = '') {
@@ -583,9 +614,71 @@ function submit_data() {
         exit(json_encode(array('success' => true, 'message' => "Coach Invoice Edited successfully")));
     }
 
+    /**
+      Add/Edit roster
+     */
+    if ($_POST['form_handler'] == 'roster') {
+        $id = sanitize_text_field( $_POST['id'] );
+        $franchise_id = sanitize_text_field( $_POST['roster_franchise_id'] );
+        $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['roster_customer_id'] ), 'childs_first_name', true );
+        $class = get_post( sanitize_text_field( $_POST['roster_class_id'] ) );
+        $title = $customer_childs_name . ' ' . $class->post_title;
+        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+
+        $post_data = array(
+            'ID' => $id,
+            'post_type' => 'roster',
+            'post_title' => $title,
+            'post_name' => sanitize_title_with_dashes( $title ),
+            'post_status' => 'publish',
+            'post_author' => $author,
+        );
+
+        $meta_data = array();
+        $meta_fields = array(
+            'roster_class_id', 'roster_customer_id',
+            'roster_location_id', 'roster_coach_id'
+        );
+        foreach ( $meta_fields as $field ) {
+            $meta_data[$field] = sanitize_text_field($_POST[$field]);
+        }
+
+
+        $created = false;
+        // update
+        if ( $id > 0 ) {
+            $post_id = $id;
+            wp_update_post($post_data);
+
+            // insert
+        } else {
+            $post_id = wp_insert_post($post_data);
+            $created = true;
+        }
+
+        // meta
+        foreach ( $meta_fields as $field ) {
+            if  (empty( $meta_data[$field] ) ) {
+                delete_post_meta( $post_id, $field );
+            } else {
+                update_post_meta( $post_id, $field, $meta_data[$field] );
+            }
+        }
+
+        if( current_user_can( 'administrator' ) ) {
+            $franchise_id = $_POST['roster_franchise_id'];
+        }
+        else {
+            $franchise_id = $current_user->ID;
+        }
+
+        update_post_meta( $post_id, 'roster_franchise_id', $franchise_id );
+
+        exit(json_encode(array('success' => true, 'message' => "Roster saved successfully")));
+    }
 
     /**
-     * Add/Edit attendance
+      Add/Edit attendance
      */
     if ($_POST['form_handler'] == 'attendance') {
         $id = sanitize_text_field( $_POST['id'] );
@@ -645,6 +738,25 @@ function submit_data() {
         update_post_meta( $post_id, 'attendance_franchise_id', $franchise_id );
 
         exit(json_encode(array('success' => true, 'message' => "Attendance saved successfully")));
+    }
+
+    /**
+     * Return list of coaches for class
+     */
+    if ($_POST['form_handler'] == 'get_coaches') {
+        $class_id = sanitize_text_field( $_POST['class_id'] );
+        /*if( !current_user_can( 'edit_post', $location_id ) ) {
+            exit( json_encode( array( 'success' => false, 'message' => "Unauthorized action." ) ) );
+        }*/
+
+        $coaches = get_post_meta($class_id, 'coaches', true);
+
+        $coaches = array_map(function($_coach){
+            $coach = array( 'id' => $_coach, 'text' => get_user_by('id', $_coach)->display_name);            
+            return $coach;
+        },$coaches);
+
+        exit(json_encode( $coaches ) );
     }
 
     /**

@@ -26,8 +26,11 @@
             <li>
                 <a href="#attendance"><i class="fa fa-users" aria-hidden="true"></i> <span>Attendance</span> </a>
             </li>
-            <?php } ?>
-            <?php if( is_role('administrator') ||  is_role('franchisee') ||  is_role('coach') ){ ?>
+            <?php } if( is_role('administrator') ||  is_role('franchisee') || is_role('coach') ){ ?>
+            <li>
+                <a href="#roster"><i class="fa fa-users" aria-hidden="true"></i> <span>Roster</span> </a>
+            </li>
+            <?php } if( is_role('administrator') ||  is_role('franchisee') ||  is_role('coach') ){ ?>
             <li>
                 <a href="#coach-invoices"><i class="fa fa-users" aria-hidden="true"></i> <span>Coach Invoices</span> </a>
             </li>

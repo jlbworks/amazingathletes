@@ -23008,7 +23008,7 @@ return jQuery;
                                  (opts.maxDate && day > opts.maxDate) ||
                                  (opts.disableWeekends && isWeekend(day)) ||
                                  (opts.disableDayFn && opts.disableDayFn(day)) ||
-                                 ( opts.availableDates.map(Number).indexOf(+day) == -1 );								 
+                                 ( opts.availableDates && opts.availableDates.map(Number).indexOf(+day) == -1 );								 
 								 ;
 
                 if (isEmpty) {

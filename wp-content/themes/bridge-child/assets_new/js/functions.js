@@ -163,27 +163,37 @@ var am2 = window.am2 || {};
 			// DATEPICKER DEFAULT
 			$("body").on("focus",'[data-js="datepicker-format"]',function(){
 
-				console.log(class_dates[0], class_dates[class_dates.length-1]);
-				console.log(moment(class_dates[0], 'MM/DD/YYYY').toDate());
-				console.log(moment(class_dates[class_dates.length-1], 'MM/DD/YYYY').toDate());
+				console.log(typeof(class_dates), typeof(class_dates) !='undefined');
 
-				var available_dates = class_dates.map(function(str){
-					return moment(str,'MM/DD/YYYY').toDate();
-				});
+				if( typeof(class_dates) !='undefined' ){
+					var available_dates = class_dates.map(function(str){
+						return moment(str,'MM/DD/YYYY').toDate();
+					});
+
+					var pik_settings = {
+						position: 'bottom left',
+						firstDay: 1,
+						/*minDate: moment(class_dates[0], 'MM/DD/YYYY').toDate(),
+						maxDate: moment(class_dates[class_dates.length-1], 'MM/DD/YYYY').toDate(),*/
+						availableDates: available_dates,
+						yearRange: [1997, 2035],
+						format: "MM/DD/YYYY"
+					}
+				}
+				else {
+					var pik_settings = {
+						position: 'bottom left',
+						firstDay: 1,
+						yearRange: [1997, 2035],
+						format: "MM/DD/YYYY"
+					}
+				}				
 
 				if($pikaday){
 					$pikaday.pikaday('destroy');					
 				}
 
-				$pikaday = $(this).pikaday({
-					position: 'bottom left',
-					firstDay: 1,
-					/*minDate: moment(class_dates[0], 'MM/DD/YYYY').toDate(),
-					maxDate: moment(class_dates[class_dates.length-1], 'MM/DD/YYYY').toDate(),*/
-					availableDates: available_dates,
-					yearRange: [1997, 2035],
-					format: "MM/DD/YYYY"
-				});
+				$pikaday = $(this).pikaday();
 			});
 
 			$('[data-js="clockpicker"]').clockpicker({
