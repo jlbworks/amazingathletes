@@ -144,8 +144,9 @@ get_header();?>
 			$programs = get_field('programs_description', 'option'); 
 
 			/*******locations of this franchisee********/
-			if($mypage == 'locations'){ 
-				if(!empty(trim($page_content[$mypage]))){
+			if($mypage == 'locations'){
+				$content = trim($page_content[$mypage]); 
+				if(!empty($content)){
 					echo apply_filters( 'the_content', $page_content[$mypage] );
 				}
 				//else {
@@ -154,7 +155,8 @@ get_header();?>
 			}			
 
 			else if($mypage == 'programs'){
-				if(!empty(trim($page_content[$mypage]))){
+				$content = trim($page_content[$mypage]); 
+				if(!empty($content)){
 					echo apply_filters( 'the_content', $page_content[$mypage] );
 				}
 				//else {
@@ -206,7 +208,8 @@ get_header();?>
 
 			else if($mypage == 'staff'){
 
-				if(!empty(trim($page_content[$mypage]))){
+				$content = trim($page_content[$mypage]); 
+				if(!empty($content)){
 					echo apply_filters( 'the_content', $page_content[$mypage] );
 				}
 				//else {
