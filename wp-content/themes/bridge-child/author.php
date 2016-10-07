@@ -145,32 +145,41 @@ get_header();?>
 
 			/*******locations of this franchisee********/
 			if($mypage == 'locations'){ 
-				
-				include(locate_template( 'includes/archives/franchisee-locations.php' ));
+				if(!empty(trim($page_content[$mypage]))){
+					echo apply_filters( 'the_content', $page_content[$mypage] );
+				}
+				//else {
+					include(locate_template( 'includes/archives/franchisee-locations.php' ));
+				//}
 			}			
 
 			else if($mypage == 'programs'){
-				$_classes = get_posts(
-					array(
-						'post_type' => 'location_class',
-						'posts_per_page' => -1,
-						'post_status' => 'publish',
-						'author' => $curauth->ID,
-					)
-				);	
-
-				$classes = array();
-				foreach($_classes as $_class){
-					$classes[$_class->program] = $_class->program;
-				}			
-					
-				foreach($programs as $program){
-					foreach($classes as $class){
-						if($program['program'] == $class){
-							echo $program['description'];
-						}
-					}										
+				if(!empty(trim($page_content[$mypage]))){
+					echo apply_filters( 'the_content', $page_content[$mypage] );
 				}
+				//else {
+					$_classes = get_posts(
+						array(
+							'post_type' => 'location_class',
+							'posts_per_page' => -1,
+							'post_status' => 'publish',
+							'author' => $curauth->ID,
+						)
+					);	
+
+					$classes = array();
+					foreach($_classes as $_class){
+						$classes[$_class->program] = $_class->program;
+					}			
+						
+					foreach($programs as $program){
+						foreach($classes as $class){
+							if($program['program'] == $class){
+								echo $program['description'];
+							}
+						}										
+					}
+				//}
 			}
 
 			else if($mypage == 'event-form'){								
@@ -197,26 +206,31 @@ get_header();?>
 
 			else if($mypage == 'staff'){
 
-				$staff = get_users(
-					array(
-						'role' => 'coach',
-						'meta_key' => 'franchisee',		
-						'meta_value' => $curauth->ID,
-					)
-				);				
-
-				foreach($staff as $member){
-					$user_photo = get_field('user_photo', 'user_' . $member->ID);	
-								
-					echo "<div class=\"entry-content clearfix\">";
-					echo "<h2>{$member->first_name} {$member->last_name}</h2>";
-					if($user_photo!=null){
-						$image_url = wp_get_attachment_image_src($user_photo, 'medium');
-						echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:left;padding:0px 10px 10px 0px;"/>';	
-					}					
-					echo $member->coach_description;
-					echo "</div>";
+				if(!empty(trim($page_content[$mypage]))){
+					echo apply_filters( 'the_content', $page_content[$mypage] );
 				}
+				//else {
+					$staff = get_users(
+						array(
+							'role' => 'coach',
+							'meta_key' => 'franchisee',		
+							'meta_value' => $curauth->ID,
+						)
+					);				
+
+					foreach($staff as $member){
+						$user_photo = get_field('user_photo', 'user_' . $member->ID);	
+									
+						echo "<div class=\"entry-content clearfix\">";
+						echo "<h2>{$member->first_name} {$member->last_name}</h2>";
+						if($user_photo!=null){
+							$image_url = wp_get_attachment_image_src($user_photo, 'medium');
+							echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:left;padding:0px 10px 10px 0px;"/>';	
+						}					
+						echo $member->coach_description;
+						echo "</div>";
+					}
+				//}
 			}
 
 			else if(in_array($mypage, $mypages_multi) ){

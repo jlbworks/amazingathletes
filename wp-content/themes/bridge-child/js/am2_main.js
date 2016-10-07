@@ -492,7 +492,7 @@ var classes_with_special_title = ['Contract','Camp'];
                     am2_hide_preloader();
                     console.log(resp);
 
-                    var init = Object.keys( resp) .length > 0 ? '' : 'There are no results for your query in '+ state_name;
+                    var init = Object.keys( resp) .length > 0 ? '' : (state_name ? 'There are no locations for your query in '+ state_name : 'No locations in this area' );
 
                     $('.dynamic-locaion-content .list .state').html(init);
 
