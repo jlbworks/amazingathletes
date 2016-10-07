@@ -101,12 +101,12 @@ $class_payment_informations = array(
 );
 
 $mypages_images = array(
-site_url(). "/wp-content/uploads/2016/03/my-account-volleyball-icon.png",
-site_url(). "/wp-content/uploads/2016/03/my-locations-soccerball-icon.png",
-site_url(). "/wp-content/uploads/2016/03/logout-baseball-icon.png",
-site_url(). "/wp-content/uploads/2016/03/my-pages-football-icon.png",
-site_url(). "/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png",
-site_url(). "/wp-content/uploads/2016/03/rescources-golf-icon.png",
+	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/my-account-volleyball-icon.png" , 'mouseover'=> site_url(). "/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png"),
+	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" ,'mouseover'=>  site_url(). "/wp-content/uploads/2016/03/active-my-locations-soccerball-icon.png"),
+	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/logout-baseball-icon.png" ,'mouseover'=>  site_url(). "/wp-content/uploads/2016/03/active-logout-baseball-icon.png"),
+	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/my-pages-football-icon.png" ,'mouseover'=>  site_url(). "/wp-content/uploads/2016/03/active-my-pages-football-icon.png"),
+	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" ,'mouseover'=>  site_url(). "/wp-content/uploads/2016/03/active-sports-store-hockey-puck-icon.png"),
+	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/rescources-golf-icon.png" ,'mouseover'=>  site_url(). "/wp-content/uploads/2016/03/active-rescources-golf-icon.png"),
 /*site_url(). "/wp-content/uploads/2016/03/my-account-volleyball-icon.png",
 site_url(). "/wp-content/uploads/2016/03/my-locations-soccerball-icon.png",
 site_url(). "/wp-content/uploads/2016/03/logout-baseball-icon.png",

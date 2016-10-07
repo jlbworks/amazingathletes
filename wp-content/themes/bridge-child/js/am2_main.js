@@ -41,6 +41,22 @@ var classes_with_special_title = ['Contract','Camp'];
             });
         }
 
+        $('.sidebar-link').on('mouseover',function(e){
+            var $img = $(this).find('img');                     
+            $img.attr('src', $img.data('mouseover'));
+        });
+
+        $('.sidebar-link:not(.current)').on('mouseout',function(e){
+            var $img = $(this).find('img');                        
+            $img.attr('src', $img.data('mouseout'));
+        });
+
+        $('.sidebar-link.current img').each(function(){
+           $(this).attr('src', $(this).data('mouseover'));
+        });
+
+        $('.sidebar-link.current').closest('.side-nav').find('.side-nav.sub').show();
+
         try{
             var myId = getVideoId(author_object.video_url);
             console.log(myId);

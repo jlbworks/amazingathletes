@@ -6,7 +6,9 @@
     <div style="/*padding-top: 40px;*/" class="side-nav">
         <a href="<?php echo site_url();?>/my-account/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png"  width="30px" class="spt-icons" id="golf2" 
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-rescources-golf-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png">
             </span>
             <span class="sidebar-nav">
             <h2>DASHBOARD</h2>
@@ -17,7 +19,9 @@
     <div style="/*padding-top: 40px;*/" class="side-nav">
         <a href="<?php echo site_url();?>/my-account/profile/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png" width="30px" class="spt-icons" id="vball2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png" width="30px" class="spt-icons" id="vball2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/my-account-volleyball-icon.png">
             </span>
             <span class="sidebar-nav">
             <h2>PROFILE</h2>
@@ -27,7 +31,9 @@
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-calendar/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" width="30px" class="spt-icons" id="sball2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-my-locations-soccerball-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/my-locations-soccerball-icon.png">
             </span>
             <span class="sidebar-nav">
                 <h2>MY CALENDAR</h2>
@@ -37,7 +43,9 @@
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/locations/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-logout-baseball-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png">
             </span>
             <span class="sidebar-nav">
                 <h2>MY LOCATIONS</h2>
@@ -47,7 +55,9 @@
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-pages/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-my-pages-football-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png">
             </span>
             <span class="sidebar-nav">
                 <h2>MY WEBPAGE</h2>
@@ -57,7 +67,9 @@
     <div class="side-nav">
         <a href="<?php echo site_url();?>/resources/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png" width="30px" class="spt-icons" id="hockey2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-sports-store-hockey-puck-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png">
             </span>
             <span class="sidebar-nav">
                 <h2>RESOURCES</h2>
@@ -67,7 +79,9 @@
     <div class="side-nav">
         <a href="http://amazingathletes.jlbdev.net/pro-shop/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-rescources-golf-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png">
             </span>
             <span class="sidebar-nav">
                 <h2>ORDERING</h2>
@@ -77,7 +91,9 @@
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-staff/" class="sidebar-link">
             <span>
-                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-logout-baseball-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png">
             </span>
             <span class="sidebar-nav">
                 <h2>MY STAFF</h2>
@@ -88,7 +104,9 @@
 
     <div class="side-nav"><a href="<?php $logout_url = site_url(); echo wp_logout_url($logout_url); ?>" class="sidebar-link">
                          <span>
-                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2">
+                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2"
+                              data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-my-pages-football-icon.png"
+                                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png">
                          </span>
                          <span class="sidebar-nav">
                              <h2>LOGOUT</h2>

@@ -53,7 +53,10 @@ get_header();?>
 		<div class="side-nav">			
 			<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val_parent;?>" class="sidebar-link">
              <span>
-                 <img src="<?php echo $mypages_images[$i];?>" width="30px" class="spt-icons" >
+                 <img src="<?php echo $mypages_images[$i]['mouseout'];?>" width="30px" class="spt-icons" 
+				 data-mouseover="<?php echo $mypages_images[$i]['mouseover'];?>"
+				data-mouseout="<?php echo $mypages_images[$i]['mouseout'];?>"  
+				 >
              </span>
              <span class="sidebar-nav">
                  <h2><?php echo $key;?></h2>
@@ -61,10 +64,12 @@ get_header();?>
 
 			 <!-- submenu -->
 			<?php foreach($val['submenu'] as $key2 => $val2){?>
-				<div class="side-nav sub">					
+				<div class="side-nav sub" style="display:none;">					
 					<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val2;?>" class="sidebar-link">
 					<span>
-						<img src="<?php echo $mypages_images[$i];?>" width="30px" class="spt-icons" >
+						<img src="<?php echo $mypages_images[$i]['mouseout'];?>" width="30px" class="spt-icons"
+						data-mouseover="<?php echo $mypages_images[$i]['mouseover'];?>"
+						data-mouseout="<?php echo $mypages_images[$i]['mouseout'];?>"  >
 					</span>
 					<span class="sidebar-nav">
 						<h2><?php echo $key2;?></h2>
@@ -84,7 +89,10 @@ get_header();?>
 			<?php /*<a href="<?php echo site_url();?>/franchisee/<?php echo $author_name;?>/<?php echo $val;?>" class="sidebar-link">*/?>
 			<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/<?php echo $val;?>" class="sidebar-link">
              <span>
-                 <img src="<?php echo $mypages_images[$i%count($mypages_images)];?>" width="30px" class="spt-icons" >
+                 <img src="<?php echo $mypages_images[$i%count($mypages_images)]['mouseout'];?>" width="30px" class="spt-icons"
+				 	data-mouseover="<?php echo $mypages_images[$i%count($mypages_images)]['mouseover'];?>"
+					data-mouseout="<?php echo $mypages_images[$i%count($mypages_images)]['mouseout'];?>"
+				  >
              </span>
              <span class="sidebar-nav">
                  <h2><?php echo $key;?></h2>
@@ -223,8 +231,15 @@ get_header();?>
 						'author' => (int)$curauth->ID,
 						//'category' => $ctg_id,
 					));
-					foreach($posts as $post){											
-						echo "<h3><!--<a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">-->".get_the_title($post->ID)."<!--</a>--></h3>";
+					foreach($posts as $post){		
+						
+						if($post->post_type == 'testimonials'){
+							echo "<h3><!--<a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">-->Testimonial<!--</a>--></h3>";
+						}	
+						else {
+							echo "<h3><!--<a href=\"".add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI']) ."\">-->".get_the_title($post->ID)."<!--</a>--></h3>";
+						}								
+						
 						echo apply_filters( 'the_content', $post->post_content );					
 					}
 					echo "</div>";
@@ -245,12 +260,12 @@ get_header();?>
 					<?php if(isset($page_content['about'])) {?>
 						<?php $res = apply_filters( 'wp_trim_excerpt', $page_content['about'] ); echo mb_substr(strip_tags( $res ),0,500); ?>
 					<?php } ?>		
-					<a class="learn_more" href="<?php echo site_url();?>/franchisee/<?php echo $author_name; ?>/about">LEARN MORE</a>
+					<a class="learn_more" href="<?php echo site_url();?>/programs">LEARN MORE</a>
 					<?php am2_user_social($author);?>
 				</div>
 				<ul class="franchise_pages">
 					<li>
-						<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/register"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/register.jpg" /></a>
+						<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/locations"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/register.jpg" /></a>
 					</li>
 					<li>
 						<a href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/programs"><img src="<?php echo get_stylesheet_directory_uri();?>/img/franchisee/programs.jpg" /></a>

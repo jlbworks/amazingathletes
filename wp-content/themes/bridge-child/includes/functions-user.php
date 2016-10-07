@@ -194,6 +194,7 @@ function am2_franchisee_account() {
 		'franchise_youtube' => 'youtube_page',
 		'franchise_twitter' => 'twitter_page',
 		'franchise_pinterest' => 'pinterest_page',
+		'franchise_instagram' => 'instagram_page',
 		'franchise_city_state' => 'city__state',
 		'password' => 'password',
 		'video' => 'video',

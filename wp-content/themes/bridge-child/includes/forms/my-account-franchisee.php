@@ -125,6 +125,15 @@ else {
 			?>
 			<input type="text" name="franchise_pinterest"  style="" value="<?php echo $link; ?>"><br/>
 
+			<label> Instagram Page</label>
+			<?php 
+			$link = get_user_meta($user_id,'instagram_page',true); 
+			if(empty($link)) {
+				$link = 'https://www.instagram.com/amazingathletes/';
+			}
+			?>
+			<input type="text" name="franchise_instagram"  style="" value="<?php echo $link; ?>"><br/>
+
 		</div>
 
 		<label>Individual 1 First Name *</label>

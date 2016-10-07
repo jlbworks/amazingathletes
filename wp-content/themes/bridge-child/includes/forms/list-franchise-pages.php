@@ -106,8 +106,14 @@ else {
 		);
 		$posts = get_posts($args);	
 					
-		foreach($posts as $post){						
-			echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">".get_the_title($post->ID)."</a></h3>";
+		foreach($posts as $post){				
+			if($post->post_type == 'testimonials'){
+				echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">Testimonial</a></h3>";
+			}	
+			else {
+				echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">".get_the_title($post->ID)."</a></h3>";
+			}		
+			
 			echo apply_filters( 'the_excerpt', $post->post_content );
 		}		
 		?>
