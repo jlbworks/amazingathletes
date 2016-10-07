@@ -751,10 +751,15 @@ function submit_data() {
 
         $coaches = get_post_meta($class_id, 'coaches', true);
 
-        $coaches = array_map(function($_coach){
-            $coach = array( 'id' => $_coach, 'text' => get_user_by('id', $_coach)->display_name);            
-            return $coach;
-        },$coaches);
+        if(is_array($coaches)){
+            $coaches = array_map(function($_coach){
+                $coach = array( 'id' => $_coach, 'text' => get_user_by('id', $_coach)->display_name);            
+                return $coach;
+            },$coaches);
+        }        
+        else {
+            $coaches = array();
+        }
 
         exit(json_encode( $coaches ) );
     }
