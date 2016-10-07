@@ -49,7 +49,7 @@ $locations = get_posts(
 				<h3>
 					<?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span>
 				</h3>
-					<span class="edit-btn"><a href="<?php echo get_permalink() . '?loc_id=' . $loc->ID;?>">Edit</a></span>
+					<span class="edit-btn"><a href="<?php echo get_permalink() . '?loc_id=' . $loc->ID;?>">Edit</a></span>					
 					<form data-form="frm_delete_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 						<input type="hidden" name="action" value="am2_delete_location">
 						<input type="hidden" name="loc_id" value="<?php echo $loc->ID; ?>"/>
@@ -61,6 +61,7 @@ $locations = get_posts(
 				<li>
 					<?php /*** when array_filter is called without second parameter it removes empty values from the array ***/?>
 					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array($c->time, get_class_date($c), $c->type)) ); ?></a>
+					<a href="<?php echo site_url() . '/erp/#roster/?f_class_id=' . $c->ID ;  ?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/roster.png" width="40px"/></a>
 				</li>
 				<?php } ?>
 				</ul>
