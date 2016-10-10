@@ -392,3 +392,15 @@ text-align: center;
 	color: white; /* a color that is readeable with the color above */
 }
 
+.roster_link{
+    float: right;
+}
+
+.clear {
+    clear:both;
+}
+
+.franchise .class{
+    border-bottom: 1px solid #ccc;
+    padding:20px;
+}

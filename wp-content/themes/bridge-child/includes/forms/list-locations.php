@@ -58,10 +58,11 @@ $locations = get_posts(
 
 				<ul class="franchise_details_visible">
 				<?php foreach($classes as $c){?>
-				<li>
+				<li class="class">
 					<?php /*** when array_filter is called without second parameter it removes empty values from the array ***/?>
 					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array($c->time, get_class_date($c), $c->type)) ); ?></a>
-					<a href="<?php echo site_url() . '/erp/#roster/?f_class_id=' . $c->ID ;  ?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/roster.png" width="40px"/></a>
+					<a class="roster_link" href="<?php echo site_url() . '/erp/#roster/?f_class_id=' . $c->ID ;  ?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/roster.png" width="40px"/></a>
+					<br class="clear"/>
 				</li>
 				<?php } ?>
 				</ul>
