@@ -474,31 +474,36 @@ function am2_acf_on_user_save( $post_id ) {
         return;
     }
 
-    if(empty($_POST['acf']['field_579b7dbe732ee'])){
-        // specific field value
-        $field = $_POST['acf']['field_570b6ce0220d8'];
-        //$_POST['acf']['field_579b7dbe732ee'] = sanitize_title_with_dashes($field);        
-        //var_dump(
-            //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
+    if(strpos($post_id,'user_') === 0){
+        $franchise_slug = get_field('field_57d193970901e', $post_id);
+
+        if(empty($franchise_slug)){
+        // if(empty($_POST['acf']['field_579b7dbe732ee'])){
+            // specific field value
+            $field = $_POST['acf']['field_570b6ce0220d8'];
             $field = sanitize_title_with_dashes($field);
             update_field('field_57d193970901e', $field, $post_id);
-        //);
-        //update_field('franchise_slug', sanitize_title_with_dashes($field), $post_id);    
+            //$_POST['acf']['field_579b7dbe732ee'] = sanitize_title_with_dashes($field);        
+            //var_dump(
+            //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));            
+            //);
+            //update_field('franchise_slug', sanitize_title_with_dashes($field), $post_id);    
+        }
+        /*else {
+            $field = $_POST['acf']['field_579b7dbe732ee'];
+            $field = sanitize_title_with_dashes($field);
+            update_field('field_57d193970901e', $field, $post_id );
+            //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
+        }*/
+
+        // var_dump($field,$post_id);
+        // exit();
+
+        change_author_permalinks();
+        $wp_rewrite->flush_rules(false);
+
+        // exit(); 
     }
-    else {
-        $field = $_POST['acf']['field_579b7dbe732ee'];
-        $field = sanitize_title_with_dashes($field);
-        update_field('field_57d193970901e', $field, $post_id );
-        //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
-    }
-
-    // var_dump($field,$post_id);
-    // exit();
-
-    change_author_permalinks();
-    $wp_rewrite->flush_rules(false);
-
-    // exit(); 
 }
 
 // run before ACF saves the $_POST['acf'] data
