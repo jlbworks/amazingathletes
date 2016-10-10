@@ -54,17 +54,17 @@ else {
 		<label>Display Number *</label>
 		<input type="text" name="franchise_telephone" required  size="20" value="<?php echo get_user_meta($user_id,'telephone',true); ?>"><br/>
 		
-		<label>Display Name *</label>
-		<input type="text" name="display_name" required  style="" value="<?=get_user_meta($user_id,'display_name',true);?>"><br/>
+		<?php /*<label>Display Name *</label>
+		<input type="text" name="display_name" required  style="" value="<?=get_user_meta($user_id,'display_name',true);?>"><br/>*/ ?>
 
-		<label>Display Title</label>
-		<input type="text" name="display_title"  style="" value="<?=get_user_meta($user_id,'display_title',true);?>"><br/>	
+		<?php /*<label>Display Title</label>
+		<input type="text" name="display_title"  style="" value="<?=get_user_meta($user_id,'display_title',true);?>"><br/>*/ ?>	
 
 		<label>Display Email</label>
 		<input type="text" name="franchise_aaemail" data-rule-email="true"  style="" value="<?php echo get_user_meta($user_id,'aa_email_address',true); ?>"><br/>
 
-		<label>Display Market</label>
-		<input type="text" name="display_market"  style="" value="<?php echo get_user_meta($user_id,'display_market',true); ?>"><br/>		
+		<?php /*<label>Display Market</label>
+		<input type="text" name="display_market"  style="" value="<?php echo get_user_meta($user_id,'display_market',true); ?>"><br/>*/?>		
 
 		<label>Upload Provider Photo</label>
 		<div class="photo_wrap">
@@ -188,8 +188,8 @@ else {
 		<label>Franchise Contact E-Mail *</label>
 		<input type="text" name="franchise_email" required data-rule-email="true"  style="" value="<?php echo $user->user_email; ?>"><br/>		
 
-		<label>Franchise Website</label>
-		<input type="text" name="franchise_website"  style="" value="<?php echo get_user_meta($user_id,'website_address',true); ?>"><br/>
+		<?php /*<label>Franchise Website</label>
+		<input type="text" name="franchise_website"  style="" value="<?php echo get_user_meta($user_id,'website_address',true); ?>"><br/>*/ ?>
 
 		<?php /*<label>Login Password</label>
 <input type="text" name="franchise_password"  size="8;" value="kardio"><br/>*/?>

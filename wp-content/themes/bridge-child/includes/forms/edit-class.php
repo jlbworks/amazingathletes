@@ -1,5 +1,8 @@
 <?php
 global $values;
+global $current_user;
+
+get_currentuserinfo();
 
 function generateTextField($field_label, $field_name){
 	global $values;
@@ -402,6 +405,11 @@ $coaches = get_users(array(
 	'meta_value' 	=> $user->ID,
 ));
 
+if(is_role('franchisee')){
+	$coaches[] = $current_user;
+}
+
+
 $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 ?>
@@ -491,7 +499,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				<label>Date</label>
 				<?php /*<input type="text" name="date" id="datepicker"  value="<?php echo $values['date']; ?>"  autocomplete="off">*/?>
 				<div id="datepicker"></div>
-				<input type="hidden" name="date" value="<?php echo implode(",", $location_class_meta['date']);?>"/>
+				<input type="hidden" name="date" value="<?php echo (is_array($location_class_meta['date']) ? implode(",", $location_class_meta['date']) : '');?>"/>
 
 				<label>Time</label>
 				<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>

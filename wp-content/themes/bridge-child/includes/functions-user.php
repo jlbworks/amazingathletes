@@ -179,16 +179,16 @@ function am2_franchisee_account() {
 
 	$fields = array(
 		'franchise_name' => 'franchise_name',
-		'display_title' => 'display_title',
-		'display_market' => 'display_market',
-		'display_name' => 'display_name',
+		//'display_title' => 'display_title',
+		//'display_market' => 'display_market',
+		//'display_name' => 'display_name',
 		'display_bio' => 'display_bio',
 		'franchise_address' => 'mailing_address',
 		'franchise_zip' => 'zip_code',
 		'franchise_telephone' => 'telephone',
 		'franchise_email' => 'email_address',
 		'franchise_aaemail' => 'aa_email_address',
-		'franchise_website' => 'website_address',
+		//'franchise_website' => 'website_address',
 		'franchise_market' => 'market_area',
 		'franchise_facebook' => 'facebook_page',
 		'franchise_youtube' => 'youtube_page',
@@ -206,7 +206,7 @@ function am2_franchisee_account() {
 
 	$required_fields = array(
 		'franchise_name',
-		'display_name',
+		//'display_name',
 		'franchise_address',
 		'franchise_city_state',
 		'franchise_zip',
@@ -314,6 +314,8 @@ add_action('wp_ajax_upload_file', 'upload_file');
 //add_action('wp_ajax_nopriv_orders_upload_action', 'orders_upload_action');
 function upload_file(){
 
+	error_reporting(E_ERROR);
+
 	$folder_path = str_replace("/wp-admin/admin-ajax.php","",$_SERVER['PHP_SELF']);
 
  	require_once($_SERVER['DOCUMENT_ROOT'].$folder_path. '/wp-load.php');
@@ -407,6 +409,8 @@ add_action('wp_ajax_upload_user_photo', 'upload_user_photo');
 //for none logged-in users
 //add_action('wp_ajax_nopriv_orders_upload_action', 'orders_upload_action');
 function upload_user_photo(){
+
+	error_reporting(E_ERROR);
 
 	$folder_path = str_replace("/wp-admin/admin-ajax.php","",$_SERVER['PHP_SELF']);
 

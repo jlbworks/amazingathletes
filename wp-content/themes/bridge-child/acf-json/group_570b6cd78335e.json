@@ -20,7 +20,7 @@
         },
         {
             "key": "field_570b6ce0220d8",
-            "label": "Franchise Name",
+            "label": "DBA",
             "name": "franchise_name",
             "type": "text",
             "instructions": "",
@@ -61,48 +61,6 @@
             "disabled": 0
         },
         {
-            "key": "field_576e3fe72a375",
-            "label": "Display Title",
-            "name": "display_title",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": "",
-            "readonly": 0,
-            "disabled": 0
-        },
-        {
-            "key": "field_570b6d0e220d9",
-            "label": "Display Name",
-            "name": "display_name",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": "",
-            "readonly": 0,
-            "disabled": 0
-        },
-        {
             "key": "field_570b6d64220e0",
             "label": "Display E-Mail",
             "name": "aa_email_address",
@@ -119,27 +77,6 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
-        },
-        {
-            "key": "field_576e3f482a373",
-            "label": "Display Market",
-            "name": "display_market",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": "",
-            "readonly": 0,
-            "disabled": 0
         },
         {
             "key": "field_570b6e1caa369",
@@ -308,27 +245,6 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
-        },
-        {
-            "key": "field_570b6d75220e1",
-            "label": "Franchise Website",
-            "name": "website_address",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": "",
-            "readonly": 0,
-            "disabled": 0
         },
         {
             "key": "field_5728842718fa6",
@@ -642,5 +558,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1475843078
+    "modified": 1476107424
 }
