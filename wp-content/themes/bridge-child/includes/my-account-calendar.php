@@ -66,6 +66,9 @@ function am2_format_event_for_calendar($_class, $data=array()) {
         $in_backend = false;
     }
     $title = "{$_class->program}";
+    if(trim($_class->special_event_title) != ''){
+        $title .= ' - ' . $_class->special_event_title;
+    }
 
     /*if ($_class->date) {
         //$dates = get_post_meta($_class->ID, 'date', false);
