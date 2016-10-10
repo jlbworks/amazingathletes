@@ -206,6 +206,57 @@ function am2_filter_locations(){
         $meta = get_post_meta($_loc->ID);            
         $author_id = get_post_field( 'post_author', $_loc->ID );
 
+        $author = get_user_by('ID', $author_id);
+
+        $author_name = $author->user_nicename;
+        $display_name = $author->display_name;
+
+        foreach($meta as $key => $val){
+            $meta[$key] = $val[0];
+        }
+
+        $_meta_franchisee = get_user_meta($author_id);    
+        $meta_franchisee = array();    
+
+        /*foreach($meta_franchisee as $key => $val){
+
+            $meta_franchisee[$key] = $val[0];
+
+            if ('session_tokens' == $key) {
+                unset($meta_franchisee[$key]);
+            }
+
+            if ('page_content' == $key) {
+                unset($meta_franchisee[$key]);
+            }
+        }*/
+
+        $meta['post_title'] = get_the_title( $_loc->ID );
+        $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
+        $meta_franchisee['franchisee'] = $display_name;     
+        $meta_franchisee['franchise_slug'] = $_meta_franchisee['franchise_slug'][0];
+        $meta_franchisee['franchise_name'] = $_meta_franchisee['franchise_name'][0];      
+        $meta_franchisee['franchise_phone'] = $_meta_franchisee['telephone'][0];
+        $meta_franchisee['franchise_email'] = $_meta_franchisee['email_address'][0];
+        $meta_franchisee['franchise_photo'] = wp_get_attachment_image_src( (int) $_meta_franchisee['user_photo'][0] , 'medium' )[0];
+
+
+        $city = explode('|',$meta['city__state'])[1];
+        $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;         
+    }
+
+    ksort($locations);
+
+    header('Content-Type: application/json');
+    echo json_encode($locations);
+    exit();
+
+    /*$locations = array();
+
+    foreach($_locations as $_loc){
+        $meta = get_post_meta($_loc->ID);            
+        $author_id = get_post_field( 'post_author', $_loc->ID );
+
         $author_name = get_user_by('ID', $author_id)->user_nicename;
 
         foreach($meta as $key => $val){
@@ -236,7 +287,7 @@ function am2_filter_locations(){
 
     header('Content-Type: application/json');
     echo json_encode($locations);
-    exit();
+    exit();*/
 
 }
 
@@ -426,16 +477,24 @@ function am2_acf_on_user_save( $post_id ) {
     if(empty($_POST['acf']['field_579b7dbe732ee'])){
         // specific field value
         $field = $_POST['acf']['field_570b6ce0220d8'];
-        $_POST['acf']['field_579b7dbe732ee'] = sanitize_title_with_dashes($field);
+        //$_POST['acf']['field_579b7dbe732ee'] = sanitize_title_with_dashes($field);        
         //var_dump(
-            update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
+            //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
+            $field = sanitize_title_with_dashes($field);
+            update_field('field_57d193970901e', $field, $post_id);
         //);
         //update_field('franchise_slug', sanitize_title_with_dashes($field), $post_id);    
     }
     else {
         $field = $_POST['acf']['field_579b7dbe732ee'];
-        update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
+        $field = sanitize_title_with_dashes($field);
+        update_field('field_57d193970901e', $field, $post_id );
+        //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
     }
+
+    // var_dump($field,$post_id);
+    // exit();
+
     change_author_permalinks();
     $wp_rewrite->flush_rules(false);
 
@@ -443,5 +502,7 @@ function am2_acf_on_user_save( $post_id ) {
 }
 
 // run before ACF saves the $_POST['acf'] data
-add_action('acf/save_post', 'am2_acf_on_user_save', 1);
+add_action('acf/save_post', 'am2_acf_on_user_save', 99);
+
+
 ?>

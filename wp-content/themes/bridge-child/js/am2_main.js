@@ -475,7 +475,7 @@ var classes_with_special_title = ['Contract','Camp'];
                 '<form id="frmFilterMap">' +
                     '<input type="text" name="franchise_name" id="txtFranchiseName" placeholder="franchise name" />'+
                     '<input type="text" name="zip_code" id="txtZipCode" placeholder="enter zip code" />'+
-                    '<input type="hidden" name="state" id="hidState" />'+
+                    '<input type="hidden" name="am2_state" id="hidState" />'+
                     '<input type="hidden" name="action" id="hidAction" value="am2_filter_locations" />'+
                     '<input type="submit" value="filter" />'+
                 '</form><br/>'+
@@ -489,19 +489,83 @@ var classes_with_special_title = ['Contract','Camp'];
 
                 am2_show_preloader();
                 $.get(ajax_login_object.ajaxurl, $(this).serialize(), function(resp){
-                    am2_hide_preloader();
                     console.log(resp);
 
-                    var init = Object.keys( resp) .length > 0 ? '' : (state_name ? 'There are no locations for your query in '+ state_name : 'No locations in this area' );
+                    $.each(ajax_login_object.states, function(k,v){
+                        if(v.state_code == loc_state){
+                            state_name = v.state;
+                        }
+                });
 
-                    $('.dynamic-locaion-content .list .state').html(init);
+                var $state = $('<div class="state"></div>');
 
-                    $.each(resp, function(k,v){
-	                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
+                if(loc_state){
+                    $state.append('<h1 class="state_title" style="text-align: center;"><div class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ loc_state +'.png" /></div><span class="td">'+state_name+'</span></h1>')
+                }
+                
+
+                if(Object.keys(resp).length>0){
+                	var $ul = $('<select class="cities"></select>');
+
+                    var i=0;
+	                $.each(resp, function(k,v){                        
+	                    var $li = $('<option value="'+k+'" data-id="'+ k +'" '+(i++==0?'selected':'')+'></option>');
+	                    $li.append(k);
+
+	                    $ul.append($li);
+	                });
+
+	                $state.append($ul);
+
+	                $state.append('<span class="h1">'+state_name+' Providers</span>');
+
+                    var $ul_child = $('<ul class="locations state" ></ul>');
+                    $state.append($ul_child);
+                    $('.dynamic-locaion-content .list').html($state);
+
+                    $ul_child = $('ul.locations');
+
+	                $.each(resp, function(k,v){
+	                	
+	                	// var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
 		                $.each(v, function(k2,v2){
-		                	$li_child = $('<li class="franchise"></li>');
-		                	$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
+                            var $franchise = $('#franchise_'+v2.meta_franchisee.franchise_slug);
+
+                            console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
+
+                            if($franchise.length>0){                                
+                                var $li_child = $franchise;
+                                if($li_child.find('.franchise_cities').find('.franchise_city:contains("'+k+'")').length<1){
+                                    $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type=""  href="'+ajax_login_object.site_url+'/'+v2.meta_franchisee.franchise_slug+'/locations/?city='+k+'">'+ k +'</a></span>');
+                                }                                                                
+                            }
+                            else {
+                                console.log('f0',v2.meta_franchisee.franchise_photo);
+                                var $li_child = $('<li class="franchise" id="franchise_'+v2.meta_franchisee.franchise_slug+'"></li>');
+                                $li_child.append(
+                                    '<div class="franchise_left">'+
+                                        (v2.meta_franchisee.franchise_photo ? 
+                                        '<img src="' + v2.meta_franchisee.franchise_photo + '"/>' :
+                                        '<img src="' + ajax_login_object.theme_url  + '/images/no-image.jpg"/>' )                                        
+                                        +
+                                    '</div>'+
+                                    '<div class="franchise_right">' +
+                                        '<h3 class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></h3>' +
+                                        '<span class="franchise_owner">' + v2.meta_franchisee.franchisee + ', Owner</span><br/>'+
+                                        '<span class="franchise_tel">' + v2.meta_franchisee.franchise_phone + '</span><br/>' +
+                                        '<a href="mailto:' + v2.meta_franchisee.franchise_email + '" class="franchise_email">' + v2.meta_franchisee.franchise_email + '</a><br/>' +  
+                                        //'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
+                                        '<div class="franchise_cities"></div>'+                                                                                
+                                    '</div>'
+                                );   
+                                $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type="" href="'+ajax_login_object.site_url+'/'+v2.meta_franchisee.franchise_slug+'/locations/?city='+k+'">'+ k +'</a></span>');
+                                $ul_child.append($li_child);           
+                            }                            
+                                                                     
+
+		                	
+		                	/*$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
 		                	$li_child.append(
 		                	'<div class="franchise_details">' +
 			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
@@ -509,14 +573,58 @@ var classes_with_special_title = ['Contract','Camp'];
 			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
 			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
 		                	'</div>'
-		                	);
+		                	);*/
 
-		                    $ul_child.append($li_child);
+		                   
 		                });
-
-		                $('.dynamic-locaion-content .list .state').append($ul_child);
+		                
 		            });
-                    $('.dynamic-locaion-content .list .state .locations').show();
+                    
+
+	                
+
+                    /*var options = $('select.cities option');
+                    var arr = options.map(function(_, o) { return { t: $(o).text(), v: o.value }; }).get();
+                    arr.sort(function(o1, o2) { return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0; });
+                    options.each(function(i, o) {
+                      o.value = arr[i].v;
+                      $(o).text(arr[i].t);
+                    });*/
+
+                    //$('select.cities').html(options);
+
+	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500);
+
+	                $('.state .cities').off('change').on('change', function(e){
+                        var that = this;
+                        $('.franchise').hide();
+                        $('.franchise_city').filter(function() {return $(this).text() == $(that).val()}).closest('.franchise').show();                             
+
+	                	//$('.state .cities li').removeClass('selected');
+	                	//$(this).addClass('selected');
+	                	// var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
+	                	// var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
+
+	                	// console.log($(this).val());
+
+	                	// //$('.state .locations').hide();
+	                	// $('.state .locations[data-id="'+data_id+'"]').show();
+
+	                	// if($locations.length>0){
+	               		// 	$('html, body').animate({scrollTop: $locations.offset().top},500);
+	               		// }
+
+	                }).trigger('change');
+
+	                $('.state .cities').selectize();
+
+                    $('a[data-fancybox-type="iframe"]').fancybox();
+
+                } else {
+                	$('.dynamic-locaion-content .list').html((state_name ? 'There are no locations for your query in '+ state_name : 'No locations in this area' ));
+                }
+
+                am2_hide_preloader();
                 });
             });
         }
@@ -645,19 +753,23 @@ var classes_with_special_title = ['Contract','Camp'];
 	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500);
 
 	                $('.state .cities').off('change').on('change', function(e){
+                        var that = this;
+                        $('.franchise').hide();
+                        $('.franchise_city').filter(function() {return $(this).text() == $(that).val()}).closest('.franchise').show();                             
+
 	                	//$('.state .cities li').removeClass('selected');
 	                	//$(this).addClass('selected');
-	                	var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
-	                	var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
+	                	// var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
+	                	// var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
 
-	                	console.log($(this).val());
+	                	// console.log($(this).val());
 
-	                	//$('.state .locations').hide();
-	                	$('.state .locations[data-id="'+data_id+'"]').show();
+	                	// //$('.state .locations').hide();
+	                	// $('.state .locations[data-id="'+data_id+'"]').show();
 
-	                	if($locations.length>0){
-	               			$('html, body').animate({scrollTop: $locations.offset().top},500);
-	               		}
+	                	// if($locations.length>0){
+	               		// 	$('html, body').animate({scrollTop: $locations.offset().top},500);
+	               		// }
 
 	                }).trigger('change');
 
