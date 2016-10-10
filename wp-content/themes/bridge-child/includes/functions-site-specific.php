@@ -478,26 +478,13 @@ function am2_acf_on_user_save( $post_id ) {
         $franchise_slug = get_field('field_57d193970901e', $post_id);
 
         if(empty($franchise_slug)){
-        // if(empty($_POST['acf']['field_579b7dbe732ee'])){
-            // specific field value
+        // if(empty($_POST['acf']['field_579b7dbe732ee'])){            
             $field = $_POST['acf']['field_570b6ce0220d8'];
+            //$franchise_slug = sanitize_title_with_dashes($field);
+			//$_franchises = $wpdb->get_results("SELECT wum.meta_value, wu.ID, wu.user_login FROM $wpdb->usermeta wum JOIN $wpdb->users wu ON wu.ID = wum.user_id WHERE wu.ID != $user_id AND wum.meta_key = 'franchise_slug' AND wum.meta_value = '".$franchise_slug."' GROUP BY wu.ID");
             $field = sanitize_title_with_dashes($field);
-            update_field('field_57d193970901e', $field, $post_id);
-            //$_POST['acf']['field_579b7dbe732ee'] = sanitize_title_with_dashes($field);        
-            //var_dump(
-            //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));            
-            //);
-            //update_field('franchise_slug', sanitize_title_with_dashes($field), $post_id);    
+            update_field('field_57d193970901e', $field, $post_id);                
         }
-        /*else {
-            $field = $_POST['acf']['field_579b7dbe732ee'];
-            $field = sanitize_title_with_dashes($field);
-            update_field('field_57d193970901e', $field, $post_id );
-            //update_user_meta((int)str_replace('user_', '', $post_id), 'franchise_slug', sanitize_title_with_dashes($field));
-        }*/
-
-        // var_dump($field,$post_id);
-        // exit();
 
         change_author_permalinks();
         $wp_rewrite->flush_rules(false);
