@@ -20,8 +20,7 @@ if( is_role('franchisee') ) {
   $meta_query[] =
         array('key'=> 'roster_franchise_id', 'value'=> $current_user->ID, 'compare'=>'=');
 }
-
-if( is_role('coach') ){
+else if( is_role('coach') ){
     $meta_query[] =
         array('key'=> 'roster_coach_id', 'value'=> $current_user->ID, 'compare'=>'=');    
 }
@@ -103,10 +102,10 @@ $coaches = get_users(
     array(
         'role' => 'coach',        
     )                
-    );
+);
 
 
-if(is_role('coach')){
+if(!is_role('franchisee') && is_role('coach')){
     $classes = get_posts(
         array(
             'post_type' => 'location_class',
