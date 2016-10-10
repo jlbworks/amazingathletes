@@ -1,6 +1,6 @@
 <?php
 global $wp_query;
-global $mypages,$mypages_multi, $mypages_images, $mypages_optional;
+global $mypages,$mypages_multi, $mypages_images, $mypages_optional;					
 
 $author = get_query_var('author');
 $author_name = get_query_var('author_name');
@@ -275,9 +275,9 @@ get_header();?>
 				</div>
 				<div id="franchise_about">
 					<?php if(isset($page_content['about'])) {?>
-						<?php $res = apply_filters( 'wp_trim_excerpt', $page_content['about'] ); echo mb_substr(strip_tags( $res ),0,500); ?>
+						<?php $res = am2_excerpt ( $page_content['about'], false ); echo $res; // mb_substr(strip_tags( $res ),0,200); ?>
 					<?php } ?>		
-					<a class="learn_more" href="<?php echo site_url();?>/programs">LEARN MORE</a>
+					<a class="learn_more" href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/about">LEARN MORE</a>
 					<?php am2_user_social($author);?>
 				</div>
 				<ul class="franchise_pages">
