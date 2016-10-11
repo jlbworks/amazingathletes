@@ -34,6 +34,10 @@
             <li>
                 <a href="#coach-invoices"><i class="fa fa-users" aria-hidden="true"></i> <span>Coach Invoices</span> </a>
             </li>
+            <?php } if( is_role('administrator') ){ ?>
+            <li>
+                <a href="#rss"><i class="fa fa-archive" aria-hidden="true"></i> <span>RSS Reports</span></a>
+            </li>
             <?php } ?>
         </ul>
     </div>

@@ -120,7 +120,7 @@ function my_custom4_init() {
     );
     register_post_type('attendance', $args);
 
-    // Registruj Pacijent CPT
+    // Registriraj Roster CPT
     $labels = array(
         'name' => _x('Roster', 'post type general name'),
         'singular_name' => _x('Roster', 'post type singular name'),
@@ -150,6 +150,37 @@ function my_custom4_init() {
         'taxonomies' => array()
     );
     register_post_type('roster', $args);
+
+    // Registriraj RSS CPT
+    $labels = array(
+        'name' => _x('RSS', 'post type general name'),
+        'singular_name' => _x('RSS', 'post type singular name'),
+        'add_new' => _x('Add new', 'RSS'),
+        'add_new_item' => __('Add new RSS'),
+        'edit_item' => __('Edit RSS'),
+        'new_item' => __('New RSS'),
+        'view_item' => __('View RSS'),
+        'search_items' => __('Search RSS'),
+        'not_found' => __('Not found'),
+        'not_found_in_trash' => __('Not found in trash'),
+        'parent_item_colon' => ''
+    );
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'has_archive' => false,
+        //'rewrite' => true,
+        'rewrite' => array('slug' => 'rss'),
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'menu_position' => null,
+        'supports' => array('title', 'author', 'editor', 'custom-fields'),
+        'taxonomies' => array()
+    );
+    register_post_type('rss', $args);
 
 }
 
@@ -677,6 +708,57 @@ function submit_data() {
         exit(json_encode(array('success' => true, 'message' => "Roster saved successfully")));
     }
 
+     /**
+      Add/Edit RSS
+     */
+    if ($_POST['form_handler'] == 'rss_create') {
+        $id = sanitize_text_field( $_POST['id'] );
+        $franchise_id = sanitize_text_field( $_POST['rss_franchise_id'] );
+        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+
+        $post_data = array(
+            'ID' => $id,
+            'post_type' => 'rss',
+            'post_title' => 'RSS Report',
+            'post_name' => sanitize_title_with_dashes( 'RSS Report' ),
+            'post_status' => 'publish',
+            'post_author' => $author,
+        );
+
+        $meta_data = array();
+        $meta_fields = array(
+            'rss_franchise_id', 'rss_month',
+            'rss_year'
+        );
+        foreach ( $meta_fields as $field ) {
+            $meta_data[$field] = sanitize_text_field($_POST[$field]);
+        }
+
+
+        $created = false;
+        // update
+        if ( $id > 0 ) {
+            $post_id = $id;
+            wp_update_post($post_data);
+
+            // insert
+        } else {
+            $post_id = wp_insert_post($post_data);
+            $created = true;
+        }
+
+        // meta
+        foreach ( $meta_fields as $field ) {
+            if  (empty( $meta_data[$field] ) ) {
+                delete_post_meta( $post_id, $field );
+            } else {
+                update_post_meta( $post_id, $field, $meta_data[$field] );
+            }
+        }
+
+        exit(json_encode(array('success' => true, 'message' => "RSS Created successfully")));
+    }
+
     /**
       Add/Edit attendance
      */
@@ -902,6 +984,17 @@ function delete_object() {
         );
         wp_update_post( $payment_object );
         exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Payment deleted")));
+
+    }
+
+    if ($object == 'rss' and $id > 0) {
+        if( !current_user_can( 'edit_posts' ) ) {
+            exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
+
+        }
+
+        wp_delete_post( $id, true );
+        exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "RSS deleted")));
 
     }
 
