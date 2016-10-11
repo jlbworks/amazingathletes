@@ -36,6 +36,7 @@ $attendance = get_posts($args);
                     <tr>
                         <th><span>Franchise</span></th>
                         <th><span>Location</span></th>
+                        <th><span>Class</span></th>
                         <th><span>Customer Name</span></th>
                         <th><span>Date</span></th>
                         <th><span>Actions</span></th>
@@ -47,10 +48,12 @@ $attendance = get_posts($args);
                           $franchise_id = get_post_meta( $attend->ID, 'attendance_franchise_id', true );
                           $location_id = get_post_meta( $attend->ID, 'attendance_location_id', true );
                           $customer_id = get_post_meta( $attend->ID, 'attendance_customer_id', true );
+                          $class_id = get_post_meta( $attend->ID, 'attendance_class_id', true );
 
                           $franchise = get_user_meta( (int)$franchise_id, 'franchise_name', true);
                           $location = get_post( (int)$location_id );
                           $customer = get_post( (int)$customer_id );
+                          $class = get_post( (int)$class_id );
 
                     ?>
                     <tr class="gradeA">
@@ -58,6 +61,7 @@ $attendance = get_posts($args);
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                         data-modal="<?php echo get_ajax_url('modal','attendance-edit') .'&id='.$attend->ID; ?>"><?php echo $franchise; ?></a></td>
                       <td><?php echo $location->post_title; ?></td>
+                      <td><?php echo $class->post_title ?></td>
                       <td><?php echo $customer->post_title ?></td>
                       <td><?php echo get_post_meta( $attend->ID, 'attendance_date', true ); ?></td>
                       <td>

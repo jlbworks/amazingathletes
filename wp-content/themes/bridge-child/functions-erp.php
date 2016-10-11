@@ -786,7 +786,7 @@ function submit_data() {
         $meta_data = array();
         $meta_fields = array(
             'attendance_class_id', 'attendance_customer_id',
-            'attendance_location_id', 'attendance_date'
+            'attendance_location_id', 'attendance_date', 'attendance_coach_id'
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = sanitize_text_field($_POST[$field]);
@@ -839,7 +839,9 @@ function submit_data() {
 
         if(is_array($coaches)){
             $coaches = array_map(function($_coach){
-                $coach = array( 'id' => $_coach, 'text' => get_user_by('id', $_coach)->display_name);            
+                $coach = get_user_by('id', $_coach);
+                $coach_name = $coach->first_name.' '.$coach->last_name;
+                $coach = array( 'id' => $_coach, 'text' => $coach_name);            
                 return $coach;
             },$coaches);
         }        
