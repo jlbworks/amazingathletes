@@ -284,12 +284,13 @@ var classes_with_special_title = ['Contract','Camp'];
 
 
         $('[data-button="delete"]').click(function(e) {
+            var delete_button = this;
             e.preventDefault();
             if (confirm('Are you sure?')) {
-                $('[data-form="frm_delete_location"]').ajaxSubmit({
+                $(delete_button).closest('[data-form="frm_delete_location"]').ajaxSubmit({
                   beforeSubmit: function() {
                     am2_show_preloader();
-                    return $('[data-form="frm_delete_location"]').valid();
+                    return $(delete_button).closest('[data-form="frm_delete_location"]').valid();
                   },
                   success: function(resp) {
                     am2_hide_preloader();
