@@ -181,51 +181,52 @@ endif;
 <div class="card-header">
     </div>
     <div class="card-inner">
+        <input type="button" onclick="tableToExcel('rssTable', '<?php echo $month.'-'.$year; ?>')" value="Export to Excel">
         <style>
             table td {
                 padding: 5px;
                 border: #888 1px solid;
             }
         </style>
-        <table width="100%">
+        <table width="100%" id="rssTable">
             <?php foreach($master_array['locations'] as $location): ?>
-                <tr style="background: #0070c0; color: #fff">
-                    <td>ZIP</td>
-                    <td colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
-                    <td colspan="2">Enrollment 39</td>
-                    <td colspan="2">Total Gross: $689</td>
-                    <td colspan="2">ROY Due: $52</td>
+                <tr style="">
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;">ZIP</td>
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Enrollment 39</td>
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: $689</td>
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">ROY Due: $52</td>
                 </tr>
-                <tr style="background: #e7e6e6; color: #000">
-                    <td>Program Code</td>
-                    <td>Program</td>
-                    <td>Class Code</td>
-                    <td>Class Type</td>
-                    <td>Monthly Engagement</td>
-                    <td>Standard Tuition</td>
-                    <td>Standard # Weeks</td>
-                    <td>Weekly Tuition</td>
-                    <td>Status Code</td>
-                    <td>Class Status</td>
-                    <td># Weeks Thought</td>
-                    <td>Earned Gross Revenue</td>
+                <tr style="">
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program Code</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Code</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Type</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Monthly Engagement</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Standard Tuition</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Standard # Weeks</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Weekly Tuition</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Status Code</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Status</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;"># Weeks Thought</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Earned Gross Revenue</td>
                 </tr>
                 <?php 
                 if($location['classes']):
                     foreach($location['classes'] as $class): ?>
                         <tr>
-                            <td><?php echo $class['program_code']; ?></td>
-                            <td><?php echo $class['program']; ?></td>
-                            <td><?php echo $class['class_code']; ?></td>
-                            <td><?php echo $class['class_type']; ?></td>
-                            <td><?php echo $class['monthly_enrollment']; ?></td>
-                            <td class="price"><?php echo '$'. $class['standard_tuition']; ?></td>
+                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['program_code']; ?></td>
+                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['program']; ?></td>
+                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_code']; ?></td>
+                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_type']; ?></td>
+                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['monthly_enrollment']; ?></td>
+                            <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['standard_tuition']; ?></td>
                             <td><?php echo $class['standard_no_weeks']; ?></td>
-                            <td class="price"><?php echo '$'. $class['weekly_tuition']; ?></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="price"></td>
+                            <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['weekly_tuition']; ?></td>
+                            <td style="padding: 5px; border: #000 1px solid;"></td>
+                            <td style="padding: 5px; border: #000 1px solid;"></td>
+                            <td style="padding: 5px; border: #000 1px solid;"></td>
+                            <td style="padding: 5px; border: #000 1px solid;" class="price"></td>
                         </tr>
                 <?php endforeach; 
                 endif;
@@ -243,7 +244,7 @@ endif;
 $(document).ready(function () {
   'use strict';
 
-  addToTotal();
+  //addToTotal();
   initMasks();
 
 });
@@ -257,6 +258,22 @@ function parseCurrency( num ) {
     num = num.replace('$','');
     return parseFloat( num.replace( /,/g, '') );
 }
+
+
+
+var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})();
+
+
 
   
 </script>
