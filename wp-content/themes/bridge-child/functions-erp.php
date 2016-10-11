@@ -637,12 +637,13 @@ function submit_data() {
         $meta_data = array();
         $meta_fields = array(
             'roster_class_id', 'roster_customer_id',
-            'roster_location_id', 'roster_coach_id'
+            'roster_location_id'/*, 'roster_coach_id'*/
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = sanitize_text_field($_POST[$field]);
         }
 
+        //$meta_data['roster_coach_id'] = get_post($_POST['roster_class_id'])->coaches;
 
         $created = false;
         // update
@@ -658,12 +659,15 @@ function submit_data() {
 
         // meta
         foreach ( $meta_fields as $field ) {
+            
             if  (empty( $meta_data[$field] ) ) {
                 delete_post_meta( $post_id, $field );
             } else {
                 update_post_meta( $post_id, $field, $meta_data[$field] );
             }
         }
+
+        //update_post_meta( $post_id, 'roster_coach_id', $meta_data['roster_coach_id']);
 
         if( current_user_can( 'administrator' ) ) {
             $franchise_id = $_POST['roster_franchise_id'];

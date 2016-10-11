@@ -20,10 +20,10 @@ if( is_role('franchisee') ) {
   $meta_query[] =
         array('key'=> 'roster_franchise_id', 'value'=> $current_user->ID, 'compare'=>'=');
 }
-else if( is_role('coach') ){
+/*else if( is_role('coach') ){
     $meta_query[] =
-        array('key'=> 'roster_coach_id', 'value'=> $current_user->ID, 'compare'=>'=');    
-}
+        array('key'=> 'roster_coach_id', 'value'=> $current_user->ID, 'compare'=>'IN');    
+}*/
 
 if( isset($hash_query['f_franchise_id']) ){
     $meta_query[] = 
@@ -40,16 +40,15 @@ if( isset($hash_query['f_class_id']) ){
         array('key' => 'roster_class_id', 'value' => $hash_query['f_class_id'], 'compare' => '=');
 }
 
-if( isset($hash_query['f_coach_id']) ){
+/*if( isset($hash_query['f_coach_id']) ){
     $meta_query[] = 
-        array('key' => 'roster_coach_id', 'value' => $hash_query['f_coach_id'], 'compare' => '=');
-}
+        array('key' => 'roster_coach_id', 'value' => '"' . $hash_query['f_coach_id'] . '"', 'compare' => 'LIKE');
+}*/
 
 
 $args['meta_query'] = $meta_query;
 
-$roster = get_posts($args);
-
+$_roster = get_posts($args);
 
 $args = array(
     'role' => 'franchisee'         
@@ -121,6 +120,31 @@ if(!is_role('franchisee') && is_role('coach')){
     }, $classes);
 }
 
+$roster = array();
+foreach($_roster as $krost => $rost){
+    $class_id = $rost->roster_class_id;
+    $_coaches = get_post($class_id)->coaches ;
+
+    if(is_array($_coaches)){
+        if(is_role('coach') && !is_role('franchisee')){
+            $coach_id = get_current_user_id();
+            if(in_array($coach_id, $_coaches)){
+                $roster[] = $rost;
+            }
+        }
+        else if( isset($hash_query['f_coach_id']) ){        
+            if(in_array($hash_query['f_coach_id'], $_coaches)){
+                $roster[] = $rost;
+            }        
+        }    
+        else {
+            $roster[] = $rost;
+        }
+    }    
+    else {
+        $roster[] = $rost;
+    }
+}
 
 ?>
 
@@ -198,13 +222,25 @@ if(!is_role('franchisee') && is_role('coach')){
                           $franchise_id = get_post_meta( $rost->ID, 'roster_franchise_id', true );
                           $location_id = get_post_meta( $rost->ID, 'roster_location_id', true );                          
                           $class_id = get_post_meta( $rost->ID, 'roster_class_id', true );
-                          $coach_id = get_post_meta( $rost->ID, 'roster_coach_id', true );
-                          $customer_id = get_post_meta( $rost->ID, 'roster_customer_id', true );
+                          $coach_ids = get_post($class_id)->coaches; // get_post_meta( $rost->ID, 'roster_coach_id', true );
+                          $customer_id = get_post_meta( $rost->ID, 'roster_customer_id', true );                                                    
 
                           $franchise = get_user_meta( (int) $franchise_id, 'franchise_name', true);
                           $location = get_post( (int) $location_id );
                           $class = get_post( (int) $class_id );
-                          $coach = get_user_by ('id', (int) $coach_id); 
+                          //$coach = get_user_by ('id', (int) $coach_id);
+
+                          if(is_array($coach_ids)){
+                            $coaches = get_users(array(
+                                'include' => $coach_ids
+                            )); 
+                            $coaches = array_map(function($coach){
+                                return $coach->display_name;
+                            }, $coaches);
+                          } 
+                          else {
+                              $coaches = array();
+                          }                          
                           $customer = get_post( (int) $customer_id );
                           
                           /*$sel_coaches = get_post_meta($class_id, 'coaches', true);
@@ -222,7 +258,7 @@ if(!is_role('franchisee') && is_role('coach')){
                         data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><?php echo $franchise; ?></a></td>
                       <td><?php echo $location->post_title; ?></td>                                            
                       <td><?php echo $class->post_title;?></td>                      
-                      <td><?php echo $coach->display_name;?></td>
+                      <td><?php echo implode(',', $coaches); //$coach->display_name;?></td>
                       <td><?php echo $customer->post_title ?></td>                      
                       <td>
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
