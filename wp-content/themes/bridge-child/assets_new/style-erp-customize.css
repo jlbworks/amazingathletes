@@ -382,3 +382,6 @@ div.dt-buttons {
 .card-wrapper .card-header {
     background-color: #fff;
 }
+td.price {
+    text-align: right;
+}

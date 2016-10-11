@@ -1,4 +1,6 @@
 <?php
+//setlocale(LC_MONETARY, 'en_US');
+
 global $current_user; 
 get_currentuserinfo(); 
 
@@ -35,6 +37,14 @@ $location_ids = array_map(function($loc){
     return $loc->ID;
 }, $locations);
 
+$roster = get_posts(
+    array(
+        'post_type' => 'roster',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+    )
+);
+
 if(!empty($locations)):
     foreach($locations as $location):
         $location_array = array();
@@ -54,16 +64,60 @@ if(!empty($locations)):
         foreach($classes as $class):
             $class_array = array();
             $class_array['post'] = $class;
-            $class_array['program'] = get_post_meta($class->ID, 'type', true);
+
+
+
+            $class_array['program'] = get_post_meta($class->ID, 'program', true);
             $class_array['program_code'] = '';
             if($class_array['program'] == 'Amazing Athletes') {
                 $class_array['program_code'] = 'AA';
-            } elseif ( $class_array['program'] == 'Amazing Tots' ) {
-                $class_array['program_code'] = 'TOTS';
+            } elseif ( $class_array['program'] == 'Tots' ) {
+                $class_array['program_code'] = 'Tots';
             } elseif ( $class_array['program'] == 'Training Academy' ) {
                 $class_array['program_code'] = 'TA';
             } elseif ( $class_array['program'] == 'Amazing Birthdays' ) {
                 $class_array['program_code'] = 'AB';
+            }
+
+            $class_array['class_type'] = get_post_meta($class->ID, 'type', true);
+            $class_array['class_code'] = '';            
+            if($class_array['class_type'] == 'Contract') {
+                $class_array['class_code'] = 'Location Pay Contract';
+            } elseif ( $class_array['class_type'] == 'Demo' ) {
+                $class_array['class_code'] = 'Demo';
+            } elseif ( $class_array['class_type'] == 'Parent-Pay' ) {
+                $class_array['class_code'] = 'Monthly Parent Pay';
+            } elseif ( $class_array['class_type'] == 'Session' ) {
+                $class_array['class_code'] = 'Session Parent Pay';
+            } elseif ( $class_array['class_type'] == 'Camp' ) {
+                $class_array['class_code'] = 'Camp';
+            } elseif ( $class_array['class_type'] == 'Special Event' /* || $class_array['program'] == 'Special Event'*/ ) {
+                $class_array['class_code'] = 'Event';
+            }
+
+            $monthly_enrollment = 0;
+            foreach($roster as $rost){
+                if($class->ID == $rost->roster_class_id){
+                    $monthly_enrollment++;
+                }
+            }            
+
+            $class_array['monthly_enrollment'] = $monthly_enrollment;
+
+            $class_array['class_costs'] = get_post_meta($class->ID, 'class_costs', true);
+            
+            if($class_array['class_costs'] == 'Parent-Pay Monthly'){
+                $class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_monthly_monthly_tuition', true);
+                $class_array['standard_no_weeks'] = get_post_meta($class->ID, 'parent_pay_monthly_classes_monthly', true);
+                $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2); 
+            }
+            elseif($class_array['class_costs'] == 'Parent-Pay Session'){    
+                $class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_session_session_tuition', true);
+                $class_array['standard_no_weeks'] = get_post_meta($class->ID, 'parent_pay_session_weeks_in_session', true);
+                $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2);
+            } 
+            elseif($class_array['class_costs'] == 'Contracts/Events'){
+                //$class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_session_session_tuition', true);
             }
 
             $location_array['classes'][] = $class_array;
@@ -162,16 +216,16 @@ endif;
                         <tr>
                             <td><?php echo $class['program_code']; ?></td>
                             <td><?php echo $class['program']; ?></td>
+                            <td><?php echo $class['class_code']; ?></td>
+                            <td><?php echo $class['class_type']; ?></td>
+                            <td><?php echo $class['monthly_enrollment']; ?></td>
+                            <td class="price"><?php echo '$'. $class['standard_tuition']; ?></td>
+                            <td><?php echo $class['standard_no_weeks']; ?></td>
+                            <td class="price"><?php echo '$'. $class['weekly_tuition']; ?></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td class="price"></td>
                         </tr>
                 <?php endforeach; 
                 endif;
