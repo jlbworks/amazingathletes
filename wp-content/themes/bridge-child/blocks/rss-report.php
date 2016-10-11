@@ -28,10 +28,52 @@ if(is_role('franchisee')){
     $args['author']  =  $rss_report->rss_franchise_id;
 }
 
+$master_array = array();
+
 $locations = get_posts($args);
 $location_ids = array_map(function($loc){
     return $loc->ID;
 }, $locations);
+
+if(!empty($locations)):
+    foreach($locations as $location):
+        $location_array = array();
+        $location_array['post'] = $location;
+
+        $classes = get_posts(
+            array(
+                'post_type' => 'location_class',
+                'post_status' => 'publish',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    array( 'key' => 'location_id', 'value' => $location->ID, 'compare' => '='),
+                )
+            )        
+        );
+
+        foreach($classes as $class):
+            $class_array = array();
+            $class_array['post'] = $class;
+            $class_array['program'] = get_post_meta($class->ID, 'type', true);
+            $class_array['program_code'] = '';
+            if($class_array['program'] == 'Amazing Athletes') {
+                $class_array['program_code'] = 'AA';
+            } elseif ( $class_array['program'] == 'Amazing Tots' ) {
+                $class_array['program_code'] = 'TOTS';
+            } elseif ( $class_array['program'] == 'Training Academy' ) {
+                $class_array['program_code'] = 'TA';
+            } elseif ( $class_array['program'] == 'Amazing Birthdays' ) {
+                $class_array['program_code'] = 'AB';
+            }
+
+            $location_array['classes'][] = $class_array;
+        endforeach;
+
+        //Add to Master Array
+        $master_array['locations'][] = $location_array;
+    endforeach;
+endif;
+
 
 ?>
 <!-- CONTENT HEADER -->
@@ -92,42 +134,48 @@ $location_ids = array_map(function($loc){
             }
         </style>
         <table width="100%">
-            <?php foreach($locations as $location): ?>
-            <tr style="background: #0070c0; color: #fff">
-                <td>ZIP</td>
-                <td colspan="5"><?php echo get_the_title($location->ID); ?></td>
-                <td colspan="2">Enrollment 39</td>
-                <td colspan="2">Total Gross: $689</td>
-                <td colspan="2">ROY Due: $52</td>
-            </tr>
-            <tr style="background: #e7e6e6; color: #000">
-                <td>Program Code</td>
-                <td>Program</td>
-                <td>Class Code</td>
-                <td>Class Type</td>
-                <td>Monthly Engagement</td>
-                <td>Standard Tuition</td>
-                <td>Standard # Weeks</td>
-                <td>Weekly Tuition</td>
-                <td>Status Code</td>
-                <td>Class Status</td>
-                <td># Weeks Thought</td>
-                <td>Earned Gross Revenue</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>s</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            <?php foreach($master_array['locations'] as $location): ?>
+                <tr style="background: #0070c0; color: #fff">
+                    <td>ZIP</td>
+                    <td colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
+                    <td colspan="2">Enrollment 39</td>
+                    <td colspan="2">Total Gross: $689</td>
+                    <td colspan="2">ROY Due: $52</td>
+                </tr>
+                <tr style="background: #e7e6e6; color: #000">
+                    <td>Program Code</td>
+                    <td>Program</td>
+                    <td>Class Code</td>
+                    <td>Class Type</td>
+                    <td>Monthly Engagement</td>
+                    <td>Standard Tuition</td>
+                    <td>Standard # Weeks</td>
+                    <td>Weekly Tuition</td>
+                    <td>Status Code</td>
+                    <td>Class Status</td>
+                    <td># Weeks Thought</td>
+                    <td>Earned Gross Revenue</td>
+                </tr>
+                <?php 
+                if($location['classes']):
+                    foreach($location['classes'] as $class): ?>
+                        <tr>
+                            <td><?php echo $class['program_code']; ?></td>
+                            <td><?php echo $class['program']; ?></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                <?php endforeach; 
+                endif;
+                ?>
             <?php endforeach; ?>
         </table>
 
