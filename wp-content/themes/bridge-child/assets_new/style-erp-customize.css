@@ -385,3 +385,4 @@ div.dt-buttons {
 td.price {
     text-align: right;
 }
+.no_margin { margin-right: 0px; }

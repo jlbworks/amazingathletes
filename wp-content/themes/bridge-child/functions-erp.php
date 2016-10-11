@@ -642,6 +642,9 @@ function submit_data() {
             }
         }
 
+        // Save items
+        update_post_meta( $post_id, 'item', $_POST['item'] );
+
         exit(json_encode(array('success' => true, 'message' => "Coach Invoice Edited successfully")));
     }
 

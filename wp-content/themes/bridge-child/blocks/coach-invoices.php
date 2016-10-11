@@ -71,9 +71,7 @@ $coach_invoices = get_posts($args);
 
                         ?>
                         <tr class="gradeA">
-                            <td style="white-space:nowrap"><a class="am2-ajax-modal"
-                                                              data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                                                              data-modal="<?php echo get_ajax_url('modal','payments-edit') .'&id='.$payment->ID; ?>"><?php echo $coach_name ?></a></td>
+                            <td style="white-space:nowrap"><?php echo $coach_name ?></td>
                             <td><?php echo $franchise; ?></td>
                             <td><?php echo $location->post_title; ?></td>
                             <td><?php echo get_the_date( 'd.m.Y H:i:s', $coach_invoice->ID );?></td>
