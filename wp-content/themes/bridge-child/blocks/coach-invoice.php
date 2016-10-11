@@ -26,6 +26,52 @@ if(!empty($coach_invoice->total)) $total = $coach_invoice->total;
 $bonus = '0.00';
 if(!empty($coach_invoice->bonus)) $bonus = $coach_invoice->bonus;
 
+/* GET DATA FOR COACH */
+$args = array(
+  'post_type'   => 'attendance',
+  'post_status' => 'publish',
+  'posts_per_page'=> -1,
+  'meta_query' => array(
+        array(
+            'key' => 'attendance_coach_id',
+            'value' => $coach_invoice->coach_id,
+            'compare' => '='
+        ),
+        array(
+            'key' => 'attendance_date',
+            'value' => array($coach_invoice->date_start,$coach_invoice->date_end),
+            'compare' => 'BETWEEN'
+        ),
+
+    ),
+);
+$attendance = get_posts($args);
+$payment_totals = array();
+$items = get_post_meta($coach_invoice->ID, 'item', true);
+if(!empty($items)) {
+    $payment_totals = $items;
+} else {
+    if($attendance):
+    foreach($attendance as $attend):
+        $class_id = $attend->attendance_class_id;
+        $class = get_post($class_id);
+        $location = get_post($class->location_id);
+
+        $coach_pay_scale = $class->coach_pay_scale;
+        $payment_totals[$class_id]['description'] = $location->post_title.', '.$class->program.' ('.$class->coach_pay_scale.')';
+        $payment_totals[$class_id]['quantity']++;
+
+        if($coach_pay_scale == 'Per Student per Class Pay') {
+            $payment_totals[$class_id]['price'] = $class->per_student_per_class_pay;
+            $payment_totals[$class_id]['total_earned'] += $class->per_student_per_class_pay;
+        }
+        //new_student_bonus 
+    endforeach;
+endif;
+}
+
+/* END GET DATA */
+
 ?>
 <!-- CONTENT HEADER -->
 <div class="layout context--pageheader">
@@ -89,49 +135,80 @@ if(!empty($coach_invoice->bonus)) $bonus = $coach_invoice->bonus;
 <fieldset class="fields-group">
 <h3>Some Group Of Services</h3>
     <div class="clearfix">
-        <div class="col-14">
+        <div class="col-25">
             Description
         </div>
-        <div class="col-14">
+        <div class="col-15">
             Quantity
         </div>
-        <div class="col-14">
+        <div class="col-15">
             Amount
         </div>
-        <div class="col-14">
+        <div class="col-15 no_margin">
             Actions
         </div>
     </div>
+    <?php   ?>
     <div class="repeater repeater-custom-show-hide card-table">
       <div data-repeater-list="item">
+        <?php 
+
+        if(empty($payment_totals)) { ?>
         <div data-repeater-item="">
           <div class="form-group clearfix">
             
-            <div class="col-14">
-              <select name="item[0][type]" class="form-control">
-                <option value="" selected="">Choose description</option>
-                <option value="service2">Service 2</option>
-                <option value="service3">Service 3</option>
-              </select>
+            <div class="col-25">
+                <input type="text" name="item[0][description]" class="form-control" placeholder="Description"> 
             </div>
 
             
-            <div class="col-14">
+            <div class="col-15">
               <input type="text" name="item[0][quantity]" value="0" class="form-control number js-quantity" placeholder="Quantity">
             </div>
             
             
-            <div class="col-14">
-              <input type="text" name="item[0][amount]" value="0" class="form-control currency js-add-to-total" placeholder="Amount">
+            <div class="col-15">
+              <input type="text" name="item[0][price]" value="0" class="form-control currency js-add-to-total" placeholder="Amount">
             </div>
             
 
-            <div class="col-14">
+            <div class="col-15 no_margin">
               <a class="am2-ajax-modal-delete btn btn--danger is-smaller" data-repeater-delete=""
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                                        data-object="S" data-id=""><i class="fa fa-trash-o"></i></a>
             </div>
           </div>
+        <?php } else {
+            foreach($payment_totals as $payment_total) {
+                ?>
+                <div data-repeater-item="">
+                  <div class="form-group clearfix">
+                    
+                    <div class="col-25">
+                        <input type="text" name="item[0][description]" class="form-control" value="<?php echo $payment_total['description']; ?>" placeholder="Description"> 
+                    </div>
+
+                    
+                    <div class="col-15">
+                      <input type="text" name="item[0][quantity]" value="<?php echo $payment_total['quantity']; ?>" class="form-control number js-quantity" placeholder="Quantity">
+                    </div>
+                    
+                    
+                    <div class="col-15">
+                      <input type="text" name="item[0][price]" value="<?php echo $payment_total['price']; ?>" class="form-control currency js-add-to-total" placeholder="Amount">
+                    </div>
+                    
+
+                    <div class="col-15 no_margin">
+                      <a class="am2-ajax-modal-delete btn btn--danger is-smaller" data-repeater-delete=""
+                                               data-original-title="Delete" data-placement="top" data-toggle="tooltip"
+                                               data-object="S" data-id=""><i class="fa fa-trash-o"></i></a>
+                    </div>
+                  </div>
+                <?php
+            }
+        }
+        ?>
         </div>
 
         
