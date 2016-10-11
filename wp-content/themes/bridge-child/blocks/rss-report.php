@@ -257,9 +257,9 @@ endif;
                 <tr style="">
                     <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;">ZIP</td>
                     <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
-                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Enrollment 39</td>
-                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: $689</td>
-                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">ROY Due: $52</td>
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Enrollment <?php echo $location_array['monthly_enrollment'];?></td>
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: <?php echo $location_array['earned_gross_revenue'];?></td>
+                    <td style="background: #0070c0; color: #fff; padding: 5px; border: #000 1px solid;" colspan="3">ROY Due: <?php echo $location_array['max_royalty'];?></td>
                 </tr>
                 <tr style="">
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program Code</td>
@@ -274,6 +274,7 @@ endif;
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Status</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;"># Weeks Thought</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Earned Gross Revenue</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Royalty Estimate</td>
                 </tr>
                 <?php 
                 if($location['classes']):
