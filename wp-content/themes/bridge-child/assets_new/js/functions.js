@@ -155,9 +155,16 @@ var am2 = window.am2 || {};
 		datepicker: function () {
 			var $pikaday;
 
+			var pik_settings = {
+				position: 'bottom left',
+				firstDay: 1,
+				yearRange: [1997, 2035],
+				format: "MM/DD/YYYY"
+			}
+
 			// DATEPICKER DEFAULT
 			$("body").on("focus",'[data-js="datepicker"]',function(){
-				$pikaday = $(this).pikaday();	
+				$pikaday = $(this).pikaday(pik_settings);	
 			});
 
 			// DATEPICKER DEFAULT
@@ -193,7 +200,7 @@ var am2 = window.am2 || {};
 					$pikaday.pikaday('destroy');					
 				}
 
-				$pikaday = $(this).pikaday();
+				$pikaday = $(this).pikaday(pik_settings);
 			});
 
 			$('[data-js="clockpicker"]').clockpicker({

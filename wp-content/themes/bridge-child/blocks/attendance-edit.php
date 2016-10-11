@@ -127,7 +127,7 @@ $franchises = get_users( $franchise_args );
                                 <select name="attendance_location_id" class="form-control" id="attendance_location_id" title="Please select a location." required>
                                     <option value=""></option>
                                     <?php foreach( $locations as $loc ) : ?>
-                                        <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?> required><?php echo get_field( 'location_name', $loc->ID      );?></option>
+                                        <option value="<?php echo $loc->ID; ?>" <?php selected( $location_id, $loc->ID, true ); ?> required><?php echo ($loc->location_name ? $loc->location_name : $loc->post_title);?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <!-- /# -->
