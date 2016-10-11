@@ -26,9 +26,9 @@ $args = array(
     'posts_per_page' => -1,
 );
 
-if(is_role('franchisee')){
+//if(is_role('franchisee')){
     $args['author']  =  $rss_report->rss_franchise_id;
-}
+//}
 
 $master_array = array();
 
@@ -45,9 +45,20 @@ $roster = get_posts(
     )
 );
 
+$args = array(
+  'post_type'   => 'attendance',
+  'post_status' => 'publish',
+  'posts_per_page'=> -1,
+);
+//if( is_role('franchisee') ) {
+  $args['author ']  =  $rss_report->rss_franchise_id;
+//}
+$attendances = get_posts($args);
+
 if(!empty($locations)):
+    $total_enrollment = 0;
     foreach($locations as $location):
-        $location_array = array();
+        $location_array = array('monthly_enrollment'=> 0);
         $location_array['post'] = $location;
 
         $classes = get_posts(
@@ -59,13 +70,16 @@ if(!empty($locations)):
                     array( 'key' => 'location_id', 'value' => $location->ID, 'compare' => '='),
                 )
             )        
-        );
+        );        
+
+        $location_array['max_royalty'] = 0;        
+        $location_array['earned_gross_revenue'] = 0;        
 
         foreach($classes as $class):
             $class_array = array();
             $class_array['post'] = $class;
 
-
+            $attendance_dates = array();            
 
             $class_array['program'] = get_post_meta($class->ID, 'program', true);
             $class_array['program_code'] = '';
@@ -82,17 +96,17 @@ if(!empty($locations)):
             $class_array['class_type'] = get_post_meta($class->ID, 'type', true);
             $class_array['class_code'] = '';            
             if($class_array['class_type'] == 'Contract') {
-                $class_array['class_code'] = 'Location Pay Contract';
+                $class_array['class_code'] = 'LPC';
             } elseif ( $class_array['class_type'] == 'Demo' ) {
-                $class_array['class_code'] = 'Demo';
+                $class_array['class_code'] = 'D';
             } elseif ( $class_array['class_type'] == 'Parent-Pay' ) {
-                $class_array['class_code'] = 'Monthly Parent Pay';
+                $class_array['class_code'] = 'MPP';
             } elseif ( $class_array['class_type'] == 'Session' ) {
-                $class_array['class_code'] = 'Session Parent Pay';
+                $class_array['class_code'] = 'SPP';
             } elseif ( $class_array['class_type'] == 'Camp' ) {
-                $class_array['class_code'] = 'Camp';
+                $class_array['class_code'] = 'C';
             } elseif ( $class_array['class_type'] == 'Special Event' /* || $class_array['program'] == 'Special Event'*/ ) {
-                $class_array['class_code'] = 'Event';
+                $class_array['class_code'] = 'E';
             }
 
             $monthly_enrollment = 0;
@@ -120,12 +134,63 @@ if(!empty($locations)):
                 //$class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_session_session_tuition', true);
             }
 
+            foreach($attendances as $attendance ){
+                $class_dates = get_post_meta($class->ID, 'date', false);
+                foreach($class_dates as $class_date){
+                    if($attendance->attendance_date == $class_date){
+                        $attendance_dates[$class_date] = $class_date;
+                    }
+                }                
+            }
+
+            $class_array['status_code'] = 'Y';
+            $class_array['class_status'] = 'Ongoing';
+
+            $class_array['no_weeks_taught'] = count($attendance_dates);
+
+            $earned_gross_revenue = ($class_array['no_weeks_taught'] > 0 ? ( $class_array['no_weeks_taught'] * ($class_array['weekly_tuition'] * $class_array['monthly_enrollment'] ) ) : 0);
+            $class_array['earned_gross_revenue'] = $earned_gross_revenue;
+
+            $royalty_estimate = (
+                $class_array['status_code']==="B" ? 0 : 
+                    ( 
+                        ($class_array['status_code']=="N"||$class_array['status_code']=="RS"||$class_array['class_code']=="SPP"||$class_array['class_code']=="C"||$class_array['class_code']=="E")
+                            ? ($class_array['weekly_tuition']>10 
+                                ?$class_array['weekly_tuition']*$class_array['no_weeks_taught']
+                                :10*$class_array['no_weeks_taught']
+                                )
+                            : (
+                                ($class_array['class_code']=="MPP"||$class_array['class_code']=="LPC")
+                                    ?($class_array['weekly_tuition']>10
+                                        ?$class_array['weekly_tuition']*$class_array['standard_no_weeks']
+                                        :10*$class_array['standard_no_weeks']
+                                    )
+                                    :($class_array['class_code']=="D"
+                                        ?0
+                                        :0
+                                    )
+                                )
+                            )
+                        );
+            $class_array['royalty_estimate'] = $royalty_estimate;
+
             $location_array['classes'][] = $class_array;
+
+            $location_array['earned_gross_revenue'] += $earned_gross_revenue;
+            $location_array['max_royalty'] = $location_array['max_royalty'] > $royalty_estimate ? $location_array['max_royalty'] : $royalty_estimate;            
+            $location_array['monthly_enrollment'] += $monthly_enrollment;
+            //var_dump($location_array['monthly_enrollment'], $monthly_enrollment);
         endforeach;
+
+        $total_enrollment += $location_array['monthly_enrollment'];
 
         //Add to Master Array
         $master_array['locations'][] = $location_array;
+        $master_array['total_enrollment'] = $total_enrollment;
+        $master_array['rss_total'] += $location_array['max_royalty'];
+        $master_array['earned_gross_revenue'] += $location_array['earned_gross_revenue'];        
     endforeach;
+    $master_array['total_due_royalties'] = ($master_array['rss_total']>600 ? $master_array['rss_total'] : 600);
 endif;
 
 
@@ -192,9 +257,9 @@ endif;
                 <tr style="background: #0070c0; color: #fff">
                     <td>ZIP</td>
                     <td colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
-                    <td colspan="2">Enrollment 39</td>
-                    <td colspan="2">Total Gross: $689</td>
-                    <td colspan="2">ROY Due: $52</td>
+                    <td colspan="2">Enrollment <?php echo $location_array['monthly_enrollment'];?></td>
+                    <td colspan="2">Total Gross: <?php echo $location_array['earned_gross_revenue'];?></td>
+                    <td colspan="3">ROY Due: <?php echo $location_array['max_royalty'];?></td>
                 </tr>
                 <tr style="background: #e7e6e6; color: #000">
                     <td>Program Code</td>
@@ -209,6 +274,7 @@ endif;
                     <td>Class Status</td>
                     <td># Weeks Thought</td>
                     <td>Earned Gross Revenue</td>
+                    <td>Royalty Estimate</td>
                 </tr>
                 <?php 
                 if($location['classes']):
@@ -222,15 +288,42 @@ endif;
                             <td class="price"><?php echo '$'. $class['standard_tuition']; ?></td>
                             <td><?php echo $class['standard_no_weeks']; ?></td>
                             <td class="price"><?php echo '$'. $class['weekly_tuition']; ?></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="price"></td>
+                            <td><?php echo $class['status_code'];?></td>
+                            <td><?php echo $class['class_status'];?></td>
+                            <td><?php echo $class['no_weeks_taught'];?></td>
+                            <td class="price"><?php echo $class['earned_gross_revenue'];?></td>
+                            <td class="price"><?php echo $class['royalty_estimate'];?></td>
                         </tr>
                 <?php endforeach; 
                 endif;
                 ?>
             <?php endforeach; ?>
+        </table>
+
+        <?php //var_dump($master_array);?>
+
+        <table width="100%">
+            <tr style="background: #e7e6e6; color: #000">
+                <th colspan="7">Franchise Totals</th>
+            </tr>            
+            <tr style="background: #e7e6e6; color: #000">
+                <th>Active Locations</th>
+                <th>Total Enrollment</th>
+                <th>Average Enrollment</th>
+                <th>RSS Total</th>
+                <th>Royalties as a %</th>
+                <th>Gross Revenue</th>
+                <th>Total Due Royalties</th>                
+            </tr>
+            <tr>
+                <th><?php echo count($locations);?></th>
+                <th><?php echo $master_array['total_enrollment'] ;?></th>
+                <th><?php echo round($master_array['total_enrollment'] / count($master_array['locations']),2) ;?></th>
+                <th><?php echo $master_array['rss_total'];?></th>
+                <th><?php echo (100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'])).'%';?></th>
+                <th><?php echo $master_array['earned_gross_revenue'];?></th>
+                <th><?php echo $master_array['total_due_royalties'];?></th>
+            <tr>
         </table>
 
     </div>
