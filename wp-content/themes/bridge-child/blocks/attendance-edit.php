@@ -24,6 +24,14 @@ $franchise      = get_post( $franchise_id );
 $location_id   = get_post_meta( $attendance->ID, 'attendance_location_id', true );
 $location      = get_post( $location_id );
 
+$coach_id   = get_post_meta( $attendance->ID, 'attendance_coach_id', true );
+$coach      = get_post( $coach_id );
+
+$coaches = array();
+if(!empty($class_id)) {
+    $coaches = get_post_meta($class_id, 'coaches', true);
+}
+
 $attendance_date = get_post_meta( $attendance->ID, 'attendance_date', true );
 
 $customers_args = array(
@@ -147,6 +155,25 @@ $franchises = get_users( $franchise_args );
                                     <?php foreach( $classes as $class ) : ?>
                                         <option value="<?php echo $class->ID; ?>" <?php selected($class_id, $class->ID, true );?> required><?php echo $class->post_title; ?></option>
                                     <?php endforeach; ?>
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Coach <span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select name="attendance_coach_id" class="form-control" id="attendance_coach_id" title="Please select a coach." required>
+                                    <option value=""></option>
+                                     <?php foreach( $coaches as $temp_coach_id ) : 
+                                            $coach = get_user_by('id', $temp_coach_id, true); ?>
+                                            <option value="<?php echo $coach->ID; ?>" <?php selected($coach_id, $coach->ID, true ); ?>><?php echo $coach->first_name . ' ' . $coach->last_name; ?></option>
+                                        <?php endforeach; ?>
                                 </select>
                                 <!-- /# -->
                                 <i class="fieldset-overlay" data-js="focus-on-field"></i>
@@ -314,9 +341,36 @@ $(document).ready(function () {
             class_dates = resp;
             console.log(class_dates);
             $('[data-js="datepicker-format"]').prop('disabled',false);
+        });
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_coaches',
+                class_id: $('#attendance_class_id').val()
+            },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
+            success: function(data) {
+                var placeholder = data.length == 1 ? "No classes found for this location" : "Select a class";
+
+                $('#attendance_coach_id').html('').select2({
+                    placeholder: placeholder,
+                    data: data,
+                    width: '100%'
+                });
+                am2_hide_preloader(form);
+            }
         })
         //var class_dates = <?php //echo json_encode();?>;
     });
+
+    $('#attendance_coach_id').select2({
+        placeholder: 'Select a coach',
+        width: '100%'
+    })
 });
 </script>
 
