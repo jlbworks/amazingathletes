@@ -129,7 +129,34 @@ if(!empty($locations)):
                 $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2);
             } 
             elseif($class_array['class_costs'] == 'Contracts/Events'){
-                //$class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_session_session_tuition', true);
+                $contracts_events_type = get_post_meta($class->ID, 'contracts_events_type', true);
+                $class_array['standard_no_weeks'] = 4; //auto set to 4
+
+                if($contracts_events_type == 'Paid Per Class'){
+                    $amount = get_post_meta($class->ID, 'amount_earned_per_class', true);
+                    $per_month = get_post_meta($class->ID, 'classes_per_month', true);
+                    $class_array['standard_tuition'] = ($amount * $per_month) / $monthly_enrollment;
+                }
+                else if($contracts_events_type == 'Paid Per Student'){
+                    $amount = get_post_meta($class->ID, 'amount_earned_per_student', true);
+                    $per_month = get_post_meta($class->ID, 'classes_per_month', true);
+                    $class_array['standard_tuition'] = ($amount * $per_month);
+                }
+                else if($contracts_events_type == 'Paid Per Hour'){
+                    $amount = get_post_meta($class->ID, 'amount_earned_per_hour', true);
+                    $hours_per_month = get_post_meta($class->ID, 'hours_per_month', true);
+                    //$per_month = get_post_meta($class->ID, 'classes_per_month', true);
+                    $class_array['standard_tuition'] = ($amount * $hours_per_month);
+                }
+                else if($contracts_events_type == 'Paid Per Day'){
+                    $amount = get_post_meta($class->ID, 'amount_earned_per_day', true);
+                    $days_per_month = get_post_meta($class->ID, 'days_per_month', true);
+                    //$per_month = get_post_meta($class->ID, 'classes_per_month', true);
+                    $class_array['standard_tuition'] = ($amount * $days_per_month);
+                }
+                                
+                
+                $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2);
             }
 
             foreach($attendances as $attendance ){
@@ -151,25 +178,25 @@ if(!empty($locations)):
 
             $royalty_estimate = (
                 $class_array['status_code']==="B" ? 0 : 
-                    ( 
-                        ($class_array['status_code']=="N"||$class_array['status_code']=="RS"||$class_array['class_code']=="SPP"||$class_array['class_code']=="C"||$class_array['class_code']=="E")
-                            ? ($class_array['weekly_tuition']>10 
-                                ?$class_array['weekly_tuition']*$class_array['no_weeks_taught']
-                                :10*$class_array['no_weeks_taught']
-                                )
-                            : (
-                                ($class_array['class_code']=="MPP"||$class_array['class_code']=="LPC")
-                                    ?($class_array['weekly_tuition']>10
-                                        ?$class_array['weekly_tuition']*$class_array['standard_no_weeks']
-                                        :10*$class_array['standard_no_weeks']
-                                    )
-                                    :($class_array['class_code']=="D"
-                                        ?0
-                                        :0
-                                    )
-                                )
-                            )
-                        );
+                ( 
+                    ($class_array['status_code']=="N"||$class_array['status_code']=="RS"||$class_array['class_code']=="SPP"||$class_array['class_code']=="C"||$class_array['class_code']=="E")
+                    ? ($class_array['weekly_tuition']>10 
+                        ?$class_array['weekly_tuition']*$class_array['no_weeks_taught']
+                        :10*$class_array['no_weeks_taught']
+                    )
+                    : (
+                        ($class_array['class_code']=="MPP"||$class_array['class_code']=="LPC")
+                        ?($class_array['weekly_tuition']>10
+                            ?$class_array['weekly_tuition']*$class_array['standard_no_weeks']
+                            :10*$class_array['standard_no_weeks']
+                        )
+                        :($class_array['class_code']=="D"
+                            ?0
+                            :0
+                        )
+                    )
+                )
+            );
             $class_array['royalty_estimate'] = $royalty_estimate;
 
             $location_array['classes'][] = $class_array;
