@@ -303,7 +303,7 @@ endif;
         <?php //var_dump($master_array);?>
 
         <table width="100%">
-            <tr style="background: #e7e6e6; color: #000">
+            <tr style="background: #000; color: #fff">
                 <th colspan="7">Franchise Totals</th>
             </tr>            
             <tr style="background: #e7e6e6; color: #000">
@@ -316,7 +316,7 @@ endif;
                 <th>Total Due Royalties</th>                
             </tr>
             <tr>
-                <th><?php echo count($locations);?></th>
+                <th><?php echo count($master_array['locations']);?></th>
                 <th><?php echo $master_array['total_enrollment'] ;?></th>
                 <th><?php echo round($master_array['total_enrollment'] / count($master_array['locations']),2) ;?></th>
                 <th><?php echo $master_array['rss_total'];?></th>
