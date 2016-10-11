@@ -77,16 +77,21 @@
         </a>
     </div>
     <div class="side-nav">
-        <a href="http://amazingathletes.jlbdev.net/pro-shop/" class="sidebar-link">
+        <a href="http://playlearnperform.com/login/" target=_blank; class="sidebar-link">
             <span>
                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2"
                 data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-rescources-golf-icon.png"
                 data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png">
             </span>
             <span class="sidebar-nav">
-                <h2>ORDERING</h2>
+                <h2>PRO SHOP</h2>
             </span>
         </a>
+    </div>
+	<div class="side-nav">
+		<div class="sidebar-link">
+			</form>
+		</div>
     </div>
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-staff/" class="sidebar-link">
