@@ -26,9 +26,9 @@ $args = array(
     'posts_per_page' => -1,
 );
 
-if(is_role('franchisee')){
-    $args['author']  =  $rss_report->rss_franchise_id;
-}
+
+$args['author']  =  $rss_report->rss_franchise_id;
+
 
 $master_array = array();
 
