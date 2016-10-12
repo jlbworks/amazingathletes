@@ -622,6 +622,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
                     $('a[data-fancybox-type="iframe"]').fancybox();
 
+                    $ul.change();
                 } else {
                 	$('.dynamic-locaion-content .list').html((state_name ? 'There are no locations for your query in '+ state_name : 'No locations in this area' ));
                 }
@@ -778,6 +779,8 @@ var classes_with_special_title = ['Contract','Camp'];
 	                $('.state .cities').selectize();
 
                     $('a[data-fancybox-type="iframe"]').fancybox();
+
+                    $ul.change();
 
                 } else {
                 	$('.dynamic-locaion-content .list').html($state);
