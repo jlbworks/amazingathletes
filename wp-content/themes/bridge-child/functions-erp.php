@@ -627,7 +627,7 @@ function submit_data() {
 
         $meta_data = array();
         $meta_fields = array(
-            'total', 'bonus'
+            'total', 'other', 'travel_surcharge', 'liability_insurance_rebate', 'equipment_rental_rebate', 'settled_outstanding_student_compensations'
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = str_replace('$','',sanitize_text_field($_POST[$field]));
