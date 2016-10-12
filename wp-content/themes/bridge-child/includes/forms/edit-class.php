@@ -716,21 +716,21 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 			jQuery(document).ready(function(){
 				checkChangeToRadios();
 				checkChangeToSelectClass();
-				//checkChangeToCheckboxes();
+				checkChangeToCheckboxes();
 				jQuery('.js-induce-change').on('click', function(){
 					changeToSection = jQuery(this).data('change-to-section');
 			        changeToId = jQuery(this).data('change-to-id');
 			        changeTo(changeToId, changeToSection);
 				});
 
-				/*jQuery('.js-induce-change-select-class').on('change', function(){
+				jQuery('.js-induce-change-select-class').on('change', function(){
 					changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
 		            changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
 			        changeTo(changeToId, changeToSection);
-				});*/
+				});
 
 				jQuery('.js-induce-change-checkboxes').on('change', function(){
-					//checkChangeToCheckboxes();
+					checkChangeToCheckboxes();
 				});
 
 			})
