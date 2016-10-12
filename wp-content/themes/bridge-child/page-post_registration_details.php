@@ -23,6 +23,9 @@
 ?>
 <?php if(isset($_GET['iframe'])) wp_head(); else get_header();?>
 <?php while(have_posts()) { the_post();?>
+<style type="text/css">
+    header,footer {display:none;}
+</style>
 <?php the_content();?>
 <?php } ?>
 <script>
