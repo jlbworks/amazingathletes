@@ -8,17 +8,19 @@ $id = $target_args['id'];
 restrict_access('administrator,franchisee,coach');
 
 $coach_invoice = get_post($id);
-$franchise = get_user_by('id', $coach_invoice->franchise_id);
+$franchise = get_user_by('id', $coach_invoice->franchise_id); 
 $franchise_name = $franchise->display_name;
 if(!empty($franchise->first_name) || !empty($franchise->last_name)) {
     $franchise_name = $franchise->first_name . ' ' . $franchise->last_name;
 }
+$franchise_data = get_user_meta($coach_invoice->franchise_id);
 
-$coach = get_user_by('id', $coach_invoice->coach_id);
+$coach = get_user_by('id', $coach_invoice->coach_id); 
 $coach_name = $coach->display_name;
 if(!empty($coach->first_name) || !empty($coach->last_name)) {
     $coach_name = $coach->first_name . ' ' . $coach->last_name;
 }
+$coach_data = get_user_meta($coach_invoice->coach_id);
 
 /* Invoice data */
 $total = '0.00';
@@ -101,36 +103,34 @@ endif;
         
         <div class="validation-message"><ul></ul></div>
             <div class="card-table">
-                <?php if( is_role( 'administrator') ) : ?>
-                    <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Franchise</span>
-                        <div class="card-table-cell">
-                            <?php echo $franchise_name; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <div class="card-table-row">
-                    <span class="card-table-cell fixed250">Coach</span>
-                    <div class="card-table-cell">
-                        <?php echo $coach_name; ?>
-                    </div>
+                <div class="card-header">
                 </div>
-
-                <div class="card-table-row">
-                    <span class="card-table-cell fixed250">Date Start</span>
-                    <div class="card-table-cell">
-                        <?php echo $coach_invoice->date_start; ?>
-                    </div>
+                <div class="card-inner">
+                <div class="col-12">
+                    <h2>Remit To:</h2>
+                    <p>
+                        <?php echo $coach->first_name.' '.$coach->last_name.', '.$coach_data['employment_type'][0]; ?><br>
+                        <?php echo $coach_data['street_address'][0]; ?><br>
+                        <?php $city__state = explode("|", $coach_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$coach_data['zip_code'][0]; ?><br>
+                        <?php echo $coach_data['contact_number'][0]; ?>
+                    </p>
                 </div>
-                <div class="card-table-row">
-                    <span class="card-table-cell fixed250">Date End</span>
-                    <div class="card-table-cell">
-                        <?php echo $coach_invoice->date_end; ?>
-                    </div>
+                <div class="col-12">
+                    <h2>Bill To:</h2>
+                    <?php echo $franchise_name; ?><br>
+                    <?php echo $franchise_data['franchise_address'][0]; ?><br>
+                    <?php $city__state = explode("|", $franchise_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$franchise_data['franchise_zip'][0]; ?><br>
+                    <?php echo $franchise_data['franchise_telephone'][0]; ?>
                 </div>
+                <div class="spacer"></div>
+                <div class="col-1 clearfix">
+                    <h2>Invoice for:</h2>
+                    <p><?php echo date('F d, Y',strtotime($coach_invoice->date_start)); ?> - <?php echo date('F d, Y',strtotime($coach_invoice->date_end)); ?> </p>
+                </div>
+                
             </div>
              </div>
+            </div>
 
    
 </div>
