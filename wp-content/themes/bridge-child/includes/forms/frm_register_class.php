@@ -163,4 +163,6 @@
     <input type="hidden" name="class_id" value="<?php echo $_GET['class_id'];?>" />
     <input type="submit" value="Register" >    
   </form>
+
+  <a data-fancybox-type="iframe" class="fancybox-iframe payment_options_popup" data-href="<?php echo site_url();?>/post_registration_details/?iframe&class_id=<?php echo $_GET['class_id'];?>&paid_tuition=" href="<?php echo site_url();?>/post_registration_details/?iframe&class_id=<?php echo $_GET['class_id'];?>&paid_tuition={paid_tuition}">Payment Options</a>
 </div>
