@@ -989,7 +989,8 @@ var classes_with_special_title = ['Contract','Camp'];
 
         console.log(payment_href);       
 
-        $('.payment_options_popup').fancybox();
+        $('.payment_options_popup').show();
+        $('.payment_options_popup').fancybox();        
         $('.payment_options_popup').trigger('click'); 
 
         $('#frm_registration').hide();
