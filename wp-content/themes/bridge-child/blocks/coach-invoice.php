@@ -23,8 +23,16 @@ if(!empty($coach->first_name) || !empty($coach->last_name)) {
 /* Invoice data */
 $total = '0.00';
 if(!empty($coach_invoice->total)) $total = $coach_invoice->total;
-$bonus = '0.00';
-if(!empty($coach_invoice->bonus)) $bonus = $coach_invoice->bonus;
+$other = '0.00';
+if(!empty($coach_invoice->bonus)) $other = $coach_invoice->other;
+$travel_surcharge = '0.00';
+if(!empty($coach_invoice->travel_surcharge)) $travel_surcharge = $coach_invoice->travel_surcharge;
+$liability_insurance_rebate = '0.00';
+if(!empty($coach_invoice->liability_insurance_rebate)) $liability_insurance_rebate = $coach_invoice->liability_insurance_rebate;
+$equipment_rental_rebate = '0.00';
+if(!empty($coach_invoice->equipment_rental_rebate)) $equipment_rental_rebate = $coach_invoice->equipment_rental_rebate;
+$settled_outstanding_student_compensations = '0.00';
+if(!empty($coach_invoice->settled_outstanding_student_compensations)) $settled_outstanding_student_compensations = $coach_invoice->settled_outstanding_student_compensations;
 
 /* GET DATA FOR COACH */
 $args = array(
@@ -239,40 +247,58 @@ endif;
                         </div>
 
                     </div>
-                    <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Bonus </span>
+                     <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Travel Surcharge </span>
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="bonus" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$<?php echo $bonus; ?>" />
+                                <input type="text" data-js="" name="travel_surcharge" class="form-control currency js-add-to-grand-total" title="Please add travel surcharge" value="$<?php echo $travel_surcharge; ?>" />
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+                     <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Liability Insurance Rebate </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="" name="liability_insurance_rebate" class="form-control currency js-add-to-grand-total" title="Please add Liability Insurance Rebate" value="$<?php echo $liability_insurance_rebate; ?>" />
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+                     <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Equipment Rental Rebate </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="" name="equipment_rental_rebate" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$<?php echo $equipment_rental_rebate; ?>" />
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Settled Outstanding Student Compensations </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="" name="settled_outstanding_student_compensations" class="form-control currency js-add-to-grand-total" title="Please add Settled Outstanding Student Compensations" value="$<?php echo $settled_outstanding_student_compensations; ?>" />
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Other </span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                            <fieldset>
+                                <input type="text" data-js="" name="other" class="form-control currency js-add-to-grand-total" title="Please add Others" value="$<?php echo $other; ?>" />
                             </fieldset>
                         </div>
                         </div>
                     </div>
 
-                    <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Equipment deductions </span>
-                        <div class="card-table-cell">
-                            <div class="card-form">
-                            <fieldset>
-                                <input type="text" data-js="" name="equipment_deductions" class="form-control currency js-add-to-grand-total" title="Please add equipment deductions" value="$0.00" />
-                            </fieldset>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Insurance </span>
-                        <div class="card-table-cell">
-                            <div class="card-form">
-                            <fieldset>
-                                <input type="text" data-js="" name="Insurance" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$0.00" />
-                            </fieldset>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="card-table-row">
+                    <div class="card-table-row" style="color: red;">
                         <span class="card-table-cell fixed250"><strong>Grand Total</strong> </span>
                         <div class="card-table-cell">
                         <div class="card-form">
@@ -355,8 +381,8 @@ $(document).ready(function () {
 });
 
 function initMasks() {
-    $('.currency').maskMoney({thousands:',', decimal:'.', allowZero: true, prefix: '$'});
-    $('.number').maskMoney({thousands:'', decimal:'', precision: 0, allowZero: true, prefix: ''});
+    $('.currency').maskMoney({thousands:',', decimal:'.', allowZero: true, prefix: '$', allowNegative: true});
+    $('.number').maskMoney({thousands:'', decimal:'', precision: 0, allowZero: true, prefix: '', allowNegative: true});
 }
 
 function parseCurrency( num ) {
