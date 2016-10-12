@@ -316,6 +316,7 @@ endif;
 
                     <div class="card-table-row clearfix">
                         <button class="left btn btn--primary" type="submit">Save Invoice</button>
+                        <a class="left btn btn--transparent" style="margin-left:10px;" href="<?php echo site_url(); ?>/invoice?type=coach&id=<?php echo $id; ?>" type="submit">View Printable Invoice</a>
                     </div>
                     <div class="spacer"></div>
             </div>

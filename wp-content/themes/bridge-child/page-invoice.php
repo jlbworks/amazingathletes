@@ -12,10 +12,43 @@ if($invoice->post_type != 'invoice') {
     die; 
 }
 
+setlocale(LC_MONETARY, 'en_US');
+
 $back_link = '';
 if($invoice_type == 'coach') {
     $back_link = site_url().'/erp/#coach-invoice/?id='.$invoice_id;
 }
+if($invoice_type == 'coach') {
+/* Invoice data */
+$invoice_data = get_post_meta($invoice_id);
+$total = '0.00';
+if(!empty($invoice_data['total'][0])) $total = $invoice_data['total'][0];
+$other = '0.00';
+if(!empty($invoice_data['other'][0])) $other = $invoice_data['other'][0];
+$travel_surcharge = '0.00';
+if(!empty($invoice_data['travel_surcharge'][0])) $travel_surcharge = $invoice_data['travel_surcharge'][0];
+$liability_insurance_rebate = '0.00';
+if(!empty($invoice_data['liability_insurance_rebate'][0])) $liability_insurance_rebate = $invoice_data['liability_insurance_rebate'][0];
+$equipment_rental_rebate = '0.00';
+if(!empty($invoice_data['equipment_rental_rebate'][0])) $equipment_rental_rebate = $invoice_data['equipment_rental_rebate'][0];
+$settled_outstanding_student_compensations = '0.00';
+if(!empty($invoice_data['settled_outstanding_student_compensations'][0])) $settled_outstanding_student_compensations = $invoice_data['settled_outstanding_student_compensations'][0];
+$items = get_post_meta($invoice_id, 'item', true);
+
+$coach_invoice = get_post($invoice_id);
+$franchise = get_user_by('id', $coach_invoice->franchise_id); 
+$franchise_name = $franchise->display_name;
+if(!empty($franchise->first_name) || !empty($franchise->last_name)) {
+    $franchise_name = $franchise->first_name . ' ' . $franchise->last_name;
+}
+$franchise_data = get_user_meta($coach_invoice->franchise_id);
+
+$coach = get_user_by('id', $coach_invoice->coach_id); 
+$coach_name = $coach->display_name;
+if(!empty($coach->first_name) || !empty($coach->last_name)) {
+    $coach_name = $coach->first_name . ' ' . $coach->last_name;
+}
+$coach_data = get_user_meta($coach_invoice->coach_id);
 ?>
 <!doctype html>
 <html class="boxed" moznomarginboxes mozdisallowselectionprint>
@@ -82,10 +115,20 @@ if($invoice_type == 'coach') {
             </tr>
             <tr id="invoice-details">
                 <td style="padding-top: 40px;" valign="top" width="40%">
-                    <span style="font-size: 12px; font-weight: bold;">To:</span><br><span style="font-size: 11px;">Tina Ebersberger<br>231 East 18th Street <br> <br> North Vancouver, British Columbia V7L 2X7<br> Canada </span>
+                    <span style="font-size: 12px; font-weight: bold;">Remit To:</span><br><span style="font-size: 11px;">
+                        <?php echo $coach->first_name.' '.$coach->last_name.', '.$coach_data['employment_type'][0]; ?><br>
+                        <?php echo $coach_data['street_address'][0]; ?><br>
+                        <?php $city__state = explode("|", $coach_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$coach_data['zip_code'][0]; ?><br>
+                        <?php echo $coach_data['contact_number'][0]; ?>
+                    </span>
                 </td>
                 <td style="padding-top: 40px;" valign="top" width="30%">
-                    <span style="font-size: 12px; font-weight: bold;">From:</span><br><span style="font-size: 11px;">TicketZone<br></span>
+                    <span style="font-size: 12px; font-weight: bold;">Bill To:</span><br><span style="font-size: 11px;">
+                        <?php echo $franchise_name; ?><br>
+                        <?php echo $franchise_data['franchise_address'][0]; ?><br>
+                        <?php $city__state = explode("|", $franchise_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$franchise_data['franchise_zip'][0]; ?><br>
+                        <?php echo $franchise_data['franchise_telephone'][0]; ?>
+                    </span>
                 </td>
                 <td style="padding-top: 40px;" align="left" valign="top" width="30%">
                     <table border="0" cellspacing="0" cellpadding="2"><tbody>
@@ -100,73 +143,61 @@ if($invoice_type == 'coach') {
         <table class="invoice-table" style="margin-top: 50px; width: 100%;" border="0" cellspacing="0" cellpadding="6"><tbody>
             <tr>
                 <td align="left" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Description</span></td>
-                <td style="width: 7%;" align="center" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Taxed</span></td>
                 <td style="width: 15%;" align="right" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Unit cost</span></td>
                 <td style="width: 7%;" align="center" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Qty</span></td>
                 <td style="width: 15%;" align="right" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Price</span></td>
             </tr>
-                            <tr>
-                    <td style="border-bottom: 1px solid #F0F0F0;" valign="middle"><span style="font-size: 11px;">ENCHANT Dec 17th: Christmas Light Maze &amp; Market &mdash; Adult (16+): Day Pass</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;">$1.00</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;">$19.95</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;">1</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;">$22.95</span></td>
-                </tr>
-                            <tr>
-                    <td style="border-bottom: 1px solid #F0F0F0;" valign="middle"><span style="font-size: 11px;">ENCHANT Dec 17th: Christmas Light Maze &amp; Market &mdash; Adult (16+): Day Pass</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;">$1.00</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;">$19.95</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;">1</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;">$22.95</span></td>
-                </tr>
-                            <tr>
-                    <td style="border-bottom: 1px solid #F0F0F0;" valign="middle"><span style="font-size: 11px;">ENCHANT Dec 17th: Christmas Light Maze &amp; Market &mdash; Children (6-15): Day Pass</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;">$0.75</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;">$14.95</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;">1</span></td>
-                    <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;">$17.70</span></td>
-                </tr>
-                        <tr>
-            <td> </td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Subtotal:</span></td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px;">$54.85</span></td>
+            <?php if($items):
+            foreach($items as $item): ?>
+            
+            <tr>
+                <td style="border-bottom: 1px solid #F0F0F0;" valign="middle"><span style="font-size: 11px;"><?php echo $item['description']; ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format($item['price'], 2); ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format($item['quantity'], 2); ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format(($item['price'] * $item['quantity']), 2); ?></span></td>
+            </tr>
+            <?php endforeach;
+            endif; ?>          
+         <tr>
+
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Subtotal:</span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($total, 2); ?></span></td>
         </tr>
         <tr>
-            <td> </td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Discount:</span></td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px;">$0.00</span></td>
+
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Travel Surcharge:</span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($travel_surcharge, 2); ?></span></td>
         </tr>
         <tr>
-            <td> </td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Service fee:</span></td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px;">$2.40</span></td>
+
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Liability Insurance Rebate:</span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($liability_insurance_rebate, 2); ?></span></td>
         </tr>
                     <tr>
-                <td> </td>
-                <td colspan="2" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Facility Fee:</span></td>
-                <td colspan="2" align="right" valign="middle"><span style="font-size: 12px;">$3.60</span></td>
+
+                <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Equipment Rental Rebate :</span></td>
+                <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($equipment_rental_rebate, 2); ?></span></td>
             </tr>
                 <tr>
-            <td> </td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Delivery:</span></td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px;">$0.00</span></td>
+
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Settled Outstanding Student Compensations:</span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($settled_outstanding_student_compensations, 2); ?></span></td>
+        </tr>
+
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Other:</span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($other, 2); ?></span></td>
         </tr>
         <tr>
-            <td> </td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Tax:</span></td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 12px;">$2.74</span></td>
-        </tr>
-        <tr>
-            <td> </td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;">total</span></td>
-            <td colspan="2" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;">$63.59</span></td>
+
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;">Total</span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;"><?php echo "$".number_format($grand_total, 2); ?></span></td>
         </tr>
     </tbody></table>
     <table style="margin-top: 50px; width: 100%;" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
         <td style="width: 100%;" align="left" valign="middle"> </td>
     </tr></tbody></table>
                 <table style="margin-top: 50px; width: 100%;" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
-    <td style="border-top: 1px solid #F0F0F0; padding-top: 10px; width: 100%;" align="center"><span style="font-size: 11px; color: #a4a4a4;">ticketzone.com<br></span></td>
+    <td style="border-top: 1px solid #F0F0F0; padding-top: 10px; width: 100%;" align="center"><span style="font-size: 11px; color: #a4a4a4;">http://amazingathletes.com/<br></span></td>
 </tr></tbody></table>
 </div></body>
 </html>
@@ -175,34 +206,17 @@ if($invoice_type == 'coach') {
 <div class="right" id="payform-container">
     <div id="paymenu">
         <a href="#" onclick="window.print();" class="pelem"><i class="icon-print"></i> Print Invoice</a>
-        <a href="https://www.ticketzone.com/account/order/printReceipt/166385/1" class="pelem"><i class="icon-download-alt"></i> Download PDF</a>
+        <?php /*<a href="https://www.ticketzone.com/account/order/printReceipt/166385/1" class="pelem"><i class="icon-download-alt"></i> Download PDF</a>*/ ?>
     </div>
 </div>
 <div style="clear:both"></div>
 </div>
-
-
-                
-        
-
-        <script type="text/javascript">
-            am2.ajax_fetch_countries_url    = 'https://www.ticketzone.com/ajax/country';
-            am2.ajax_store_country          = 'https://www.ticketzone.com/api/v1/country';
-
-            am2.ajax_state_query            = 'https://www.ticketzone.com/backend/api/state';
-            am2.ajax_state_store            = 'https://www.ticketzone.com/backend/api/state';
-            am2.ajax_googlePlaces           = 'https://www.ticketzone.com/backend/api/state/googlePlaces';
-
-            am2.ajax_city_query             = 'https://www.ticketzone.com/backend/api/city';
-            am2.ajax_city_store             = 'https://www.ticketzone.com/backend/api/city';
-
-
-
-        </script>
-                
 
         
 
                 
     </body>
 </html>
+<?php } 
+//END COACH TEMPLATE
+?>
