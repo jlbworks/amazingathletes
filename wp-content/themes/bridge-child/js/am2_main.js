@@ -508,10 +508,11 @@ var classes_with_special_title = ['Contract','Camp'];
 
                 if(Object.keys(resp).length>0){
                 	var $ul = $('<select class="cities"></select>');
+                    $ul.append('<option value="">Select a city</option>');
 
                     var i=0;
 	                $.each(resp, function(k,v){                        
-	                    var $li = $('<option value="'+k+'" data-id="'+ k +'" '+(i++==0?'selected':'')+'></option>');
+	                    var $li = $('<option value="'+k+'" data-id="'+ k +'"></option>');
 	                    $li.append(k);
 
 	                    $ul.append($li);
@@ -618,7 +619,9 @@ var classes_with_special_title = ['Contract','Camp'];
 
 	                }).trigger('change');
 
-	                $('.state .cities').selectize();
+	                $('.state .cities').selectize({
+                        placeholder: 'Select a city...'
+                    });
 
                     $('a[data-fancybox-type="iframe"]').fancybox();
 
@@ -667,10 +670,11 @@ var classes_with_special_title = ['Contract','Camp'];
 
                 if(Object.keys(resp).length>0){
                 	var $ul = $('<select class="cities"></select>');
+                    $ul.append('<option value="">Select a city</option>');
 
                     var i=0;
 	                $.each(resp, function(k,v){                        
-	                    var $li = $('<option value="'+k+'" data-id="'+ k +'" '+(i++==0?'selected':'')+'></option>');
+	                    var $li = $('<option value="'+k+'" data-id="'+ k +'"></option>');
 	                    $li.append(k);
 
 	                    $ul.append($li);
@@ -777,7 +781,9 @@ var classes_with_special_title = ['Contract','Camp'];
 
 	                }).trigger('change');
 
-	                $('.state .cities').selectize();
+	                $('.state .cities').selectize({
+                        placeholder: 'Select a city...'
+                    });
 
                     $('a[data-fancybox-type="iframe"]').fancybox();
 
