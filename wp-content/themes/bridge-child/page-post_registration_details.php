@@ -59,7 +59,7 @@
         program_name : location_class.program,
         tuition : '$' +  ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0)),
         registration_fee : '$' + registration_fee,
-        amount_due : '$' + registration_fee + tuition,
+        amount_due : '$' + (registration_fee + tuition),
         individual_1_first_name : franchisee.individual_1_first_name,            
         individual_1_last_name : franchisee.individual_1_last_name,
         contact_name : franchisee.individual_1_first_name + ' ' + franchisee.individual_1_last_name,
