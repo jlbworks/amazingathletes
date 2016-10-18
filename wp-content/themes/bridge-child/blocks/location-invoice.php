@@ -5,66 +5,58 @@ get_currentuserinfo();
 global $target_args;
 $id = $target_args['id'];
 
-restrict_access('administrator,franchisee,coach');
+restrict_access('administrator,franchisee');
 
-$coach_invoice = get_post($id);
-$franchise = get_user_by('id', $coach_invoice->franchise_id); 
+$location_invoice = get_post($id);
+$franchise = get_user_by('id', $location_invoice->franchise_id); 
 $franchise_name = $franchise->display_name;
 if(!empty($franchise->first_name) || !empty($franchise->last_name)) {
     $franchise_name = $franchise->first_name . ' ' . $franchise->last_name;
 }
-$franchise_data = get_user_meta($coach_invoice->franchise_id);
+$franchise_data = get_user_meta($location_invoice->franchise_id);
 
-$coach = get_user_by('id', $coach_invoice->coach_id); 
-$coach_name = $coach->display_name;
-if(!empty($coach->first_name) || !empty($coach->last_name)) {
-    $coach_name = $coach->first_name . ' ' . $coach->last_name;
-}
-$coach_data = get_user_meta($coach_invoice->coach_id);
+$location = get_post( $location_invoice->location_id);
+$location_name = $location->post_title;
+
+$location_data = get_post_meta($location_invoice->location_id);
 
 /* Invoice data */
 $total = '0.00';
-if(!empty($coach_invoice->total)) $total = $coach_invoice->total;
+if(!empty($location_invoice->total)) $total = $location_invoice->total;
+$grand_total = '0.00';
+if(!empty($location_invoice->grand_total)) $grand_total = $location_invoice->grand_total;
 $other = '0.00';
-if(!empty($coach_invoice->bonus)) $other = $coach_invoice->other;
-$travel_surcharge = '0.00';
-if(!empty($coach_invoice->travel_surcharge)) $travel_surcharge = $coach_invoice->travel_surcharge;
-$liability_insurance_rebate = '0.00';
-if(!empty($coach_invoice->liability_insurance_rebate)) $liability_insurance_rebate = $coach_invoice->liability_insurance_rebate;
-$equipment_rental_rebate = '0.00';
-if(!empty($coach_invoice->equipment_rental_rebate)) $equipment_rental_rebate = $coach_invoice->equipment_rental_rebate;
-$settled_outstanding_student_compensations = '0.00';
-if(!empty($coach_invoice->settled_outstanding_student_compensations)) $settled_outstanding_student_compensations = $coach_invoice->settled_outstanding_student_compensations;
+if(!empty($location_invoice->bonus)) $other = $location_invoice->other;
 
-/* GET DATA FOR COACH */
+/* GET DATA FOR location */
 $args = array(
   'post_type'   => 'attendance',
   'post_status' => 'publish',
   'posts_per_page'=> -1,
   'meta_query' => array(
         array(
-            'key' => 'attendance_coach_id',
-            'value' => $coach_invoice->coach_id,
+            'key' => 'attendance_location_id',
+            'value' => $location_invoice->location_id,
             'compare' => '='
         ),
         array(
             'key' => 'attendance_date',
-            'value' => array($coach_invoice->date_start,$coach_invoice->date_end),
+            'value' => array(date('Y-m-d',strtotime($location_invoice->date_start)),date('Y-m-d',strtotime($location_invoice->date_end))),
             'compare' => 'BETWEEN'
         ),
 
     ),
 );
-$attendance = get_posts($args);
+$attendance = get_posts($args); 
 $payment_totals = array();
-$items = get_post_meta($coach_invoice->ID, 'item', true);
+$items = get_post_meta($location_invoice->ID, 'item', true);
 if(!empty($items)) {
     $payment_totals = $items;
 } else {
     if($attendance):
     foreach($attendance as $attend):
         $class_id = $attend->attendance_class_id;
-        $class = get_post($class_id);
+        $class = get_post($class_id); 
         $location = get_post($class->location_id);
 
         $coach_pay_scale = $class->coach_pay_scale;
@@ -74,6 +66,11 @@ if(!empty($items)) {
         if($coach_pay_scale == 'Per Student per Class Pay') {
             $payment_totals[$class_id]['price'] = $class->per_student_per_class_pay;
             $payment_totals[$class_id]['total_earned'] += $class->per_student_per_class_pay;
+        }
+
+        if($coach_pay_scale == 'Unpaid') {
+            $payment_totals[$class_id]['price'] = 0;
+            $payment_totals[$class_id]['total_earned'] = 0;
         }
         //new_student_bonus 
     endforeach;
@@ -87,7 +84,7 @@ endif;
 <div class="layout context--pageheader">
     <div class="container clearfix">
         <div class="col-12 break-big">
-            <h1>Coach Invoice #<?php echo $coach_invoice->ID; ?></h1>
+            <h1>Location Invoice #<?php echo $location_invoice->ID; ?></h1>
         </div>
     </div>
 </div>
@@ -107,25 +104,25 @@ endif;
                 </div>
                 <div class="card-inner">
                 <div class="col-12">
-                    <h2>Remit To:</h2>
+                    <h2>From:</h2>
                     <p>
-                        <?php echo $coach->first_name.' '.$coach->last_name.', '.$coach_data['employment_type'][0]; ?><br>
-                        <?php echo $coach_data['street_address'][0]; ?><br>
-                        <?php $city__state = explode("|", $coach_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$coach_data['zip_code'][0]; ?><br>
-                        <?php echo $coach_data['contact_number'][0]; ?>
+                        <?php echo $franchise_name; ?><br>
+                        <?php echo $franchise_data['franchise_address'][0]; ?><br>
+                        <?php $city__state = explode("|", $franchise_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$franchise_data['franchise_zip'][0]; ?><br>
+                        <?php echo $franchise_data['franchise_telephone'][0]; ?>
                     </p>
                 </div>
                 <div class="col-12">
                     <h2>Bill To:</h2>
-                    <?php echo $franchise_name; ?><br>
-                    <?php echo $franchise_data['franchise_address'][0]; ?><br>
-                    <?php $city__state = explode("|", $franchise_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$franchise_data['franchise_zip'][0]; ?><br>
-                    <?php echo $franchise_data['franchise_telephone'][0]; ?>
+                        <?php echo $location->post_title; ?><br>
+                        <?php echo $location_data['faddress'][0]; ?><br>
+                        <?php $city__state = explode("|", $location_data['city__state'][0]); echo $city__state[1].', '.$city__state[0].' '.$location_data['zip'][0]; ?><br>
+                        <?php echo $location_data['telephone'][0]; ?>
                 </div>
                 <div class="spacer"></div>
                 <div class="col-1 clearfix">
                     <h2>Invoice for:</h2>
-                    <p><?php echo date('F d, Y',strtotime($coach_invoice->date_start)); ?> - <?php echo date('F d, Y',strtotime($coach_invoice->date_end)); ?> </p>
+                    <p><?php echo date('F d, Y',strtotime($location_invoice->date_start)); ?> - <?php echo date('F d, Y',strtotime($location_invoice->date_end)); ?> </p>
                 </div>
                 
             </div>
@@ -139,7 +136,7 @@ endif;
 <div class="card-header">
     </div>
     <div class="card-inner">
-<form method="POST" class="form-horizontal well" role="form" id="coach-invoice-form">
+<form method="POST" class="form-horizontal well" role="form" id="location-invoice-form">
 <fieldset class="fields-group">
 <h3>Some Group Of Services</h3>
     <div class="clearfix">
@@ -247,46 +244,7 @@ endif;
                         </div>
 
                     </div>
-                     <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Travel Surcharge </span>
-                        <div class="card-table-cell">
-                            <div class="card-form">
-                            <fieldset>
-                                <input type="text" data-js="" name="travel_surcharge" class="form-control currency js-add-to-grand-total" title="Please add travel surcharge" value="$<?php echo $travel_surcharge; ?>" />
-                            </fieldset>
-                        </div>
-                        </div>
-                    </div>
-                     <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Liability Insurance Rebate </span>
-                        <div class="card-table-cell">
-                            <div class="card-form">
-                            <fieldset>
-                                <input type="text" data-js="" name="liability_insurance_rebate" class="form-control currency js-add-to-grand-total" title="Please add Liability Insurance Rebate" value="$<?php echo $liability_insurance_rebate; ?>" />
-                            </fieldset>
-                        </div>
-                        </div>
-                    </div>
-                     <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Equipment Rental Rebate </span>
-                        <div class="card-table-cell">
-                            <div class="card-form">
-                            <fieldset>
-                                <input type="text" data-js="" name="equipment_rental_rebate" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$<?php echo $equipment_rental_rebate; ?>" />
-                            </fieldset>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Settled Outstanding Student Compensations </span>
-                        <div class="card-table-cell">
-                            <div class="card-form">
-                            <fieldset>
-                                <input type="text" data-js="" name="settled_outstanding_student_compensations" class="form-control currency js-add-to-grand-total" title="Please add Settled Outstanding Student Compensations" value="$<?php echo $settled_outstanding_student_compensations; ?>" />
-                            </fieldset>
-                        </div>
-                        </div>
-                    </div>
+
                     <div class="card-table-row">
                         <span class="card-table-cell fixed250">Other </span>
                         <div class="card-table-cell">
@@ -310,13 +268,13 @@ endif;
                         </div>
                     </div>
 
-                    <input type="hidden" name="invoice_type" value="coach" />
+                    <input type="hidden" name="invoice_type" value="location" />
                     <input type="hidden" name="invoice_id" value="<?php echo $id; ?>" />
-                    <input type="hidden" name="form_handler" value="edit_coach_invoice" />
+                    <input type="hidden" name="form_handler" value="edit_location_invoice" />
 
                     <div class="card-table-row clearfix">
                         <button class="left btn btn--primary" type="submit">Save Invoice</button>
-                        <a class="left btn btn--transparent" style="margin-left:10px;" href="<?php echo site_url(); ?>/invoice?type=coach&id=<?php echo $id; ?>" type="submit">View Printable Invoice</a>
+                        <a class="left btn btn--transparent" style="margin-left:10px;" href="<?php echo site_url(); ?>/invoice?type=location&id=<?php echo $id; ?>" type="submit">View Printable Invoice</a>
                     </div>
                     <div class="spacer"></div>
             </div>
@@ -333,14 +291,14 @@ endif;
 $(document).ready(function () {
   'use strict';
 
-  var form = $("#coach-invoice-form");
+  var form = $("#location-invoice-form");
     form.validate({});
 
     form.ajaxForm({
         // any other options,
         beforeSubmit: function () {
             am2_show_preloader(form);
-            return $("#coach-invoice-form").valid(); // TRUE when form is valid, FALSE will cancel submit
+            return $("#location-invoice-form").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (json) {
             am2.main.notify('pnotify','success', json.message);
