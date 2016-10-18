@@ -299,7 +299,7 @@ endif;
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Weekly Tuition</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Status Code</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Status</td>
-                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;"># Weeks Thought</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;"># Weeks Taught</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Earned Gross Revenue</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Royalty Estimate</td>
                 </tr>
