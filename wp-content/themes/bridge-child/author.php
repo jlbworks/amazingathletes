@@ -275,7 +275,7 @@ get_header();?>
 				</div>
 				<div id="franchise_about">
 					<?php if(isset($page_content['about'])) {?>
-						<?php $res = am2_excerpt ( $page_content['about'], false ); echo $res; // mb_substr(strip_tags( $res ),0,200); ?>
+						<?php $res = am2_excerpt ( $page_content['about'], false, 100 ); echo $res; // mb_substr(strip_tags( $res ),0,200); ?>
 					<?php } ?>		
 					<a class="learn_more" href="<?php echo site_url();?>/<?php echo get_user_meta($curauth->ID,'franchise_slug',true);?>/about">LEARN MORE</a>
 					<?php am2_user_social($author);?>

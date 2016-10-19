@@ -1,4 +1,9 @@
 <?php 
+function custom_excerpt_length( $length ) {
+	return 100;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
 add_action('wp_ajax_am2_ajax_get_postmeta', 'am2_ajax_get_postmeta');
 add_action('wp_ajax_nopriv_am2_ajax_get_postmeta', 'am2_ajax_get_postmeta');
 
@@ -96,7 +101,7 @@ function get_class_date($c, $only_start_date = false) {
 	return $day;
 }
 
-function am2_excerpt($text, $excerpt)
+function am2_excerpt($text, $excerpt, $length)
 {
     if ($excerpt) return $excerpt;
 
@@ -105,7 +110,8 @@ function am2_excerpt($text, $excerpt)
     $text = apply_filters('the_content', $text);
     $text = str_replace(']]>', ']]&gt;', $text);
     $text = strip_tags($text);
-    $excerpt_length = apply_filters('excerpt_length', 55);
+    $excerpt_length = $length ? $length : apply_filters('excerpt_length', 45);
+		
     $excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');
     $words = preg_split("/[\n\r\t ]+/", $text, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
     if ( count($words) > $excerpt_length ) {
