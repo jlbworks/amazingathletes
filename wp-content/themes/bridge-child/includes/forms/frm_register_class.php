@@ -4,12 +4,15 @@
   $class = get_post($class_id);
 
   $location_name = get_the_title($location_id);
+  $class_type = $class->type;
   $special_event_title = get_post_meta($class_id, 'special_event_title', true);
   $class_title = get_the_title($class_id);
   $class_program = (!empty($special_event_title) ? $special_event_title : $class_title ); //get_post_meta($class_id, 'program', true);
   $class_time = get_post_meta($class_id, 'time', true);
   $class_date = get_class_date($class, 'date', true);
 ?>
+
+<?php if($class_type != 'Contract') { ?>
 
 <div role="form" class="wpcf7" id="frm_registration_wrap" lang="en-US" dir="ltr">
 
@@ -166,3 +169,9 @@
 
   <a style="display:none" data-fancybox-type="iframe" class="fancybox-iframe payment_options_popup" data-href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=" href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=">View Payment Options</a>
 </div>
+
+<?php } 
+else {?>
+  <h2>No registration needed for this class, this class is provided free of charge thanks to <?php echo $location_name;?></h2>
+<?php }
+?>
