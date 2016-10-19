@@ -412,6 +412,7 @@ if(is_role('franchisee')){
 
 $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
+
 ?>
 <div class="user_form" style="margin-top:0">
 	<a href="<?php echo site_url();?>/my-account/locations/?loc_id=<?php echo $location->ID; ?>" class="button">Back</a>
@@ -502,7 +503,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				<input type="hidden" name="date" value="<?php echo (is_array($location_class_meta['date']) ? implode(",", $location_class_meta['date']) : '');?>"/>
 
 				<label>Time</label>
-				<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+				<input type="text" name="time" class="timepicker" value="<?php echo $class_time; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 			</div>
 			<div id="class_schedule_recurring" data-section="class-schedule" style="display:none;">
@@ -524,7 +525,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 						<?php endforeach ?>
 					</select>
 					<label>Time</label>
-					<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
+					<input type="text" name="time" class="timepicker" value="<?php echo $class_time; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 				</div>
 				<div id="schedule_monthly" data-section="class-schedule-type" style="display:none;">
@@ -785,6 +786,8 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 					disableDay(target_id, section);
 				}
 
+				jQuery('#'+target_id).find('input').prop('disabled',false);
+
 				jQuery('[data-section="'+section+'"]').hide();
 				jQuery('#'+target_id).show();
 
@@ -902,10 +905,17 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 		});
 
 		$('[name="datetype"]').on('change',function(e){
+					
+
+			$('[id^="class_schedule_"]').each(function(){
+				$(this).find(':input').prop('disabled',true);	
+			});			
+
 			console.log($(this).data());
 			changeToSection = 'class-schedule'; //jQuery('.js-induce-change-select-class').find(':selected').attr('data-change-to-section');
 	        changeToId = $(this).data('change-to-id');
 		    changeTo(changeToId, changeToSection);
+
 		});
 		$('[name="datetype"]:checked').trigger('change');
 

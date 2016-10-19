@@ -6,6 +6,8 @@ $locations = get_posts(
 		'post_status' => 'any',
 		'posts_per_page' => -1,
 		'author' => $user->ID,
+		'orderby' => 'title',
+		'order' => 'ASC',
 	)
 );
 ?>
@@ -40,7 +42,28 @@ $locations = get_posts(
 				)
 			));
 
-			//var_dump($classes);
+			$class_dates = array();
+
+			foreach($classes as $c){
+				$date = get_class_date($c);
+				$date = explode(' - ', $date);
+				$date = explode('/', $date[0]);
+
+				if(count($date)>1){
+					$day = $date[1];
+					$month = $date[0];
+					$year = $date[2];
+
+					$date = date('m/d/Y', strtotime(implode('/',array($month, $day, $year))));
+				}
+				else {
+					$date = date('m/d/Y', strtotime($date[0]));
+				}			
+
+				$class_dates[$date . ' ' . $c->time] = $c;
+			}
+
+			ksort($class_dates);
 
 			foreach($meta_franchisee as $key => $val){
 				$meta_franchisee[$key] = $val[0];
@@ -57,7 +80,7 @@ $locations = get_posts(
 					</form>
 
 				<ul class="franchise_details_visible">
-				<?php foreach($classes as $c){?>
+				<?php foreach($class_dates as $c){?>
 				<li class="class">
 					<?php /*** when array_filter is called without second parameter it removes empty values from the array ***/?>
 					<?php 
@@ -66,7 +89,7 @@ $locations = get_posts(
 						$title .= ' - ' . $c->special_event_title;
 					}
 					?>
-					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array($c->time, get_class_date($c), $title)) ); ?></a>
+					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array( get_class_date($c), $c->time, $title)) ); ?></a>
 					<a class="roster_link" href="<?php echo site_url() . '/erp/#roster/?f_class_id=' . $c->ID ;  ?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/roster.png" width="40px"/></a>
 					<br class="clear"/>
 				</li>
