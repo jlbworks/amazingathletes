@@ -215,4 +215,9 @@ function am2_get_occurrences($_class) {
 
     return  $occurences;
 }
+
+function custom_excerpt_length( $length ) {
+	return 100;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 ?>
