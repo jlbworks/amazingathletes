@@ -59,11 +59,11 @@ var classes_with_special_title = ['Contract','Camp'];
 
         try{
             var myId = getVideoId(author_object.video_url);
-            console.log(myId);
+            //console.log(myId);
 
             $('#franchise_video').html('<iframe width="100%" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>');
         } catch (exc) {
-            console.log(exc);
+            //console.log(exc);
         }
 
         $select_state = $('.am2_cc_state').selectize({
@@ -275,7 +275,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
         $('#frm_edit_location [name="address"], #frm_edit_location [name="city"], #frm_edit_location [name="state"], #frm_edit_location [name="zip"]').on('change', function(){
             $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()),function(res){
-                console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());
+                //console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());
                 if(typeof res != 'undefined' && typeof res.results != 'undefined' && res.length > 0){
                     $('.latlng').val(res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng);
                     initMap();
@@ -355,7 +355,7 @@ var classes_with_special_title = ['Contract','Camp'];
                     am2_alert(resp.message, "Log in", false);
 
                 }
-                console.log(resp);
+                //console.log(resp);
                 ajax_talking = false;
             });
             ajax_talking = true;
@@ -479,7 +479,7 @@ var classes_with_special_title = ['Contract','Camp'];
         if($('.dynamic-locaion-content').length > 0){
             $('.dynamic-locaion-content').html(
                 '<form id="frmFilterMap">' +
-                    '<input type="text" name="franchise_name" id="txtFranchiseName" placeholder="franchise name" />'+
+                    //'<input type="text" name="franchise_name" id="txtFranchiseName" placeholder="franchise name" />'+
                     '<input type="text" name="zip_code" id="txtZipCode" placeholder="enter zip code" />'+
                     '<input type="hidden" name="am2_state" id="hidState" />'+
                     '<input type="hidden" name="action" id="hidAction" value="am2_filter_locations" />'+
@@ -495,7 +495,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
                 am2_show_preloader();
                 $.get(ajax_login_object.ajaxurl, $(this).serialize(), function(resp){
-                    console.log(resp);
+                    //console.log(resp);
 
                     $.each(ajax_login_object.states, function(k,v){
                         if(v.state_code == loc_state){
@@ -539,7 +539,7 @@ var classes_with_special_title = ['Contract','Camp'];
 		                $.each(v, function(k2,v2){
                             var $franchise = $('#franchise_'+v2.meta_franchisee.franchise_slug);
 
-                            console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
+                            //console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
 
                             if($franchise.length>0){                                
                                 var $li_child = $franchise;
@@ -548,7 +548,7 @@ var classes_with_special_title = ['Contract','Camp'];
                                 }                                                                
                             }
                             else {
-                                console.log('f0',v2.meta_franchisee.franchise_photo);
+                                //console.log('f0',v2.meta_franchisee.franchise_photo);
                                 var $li_child = $('<li class="franchise" id="franchise_'+v2.meta_franchisee.franchise_slug+'"></li>');
                                 $li_child.append(
                                     '<div class="franchise_left">'+
@@ -654,12 +654,12 @@ var classes_with_special_title = ['Contract','Camp'];
             else {
             	$('#regions path').attr('class','');
             	$(this).attr('class','selected');
-            	console.log(this);
+            	//console.log(this);
             }
 
             am2_show_preloader();
             $.get(ajax_login_object.ajaxurl, {action:'am2_get_state_locations', am2_state:loc_state}, function(resp){
-                console.log(resp);
+                //console.log(resp);
 
                 $.each(ajax_login_object.states, function(k,v){
                 	if(v.state_code == loc_state){
@@ -701,7 +701,7 @@ var classes_with_special_title = ['Contract','Camp'];
 		                $.each(v, function(k2,v2){
                             var $franchise = $('#franchise_'+v2.meta_franchisee.franchise_slug);
 
-                            console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
+                            //console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
 
                             if($franchise.length>0){                                
                                 var $li_child = $franchise;
@@ -710,7 +710,7 @@ var classes_with_special_title = ['Contract','Camp'];
                                 }                                                                
                             }
                             else {
-                                console.log('f0',v2.meta_franchisee.franchise_photo);
+                                //console.log('f0',v2.meta_franchisee.franchise_photo);
                                 var $li_child = $('<li class="franchise" id="franchise_'+v2.meta_franchisee.franchise_slug+'"></li>');
                                 $li_child.append(
                                     '<div class="franchise_left">'+
@@ -754,9 +754,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
 		                $.each(v, function(k2,v2){
                             var contact_person = typeof(v2.meta.director) != 'undefined' ? v2.meta.director : v2.meta.location_contact_name;
-                            var contact_phone = typeof(v2.meta.telephone) != 'undefined' ? v2.meta.telephone : v2.meta.location_contact_number;
-
-                            console.log(v2.meta,contact_person, contact_phone);
+                            var contact_phone = typeof(v2.meta.telephone) != 'undefined' ? v2.meta.telephone : v2.meta.location_contact_number;                            
 
 		                	$li_child = $('<li class="franchise"></li>');
 		                	$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
@@ -798,7 +796,7 @@ var classes_with_special_title = ['Contract','Camp'];
 	                	var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
 	                	var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
 
-	                	console.log($(this).val());
+	                	//console.log($(this).val());
 
 	                	$('.state .locations').hide();
 	                	$('.state .locations[data-id="'+data_id+'"]').show();
@@ -827,7 +825,7 @@ var classes_with_special_title = ['Contract','Camp'];
          });
 
          $('.js-induce-change-select-class').on('change',function(e){          
-             console.log($.inArray($(this).val(), classes_with_special_title)==-1);   
+             //console.log($.inArray($(this).val(), classes_with_special_title)==-1);   
              $('[name="special_event_title"]').closest('div.special_event_title_wrap').toggleClass('hidden', $.inArray($(this).val(), classes_with_special_title)==-1);
          });
 
@@ -838,11 +836,11 @@ var classes_with_special_title = ['Contract','Camp'];
         });
 
         if(ajax_login_object.aa_state != "" && $('#map_base').length>0){
-            console.log('aa_state set');
+            //console.log('aa_state set');
             $('#map_base').find('text:contains("'+ajax_login_object.aa_state.toUpperCase()+'")').trigger('click');
         }
         else if( $('#map_base').length>0 ) {
-            console.log('please select state on the map');
+            //console.log('please select state on the map');
             $('.dynamic-locaion-content .list .state').html('Please choose a state on the map');
         }
 
@@ -856,7 +854,7 @@ var classes_with_special_title = ['Contract','Camp'];
     function initMap() {
       var myLatLng = $('.latlng').val().split(',');
       myLatLng = {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])};
-      console.log(myLatLng);
+      //console.log(myLatLng);
 
       // Create a map object and specify the DOM element for display.
       var map = new google.maps.Map(document.getElementById('map'), {
@@ -915,7 +913,7 @@ var classes_with_special_title = ['Contract','Camp'];
         $('[data-remodal-id="message"]').remodal().open();
 
         $(document).off('confirmation', '[data-remodal-id="message"]').on('confirmation', '[data-remodal-id="message"]', function () {
-          console.log('Confirmation button is clicked');
+          //console.log('Confirmation button is clicked');
           if(reload_redirect === true){
                 window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
           } else if(reload_redirect === false) {
@@ -930,7 +928,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
         $(document).off('closed', '[data-remodal-id="message"]').on('closed', '[data-remodal-id="message"]', function (e) {
           // Reason: 'confirmation', 'cancellation'
-          console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));
+          //console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));
           if(reload_redirect === true){
             window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
           } else if(reload_redirect) {
@@ -973,16 +971,16 @@ var classes_with_special_title = ['Contract','Camp'];
         if($('#frm_registration').valid()){
             $('#frm_registration').ajaxSubmit({
                 beforeSubmit: function() {
-                    console.log('before_submit');
+                    //console.log('before_submit');
                     am2_show_preloader();                    
                 },
                 success: function(resp) {
-                    console.log('success_submit');
+                    //console.log('success_submit');
                     am2_hide_preloader();
                     show_payment_options(resp.paid_tuition);           
                 },
                 error: function() {
-                    console.log('error');
+                    //console.log('error');
                     am2_hide_preloader();
                 }
             });
@@ -1007,15 +1005,15 @@ var classes_with_special_title = ['Contract','Camp'];
 
         var payment_href = $('.payment_options_popup').attr('data-href');
 
-        console.log(payment_href);
+        //console.log(payment_href);
 
         payment_href += $('[name="paid_tuition"]:checked').length > 0 ? 1 : 0;
         
-        console.log(payment_href);
+        //console.log(payment_href);
 
         $('.payment_options_popup').attr('href', payment_href);
 
-        console.log(payment_href);       
+        //console.log(payment_href);       
 
         $('.payment_options_popup').show();
         $('.payment_options_popup').fancybox();        
