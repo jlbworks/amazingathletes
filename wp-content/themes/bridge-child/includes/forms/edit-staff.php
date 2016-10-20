@@ -141,7 +141,13 @@ function generate_image_field($field_name, $context, $context_id){
 			</div>	
 	
 			<label>Coach Bio </label>
-			<textarea id="coach_description"  name="coach_description"  style=""  ><?php echo $staff->coach_description; ?></textarea><br/>
+			<!--<textarea id="coach_description"  name="coach_description"  style=""  ><?php echo $staff->coach_description; ?></textarea><br/>-->			
+			<?php wp_editor( $staff->coach_description, 'coach_description', array(
+				'media_buttons' => true,
+				'dfw' => true,
+				'textarea_name' => 'coach_description',
+				"drag_drop_upload" => true
+				) ); ?>			
 		</div>
 		<div class="form--section">
 			<h2>Coaching Documents</h2>
