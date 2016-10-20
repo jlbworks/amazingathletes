@@ -760,7 +760,7 @@ var classes_with_special_title = ['Contract','Camp'];
 			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
 			                	'<a data-fancybox-type="iframe" href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'&iframe" class="h1 franchise_register">Register Now</a><br/>' +
 			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
-			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
+			                	'<span class="franchise_footer">' + v2.meta.locations_contact_name + ' | ' + v2.meta.location_contact_number + '</span><br/>' +
 		                	'</div>'
 		                	);
 
