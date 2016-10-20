@@ -39,7 +39,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		echo '<select name="unit_number" >';
 		echo "<option value=\"\"></option>";
 		foreach ($territories as $k => $v) {
-			echo '<option ' . ($v['unit_number'] == $location->unit_number ? 'selected' : '') . ' value="' . $v['unit_number'] . '">' . $v['territory_name'] . '</option>';
+			echo '<option ' . ($v['unit_number'] == $location->unit_number ? 'selected' : '') . ' value="' . $v['unit_number'] . '">' . $v['unit_number'] . '</option>';
 		}
 		echo '</select>';
 		?>
