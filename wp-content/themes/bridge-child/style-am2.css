@@ -338,16 +338,16 @@ text-align: center;
     background-color: rgba(255,255,255,0.8);
 }
 
-.state .locations.state .franchise_left{
+.state .providers.state .franchise_left{
     float:left;
     width:33%;
 }
-.state .locations.state .franchise_right {
+.state .providers.state .franchise_right {
     float:left;
     width:66%;
 }
 
-.state .locations.state .franchise {
+.state .providers.state .franchise {
     overflow: hidden;
     float:left;
     width:49%;
@@ -356,29 +356,30 @@ text-align: center;
 }
 
 
-.state .locations.state .franchise:nth-child(2n+1) {
+.state .providers.state .franchise:nth-child(2n+1) {
     clear:left;
 }
 
-.state .locations.state {
+.state .providers.state {
     display: block;
 }
 
-.state .locations.state .franchise_city a {
+.state .providers.state .franchise_city a {
     font-size:12px; color:red;    
 }
-.state .locations.state .franchise_city:after {
+.state .providers.state .franchise_city:after {
     content:', ';
 }
-.state .locations.state .franchise_city:last-child:after {
+.state .providers.state .franchise_city:last-child:after {
     content:'';
 }
 
-.state .locations.state .franchise_name {
+.state .providers.state .franchise_name {
     font-size: 32px;
+    line-height: 22px;
 }
 
-.state .locations.state .franchise_owner, .state .locations.state .franchise_tel, .state .locations.state .franchise_email {
+.state .providers.state .franchise_owner, .state .providers.state .franchise_tel, .state .providers.state .franchise_email {
     font-size:16px;
 }
 
@@ -405,3 +406,6 @@ text-align: center;
     padding:20px;
 }
 
+.state .locations .franchise {
+    font-weight:normal;
+}
