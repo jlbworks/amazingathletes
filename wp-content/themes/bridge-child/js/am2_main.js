@@ -764,6 +764,8 @@ var classes_with_special_title = ['Contract','Camp'];
 		                	'</div>'
 		                	);
 
+                            console.log(v);
+
 		                    $ul_child.append($li_child);
 		                });
 
