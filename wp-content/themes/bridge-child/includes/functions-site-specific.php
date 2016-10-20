@@ -102,18 +102,19 @@ function am2_ajax_register_for_class(){
     
     $headers  = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type: text/plain; charset=utf-8" . "\r\n";
+    $headers .= "Bcc: ivan.svaljek@am2studio.hr\r\n";
 
     $headers1 = $headers;
-    $headers1 .= "Reply-To: <$reply_to>" . "\r\n";
+    $headers1 .= "Reply-To: <$reply_to>" . "\r\n";    
     
     $headers2 = $headers;
-    $headers2 .= "Reply-To: <$to>" . "\r\n"; 
+    $headers2 .= "Reply-To: <$to>" . "\r\n";     
 
     /*to franchisee*/
-    //$result1 = wp_mail($to, $subject, $message, $headers1);
+    $result1 = wp_mail($to, $subject, $message, $headers1);
 
     /*to parent*/
-    //$result2 = wp_mail($reply_to, $subject, $message, $headers2);
+    $result2 = wp_mail($reply_to, $subject, $message, $headers2);
 
     $response['success'] = 'true';
     $response['paid_tuition'] = isset($_POST['paid_tuition']);

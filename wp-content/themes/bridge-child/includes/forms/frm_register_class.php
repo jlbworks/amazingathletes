@@ -167,7 +167,7 @@
     <input type="submit" value="Register" >    
   </form>
 
-  <a style="display:none" data-fancybox-type="iframe" class="fancybox-iframe payment_options_popup" data-href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=" href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=">View Payment Options</a>
+  <a style="display:none;font-size:22px;" data-fancybox-type="iframe" class="fancybox-iframe payment_options_popup" data-href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=" href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=" >View Payment Options</a>
 </div>
 
 <?php } 
