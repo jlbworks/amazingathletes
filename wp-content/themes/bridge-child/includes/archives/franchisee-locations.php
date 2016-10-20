@@ -6,6 +6,8 @@ $args = array(
 		'post_status' 		=> 'any',
 		'posts_per_page' 	=> -1,
 		'author' 			=> $curauth->ID,
+		'orderby' => 'title',
+		'order' => 'ASC',
 	);
 
 if(isset($_GET['type'])){	
@@ -43,7 +45,8 @@ $args = array(
 			'value'		=> array_values($_locations),
 			'compare'	=> 'IN',
 		),		
-	)
+	),	
+
 );
 
 $classes = get_posts($args);
@@ -77,7 +80,7 @@ foreach ($classes as $c) {
 		} ?>
 		<li class="franchise">
 			<a><?php echo get_the_title( $loc->ID );?></a>
-			<div class="franchise_details">
+			<div class="franchise_details" style="display:none;">
 				<span class="franchise_address"><?php echo implode(" - ", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></span><br/>
 				<a class="h1 franchise_register" data-fancybox-type="iframe"  href="<?php echo site_url();?>/choose-class/?location_id=<?php echo $loc->ID;?>&iframe">Register Now</a><br/>
 				<?php /* if (isset($location_class[$loc->ID])): ?>
