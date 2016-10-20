@@ -753,8 +753,11 @@ var classes_with_special_title = ['Contract','Camp'];
 	                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
 		                $.each(v, function(k2,v2){
-                            var contact_person = typeof(v2.meta.director) != undefined ? v2.meta.director : v2.meta.location_contact_name;
-                            var contact_phone = typeof(v2.meta.telephone) != undefined ? v2.meta.telephone : v2.meta.location_contact_number;
+                            var contact_person = typeof(v2.meta.director) != 'undefined' ? v2.meta.director : v2.meta.location_contact_name;
+                            var contact_phone = typeof(v2.meta.telephone) != 'undefined' ? v2.meta.telephone : v2.meta.location_contact_number;
+
+                            console.log(v2.meta,contact_person, contact_phone);
+
 		                	$li_child = $('<li class="franchise"></li>');
 		                	$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
 		                	$li_child.append(
