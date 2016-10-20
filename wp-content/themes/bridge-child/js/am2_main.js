@@ -753,6 +753,8 @@ var classes_with_special_title = ['Contract','Camp'];
 	                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
 		                $.each(v, function(k2,v2){
+                            var contact_person = typeof(v2.meta.director) != undefined ? v2.meta.director : v2.meta.location_contact_name;
+                            var contact_phone = typeof(v2.meta.telephone) != undefined ? v2.meta.telephone : v2.meta.location_contact_number;
 		                	$li_child = $('<li class="franchise"></li>');
 		                	$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
 		                	$li_child.append(
@@ -760,11 +762,9 @@ var classes_with_special_title = ['Contract','Camp'];
 			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
 			                	'<a data-fancybox-type="iframe" href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'&iframe" class="h1 franchise_register">Register Now</a><br/>' +
 			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
-			                	'<span class="franchise_footer">' + v2.meta.locations_contact_name + ' | ' + v2.meta.location_contact_number + '</span><br/>' +
+			                	'<span class="franchise_footer">' + contact_person + ' | ' + contact_phone + '</span><br/>' +
 		                	'</div>'
 		                	);
-
-                            console.log(v);
 
 		                    $ul_child.append($li_child);
 		                });
