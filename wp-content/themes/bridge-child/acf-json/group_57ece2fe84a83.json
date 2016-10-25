@@ -78,6 +78,18 @@
                 "operator": "==",
                 "value": "administrator"
             }
+        ],
+        [
+            {
+                "param": "user_role",
+                "operator": "==",
+                "value": "franchisee"
+            },
+            {
+                "param": "current_user_role",
+                "operator": "==",
+                "value": "super_admin"
+            }
         ]
     ],
     "menu_order": 0,
@@ -88,5 +100,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1475142675
+    "modified": 1477395664
 }
