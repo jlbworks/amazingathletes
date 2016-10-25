@@ -26,7 +26,7 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 <?php if(empty($classes)): ?>
 <p>This location has no classes.</p>
 <?php else: ?>
-<table class="basic small" width="100%">
+<table class="tbl_register_class basic small" width="100%">
 	<tbody>
 		<tr>
 			<th>Class</th>
@@ -71,7 +71,7 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 			<td><?php echo am2_get_meta_value('class_paynent_information', 	$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('length', $classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('ages', 	$classes_meta); ?></td>*/?>
-			<td><a target="_top" href="<?php echo site_url(); ?>/register/?location_id=<?php echo $location_id; ?>&class_id=<?php echo $c->ID; ?>">Register</a></td>
+			<td><a class="btn_register_class" target="_top" href="<?php echo site_url(); ?>/register/?location_id=<?php echo $location_id; ?>&class_id=<?php echo $c->ID; ?>">Register</a></td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>
