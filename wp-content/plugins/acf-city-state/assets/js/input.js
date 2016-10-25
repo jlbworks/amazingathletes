@@ -21,7 +21,10 @@
 		    valueField: 'name',
 		    labelField: 'name',
 		    searchField: ['name'],
-		    maxItems:1		
+		    maxItems:1,
+			create:function (input){
+               return { name:input, zip:-1};
+           }	
 		 });
 
 		select_city  = $select_city[0].selectize;
