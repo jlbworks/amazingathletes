@@ -221,9 +221,13 @@ get_header();?>
 						)
 					);	
 
-					$staff = array_merge(array($curauth), $staff);			
+					$staff = array_merge(array($curauth), $staff);							
+					$displayed = array();
 
-					foreach($staff as $member){
+					foreach($staff as $member){			
+
+						if(in_array($member->ID, $displayed)) continue;																					
+
 						$user_photo = get_field('user_photo', 'user_' . $member->ID);
 						$bio = $member->coach_description ? $member->coach_description : $member->display_bio;	
 									
@@ -235,6 +239,8 @@ get_header();?>
 						}					
 						echo $bio;
 						echo "</div>";
+
+						$displayed[] = $member->ID;
 					}
 				//}
 			}
