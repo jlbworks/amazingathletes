@@ -10,6 +10,8 @@
   $class_program = (!empty($special_event_title) ? $special_event_title : $class_title ); //get_post_meta($class_id, 'program', true);
   $class_time = get_post_meta($class_id, 'time', true);
   $class_date = get_class_date($class, 'date', true);
+
+  // var_dump($class_type);
 ?>
 
 <?php if($class_type != 'Contract') { ?>

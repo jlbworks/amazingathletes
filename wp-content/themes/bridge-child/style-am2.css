@@ -409,3 +409,20 @@ text-align: center;
 .state .locations .franchise {
     font-weight:normal;
 }
+
+.vc_col-sm-3 {
+
+    width: 15%;
+}
+
+.btn_register_class {
+    padding: 5px;
+    color:red;
+    background-color:white;
+    border:1px solid red;
+    border-radius:10px;
+}
+
+.tbl_register_class td {
+    padding:10px;
+}

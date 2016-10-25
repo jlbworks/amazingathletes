@@ -44,7 +44,26 @@
 
     .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
         background-color:#DD3333;
-        color:white!important;
+        color:white !important;
+    }
+
+    .ui-accordion h5.ui-accordion-header {
+        border:0px none !important; 
+    }
+
+    .ui-accordion h5.ui-accordion-header:hover{
+        background-color: #DD3333 !important;
+    }
+    .ui-accordion h5.ui-accordion-header:hover span {
+        color:white !important;
+    }
+
+    .fa-lg {
+        padding-top: 25px;
+    }
+
+    .vc_col-sm-3 {
+        width: 15%;
     }
 
 </style>
