@@ -220,6 +220,8 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'day', 			$_POST['day']);
 	update_post_meta($class_id, 'time', 		$_POST['time']);
 	update_post_meta($class_id, 'registration_option', 		$_POST['registration_option']);
+	update_post_meta($class_id, 'age_range_from', 		$_POST['age_range_from']);
+	update_post_meta($class_id, 'age_range_to', 		$_POST['age_range_to']);
 
 	update_post_meta($class_id, 'program', 		$_POST['program']);
 	update_post_meta($class_id, 'type', 		$_POST['type']);
@@ -330,6 +332,8 @@ if (isset($location_class)) {
 
 	$class_day 		= am2_get_meta_value('day', 	$location_class_meta);
 	$class_registration_option 		= am2_get_meta_value('registration_option', 	$location_class_meta);
+	$class_age_range_from 		= am2_get_meta_value('age_range_from', 	$location_class_meta);
+	$class_age_range_to 		= am2_get_meta_value('age_range_to', 	$location_class_meta);
 	$class_ages 	= am2_get_meta_value('ages', 	$location_class_meta);
 	$class_time 	= am2_get_meta_value('time', 	$location_class_meta);
 	$class_program 	= am2_get_meta_value('program', 	$location_class_meta);
@@ -568,8 +572,37 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				<label>Date End</label>
 				<input type="text" name="date_end" class="datepicker" value="<?php echo $values['date_end']; ?>" class="ui-timepicker-input" autocomplete="off">
 
+				<label>Time</label>
+				<input type="text" name="time" class="timepicker" value="<?php echo $values['time']; ?>" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?>>
 
 			</div>
+		</div>
+
+		<div class="form--section">
+			<h2>Applicable Age Range</h2>
+			From:
+			<select id="class-age-range-from" name="age_range_from" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+				<?php $i=1; for ($i=1; $i<18; $i++):
+					$if_selected = '';
+					if ($i == $class_age_range_from) {
+						$if_selected = "selected=selected";
+					}
+				?>
+				<option <?php echo $if_selected; ?>><?php echo $i; ?> year old</option>
+				<?php endfor ?>
+			</select>
+
+			To:
+			<select id="class-age-range-to" name="age_range_to" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+				<?php $i=1; for ($i=1; $i<18; $i++):
+					$if_selected = '';
+					if ($i == $class_age_range_to) {
+						$if_selected = "selected=selected";
+					}
+				?>
+				<option <?php echo $if_selected; ?>><?php echo $i; ?> year old</option>
+				<?php endfor ?>
+			</select>
 		</div>
 
 		<div class="form--section">
