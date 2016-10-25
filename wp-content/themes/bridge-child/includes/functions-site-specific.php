@@ -102,7 +102,7 @@ function am2_ajax_register_for_class(){
     
     $headers  = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type: text/plain; charset=utf-8" . "\r\n";
-    $headers .= "Bcc: ivan.svaljek@am2studio.hr\r\n";
+    //$headers .= "Bcc: ivan.svaljek@am2studio.hr\r\n";
 
     $headers1 = $headers;
     $headers1 .= "Reply-To: <$reply_to>" . "\r\n";    
