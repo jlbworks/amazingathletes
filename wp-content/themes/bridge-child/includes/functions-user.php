@@ -564,7 +564,7 @@ function am2_edit_location() {
 			'kickback'*/
 		);
 
-		$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d", $_POST['zip']));
+		$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d AND (review <> 1 OR review IS NULL)", $_POST['zip']));
 		$city_state = $_POST['city__state'];
 		$city_state = explode('|', $city_state);						
 

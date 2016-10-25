@@ -545,7 +545,7 @@ if (!class_exists('acf_field_city_state')):
 			$user_id = (int) str_replace('user_','',$post_id);
 			$zip = $_POST['acf']['field_570b6d34220dc'];
 
-			$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d", $zip));
+			$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d AND (review <> 1 OR review IS NULL)", $zip));
 			$city_state = $_POST['acf']['field_570b6d1d220db'];
 			$city_state = explode('|', $city_state);			
 
