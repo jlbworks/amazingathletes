@@ -79,7 +79,7 @@ foreach ($classes as $c) {
 		    $meta_franchisee[$key] = $val[0];
 		} ?>
 		<li class="franchise">
-			<a><?php echo get_the_title( $loc->ID );?></a>
+			<a><?php echo get_the_title( $loc->ID );?> - <?php echo implode(" - ", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></a>
 			<div class="franchise_details" style="display:none;">
 				<span class="franchise_address"><?php echo implode(" - ", array(get_post_meta($loc->ID, 'address',true), $city_state[1], $city_state[0], get_post_meta($loc->ID, 'zip', true)));?></span><br/>
 				<a class="h1 franchise_register" data-fancybox-type="iframe"  href="<?php echo site_url();?>/choose-class/?location_id=<?php echo $loc->ID;?>&iframe">Register Now</a><br/>
