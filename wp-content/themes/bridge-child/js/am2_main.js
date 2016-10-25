@@ -103,7 +103,10 @@ var classes_with_special_title = ['Contract','Camp'];
             labelField: 'name',
             searchField: ['name'],
             maxItems:1,
-            placeholder: 'Select a city...'
+            placeholder: 'Select a city...',
+            create:function (input){
+               return { name:input, zip:-1};
+           }
         });
 
         $select_coaches = $('.am2_coaches').selectize({

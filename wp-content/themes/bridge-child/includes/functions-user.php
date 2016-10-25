@@ -518,6 +518,7 @@ add_action('wp_ajax_ajax_delete_field', 'ajax_delete_field');
 add_action('wp_ajax_am2_edit_location', 'am2_edit_location');
 
 function am2_edit_location() {
+	global $wpdb;
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
 
@@ -562,6 +563,17 @@ function am2_edit_location() {
 			/*'enable_kickback',
 			'kickback'*/
 		);
+
+		$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d", $_POST['zip']));
+		$city_state = $_POST['city__state'];
+		$city_state = explode('|', $city_state);						
+
+		if(empty($zip_exists)){
+			$wpdb->query($wpdb->prepare("INSERT INTO `zips`(`zip`, `state`, `city`, `lat`, `lng`, `review`) VALUES (%d, %s, %s, NULL, NULL, 1 )",$_POST['zip'], $city_state[0], $city_state[1]));
+		}
+		else {
+			
+		}
 
 		$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 
