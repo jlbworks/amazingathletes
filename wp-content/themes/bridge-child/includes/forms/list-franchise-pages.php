@@ -70,10 +70,10 @@ else {
 <h2><?php echo $title;?></h2>
 <div class="user_form">	
 	<form id="frm_edit_mypage" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >	
-		<?php if(in_array($_GET['page'], $mypages_optional)){
+		<?php if( true || in_array($_GET['page'], $mypages_optional)){
 			$_mypage = str_replace("-", "_", $_GET['page']);
 			$show_mypage = "show_{$_mypage}";
-			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".($user->$show_mypage == 1 ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
+			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".(!isset($user->$show_mypage) || $user->$show_mypage == 1 ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
 			echo "<input type=\"hidden\" name=\"mypage\" value=\"{$_GET['page']}\" />";
 		}?>	
 		<br/><br/>
@@ -106,16 +106,21 @@ else {
 		);
 		$posts = get_posts($args);	
 					
-		foreach($posts as $post){				
-			if($post->post_type == 'testimonials'){
-				echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">Testimonial</a></h3>";
-			}	
-			else {
-				echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">".get_the_title($post->ID)."</a></h3>";
-			}		
-			
-			echo apply_filters( 'the_excerpt', $post->post_content );
-		}		
+		foreach($posts as $post){ ?>		
+			<div class="post" data-id="<?php echo $post->ID;?>">
+				<?php if($post->post_type == 'testimonials'){
+					echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">Testimonial</a></h3>";
+				}	
+				else {
+					echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">".get_the_title($post->ID)."</a></h3>";
+				}	
+				?>
+				<button class="delete_post" data-id="<?php echo $post->ID;?>" data-object="<?php echo $post->post_type;?>">Delete post</button>
+				<?php 		
+				
+				echo apply_filters( 'the_excerpt', $post->post_content );?>
+			</div>
+		<?php }		
 		?>
 	</div>
 	<?php } ?>

@@ -1101,6 +1101,17 @@ var classes_with_special_title = ['Contract','Camp'];
         timepicker: false,
         format:'m-d-Y'
     });
+
+    $('.delete_post').on('click',function(){
+        var post_object = $(this).data('object');
+        var id = $(this).data('id');
+
+        $.post( ajax_login_object.ajaxurl, {action : 'am2_delete_post', id: id, object: post_object }, function(resp){
+            alert(resp.message);
+            $('.post[data-id="'+resp.id+'"]').remove();
+            window.location.href=ajax_login_object.site_url + '/my-account/my-pages/?page=' + resp.object;
+        });
+    });
 })(jQuery);
 
 
