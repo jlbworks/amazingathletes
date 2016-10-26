@@ -1003,6 +1003,17 @@ function submit_data() {
 
         exit(json_encode( $locations ) );
     }
+
+     /**
+     * Create City
+     */
+    if ($_POST['form_handler'] == 'create_city') {       
+        global $wpdb;
+
+        $result = $wpdb->query($wpdb->prepare("INSERT INTO `zips`(`zip`, `state`, `city`, `lat`, `lng`, `review`) VALUES (%d, %s, %s, NULL, NULL, 2 )", $_POST['zip'], $_POST['state'], $_POST['city']));        
+
+        exit(json_encode(array('success' => $result == true, 'message' => "City added successfully")));
+    }
     /**
       END OF SUBMIT FORM HANDLERS
      */

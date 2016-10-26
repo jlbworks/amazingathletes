@@ -564,16 +564,16 @@ function am2_edit_location() {
 			'kickback'*/
 		);
 
-		$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d AND (review <> 1 OR review IS NULL)", $_POST['zip']));
-		$city_state = $_POST['city__state'];
-		$city_state = explode('|', $city_state);						
+		// $zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d AND (review <> 1 OR review IS NULL)", $_POST['zip']));
+		// $city_state = $_POST['city__state'];
+		// $city_state = explode('|', $city_state);						
 
-		if(empty($zip_exists)){
-			$wpdb->query($wpdb->prepare("INSERT INTO `zips`(`zip`, `state`, `city`, `lat`, `lng`, `review`) VALUES (%d, %s, %s, NULL, NULL, 1 )",$_POST['zip'], $city_state[0], $city_state[1]));
-		}
-		else {
+		// if(empty($zip_exists)){
+		// 	$wpdb->query($wpdb->prepare("INSERT INTO `zips`(`zip`, `state`, `city`, `lat`, `lng`, `review`) VALUES (%d, %s, %s, NULL, NULL, 1 )",$_POST['zip'], $city_state[0], $city_state[1]));
+		// }
+		// else {
 			
-		}		
+		// }		
 
 		$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 
@@ -965,5 +965,33 @@ function am2_edit_mypage() {
 	echo json_encode( array('status' => 'success', 'user_id' => $user_id, 'post_id' => $post_id) );
 
 	exit();
+}
+
+add_action('wp_ajax_am2_delete_post', 'am2_delete_post');
+
+function am2_delete_post() {
+
+    global $current_user;
+    get_currentuserinfo();
+
+    $object = $_REQUEST['object'];
+    $id = (int) $_REQUEST['id'];
+	$post = get_post($id);	
+	$delete_allowed = array('testimonials','blog','press');
+
+	header('Content-Type: application/json');
+
+    if (in_array($post->post_type, $delete_allowed ) and $id > 0) {
+        if( $current_user->ID != $post->post_author /*!current_user_can( 'edit_posts' )*/ ) {
+			
+            exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
+        }
+
+        wp_delete_post( $id, true );
+        exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Post deleted")));
+
+    }
+
+    exit(json_encode(array('success' => 'false')));
 }
 ?>

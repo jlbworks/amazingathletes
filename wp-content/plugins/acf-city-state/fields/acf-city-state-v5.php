@@ -536,33 +536,34 @@ if (!class_exists('acf_field_city_state')):
 
 	}
 
-	function my_acf_save_post( $post_id ) {
-		global $wpdb;	
+	// function my_acf_save_post( $post_id ) {
+	// 	global $wpdb;	
 
-		//var_dump($_POST);		
+	// 	//var_dump($_POST);		
 
-		if(strpos($post_id,'user_')===0){
-			$user_id = (int) str_replace('user_','',$post_id);
-			$zip = $_POST['acf']['field_570b6d34220dc'];
+	// 	// if(strpos($post_id,'user_')===0){
+	// 	// 	$user_id = (int) str_replace('user_','',$post_id);
+	// 	// 	$zip = $_POST['acf']['field_570b6d34220dc'];
 
-			$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d AND (review <> 1 OR review IS NULL)", $zip));
-			$city_state = $_POST['acf']['field_570b6d1d220db'];
-			$city_state = explode('|', $city_state);			
+	// 	// 	$zip_exists = $wpdb->get_var($wpdb->prepare("SELECT zip FROM zips WHERE zip = %d AND (review <> 1 OR review IS NULL)", $zip));
+	// 	// 	$city_state = $_POST['acf']['field_570b6d1d220db'];
+	// 	// 	$city_state = explode('|', $city_state);			
 
-			if(empty($zip_exists)){
-				$wpdb->query($wpdb->prepare("INSERT INTO `zips`(`zip`, `state`, `city`, `lat`, `lng`, `review`) VALUES (%d, %s, %s, NULL, NULL, 1 )",$zip, $city_state[0], $city_state[1]));
-			}
-			else {
+	// 	// 	if(empty($zip_exists)){
+	// 	// 		$wpdb->query($wpdb->prepare("INSERT INTO `zips`(`zip`, `state`, `city`, `lat`, `lng`, `review`) VALUES (%d, %s, %s, NULL, NULL, 1 )",$zip, $city_state[0], $city_state[1]));
+	// 	// 	}
+	// 	// 	else {
 				
-			}						
+	// 	// 	}						
 
-			//var_dump($post_id, $_POST);
-		}
-		// do something		
-	}
+	// 	// 	//var_dump($post_id, $_POST);
+	// 	// }
+
+	// 	// do something		
+	// }
 
 	// run after ACF saves the $_POST['acf'] data
-	add_action('acf/save_post', 'my_acf_save_post', 20);
+	//add_action('acf/save_post', 'my_acf_save_post', 20);
 
 	add_action('wp_ajax_am2_get_state_cities', 'am2_get_state_cities');
 	function am2_get_state_cities() {
