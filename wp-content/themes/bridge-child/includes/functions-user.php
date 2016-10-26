@@ -573,7 +573,7 @@ function am2_edit_location() {
 		}
 		else {
 			
-		}
+		}		
 
 		$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 

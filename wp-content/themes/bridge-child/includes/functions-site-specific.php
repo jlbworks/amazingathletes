@@ -356,6 +356,8 @@ function am2_get_state_locations(){
         $meta_franchisee['franchisee'] = $display_name;     
         $meta_franchisee['franchise_slug'] = $_meta_franchisee['franchise_slug'][0];
         $meta_franchisee['franchise_name'] = $_meta_franchisee['franchise_name'][0];      
+        $meta_franchisee['display_name'] = $_meta_franchisee['display_name'][0];      
+        $meta_franchisee['display_title'] = $_meta_franchisee['display_title'][0];      
         $meta_franchisee['franchise_phone'] = $_meta_franchisee['telephone'][0];
         $meta_franchisee['franchise_email'] = $_meta_franchisee['email_address'][0];
         $meta_franchisee['franchise_photo'] = wp_get_attachment_image_src( (int) $_meta_franchisee['user_photo'][0] , 'medium' )[0];

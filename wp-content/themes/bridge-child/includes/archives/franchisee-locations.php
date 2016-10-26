@@ -91,7 +91,7 @@ foreach ($classes as $c) {
 				<?php } ?>
 				<?php endif;*/ ?>
 				<span class="franchise_name"><?php echo (isset($meta_franchisee['franchise_name']) ? $meta_franchisee['franchise_name'] : '');?></span><br/>
-				<span class="franchise_footer"><?php echo implode("", array(get_post_meta($loc->ID, 'director', true), ' | ', get_post_meta($loc->ID, 'telephone', true) ) );?></span><br/>
+				<span class="franchise_footer"><?php echo implode("", array($meta_franchisee['display_name'], ' | ', $meta_franchisee['telephone'] ) );?></span><br/>
 			</div>
 		</li>
 <?php
