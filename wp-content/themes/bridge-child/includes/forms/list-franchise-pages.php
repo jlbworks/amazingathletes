@@ -73,7 +73,7 @@ else {
 		<?php if( true || in_array($_GET['page'], $mypages_optional)){
 			$_mypage = str_replace("-", "_", $_GET['page']);
 			$show_mypage = "show_{$_mypage}";
-			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".(!isset($user->$show_mypage) || $user->$show_mypage == 1 ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
+			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".($user->$show_mypage == 1 ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
 			echo "<input type=\"hidden\" name=\"mypage\" value=\"{$_GET['page']}\" />";
 		}?>	
 		<br/><br/>

@@ -80,7 +80,11 @@ get_header();?>
 	<?php }	
 	else {
 		$show_page = 'show_' . str_replace('-','_',$val);
-		if((true || in_array($val, $mypages_optional)) && (isset($curauth->$show_page) &&  $curauth->$show_page != 1) ){
+		if(
+			(in_array($val, $mypages_optional)) && (isset($curauth->$show_page) &&  $curauth->$show_page != 1) ||
+			(!in_array($val, $mypages_optional)) && (isset($curauth->$show_page) &&  $curauth->$show_page != 1)	||
+			(in_array($val, $mypages_optional)) && (!isset($curauth->$show_page) )	
+		 ){
 			continue;
 		}
 
