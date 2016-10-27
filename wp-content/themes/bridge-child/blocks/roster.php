@@ -484,6 +484,14 @@ $(document).ready(function() {
         } );
     } );
 
+    $('#filter select').each(function(){
+        $(this).select2({
+            placeholder: 'Select a Status',
+            width: '100%',
+            minimumResultsForSearch: -1
+        });
+    });
+
     $('#filter select').on('change', function(){
         var filters = new Array;
 
