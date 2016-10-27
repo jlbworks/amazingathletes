@@ -70,12 +70,18 @@ else {
 <h2><?php echo $title;?></h2>
 <div class="user_form">	
 	<form id="frm_edit_mypage" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >	
-		<?php if( true || in_array($_GET['page'], $mypages_optional)){
+		<?php //if( in_array($_GET['page'], $mypages_optional)){		
+			//var_dump($mypages_optional);
+			
 			$_mypage = str_replace("-", "_", $_GET['page']);
 			$show_mypage = "show_{$_mypage}";
-			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".($user->$show_mypage == 1 ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
+			$checked_show = $user->$show_mypage == 1 || (!in_array($_GET['page'], $mypages_optional) && (!isset($user->$show_page)));
+
+			//var_dump($user->$show_mypage == 1 , !in_array($_GET['page'], $mypages_optional), !isset($user->$show_page));
+
+			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".($checked_show ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
 			echo "<input type=\"hidden\" name=\"mypage\" value=\"{$_GET['page']}\" />";
-		}?>	
+		//}?>	
 		<br/><br/>
 		<?php if($show_editor) { ?>
 		<?php wp_editor( $content, $page, array(
