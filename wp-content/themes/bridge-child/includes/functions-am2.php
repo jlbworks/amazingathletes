@@ -124,4 +124,28 @@ function am2_excerpt($text, $excerpt, $length)
 
     return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
 }
+
+function am2GetWeekInMonth($date, $rollover)
+    {
+        $cut = substr($date, 0, 8);
+        $daylen = 86400;
+
+        $timestamp = strtotime($date);
+        $first = strtotime($cut . "00");
+        $elapsed = ($timestamp - $first) / $daylen;
+
+        $weeks = 1;
+
+        for ($i = 1; $i <= $elapsed; $i++)
+        {
+            $dayfind = $cut . (strlen($i) < 2 ? '0' . $i : $i);
+            $daytimestamp = strtotime($dayfind);
+
+            $day = strtolower(date("l", $daytimestamp));
+
+            if($day == strtolower($rollover))  $weeks ++;
+        }
+
+        return $weeks;
+    }
 ?>

@@ -749,7 +749,9 @@ function submit_data() {
         $meta_data = array();
         $meta_fields = array(
             'roster_class_id', 'roster_customer_id',
-            'roster_location_id'/*, 'roster_coach_id'*/
+            'roster_location_id'/*, 'roster_coach_id'*/,
+            'roster_customer_status', 'roster_customer_media',
+            'roster_customer_discount', 'roster_payment_type',
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = sanitize_text_field($_POST[$field]);

@@ -108,6 +108,11 @@ if( is_role( 'franchisee' ) ) {
 
 $franchises = get_users( $franchise_args );
 
+$customer_statuses = array('','E','N','FT');
+$customer_media = array('y','n');
+$customer_discounts = array('','SIB');
+$payment_types = array('Ck/$');
+
 ?>
 
 <div class="card-wrapper">
@@ -185,6 +190,74 @@ $franchises = get_users( $franchise_args );
                                         $parents_name = get_post_meta( $cust->ID, 'parents_name', true ); ?>
                                         <option value="<?php echo $cust->ID; ?>" <?php selected( $customer_id, $cust->ID, true ); ?>><?php echo $childs_first_name . ' ' . $childs_last_name . '(' . $parents_name . ')'; ?></option>
                                     <?php endforeach; ?>
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Customer Status<span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select id="roster_customer_status" name="roster_customer_status" class="form-control" title="Please select a customer status." required>
+                                    <?php foreach($customer_statuses as $status) {?>
+                                    <option value="<?php echo $status;?>" <?php echo $status == $roster->roster_customer_status ? 'selected':'' ;?>><?php echo $status;?></option>
+                                    <?php } ;?>
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Customer Media<span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select id="roster_customer_media" name="roster_customer_media" class="form-control" title="Please select a customer media." required>
+                                    <?php foreach($customer_media as $media) {?>
+                                    <option value="<?php echo $media;?>" <?php echo $media == $roster->roster_customer_media ? 'selected':'' ;?>><?php echo $media;?></option>
+                                    <?php } ;?>                             
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Customer Discount<span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select id="roster_customer_discount" name="roster_customer_discount" class="form-control" title="Please select a customer discount." required>
+                                    <?php foreach($customer_discounts as $discount) {?>
+                                    <option value="<?php echo $discount;?>" <?php echo $discount == $roster->roster_customer_discount ? 'selected':'' ;?>><?php echo $discount;?></option>
+                                    <?php } ;?>                                                                        
+                                </select>
+                                <!-- /# -->
+                                <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table-row">
+                    <span class="card-table-cell fixed250">Payment Type<span class="required">*</span></span>
+                    <div class="card-table-cell">
+                        <div class="card-form">
+                            <fieldset>
+                                <select id="roster_payment_type" name="roster_payment_type" class="form-control" title="Please select a payment type." required>
+                                    <?php foreach($payment_types as $pay_type) {?>
+                                    <option value="<?php echo $pay_type;?>" <?php echo $pay_type == $roster->roster_payment_type ? 'selected':'' ;?>><?php echo $pay_type;?></option>
+                                    <?php } ;?>                                                                        
                                 </select>
                                 <!-- /# -->
                                 <i class="fieldset-overlay" data-js="focus-on-field"></i>
@@ -373,6 +446,26 @@ $(document).ready(function () {
             }
         })  
     
+    });
+    $('#roster_customer_status').select2({
+        placeholder: 'Select a Status',
+        width: '100%',
+        minimumResultsForSearch: -1
+    });
+    $('#roster_customer_media').select2({
+        placeholder: 'Select a Media Status',
+        width: '100%',
+        minimumResultsForSearch: -1
+    });
+    $('#roster_customer_discount').select2({
+        placeholder: 'Select a Discount Type',
+        width: '100%',
+        minimumResultsForSearch: -1
+    });
+    $('#roster_payment_type').select2({
+        placeholder: 'Select a Payment Type',
+        width: '100%',
+        minimumResultsForSearch: -1
     });
 });
 </script>

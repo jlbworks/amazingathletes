@@ -387,3 +387,9 @@ td.price {
 }
 .no_margin { margin-right: 0px; }
 .spacer {     clear: both;}
+
+.a_details {
+  display:block;
+  width:100%;
+  height:100%;
+}
