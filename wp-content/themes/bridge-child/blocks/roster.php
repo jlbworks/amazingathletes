@@ -485,8 +485,10 @@ $(document).ready(function() {
     } );
 
     $('#filter select').each(function(){
+        var $this = $(this);
+
         $(this).select2({
-            placeholder: 'Select a Status',
+            placeholder: $this.children().eq(0).text(),
             width: '100%',
             minimumResultsForSearch: -1
         });
