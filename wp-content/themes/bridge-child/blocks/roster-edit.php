@@ -111,7 +111,7 @@ $franchises = get_users( $franchise_args );
 $customer_statuses = array('','E','N','FT');
 $customer_media = array('y','n');
 $customer_discounts = array('','SIB');
-$payment_types = array('Ck/$');
+$payment_types = array('','Ck/$');
 
 ?>
 

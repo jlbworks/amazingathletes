@@ -57,10 +57,11 @@ if( isset($hash_query['f_class_id']) ){
     }
 
     $registration_fee = $sel_class->{$parent_pay .'_registration_fee'};
-    
-    $month = !empty($hash_query['f_month']) ? $hash_query['f_month'] : date('m');
-    $year = !empty($hash_query['f_year']) ? $hash_query['f_year'] : date('Y');
+        
 }
+
+$month = !empty($hash_query['f_month']) ? $hash_query['f_month'] : date('m');
+$year = !empty($hash_query['f_year']) ? $hash_query['f_year'] : date('Y');
 
 /*if( isset($hash_query['f_coach_id']) ){
     $meta_query[] = 
@@ -423,6 +424,14 @@ foreach($_roster as $krost => $rost){
 set_title('Roster');
 
 $(document).ready(function() {
+    var exportColumns = [];
+
+    for(i=1; i<=22; i++){
+        exportColumns.push(i);
+    }
+
+    console.log(exportColumns);
+
     var dt = $('#datatable-editable').DataTable({
         dom: 'Blfrtip',
         "paging":   false,
@@ -433,7 +442,7 @@ $(document).ready(function() {
                 extend: 'csv',
                 className: 'btn btn--secondary',
                 exportOptions: {
-                    columns: [0,1,2,3]
+                    columns: exportColumns
                 }
             },
         ]
@@ -484,28 +493,106 @@ $(document).ready(function() {
         } );
     } );
 
-    $('#filter select').each(function(){
-        var $this = $(this);
+    var form = $("body");
 
-        $(this).select2({
-            placeholder: $this.children().eq(0).text(),
-            width: '100%',
-            minimumResultsForSearch: -1
-        });
+    $('#f_franchise_id').select2({
+        placeholder: 'Select a franchise',
+        width: '100%',
+        minimumResultsForSearch: -1
+    })
+    .on('select2:select', function() {
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_locations',
+                franchise_id: $('#f_franchise_id').val()
+            },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
+            success: function(data) {
+                var placeholder = data.length == 1 ? "No locations found for this franchise" : "Select a location";
+
+                $('#f_location_id').html('').select2({
+                    placeholder: placeholder,
+                    width: '100%',
+                    data: data
+                });
+
+                $('#f_class_id').html('').select2({
+                    placeholder: 'Select a location first',
+                    width: '100%'
+                });
+
+                am2_hide_preloader(form);
+            }
+        })
+    });
+
+    $('#f_location_id').select2({
+        placeholder: 'Select a location',
+        width: '100%'
+    })
+    .on('select2:select', function() {
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_classes',
+                location_id: $('#f_location_id').val()
+            },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
+            success: function(data) {
+                var placeholder = data.length == 1 ? "No classes found for this location" : "Select a class";
+
+                $('#f_class_id').html('').select2({
+                    placeholder: placeholder,
+                    data: data,
+                    width: '100%'
+                });
+                am2_hide_preloader(form);
+            }
+        })
+    });
+
+    $('#f_class_id').select2({
+        placeholder: 'Select a location first',
+        width: '100%'
+    }).on('change',function(){      
+    
+    });
+
+    $('#f_year').select2({
+        placeholder: 'Select a franchise',
+        width: '100%',
+        minimumResultsForSearch: -1
+    });
+
+    $('#f_month').select2({
+        placeholder: 'Select a franchise',
+        width: '100%',
+        minimumResultsForSearch: -1
     });
 
     $('#filter select').on('change', function(){
-        var filters = new Array;
+        if($('#f_class_id').val() !=='undefined' && $('#f_class_id').val() != ''){
+            var filters = new Array;
 
-        var sep = '?';
-        var query = '';
-        $('#filter select').each(function(){
-            if($(this).val()){
-                query += sep + $(this).attr('name') + '=' + $(this).val();
-                sep = '&';
-            }            
-        });
-        window.location.hash = '#roster/' + query;
+            var sep = '?';
+            var query = '';
+            $('#filter select').each(function(){
+                if($(this).val()){
+                    query += sep + $(this).attr('name') + '=' + $(this).val();
+                    sep = '&';
+                }            
+            });
+            window.location.hash = '#roster/' + query;
+        }        
     });
 });
 </script>
