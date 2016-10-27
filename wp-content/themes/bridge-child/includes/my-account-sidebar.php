@@ -94,6 +94,18 @@
 			</form>
 		</div>
     </div>
+	<div class="side-nav">
+        <a href="http://amazingathletes.jlbdev.net/erp/#dashboard" target=_blank; class="sidebar-link">
+            <span>
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-my-pages-football-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png">
+            </span>
+            <span class="sidebar-nav">
+                <h2>AMP</h2>
+            </span>
+        </a>
+    </div>
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-staff/" class="sidebar-link">
             <span>
