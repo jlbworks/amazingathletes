@@ -46,7 +46,11 @@ get_header();?>
 		if(is_array($val)){ 			
 			$val_parent = $val['menu'];
 			$show_page = 'show_' . str_replace('-','_',$val_parent);
-			if((true || in_array($val_parent, $mypages_optional)) && (!$curauth->$show_page || !isset($curauth->$show_page)) ){
+			if(
+			(in_array($val, $mypages_optional)) && (isset($curauth->$show_page) &&  $curauth->$show_page != 1) ||
+			(!in_array($val, $mypages_optional)) && (isset($curauth->$show_page) &&  $curauth->$show_page != 1)	||
+			(in_array($val, $mypages_optional)) && (!isset($curauth->$show_page) )	
+			){
 				continue;
 			}
 	?>
