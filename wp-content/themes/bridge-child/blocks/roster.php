@@ -57,6 +57,11 @@ if( isset($hash_query['f_class_id']) ){
     }
 
     $registration_fee = $sel_class->{$parent_pay .'_registration_fee'};
+
+    $class_location_id = $sel_class->location_id; 
+    $location = get_post($location_id);
+
+    $class_franchise_id = $location->post_author;
         
 }
 
@@ -190,7 +195,7 @@ foreach($_roster as $krost => $rost){
                 <select id="f_franchise_id" name="f_franchise_id" >
                     <option value="">Choose Franchise</option>
                     <?php foreach($franchises as $franchise){  ?>
-                    <option value="<?php echo $franchise->ID;?>" <?php if($hash_query['f_franchise_id'] == $franchise->ID) echo "selected";?>><?php echo $franchise->franchise_name;?></option>
+                    <option value="<?php echo $franchise->ID;?>" <?php if(in_array($franchise->ID, array($hash_query['f_franchise_id'], $class_franchise_id ) ) ) echo "selected";?>><?php echo $franchise->franchise_name;?></option>
                     <?php } ?>
                 </select>                
                 <?php } ?> 
@@ -198,7 +203,7 @@ foreach($_roster as $krost => $rost){
                 <select id="f_location_id" name="f_location_id" >
                     <option value="">Choose Location</option>
                     <?php foreach($locations as $location){ if(!in_array($location->ID, $location_ids)) continue; ?>
-                    <option value="<?php echo $location->ID;?>" <?php if($hash_query['f_location_id'] == $location->ID) echo "selected";?>><?php echo $location->post_title;?></option>
+                    <option value="<?php echo $location->ID;?>" <?php if( in_array($location->ID, array($hash_query['f_location_id'], $class_location_id) ) ) echo "selected";?>><?php echo $location->post_title;?></option>
                     <?php } ?>
                 </select>                                
                 <select id="f_class_id" name="f_class_id" >
