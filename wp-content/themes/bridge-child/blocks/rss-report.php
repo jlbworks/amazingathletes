@@ -159,19 +159,30 @@ if(!empty($locations)):
                 $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2);
             }
 
-            foreach($attendances as $attendance ){
-                $class_dates = get_post_meta($class->ID, 'date', false);
-                foreach($class_dates as $class_date){
-                    if($attendance->attendance_date == $class_date){
-                        $attendance_dates[$class_date] = $class_date;
-                    }
-                }                
+            $attendances = get_posts(array(
+                'post_type' => 'attendance',
+                'post_status' => 'any',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    array(
+                        'key' => 'attendance_class_id',
+                        'value' => $class->ID,
+                        'compare' => '=',
+                    )
+                )
+            ));                        
+
+            $weeks = array();
+            foreach($attendances as $attendance){   
+                $attendance_date = $attendance->attendance_date;
+                $formatted = vsprintf('%3$04d-%1$02d-%2$02d', sscanf($attendance_date,'%02d/%02d/%04d'));                     
+                $weeks[ am2GetWeekInMonth($formatted, "sunday") -1 ] = am2GetWeekInMonth($formatted, "sunday") -1;
             }
 
             $class_array['status_code'] = 'Y';
             $class_array['class_status'] = 'Ongoing';
 
-            $class_array['no_weeks_taught'] = count($attendance_dates);
+            $class_array['no_weeks_taught'] = count($weeks);
 
             $earned_gross_revenue = ($class_array['no_weeks_taught'] > 0 ? ( $class_array['no_weeks_taught'] * ($class_array['weekly_tuition'] * $class_array['monthly_enrollment'] ) ) : 0);
             $class_array['earned_gross_revenue'] = $earned_gross_revenue;
