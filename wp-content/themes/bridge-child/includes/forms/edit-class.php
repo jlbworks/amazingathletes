@@ -438,15 +438,15 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				data-change-to-section="class-schedule">Demo</option>
 			<option<?php if($class_type == 'Parent-Pay'){ ?> selected="selected"<?php } ?>
 				value="Parent-Pay"
-				data-change-to-id="class_schedule_recurring"
+				data-change-to-id="class_schedule_single_day"
 				data-change-to-section="class-schedule">Parent Pay</option>
 			<option<?php if($class_type == 'Session'){ ?> selected="selected"<?php } ?>
 				value="Session"
-				data-change-to-id="class_schedule_session"
+				data-change-to-id="class_schedule_single_day"
 				data-change-to-section="class-schedule">Session</option>
 			<option<?php if($class_type == 'Contract'){ ?> selected="selected"<?php } ?>
 				value="Contract"
-				data-change-to-id="class_schedule_recurring"
+				data-change-to-id="class_schedule_single_day"
 				data-change-to-section="class-schedule">Contract</option>
 			<option<?php if($class_type == 'Camp'){ ?> selected="selected"<?php } ?>
 				value="Camp"
@@ -750,9 +750,11 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				});
 
 				jQuery('.js-induce-change-select-class').on('change', function(){
-					changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
+					/*changeToSection = jQuery(this).find(':selected').attr('data-change-to-section');
 		            changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
-			        changeTo(changeToId, changeToSection);
+			        changeTo(changeToId, changeToSection);*/
+					changeToId = jQuery(this).find(':selected').attr('data-change-to-id');
+					jQuery('input[type="radio"][data-change-to-id="'+changeToId+'"]').trigger('click');
 				});
 
 				jQuery('.js-induce-change-checkboxes').on('change', function(){
@@ -811,7 +813,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 					disableDay(target_id, section);
 				}
 
-				jQuery('#'+target_id).find('input').prop('disabled',false);
+				jQuery('#'+target_id).find(':input').prop('disabled',false);
 
 				jQuery('[data-section="'+section+'"]').hide();
 				jQuery('#'+target_id).show();
@@ -930,8 +932,6 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 		});
 
 		$('[name="datetype"]').on('change',function(e){
-					
-
 			$('[id^="class_schedule_"]').each(function(){
 				$(this).find(':input').prop('disabled',true);	
 			});			
