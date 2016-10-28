@@ -182,14 +182,20 @@ foreach ($classes as $c) {
         $occurrences = am2_get_occurrences($c);
 
         foreach ($occurrences as $o) {
-            $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $o->format('Y-m-d')));
+            $event = am2_format_event_for_calendar($c, array('start' => $o->format('Y-m-d')));
+            if(!empty($event['start']) && !empty($event['end'])){
+                $classes_for_calendar[] = $event;
+            }            
         }
 
         continue;
     }
 
     if ('session' === $c->datetype and (!empty($c->date_start) and !empty($c->date_end))) {
-        $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $c->date_start, 'end' => $c->date_end));
+        $event = am2_format_event_for_calendar($c, array('start' => $c->date_start, 'end' => $c->date_end));
+        if(!empty($event['start']) && !empty($event['end'])){
+            $classes_for_calendar[] = $event;
+        }        
         continue;
     }
 
@@ -201,9 +207,11 @@ foreach ($classes as $c) {
                 $date = DateTime::createFromFormat('m/d/Y', $date);
                 if($date){
                     //var_dump( $date->format('Y-m-d') );
-                    $classes_for_calendar[] = am2_format_event_for_calendar($c, array('start' => $date->format('Y-m-d') ) );
-                }
-                
+                    $event = am2_format_event_for_calendar($c, array('start' => $date->format('Y-m-d') ) );
+                    if(!empty($event['start']) && !empty($event['end'])){
+                        $classes_for_calendar[] = $event;
+                    }                    
+                }                
             }
             continue;
         }
@@ -213,7 +221,7 @@ foreach ($classes as $c) {
         continue;
     }
 
-    $classes_for_calendar[] = am2_format_event_for_calendar($c);
+    //$classes_for_calendar[] = am2_format_event_for_calendar($c);
 }
 
 //var_dump($classes_for_calendar);
