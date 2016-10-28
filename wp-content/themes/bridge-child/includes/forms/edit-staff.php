@@ -21,7 +21,7 @@ function generate_image_field($field_name, $context, $context_id){
 	$image_fields[] = $new_field;
 
 	if(empty($context)) return;
-	if(empty($context_id)) return;
+	//if(empty($context_id)) return;
 
 	if($context == 'post')
 	$custom_image_id = get_post_meta($context_id, $field_name, true);
@@ -37,6 +37,7 @@ function generate_image_field($field_name, $context, $context_id){
 	 } else {
 		$output .= '<div id="digital_image_upload_'.$field_name.'"></div>';
 	}
+	$output .= '<input name="'.$field_name.'" type="hidden" value="'.(!empty($custom_image_id) ? $custom_image_id : '') .'" />';
 
 	echo $output;
 	return;
@@ -136,7 +137,7 @@ function generate_image_field($field_name, $context, $context_id){
 			<label>Coach Photo </label>
 			<div class="photo_wrap">
 				<?php
-					generate_image_field('user_photo', 'user', $staff->ID);
+					generate_image_field('user_photo', 'user', (empty($staff->ID) ? -1 : $staff->ID) );
 				?>
 			</div>	
 	
@@ -187,7 +188,7 @@ function generate_image_field($field_name, $context, $context_id){
 					<label><?php echo $value; ?></label>
 					<div class="photo_wrap">
 					<?php 
-						generate_image_field($key, 'user', $staff->ID);
+						generate_image_field($key, 'user', (empty($staff->ID) ? -1 : $staff->ID) );
 					?>
 					</div>
 				</div>
@@ -326,8 +327,9 @@ function loadDigitalArtwork_multiple(field_name, context, context_id){
     uploadOptions['request']['params']['context_id'] = context_id; console.log(uploadOptions);
     jQuery('#digital_image_upload_'+field_name).fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
        if (responseJSON.success) {
+		   	//jQuery('input[name="'+responseJSON.custom_field_key+'"]').val(responseJSON.file_id);
          	  jQuery(this).parent().delay(1000).fadeOut(400, function(){
-              jQuery(this).empty().append('<div class="upload_success"><img class="photo_preview" src="'+responseJSON.file_url+'" width="175"/><a class="delete_button button small-button" id="btn_delete_'+responseJSON.custom_field_key+'" data-attid="'+responseJSON.file_id+'" data-context-id="'+responseJSON.context_id+'" data-context="'+responseJSON.context+'" data-custom_field_key="'+responseJSON.custom_field_key+'">x</a></div>').fadeIn();
+              jQuery(this).empty().append('<div class="upload_success"><img class="photo_preview" src="'+responseJSON.file_url+'" width="175"/><a class="delete_button button small-button" id="btn_delete_'+responseJSON.custom_field_key+'" data-attid="'+responseJSON.file_id+'" data-context-id="'+responseJSON.context_id+'" data-context="'+responseJSON.context+'" data-custom_field_key="'+responseJSON.custom_field_key+'">x</a><input name="'+responseJSON.custom_field_key+'" type="hidden" value="'+responseJSON.file_id+'" /></div>').fadeIn();
               jQuery(document).on('click','#btn_delete_'+responseJSON.custom_field_key, function(e){
 			    e.preventDefault();
 			    jQuery(this).empty().append('Deleting...');

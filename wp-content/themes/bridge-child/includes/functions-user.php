@@ -373,11 +373,13 @@ function upload_file(){
 
 	if(!empty($_POST['context_id'])){
 
-		if($context == 'user')
-			update_user_meta($_POST['context_id'], $custom_field_key, $attach_id);
+		if((int)$_POST['context_id']>0) {
+			if($context == 'user')
+				update_user_meta($_POST['context_id'], $custom_field_key, $attach_id);
 
-		if($context == 'post')
-			update_post_meta($_POST['context_id'], $custom_field_key, $attach_id);
+			if($context == 'post')
+				update_post_meta($_POST['context_id'], $custom_field_key, $attach_id);
+		}
 
 		$response['success'] = 'true';
 		$response['file_id'] = $attach_id;
@@ -734,7 +736,17 @@ function am2_edit_staff() {
 			'title',
 			'employment_type',
 			'non_disclosure_agreement',
-			'user_photo',
+			'user_photo',			
+			'background_check',
+			'independent_contractor_agreement',
+			'employee_noncompete_agreement',
+			'fingerprint_compliance',
+			'tb_test',
+			'study_transcripts',
+			'cpr_certification',
+			'certificate_of_liability',
+			'copy_of_drivers_license',
+			'inventory_checklist',
 		);
 		$required_fields = array(
 			//'location_type',
