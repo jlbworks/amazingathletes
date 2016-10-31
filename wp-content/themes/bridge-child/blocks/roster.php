@@ -16,18 +16,27 @@ $args = array(
 );
 
 if( is_role('franchisee') ) {
-  $args['author ']  =  get_current_user_id();
+  $curr_franchise = $args['author ']  =  get_current_user_id();
+
   $meta_query[] =
         array('key'=> 'roster_franchise_id', 'value'=> $current_user->ID, 'compare'=>'=');
 }
-/*else if( is_role('coach') ){
+else if( is_role('coach') ){
+    $curr_franchise = $current_user->franchisee;
+    
     $meta_query[] =
-        array('key'=> 'roster_coach_id', 'value'=> $current_user->ID, 'compare'=>'IN');    
-}*/
+        array('key'=> 'roster_coach_id', 'value'=> $current_user->ID, 'compare'=>'=');    
+}
 
-if( isset($hash_query['f_franchise_id']) ){
+if( !isset($curr_franchise) && isset($hash_query['f_franchise_id']) ){
+    $curr_franchise = $hash_query['f_franchise_id'];
+
     $meta_query[] = 
         array('key' => 'roster_franchise_id', 'value' => $hash_query['f_franchise_id'], 'compare' => '=');
+}
+
+if(isset($curr_franchise)){
+    $territories = get_field('territories', 'user_' .$curr_franchise);
 }
 
 if( isset($hash_query['f_location_id']) ){
@@ -38,6 +47,7 @@ if( isset($hash_query['f_location_id']) ){
 if( isset($hash_query['f_class_id']) ){
     $meta_query[] = 
         array('key' => 'roster_class_id', 'value' => $hash_query['f_class_id'], 'compare' => '=');
+
     $class_id = $hash_query['f_class_id'];
     $sel_class = get_post($class_id); 
 
@@ -59,20 +69,18 @@ if( isset($hash_query['f_class_id']) ){
     $registration_fee = $sel_class->{$parent_pay .'_registration_fee'};
 
     $class_location_id = $sel_class->location_id; 
-    $location = get_post($location_id);
+    $location = get_post($class_location_id);
 
-    $class_franchise_id = $location->post_author;
-        
+    $class_franchise_id = $location->post_author;    
 }
 
 $month = !empty($hash_query['f_month']) ? $hash_query['f_month'] : date('m');
 $year = !empty($hash_query['f_year']) ? $hash_query['f_year'] : date('Y');
 
-/*if( isset($hash_query['f_coach_id']) ){
+if( isset($hash_query['f_coach_id']) ){
     $meta_query[] = 
-        array('key' => 'roster_coach_id', 'value' => '"' . $hash_query['f_coach_id'] . '"', 'compare' => 'LIKE');
-}*/
-
+        array('key' => 'roster_coach_id', 'value' =>  $hash_query['f_coach_id'] , 'compare' => '=');
+}
 
 $args['meta_query'] = $meta_query;
 
@@ -81,6 +89,7 @@ $_roster = get_posts($args);
 $args = array(
     'role' => 'franchisee'         
 );
+
 if(is_role('franchisee')){
     $args['include'] = get_current_user_id();
 }
@@ -94,43 +103,84 @@ $args = array(
 );
 
 if(is_role('franchisee')){
-    $args['author']  =  get_current_user_id();
+    $args['author']  =  get_current_user_id();        
+} 
+else if(isset($hash_query['f_franchise_id'])){
+    $args['author'] = $hash_query['f_franchise_id'];    
 }
 
 $locations = get_posts($args);
-$location_ids = array_map(function($loc){
-    return $loc->ID;
-}, $locations);
 
-$classes = get_posts(
-    array(
-        'post_type' => 'location_class',
-        'post_status' => 'publish',
-        'posts_per_page' => -1,
-        'meta_query' => array(
-            array( 'key' => 'location_id', 'value' => $location_ids, 'compare' => 'IN'),
-        )
-    )        
+if(false && isset($hash_query['f_location_id'])){
+    $location_ids = array($hash_query['f_location_id']);
+}
+else {
+    $location_ids = array_map(function($loc){
+        return $loc->ID;
+    }, $locations);
+}
+
+$classes_args = array(
+    'post_type' => 'location_class',
+    'post_status' => 'publish',
+    'posts_per_page' => -1,    
 );
+
+if(isset($hash_query['f_location_id'])){
+    $classes_args['meta_query'] =  array(
+        array( 'key' => 'location_id', 'value' => $hash_query['f_location_id'], 'compare' => '='),
+    );
+}
+else {
+    $classes_args['meta_query'] =  array(
+        array( 'key' => 'location_id', 'value' => $location_ids, 'compare' => 'IN'),
+    );
+}
+
+$classes = get_posts($classes_args);
 $class_ids = array_map(function($class){
     return $class->ID;
 }, $classes);
 
 $coach_ids = array();
-foreach($classes as $class){
-    if(is_array($class->coaches)){
-        foreach($class->coaches as $coach){
+
+foreach($classes as $kclass => $class){
+    $location = get_post($class->location_id);
+    $class->franchise_id = $location->post_author;
+    $classes[$kclass] = $class;
+}
+
+if(isset($hash_query['f_class_id'])){
+    if(is_array($sel_class->coaches)){                
+        foreach($sel_class->coaches as $coach){            
+            $location = get_post($sel_class->location_id);                
+            $sel_class->franchise_id = $location->post_author;
+
             $coach_ids[] = $coach;
         }
     }
 }
+else {
+    foreach($classes as $kclass => $class){
+        $location = get_post($class->location_id);
+        $class->franchise_id = $location->post_author;
+        $classes[$kclass] = $class;
+
+        if(is_array($class->coaches)){                
+            foreach($class->coaches as $coach){                               
+                $coach_ids[] = $coach;
+            }
+        }
+    }
+}
+
+$coach_ids[] = (int) $class_franchise_id;
 
 $coaches = get_users(
     array(
         'role' => 'coach',        
     )                
 );
-
 
 if(!is_role('franchisee') && is_role('coach')){
     $classes = get_posts(
@@ -151,7 +201,10 @@ if(!is_role('franchisee') && is_role('coach')){
 $roster = array();
 foreach($_roster as $krost => $rost){
     $class_id = $rost->roster_class_id;
+    $franchise_id = $rost->roster_franchise_id;
+    $franchise = get_post($franchise_id);
     $_coaches = get_post($class_id)->coaches ;
+    $_coaches = array_merge(array($franchise_id), $_coaches );
 
     if(is_array($_coaches)){
         if(is_role('coach') && !is_role('franchisee')){
@@ -200,6 +253,12 @@ foreach($_roster as $krost => $rost){
                 </select>                
                 <?php } ?> 
                 <?php if(is_role('administrator') || is_role('franchisee')){?>
+                <select id="f_territory_id" name="f_territory_id" >
+                    <option value="">Choose Territory</option>
+                    <?php foreach($territories as $territory){  ?>
+                    <option value="<?php echo $territory['unit_number'];?>" <?php if( in_array($territory['unit_number'], array($hash_query['f_territory_id'] ) ) ) echo "selected";?>><?php echo $territory['territory_name'];?></option>
+                    <?php } ?>
+                </select>
                 <select id="f_location_id" name="f_location_id" >
                     <option value="">Choose Location</option>
                     <?php foreach($locations as $location){ if(!in_array($location->ID, $location_ids)) continue; ?>
@@ -209,15 +268,15 @@ foreach($_roster as $krost => $rost){
                 <select id="f_class_id" name="f_class_id" >
                     <option value="">Choose Class</option>
                     <?php foreach($classes as $class){ if(!in_array($class->ID, $class_ids)) continue;?>
-                    <option value="<?php echo $class->ID;?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title;?></option>
+                    <option  value="<?php echo $class->ID;?>" data-location-id="<?php echo $class->location_id ?>" data-franchise-id="<?php echo $class->franchise_id ?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title;?></option>
                     <?php } ?>
                 </select>
-                <?php /*<select id="f_coach_id" name="f_coach_id" >
+                <select id="f_coach_id" name="f_coach_id" >
                     <option value="">Choose Coach</option>
                     <?php foreach($coaches as $coach){ if(!in_array($coach->ID, $coach_ids)) continue;?>
                     <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach->display_name;?></option>
                     <?php } ?>
-                </select>*/?>
+                </select>
                 
                 <select id="f_year" name="f_year" >
                     <?php 
@@ -259,12 +318,14 @@ foreach($_roster as $krost => $rost){
                     <?php } ?>
                 </select>
                 <?php } */?>
+
+                <a href="#roster" class="btn btn-primary">Reset</a>
             </div>
             <br/>
             <br/>
             <div class="col-1 break-big">
                 <!-- TABLE (LIST OF USERS) -->
-                <?php if( isset($hash_query['f_class_id']) ){?>
+                <?php if( isset($hash_query['f_class_id']) || is_role('coach') ){?>
                 <table class="table js-responsive-table" id="datatable-editable">
                   <thead>
                     <tr>
@@ -511,8 +572,44 @@ $(document).ready(function() {
             type: 'POST',
             dataType: 'json',
             data: {
+                form_handler: 'get_territories',
+                franchise_id: ($('#f_franchise_id').val() ? $('#f_franchise_id').val() : <?php echo $curr_franchise ? $curr_franchise : 'null';?>)
+            },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
+            success: function(data) {
+                var placeholder = data.length == 1 ? "No territories found for this territory" : "Select a territory";
+
+                $('#f_territory_id').html('').select2({
+                    placeholder: placeholder,
+                    data: data,
+                    width: '100%',
+                    id: 'unit_number',
+                    formatSelection: function (item) { return item.territory_name; },
+                    formatResult: function (item) { return item.territory_name; }
+                });
+
+                am2_hide_preloader(form);
+            }
+        });
+        
+    });
+
+    $('#f_territory_id').select2({
+        placeholder: 'Select a territory',
+        width: '100%',
+        minimumResultsForSearch: -1
+    })
+    .on('select2:select', function() {
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
                 form_handler: 'get_locations',
-                franchise_id: $('#f_franchise_id').val()
+                franchise_id: ($('#f_franchise_id').val() ? $('#f_franchise_id').val() : <?php echo $curr_franchise ? $curr_franchise : 'null';?>),
+                territory_id: $('#f_territory_id').val()
             },
             beforeSend: function() {
                 am2_show_preloader(form);
@@ -522,23 +619,19 @@ $(document).ready(function() {
 
                 $('#f_location_id').html('').select2({
                     placeholder: placeholder,
-                    width: '100%',
-                    data: data
-                });
-
-                $('#f_class_id').html('').select2({
-                    placeholder: 'Select a location first',
-                    width: '100%'
+                    data: data,
+                    width: '100%'                    
                 });
 
                 am2_hide_preloader(form);
             }
-        })
+        });
     });
 
     $('#f_location_id').select2({
         placeholder: 'Select a location',
-        width: '100%'
+        width: '100%',
+        minimumResultsForSearch: -1
     })
     .on('select2:select', function() {
         $.ajax({
@@ -555,7 +648,44 @@ $(document).ready(function() {
             success: function(data) {
                 var placeholder = data.length == 1 ? "No classes found for this location" : "Select a class";
 
-                $('#f_class_id').html('').select2({
+                data = $.map(data, function(item, a) {
+                    return "<option value=" + item.id + " data-franchise-id='"+item.franchise_id+"' data-location-id='"+item.location_id+"'>" + item.text + "</option>";
+                });
+
+                console.log(data);
+
+                $('#f_class_id').html(data);
+
+                $('#f_class_id').select2({
+                    placeholder: placeholder,
+                    //data: data,
+                    width: '100%'
+                });
+                am2_hide_preloader(form);
+            }
+        });
+    });
+
+    $('#f_class_id').select2({
+        placeholder: 'Select a location first',
+        width: '100%',
+        minimumResultsForSearch: -1
+    }).on('select2:select',function(){      
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_coaches',
+                class_id: $('#f_class_id').val()
+            },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
+            success: function(data) {
+                var placeholder = data.length == 1 ? "No coaches found for this class" : "Select a coach";                
+                
+                $('#f_coach_id').select2({
                     placeholder: placeholder,
                     data: data,
                     width: '100%'
@@ -565,27 +695,37 @@ $(document).ready(function() {
         })
     });
 
-    $('#f_class_id').select2({
-        placeholder: 'Select a location first',
-        width: '100%'
-    }).on('change',function(){      
-    
+    $('#f_coach_id').select2({
+        placeholder: 'Select a coach',
+        width: '100%',
+        minimumResultsForSearch: -1
     });
 
     $('#f_year').select2({
-        placeholder: 'Select a franchise',
+        placeholder: 'Select a year',
         width: '100%',
         minimumResultsForSearch: -1
     });
 
     $('#f_month').select2({
-        placeholder: 'Select a franchise',
+        placeholder: 'Select a month',
         width: '100%',
         minimumResultsForSearch: -1
     });
 
-    $('#filter select').on('change', function(){
-        if($('#f_class_id').val() !=='undefined' && $('#f_class_id').val() != ''){
+    $('#filter select').on('select2:select', function(){
+        /*if($(this).attr('id')=='f_franchise_id'){
+            window.location.hash = '#roster/?f_franchise_id=' + $(this).val();
+        }
+        else if($(this).attr('id')=='f_location_id'){            
+            window.location.hash = '#roster/?f_franchise_id=' + $('#f_franchise_id').val() + '&f_location_id=' + $(this).val();
+        }
+        else*/ if($('#f_class_id').val()){
+
+            /*window.location.hash = '#roster/?f_franchise_id=' + $('#f_class_id').find(':selected').data('franchise-id') + 
+            '&f_location_id=' + $('#f_class_id').find(':selected').data('location-id') +
+            '&f_class_id=' + $('#f_class_id').val();*/
+            
             var filters = new Array;
 
             var sep = '?';

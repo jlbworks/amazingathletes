@@ -397,3 +397,17 @@ td.price {
 #filter .select2-container{
   width:auto !important;
 } 
+
+@media print { 
+  @page {size: landscape}
+  
+ /* All your print styles go here */
+ .header, .sidebar, .context--pageheader, .dt-buttons { width:0px !important; height:0px !important; display: none !important;  }
+ .main {padding-left:0px !important; padding: 0px 0px 20px 0px !important; float:left; position:static;} 
+}
+
+.frm_invoice_additional .editable {
+  border:1px solid #ccc;
+  border-radius:5px;
+  width:auto;
+}

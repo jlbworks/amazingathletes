@@ -67,11 +67,15 @@ if( $location_id) {
 
 $coaches = array();
 foreach($classes as $class){
-    $_coaches = get_post_meta($class->ID, 'coaches', true);
+    $_coaches = get_post_meta($class->ID, 'coaches', true);   
+
+    $location = get_post($class->location_id);          
 
     if(is_array($_coaches)){
+        $_coaches = array_merge(array($location->post_author),$_coaches);
+        $_coaches = array_unique($_coaches);
         foreach($_coaches as $_coach){
-            $coaches[] = get_user_by('id',(int) $_coach);
+            $coaches[$_coach] = get_user_by('id',(int) $_coach);
         }
     }        
 }
@@ -266,7 +270,7 @@ $payment_types = array('','Ck/$');
                     </div>
                 </div>
 
-                <?php /*<div class="card-table-row">
+                <div class="card-table-row">
                     <span class="card-table-cell fixed250">Coach Name<span class="required">*</span></span>
                     <div class="card-table-cell">
                         <div class="card-form">
@@ -281,7 +285,7 @@ $payment_types = array('','Ck/$');
                             </fieldset>
                         </div>
                     </div>
-                </div>*/ ?>
+                </div>
 
                 <?php /*<div class="card-table-row">
                     <span class="card-table-cell fixed250">Date <span class="required">*</span></span>

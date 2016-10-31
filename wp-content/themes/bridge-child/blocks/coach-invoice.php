@@ -235,7 +235,7 @@ endif;
         
         <div class="validation-message"><ul></ul></div>
 
-            <div class="card-table">
+            <div class="card-table frm_invoice_additional">
                     <div class="card-table-row">
                         <span class="card-table-cell fixed250"><strong>Total</strong> </span>
                         <div class="card-table-cell">
@@ -252,7 +252,7 @@ endif;
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="travel_surcharge" class="form-control currency js-add-to-grand-total" title="Please add travel surcharge" value="$<?php echo $travel_surcharge; ?>" />
+                                <input type="text" data-js="" name="travel_surcharge" class="form-control currency js-add-to-grand-total editable" title="Please add travel surcharge" value="$<?php echo $travel_surcharge; ?>" />
                             </fieldset>
                         </div>
                         </div>
@@ -262,7 +262,7 @@ endif;
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="liability_insurance_rebate" class="form-control currency js-add-to-grand-total" title="Please add Liability Insurance Rebate" value="$<?php echo $liability_insurance_rebate; ?>" />
+                                <input type="text" data-js="" name="liability_insurance_rebate" class="form-control currency js-add-to-grand-total editable" title="Please add Liability Insurance Rebate" value="$<?php echo $liability_insurance_rebate; ?>" />
                             </fieldset>
                         </div>
                         </div>
@@ -272,7 +272,7 @@ endif;
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="equipment_rental_rebate" class="form-control currency js-add-to-grand-total" title="Please add bonus" value="$<?php echo $equipment_rental_rebate; ?>" />
+                                <input type="text" data-js="" name="equipment_rental_rebate" class="form-control currency js-add-to-grand-total editable" title="Please add bonus" value="$<?php echo $equipment_rental_rebate; ?>" />
                             </fieldset>
                         </div>
                         </div>
@@ -282,7 +282,7 @@ endif;
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="settled_outstanding_student_compensations" class="form-control currency js-add-to-grand-total" title="Please add Settled Outstanding Student Compensations" value="$<?php echo $settled_outstanding_student_compensations; ?>" />
+                                <input type="text" data-js="" name="settled_outstanding_student_compensations" class="form-control currency js-add-to-grand-total editable" title="Please add Settled Outstanding Student Compensations" value="$<?php echo $settled_outstanding_student_compensations; ?>" />
                             </fieldset>
                         </div>
                         </div>
@@ -292,7 +292,7 @@ endif;
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="other" class="form-control currency js-add-to-grand-total" title="Please add Others" value="$<?php echo $other; ?>" />
+                                <input type="text" data-js="" name="other" class="form-control currency js-add-to-grand-total editable" title="Please add Others" value="$<?php echo $other; ?>" />
                             </fieldset>
                         </div>
                         </div>

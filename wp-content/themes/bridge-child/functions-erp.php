@@ -749,7 +749,7 @@ function submit_data() {
         $meta_data = array();
         $meta_fields = array(
             'roster_class_id', 'roster_customer_id',
-            'roster_location_id'/*, 'roster_coach_id'*/,
+            'roster_location_id', 'roster_coach_id',
             'roster_customer_status', 'roster_customer_media',
             'roster_customer_discount', 'roster_payment_type',
         );
@@ -918,7 +918,11 @@ function submit_data() {
             exit( json_encode( array( 'success' => false, 'message' => "Unauthorized action." ) ) );
         }*/
 
-        $coaches = get_post_meta($class_id, 'coaches', true);
+        $franchisee = get_post($class_id);
+        $franchisee_id = $franchisee->post_author;
+        $coaches = array($franchisee_id);
+        $_coaches = get_post_meta($class_id, 'coaches', true);
+        $coaches = array_unique (array_merge($coaches,$_coaches) );         
 
         if(is_array($coaches)){
             $coaches = array_map(function($_coach){
@@ -961,13 +965,19 @@ function submit_data() {
         $classes = array(
             array(
                 'id'    => '',
-                'text'  => ''
+                'text'  => 'Select a class',
+                'location_id' => '',
+                'franchise_id' => ''
             )
         );
 
         foreach( $classes_unordered as $class ) {
+            $location = get_post($class->location_id);                            
+
             $single_class['id'] = $class->ID;
             $single_class['text'] = $class->post_title;
+            $single_class['location_id'] = $class->location_id;
+            $single_class['franchise_id'] = $location->post_author;
 
             $classes[] = $single_class;
         }
@@ -976,10 +986,25 @@ function submit_data() {
     }
 
     /**
+     * Return list of territories for a franchise
+     */
+    if ($_POST['form_handler'] == 'get_territories') {
+        $franchise_id = sanitize_text_field( $_POST['franchise_id'] );
+
+        $territories = get_field('territories', 'user_' .$franchise_id);
+        $territories = array_map(function($terr){
+            return array('id'=> $terr['unit_number'], 'text' => $terr['territory_name']);
+        },$territories);
+
+        exit(json_encode( $territories ) );
+    }
+
+    /**
      * Return list of locations for a franchise
      */
     if ($_POST['form_handler'] == 'get_locations') {
         $franchise_id = sanitize_text_field( $_POST['franchise_id'] );
+        $territory_id = sanitize_text_field( $_POST['territory_id'] );
 
         $args = array(
             'post_type'         => 'location',
@@ -987,6 +1012,16 @@ function submit_data() {
             'post_status'       => 'publish',
             'author'            => $franchise_id
         );
+
+        if(isset($territory_id)) {
+            $args['meta_query'] = array(
+                array(
+                    'key' => 'unit_number',
+                    'value' => $territory_id,
+                    'compare' => '=',
+                )
+            );
+        }
 
         $locations_unordered = get_posts( $args );
         $locations = array(
