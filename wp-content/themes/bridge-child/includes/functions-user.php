@@ -524,6 +524,8 @@ function am2_edit_location() {
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
 
+	header("Content-Type: application/json; charset=UTF-8");
+
 	if (!isset($_POST['loc_id']) || empty($_POST['loc_id'])) {
 		$loc_id = wp_insert_post(
 			array(
@@ -584,14 +586,13 @@ function am2_edit_location() {
 				update_post_meta($loc_id, $post_key, $_POST[$post_key]);
 			}
 			else if(in_array($post_key, $required_fields)){
-				echo "Field $post_key is required";
+				echo json_encode(array("message"=>"Field $post_key is required", "loc_id" => $loc_id));
 				exit();
 			}
 		}
 	}
-
-	header("Content-Type: application/json; charset=UTF-8");
-	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));;
+	
+	echo json_encode(array("message"=>"Your location was successfully $loc_verb.", "loc_id" => $loc_id));
 	exit();
 
 }
