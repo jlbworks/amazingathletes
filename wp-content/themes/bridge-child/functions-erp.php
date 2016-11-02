@@ -1078,7 +1078,7 @@ function submit_data() {
         
         $result = update_post_meta($rss_id,'classes', $classes);
 
-        exit(json_encode(array('success' => $result , 'message' => "RSS edit " ($result ? 'success' : 'failed') )));
+        exit(json_encode(array('success' => $result , 'message' => "RSS edit " . ($result ? 'success' : 'failed') )));
     }
 
     /**
