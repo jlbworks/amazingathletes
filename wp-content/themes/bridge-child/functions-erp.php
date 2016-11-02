@@ -1039,7 +1039,7 @@ function submit_data() {
         }
 
         exit(json_encode( $locations ) );
-    }
+    }    
 
      /**
      * Create City
@@ -1051,6 +1051,36 @@ function submit_data() {
 
         exit(json_encode(array('success' => $result == true, 'message' => "City added successfully")));
     }
+
+    /**
+        rss_inline_edit
+    **/
+    if($_POST['form_handler'] == 'rss_inline_edit'){
+        $rss_id = $_REQUEST['rss_id'];
+        $class_id = $_REQUEST['class_id'];
+
+        if(! current_user_can( 'administrator' ) ) {
+            exit(json_encode(array('success' => false , 'message' => "RSS edit failed" ) ) ) ;
+        }
+        
+        $rss = get_post($rss_id);
+
+        $classes = $rss->classes;
+
+        if(!is_array($classes)){
+            $classes = array();
+        }
+
+        $classes[$class_id] = array(
+            'no_weeks_taught' => $_REQUEST['no_weeks_taught'],
+            'status_code' => $_REQUEST['status_code'],
+        );
+        
+        $result = update_post_meta($rss_id,'classes', $classes);
+
+        exit(json_encode(array('success' => $result , 'message' => "RSS edit " ($result ? 'success' : 'failed') )));
+    }
+
     /**
       END OF SUBMIT FORM HANDLERS
      */

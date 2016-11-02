@@ -411,3 +411,10 @@ td.price {
   border-radius:5px;
   width:auto;
 }
+
+td.edit span{
+  display:none;
+}
+td.edit input {
+  display:inline;
+}

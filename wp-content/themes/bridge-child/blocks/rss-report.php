@@ -10,6 +10,7 @@ $id = $target_args['id'];
 restrict_access('administrator');
 
 $rss_report = get_post($id);
+$rss_classes = $rss_report->classes;
 
 $franchise = get_user_by('id', $rss_report->rss_franchise_id);
 $franchise_name = $franchise->franchise_name;
@@ -76,6 +77,18 @@ if(!empty($locations)):
         foreach($classes as $class):
             $class_array = array();
             $class_array['post'] = $class;
+
+            $rss_status_code = null;
+            $rss_no_weeks_taught = null;            
+            
+            if(is_array($rss_classes)){
+                foreach($rss_classes as $k_rss_class => $rss_class){
+                    if($k_rss_class == $class->ID) {
+                        $rss_status_code = $rss_class['status_code'];
+                        $rss_no_weeks_taught = $rss_class['no_weeks_taught'];
+                    }
+                }
+            }            
 
             $attendance_dates = array();            
 
@@ -156,8 +169,7 @@ if(!empty($locations)):
                     //$per_month = get_post_meta($class->ID, 'classes_per_month', true);
                     $class_array['standard_tuition'] = ($amount * $days_per_month);
                 }
-                                
-                
+                                                
                 $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2);
             }
 
@@ -170,9 +182,9 @@ if(!empty($locations)):
                         'key' => 'attendance_class_id',
                         'value' => $class->ID,
                         'compare' => '=',
-                    )
+                    ),
                 )
-            ));                        
+            ));                                    
 
             $weeks = array();
             foreach($attendances as $attendance){   
@@ -181,10 +193,10 @@ if(!empty($locations)):
                 $weeks[ am2GetWeekInMonth($formatted, "sunday") -1 ] = am2GetWeekInMonth($formatted, "sunday") -1;
             }
 
-            $class_array['status_code'] = 'Y';
+            $class_array['status_code'] = $rss_status_code ? $rss_status_code : 'Y';
             $class_array['class_status'] = 'Ongoing';
 
-            $class_array['no_weeks_taught'] = count($weeks);
+            $class_array['no_weeks_taught'] = $rss_no_weeks_taught ? $rss_no_weeks_taught : count($weeks);
 
             $earned_gross_revenue = ($class_array['no_weeks_taught'] > 0 ? ( $class_array['no_weeks_taught'] * ($class_array['weekly_tuition'] * $class_array['monthly_enrollment'] ) ) : 0);
             $class_array['earned_gross_revenue'] = $earned_gross_revenue;
@@ -319,7 +331,7 @@ endif;
                 <?php 
                 if($location['classes']):
                     foreach($location['classes'] as $class): ?>
-                        <tr>
+                        <tr data-class-id="<?php echo $class['post']->ID ;?>">
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['program_code']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['program']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_code']; ?></td>
@@ -328,9 +340,9 @@ endif;
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['standard_tuition']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['standard_no_weeks']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['weekly_tuition']; ?></td>
-                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['status_code'];?></td>
+                            <td class="status_code" style="padding: 5px; border: #000 1px solid;"><span><?php echo $class['status_code'];?></span><input type="text" class="hidden"/></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_status'];?></td>
-                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['no_weeks_taught'];?></td>
+                            <td class="no_weeks_taught" style="padding: 5px; border: #000 1px solid;"><span><?php echo $class['no_weeks_taught'];?></span><input type="text" class="hidden" /></td>
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo $class['earned_gross_revenue'];?></td>
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo $class['royalty_estimate'];?></td>
                         </tr>
@@ -379,6 +391,30 @@ $(document).ready(function () {
   //addToTotal();
   initMasks();
 
+  $('#rssTable td').on('click', function(){
+      $(this).toggleClass('edit');
+
+      if($(this).hasClass('edit')){
+          $(this).children('input').eq(0).val($(this).children('span').text()).focus().select();
+      }      
+      else {
+          var $tr = $(this).closest('tr');
+          var new_val = $(this).children('input').eq(0).val();
+          $(this).children('span').text(new_val);
+
+          var class_id = $tr.data('class-id');
+          var status_code = $tr.find('.status_code span').text();
+          var no_weeks_taught = $tr.find('.no_weeks_taught span').text();
+
+          $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'rss_inline_edit', rss_id: <?php echo $id;?>, class_id : class_id, no_weeks_taught: no_weeks_taught, status_code: status_code  }, function(resp){
+              console.log(resp);
+          });
+      }
+  });  
+
+  $('#rssTable td input').on('blur', function(){
+      $(this).closest('td').trigger('click');
+  });
 });
 
 function initMasks() {
