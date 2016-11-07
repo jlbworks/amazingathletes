@@ -19,7 +19,7 @@ html/.sass-cache/*
 .idea/*
 /wp-content/languages/*
 phpminiadmin.php
-
+prepros.cfg
 
 /wp-content/advanced-cache.php
 /wp-content/backup-db/
