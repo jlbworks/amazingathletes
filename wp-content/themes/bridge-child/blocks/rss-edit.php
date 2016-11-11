@@ -4,7 +4,7 @@ get_currentuserinfo();
 
 $id = $_REQUEST['id'];
 
-//restrict_access('franchisee');
+restrict_access('administrator,franchisee,coach');
 /*
 echo( "<div>In Development</div>" );
 return;*/
