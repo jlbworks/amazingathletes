@@ -801,7 +801,7 @@ function submit_data() {
     if ($_POST['form_handler'] == 'rss_create') {
         $id = sanitize_text_field( $_POST['id'] );
         $franchise_id = sanitize_text_field( $_POST['rss_franchise_id'] );
-        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+        $author = $franchise_id = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
 
         $post_data = array(
             'ID' => $id,
@@ -820,6 +820,7 @@ function submit_data() {
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = sanitize_text_field($_POST[$field]);
         }
+        $meta_data['rss_franchise_id'] = $franchise_id;
 
 
         $created = false;
@@ -1059,7 +1060,7 @@ function submit_data() {
         $rss_id = $_REQUEST['rss_id'];
         $class_id = $_REQUEST['class_id'];
 
-        if(! current_user_can( 'administrator' ) ) {
+        if(! current_user_can( 'administrator' ) && !current_user_can( 'franchisee' ) ) {
             exit(json_encode(array('success' => false , 'message' => "RSS edit failed" ) ) ) ;
         }
         

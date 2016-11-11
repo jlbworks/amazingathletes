@@ -7,10 +7,12 @@ get_currentuserinfo();
 global $target_args;
 $id = $target_args['id'];
 
-restrict_access('administrator');
+restrict_access('administrator,franchisee');
 
 $rss_report = get_post($id);
 $rss_classes = $rss_report->classes;
+
+//var_dump($rss_classes);
 
 $franchise = get_user_by('id', $rss_report->rss_franchise_id);
 $franchise_name = $franchise->franchise_name;
@@ -83,9 +85,9 @@ if(!empty($locations)):
             
             if(is_array($rss_classes)){
                 foreach($rss_classes as $k_rss_class => $rss_class){
-                    if($k_rss_class == $class->ID) {
-                        $rss_status_code = $rss_class['status_code'];
-                        $rss_no_weeks_taught = $rss_class['no_weeks_taught'];
+                    if($k_rss_class == $class->ID) {                        
+                        $rss_status_code = isset($rss_class['status_code'][$month]) && !empty($rss_class['status_code'][$month])? $rss_class['status_code'][$month] : $rss_class['status_code'];
+                        $rss_no_weeks_taught = isset($rss_class['no_weeks_taught'][$month]) && !empty($rss_class['no_weeks_taught'][$month])? $rss_class['no_weeks_taught'][$month] : $rss_class['no_weeks_taught'];                        
                     }
                 }
             }            
