@@ -38,7 +38,9 @@
             <li>
                 <a href="#location-invoices"><i class="fa fa-users" aria-hidden="true"></i> <span>Location Invoices</span> </a>
             </li>
-            <?php } if( is_role('administrator') ||  is_role('franchisee')){ ?>
+
+            <?php } if( is_role('administrator') ||  is_role('franchisee') ||  is_role('coach') ){ ?>
+
             <li>
                 <a href="#rss"><i class="fa fa-archive" aria-hidden="true"></i> <span>RSS Reports</span></a>
             </li>

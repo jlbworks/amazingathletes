@@ -2,7 +2,7 @@
 global $current_user; 
 get_currentuserinfo();
 
-restrict_access('administrator,franchisee');
+restrict_access('administrator,franchisee,coach');
 
 $hash_query = str_replace('?','',$_REQUEST['target_args']);
 parse_str($hash_query,$hash_query);
