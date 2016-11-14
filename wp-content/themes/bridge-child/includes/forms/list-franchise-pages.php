@@ -121,7 +121,7 @@ else {
 					echo "<h3><a href=\"".remove_query_arg('add', add_query_arg( 'post_id', $post->ID, $_SERVER['REQUEST_URI'])) ."\">".get_the_title($post->ID)."</a></h3>";
 				}	
 				?>
-				<button class="delete_post" data-id="<?php echo $post->ID;?>" data-object="<?php echo $post->post_type;?>">Delete post</button>
+				<button class="delete_post button" data-id="<?php echo $post->ID;?>" data-object="<?php echo $post->post_type;?>">Delete post</button>
 				<?php 		
 				
 				echo apply_filters( 'the_excerpt', $post->post_content );?>

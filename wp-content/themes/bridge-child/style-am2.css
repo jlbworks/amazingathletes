@@ -431,3 +431,7 @@ text-align: center;
 .tbl_register_class td {
     padding:10px;
 }
+
+button, input[type="button"], input[type="submit"] {
+    cursor:pointer;
+}
