@@ -1099,7 +1099,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
     $('input[name="child-birthday"]').datetimepicker({
         timepicker: false,
-        format:'m-d-Y'
+        format:'m/d/Y'
     });
 
     $('.delete_post').on('click',function(){

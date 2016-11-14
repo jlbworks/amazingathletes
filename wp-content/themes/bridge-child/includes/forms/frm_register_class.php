@@ -39,7 +39,7 @@
       </span> </p>
     <p>Child's Birthday *<br>
       <span class="wpcf7-form-control-wrap child-birthday">
-      <input type="text" name="child-birthday" value="" class="datepicker wpcf7-form-control wpcf7-date wpcf7-validates-as-required wpcf7-validates-as-date" aria-required="true" aria-invalid="false" required>
+      <input type="text" name="child-birthday" value="" placeholder="01/01/2017" class="datepicker wpcf7-form-control wpcf7-date wpcf7-validates-as-required wpcf7-validates-as-date" aria-required="true" aria-invalid="false" required>
       </span> </p>
     <p>Child's Gender *<br>
       <span class="wpcf7-form-control-wrap child-gender">
