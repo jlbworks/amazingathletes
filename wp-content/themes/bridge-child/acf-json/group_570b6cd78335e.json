@@ -148,7 +148,7 @@
             "key": "field_576e3f842a374",
             "label": "Display Bio",
             "name": "display_bio",
-            "type": "textarea",
+            "type": "wysiwyg",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -158,12 +158,9 @@
                 "id": ""
             },
             "default_value": "",
-            "placeholder": "",
-            "maxlength": "",
-            "rows": "",
-            "new_lines": "wpautop",
-            "readonly": 0,
-            "disabled": 0
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1
         },
         {
             "key": "field_576e40062a376",
@@ -600,5 +597,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1477476729
+    "modified": 1479130786
 }

@@ -52,6 +52,11 @@
                 "param": "user_role",
                 "operator": "==",
                 "value": "coach"
+            },
+            {
+                "param": "user_role",
+                "operator": "!=",
+                "value": "franchisee"
             }
         ]
     ],
@@ -63,5 +68,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1465913476
+    "modified": 1479130280
 }

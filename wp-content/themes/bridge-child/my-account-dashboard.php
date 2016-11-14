@@ -30,11 +30,11 @@ get_header();
 		<div class="wpb_wrapper">
 			<h1 class="entry-title" style="text-align: center;">Dashboard</h1>
 <?php 
-$notifications = get_field('notifications', 'option');
-$dates = get_field('important_dates', 'option');
-$info_pages = get_field('info_pages', 'option');
-$submit_pl_statement = get_field('submit_pl_statement', 'option');
-$submit_certificate_of_liability_insurance = get_field('submit_certificate_of_liability_insurance', 'option');?>
+$notifications = get_field('notifications', 'user_'.$user->ID); // 'option');
+$dates = get_field('important_dates', 'user_'.$user->ID); // 'option');
+$info_pages = get_field('info_pages', 'user_'.$user->ID); // 'option');
+$submit_pl_statement = get_field('submit_pl_statement', 'user_'.$user->ID); // 'option');
+$submit_certificate_of_liability_insurance = get_field('submit_certificate_of_liability_insurance', 'user_'.$user->ID); // 'option');?>
 
 <ul class="tabs">
 	<li id="tab_notifications" class="tab">Notifications</li>
