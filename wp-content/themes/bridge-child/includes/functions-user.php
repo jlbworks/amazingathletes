@@ -227,13 +227,14 @@ function am2_franchisee_account() {
 			$franchise_slug = sanitize_title_with_dashes($_POST[$post_key]);
 			$_franchises = $wpdb->get_results("SELECT wum.meta_value, wu.ID, wu.user_login FROM $wpdb->usermeta wum JOIN $wpdb->users wu ON wu.ID = wum.user_id WHERE wu.ID != $user_id AND wum.meta_key = 'franchise_slug' AND wum.meta_value = '".$franchise_slug."' GROUP BY wu.ID");
 
+			update_user_meta($user_id, $meta_key, $_POST[$post_key]);
+
 			if(is_array($_franchises) && count($_franchises) > 0 ) {
 				echo "That franchise name is already taken";
 				exit();
 			}
-			else {
-				update_user_meta($user_id, $meta_key, $_POST[$post_key]);
-				update_user_meta($user_id, 'franchise_slug', $franchise_slug);
+			else {				
+				//update_user_meta($user_id, 'franchise_slug', $franchise_slug);
 
 				change_author_permalinks();
 				$wp_rewrite->flush_rules(false);
