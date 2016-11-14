@@ -802,35 +802,35 @@ $instagram_url = !empty($instagram_url) ? $instagram_url : "https://www.instagra
 <div class="vc_column-inner ">
 <div class="wpb_wrapper">
 <span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff">
-<a href="<?php echo $facebook_url;?>" target="_self">
+<a href="<?php echo $facebook_url;?>" target="_blank">
 	<span class="fa-stack " style="background-color: #fd0000;">
 		<i class="qode_icon_font_awesome fa fa-facebook " style="color: #ffffff;"></i>
 	</span>
 </a>
 </span>
 <span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff">
-	<a href="<?php echo $youtube_url;?>" target="_self">
+	<a href="<?php echo $youtube_url;?>" target="_blank">
 		<span class="fa-stack " style="background-color: #fd0000;">
 			<i class="qode_icon_font_awesome fa fa-youtube " style="color: #ffffff;"></i>
 		</span>
 	</a>
 </span>
 <span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff">
-<a href="<?php echo $instagram_url;?>" target="_self">
+<a href="<?php echo $instagram_url;?>" target="_blank">
 	<span class="fa-stack " style="background-color: #fd0000;">
 		<i class="qode_icon_font_awesome fa fa-instagram " style="color: #ffffff;"></i>
 	</span>
 </a>
 </span>
 <span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff">
-	<a href="<?php echo $pinterest_url;?>" target="_self">
+	<a href="<?php echo $pinterest_url;?>" target="_blank">
 		<span class="fa-stack " style="background-color: #fd0000;">
 			<i class="qode_icon_font_awesome fa fa-pinterest " style="color: #ffffff;"></i>
 		</span>
 	</a>
 </span>
 <span class="q_social_icon_holder circle_social" data-hover-background-color="#fad000" data-hover-color="#ffffff">
-	<a href="<?php echo $twitter_url;?>" target="_self">
+	<a href="<?php echo $twitter_url;?>" target="_blank">
 		<span class="fa-stack " style="background-color: rgb(253, 0, 0);">
 			<i class="qode_icon_font_awesome fa fa-twitter " style="color: #ffffff;color: rgb(255, 255, 255);"></i>
 		</span>
