@@ -991,7 +991,9 @@ var classes_with_special_title = ['Contract','Camp'];
     });
 
     $('.tabs li').on('click', function(){
-        var id = $(this).attr('id').replace('tab_','');        
+        var id = $(this).attr('id').replace('tab_',''); 
+        $(this).siblings().removeClass('active');       
+        $(this).addClass('active');
         $('.tab_content').hide();
         $('.tab_content_' + id).show();        
     });

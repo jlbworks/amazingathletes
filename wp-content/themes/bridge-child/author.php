@@ -107,7 +107,7 @@ get_header();?>
              </span></a>
     	</div>    	
     <?php } ?>
-	<?php $i++; } ?>
+	<?php $i++; /*var_dump($show_page);*/ } ?>
   
 	<?php /*<div class="side-nav"><a href="#" class="sidebar-link">
                          <span>

@@ -265,6 +265,11 @@ text-align: center;
     display:none;
 }
 
+.page-template-my-account-dashboard .tabs li.active, .page-template-my-account-dashboard .tabs li:hover {
+    background: #FE0000;
+    color:white;
+}
+
 .accord_content {
     display:none;
     border: 1px solid #FE0000;
