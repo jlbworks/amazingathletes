@@ -1,9 +1,9 @@
 var remodal_popup;
-var class_costs = {
+/*var class_costs = {
     "Standard Registration Form" : "parent_pay_monthly",
     "Session Registration Form" : "parent_pay_session",
     "3rd Party Registrations" : "contracts_events"
-};
+};*/
 /*var class_costs = {
     "Parent-Pay" : "parent_pay_monthly",
     "Session" : "parent_pay_session",

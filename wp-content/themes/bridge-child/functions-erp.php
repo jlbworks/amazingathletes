@@ -1785,8 +1785,9 @@ function am2_insert_customer( ) {
     $state = sanitize_text_field( $_POST['state'] );
     $state_code = $wpdb->get_var("SELECT state_code FROM states WHERE state = '$state'");
 
-    $date_epoch = date_create_from_format( 'm-d-Y', $_POST['child-birthday'] );
-    $date = $date_epoch->format( 'd/m/Y' );
+    $date_epoch = date_create_from_format( 'm/d/Y', $_POST['child-birthday'] );
+    $date = $date_epoch->format( 'm/d/Y' );
+    // $date = $date_epoch->format( 'd/m/Y' );
 
     $customer_data = array(
         'childs_first_name'                 => $_POST['child-first-name'],

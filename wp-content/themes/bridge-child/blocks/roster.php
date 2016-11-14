@@ -1,5 +1,5 @@
 <?php 
-global $current_user; 
+global $current_user, $possible_class_costs; 
 get_currentuserinfo();
 
 restrict_access('administrator,franchisee,coach');
@@ -51,13 +51,13 @@ if( isset($hash_query['f_class_id']) ){
     $class_id = $hash_query['f_class_id'];
     $sel_class = get_post($class_id); 
 
-    $class_costs = array(
+    /*$possible_class_costs = array(
         "Parent-Pay Monthly" => "parent_pay_monthly",
         "Parent-Pay Session" =>  "parent_pay_session",
         "Contracts/Events" => "contracts_events",
-    );
+    );*/
 
-    $parent_pay = $class_costs[$sel_class->class_costs];
+    $parent_pay = $possible_class_costs[$sel_class->class_costs];
     
     if($parent_pay == 'parent_pay_monthly'){
         $tuition = $sel_class->{$parent_pay.'_monthly_tuition'};

@@ -27,6 +27,7 @@
     $franchise = array_merge((array)$_franchisee, (array)$_franchisee_meta);    
 ?>
 <?php if(isset($_GET['iframe'])) wp_head(); else get_header();?>
+
 <?php while(have_posts()) { the_post();?>
 <style type="text/css">
     body {
@@ -69,57 +70,59 @@
 </style>
 <?php the_content();?>
 <?php } ?>
-<script>
-    var franchisee = <?php echo json_encode($franchise);?>;
-    var location_class = <?php echo json_encode($class);?>;
-    var paid_tuition = <?php echo $paid_tuition; ?>;
-
-    var class_costs = {
-        "Parent-Pay Monthly" : "parent_pay_monthly",
-        "Parent-Pay Session" : "parent_pay_session",
-        "Contracts/Events" : "contracts_events"
-    };
-
-    var payment_type = class_costs[location_class.class_costs];    
-    var registration_fee = !paid_tuition ? parseInt(location_class[payment_type + '_registration_fee']) : 0;
-    var monthly_tuition = 0;
-    var session_tuition = 0;
-    
-    try {
-        monthly_tuition = parseInt(location_class[payment_type + '_monthly_tuition']);                
-        session_tuition = parseInt(location_class[payment_type + '_session_tuition']);
-    }   
-    catch(exc){
-        //console.log(exc, monthly_tuition, session_tuition); 
-    }    
-
-    var tuition = ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0));                               
-
-    var tokens = {                   
-        franchise_name : franchisee.franchise_name,
-        program_name : location_class.program,
-        tuition : '$' +  ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0)),
-        registration_fee : '$' + registration_fee,
-        amount_due : '$' + (registration_fee + tuition),
-        individual_1_first_name : franchisee.individual_1_first_name,            
-        individual_1_last_name : franchisee.individual_1_last_name,
-        contact_name : franchisee.individual_1_first_name + ' ' + franchisee.individual_1_last_name,
-        contact_number : franchisee.telephone,
-        contact_email : '<a href="'+franchisee.aa_email_address+'">'+franchisee.aa_email_address+'</a>',
-        payment_link_onetime : '<a href="'+location_class.one_time_credit_card_payment_url+'">New Student One-Time Payment</a>',
-        payment_link_auto : '<a href="'+location_class.recurring_credit_card_payments_url+'">New Student Auto-Pay</a>',
-    } ;     
-
-    var payment_options_table = {
-        "Personal Check Or Cash Payments" : "PERSONAL CHECK PAYMENTS",
-        "One Time Credit Card Payment" : "ONE TIME CREDIT CARD PAYMENT",
-        "Recurring Credit Card Payments" : "RECURRING CREDIT CARD PAYMENTS"
-    }    
-
-    var payment_options = <?php echo $payment_options;?>;             
-
+<script>          
     (function($){
         $(document).ready(function(){
+            var franchisee = <?php echo json_encode($franchise);?>;
+            var location_class = <?php echo json_encode($class);?>;
+            var paid_tuition = <?php echo $paid_tuition; ?>;
+
+            /*var class_costs = {
+                "Parent-Pay Monthly" : "parent_pay_monthly",
+                "Parent-Pay Session" : "parent_pay_session",
+                "Contracts/Events" : "contracts_events"
+            };*/
+
+            var class_costs = am2_registration.possible_class_costs;
+
+            var payment_type = class_costs[location_class.class_costs];    
+            var registration_fee = !paid_tuition ? parseInt(location_class[payment_type + '_registration_fee']) : 0;
+            var monthly_tuition = 0;
+            var session_tuition = 0;
+
+            try {
+                monthly_tuition = parseInt(location_class[payment_type + '_monthly_tuition']);                
+                session_tuition = parseInt(location_class[payment_type + '_session_tuition']);
+            }   
+            catch(exc){
+                //console.log(exc, monthly_tuition, session_tuition); 
+            }    
+
+            var tuition = ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0));                               
+
+            var tokens = {                   
+                franchise_name : franchisee.franchise_name,
+                program_name : location_class.program,
+                tuition : '$' +  ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0)),
+                registration_fee : '$' + registration_fee,
+                amount_due : '$' + (registration_fee + tuition),
+                individual_1_first_name : franchisee.individual_1_first_name,            
+                individual_1_last_name : franchisee.individual_1_last_name,
+                contact_name : franchisee.individual_1_first_name + ' ' + franchisee.individual_1_last_name,
+                contact_number : franchisee.telephone,
+                contact_email : '<a href="'+franchisee.aa_email_address+'">'+franchisee.aa_email_address+'</a>',
+                payment_link_onetime : '<a href="'+location_class.one_time_credit_card_payment_url+'">New Student One-Time Payment</a>',
+                payment_link_auto : '<a href="'+location_class.recurring_credit_card_payments_url+'">New Student Auto-Pay</a>',
+            } ;     
+
+            var payment_options_table = {
+                "Personal Check Or Cash Payments" : "PERSONAL CHECK PAYMENTS",
+                "One Time Credit Card Payment" : "ONE TIME CREDIT CARD PAYMENT",
+                "Recurring Credit Card Payments" : "RECURRING CREDIT CARD PAYMENTS"
+            }    
+
+            var payment_options = <?php echo $payment_options;?>;      
+
             $('h5').hide();
             //$('.accordion_content').hide();            
             $.each(payment_options, function(i,v){                

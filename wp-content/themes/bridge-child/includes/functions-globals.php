@@ -1,5 +1,5 @@
 <?php
-global $class_programs, $class_types, $coach_pay_scales, $class_payment_informations;
+global $class_programs, $class_types, $coach_pay_scales, $class_payment_informations, $possible_class_costs;
 
 /*$programs = get_field('programs_description', 'option');
 $class_programs = array(/*'Amazing Athletes', 'Amazing Tots', 'Amazing Warriors');*/
@@ -100,6 +100,12 @@ $class_payment_informations = array(
     'Auto-pay Enrollment',
 );
 
+$possible_class_costs = array(	
+	"Parent-Pay Monthly" => "parent_pay_monthly",
+	"Parent-Pay Session" =>  "parent_pay_session",
+	"Contracts/Events" => "contracts_events",
+);
+
 $mypages_images = array(
 	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/my-account-volleyball-icon.png" , 'mouseover'=> site_url(). "/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png"),
 	array('mouseout'=> site_url(). "/wp-content/uploads/2016/03/my-locations-soccerball-icon.png" ,'mouseover'=>  site_url(). "/wp-content/uploads/2016/03/active-my-locations-soccerball-icon.png"),
@@ -112,5 +118,6 @@ site_url(). "/wp-content/uploads/2016/03/my-locations-soccerball-icon.png",
 site_url(). "/wp-content/uploads/2016/03/logout-baseball-icon.png",
 site_url(). "/wp-content/uploads/2016/03/my-pages-football-icon.png",*/
 )
+
 
 ?>

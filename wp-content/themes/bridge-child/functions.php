@@ -70,7 +70,7 @@ function wp_schools_enqueue_scripts() {
 add_action('wp_enqueue_scripts', 'wp_schools_enqueue_scripts', 11);
 
 function am2_init() {
-	global $wpdb;
+	global $wpdb, $possible_class_costs;
 
 	wp_enqueue_script( 'wp-util' );
 
@@ -134,8 +134,12 @@ function am2_init() {
 	wp_enqueue_script('jquery.datepicker');
 
 	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), '', true);
-	wp_enqueue_script('am2_main');
 
+	wp_localize_script('am2_main', 'am2_registration', array(		
+		'possible_class_costs' => $possible_class_costs,
+	));
+
+	wp_enqueue_script('am2_main');
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
 	wp_localize_script('am2_main', 'ajax_login_object', array(
@@ -143,7 +147,7 @@ function am2_init() {
 		'site_url' => site_url(),
 		'theme_url' => get_stylesheet_directory_uri(),
 		'states' => $states_db,
-		'aa_state' => get_query_var( 'aa_state' , '' )
+		'aa_state' => get_query_var( 'aa_state' , '' ),
 	));
 }
 

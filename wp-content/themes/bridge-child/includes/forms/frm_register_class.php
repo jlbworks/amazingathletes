@@ -3,6 +3,8 @@
   $class_id = (isset($_GET['class_id']) ? $_GET['class_id'] : null);
   $class = get_post($class_id);
 
+  $registration_option = $class->registration_option;
+
   $location_name = get_the_title($location_id);
   $class_type = $class->type;
   $special_event_title = get_post_meta($class_id, 'special_event_title', true);
@@ -14,7 +16,7 @@
   // var_dump($class_type);
 ?>
 
-<?php if($class_type != 'Contract') { ?>
+<?php if($registration_option!='None Needed') { //if($class_type != 'Contract') { ?>
 
 <div role="form" class="wpcf7" id="frm_registration_wrap" lang="en-US" dir="ltr">
 
