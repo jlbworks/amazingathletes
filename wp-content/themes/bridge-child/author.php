@@ -185,7 +185,7 @@ get_header();?>
 					foreach($programs as $program){
 						foreach($classes as $class){
 							if($program['program'] == $class){
-								echo $program['description'];
+								echo apply_filters('the_content', $program['description']);
 							}
 						}										
 					}
@@ -219,7 +219,7 @@ get_header();?>
 				$displayed = array();																								
 
 				$user_photo = get_field('user_photo', 'user_' . $curauth->ID);
-				$bio =  $curauth->display_bio;	
+				$bio = apply_filters('the_content', $curauth->display_bio);	
 							
 				echo "<div class=\"entry-content clearfix\">";
 				echo "<h2>" . "{$curauth->first_name} {$curauth->last_name}" . ( $curauth->title ? ", " . $curauth->title : '' ) . "</h2>";
@@ -260,7 +260,7 @@ get_header();?>
 							$image_url = wp_get_attachment_image_src($user_photo, 'medium');
 							echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:left;padding:0px 10px 10px 0px;"/>';	
 						}					
-						echo $bio;
+						echo apply_filters('the_content', $bio);
 						echo "</div>";
 
 						$displayed[] = $member->ID;
@@ -297,7 +297,7 @@ get_header();?>
 
 			/********mypages of this franchisee********/
 			else if(isset($page_content[$mypage])) { 
-				echo $page_content[$mypage];
+				echo apply_filters('the_content',$page_content[$mypage]);
 			}
 
 			/********home of this franchisee*********/
