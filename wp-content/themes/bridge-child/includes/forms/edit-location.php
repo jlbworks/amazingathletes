@@ -96,8 +96,8 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		<input type="text" name="zip_areas"  size="10" value="<?php echo get_post_meta($loc_id, 'zip_areas', true); ?>" ><br/>
 		<p class="helper-text--small">Please enter all zip codes covered by this location. This will be used in the front end locatons page where we allow customers to search by zip code.</p>
 
-		<label>Director Email</label>
-		<input type="text" name="email"  style="" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>
+		<?php /*<label>Director Email</label>
+		<input type="text" name="email"  style="" value="<?php echo get_post_meta($loc_id, 'email', true); ?>"><br/>*/ ?>
 
 		<label>Location Website</label>
 		<input type="text" name="website"  style="" value="<?php echo get_post_meta($loc_id, 'website', true); ?>"><br/>

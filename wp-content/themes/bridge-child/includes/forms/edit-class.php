@@ -1,6 +1,7 @@
 <?php
 global $values;
 global $current_user;
+global $possible_class_costs;
 
 get_currentuserinfo();
 
@@ -67,7 +68,8 @@ $fieldsToGet = array(
 		'external_registration_url',
 		'special_event_title',
 		'enable_kickback',
-	    'kickback'
+	    'kickback',
+		'kickback_per_student'
 	);
 
 ?>
@@ -211,6 +213,11 @@ if (isset($_POST['looc_id'])) {
 				'post_title' 	=> "{$location->post_title} {$_POST['type']}",
 			)
 		);
+		?>
+		<div class="alert alert-success" role="alert"> <strong>Well done!</strong> Your class is saved.</div>
+		<script>window.location='<?php echo site_url().'/my-account/locations/?loc_id='.$loc_id;?>';</script>
+
+		<?php 
 	}
 
 	//var_dump($_POST, $class_id);
@@ -261,8 +268,8 @@ if (isset($_POST['looc_id'])) {
 		}
 	}
 
-
-
+	//echo "<div class=\"alert alert-danger\" role=\"alert\"> <strong>Naughty Naughty!</strong> Please wait, redirecting You in a moment...</div>";
+	//echo "<script>window.location='".site_url().'/my-account/locations/?looc_id='.$loc_id.";</script>";	
 
 
 ?>
@@ -393,6 +400,7 @@ $possible_every = array(
 );
 
 $possible_registration_options = array(
+	'None Needed',
     'Standard Registration Form',
     'Session Registration Form',
     '3rd Party Registrations',
@@ -910,6 +918,8 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 		<label>Kickback %</label>
 		<input type="text" name="kickback"  style="" value="<?php echo get_post_meta($class_id, 'kickback', true); ?>"><br/>
+		<label>Kickback $ per student</label>
+		<input type="text" name="kickback_per_student"  style="" value="<?php echo get_post_meta($class_id, 'kickback_per_student', true); ?>"><br/>
 	</div>
 
 		<input type="hidden" name="looc_id" value="<?php echo $loc_id; ?>">

@@ -559,7 +559,7 @@ function am2_edit_location() {
 			'zip',
 			'zip_areas',
 			'location_contact_number',
-			'email',
+			//'email',
 			'website',
 			'location_contact_name',
 			'latlng',
