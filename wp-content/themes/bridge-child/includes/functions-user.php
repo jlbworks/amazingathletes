@@ -933,6 +933,9 @@ function am2_edit_mypage() {
 				break;
 			}
 		}
+		if('locations' == $_POST['mypage']){
+			$page_content['locations'] = $_POST['locations'];
+		}
 
 		update_user_meta($user_id, 'page_content', $page_content);
 	}
