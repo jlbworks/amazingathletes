@@ -154,8 +154,10 @@ get_header();?>
 			/*******locations of this franchisee********/
 			if($mypage == 'locations'){
 				$content = trim($page_content[$mypage]); 
+				
 				if(!empty($content)){
 					echo apply_filters( 'the_content', $page_content[$mypage] );
+					echo "<br/>";
 				}
 				//else {
 					include(locate_template( 'includes/archives/franchisee-locations.php' ));
@@ -182,13 +184,13 @@ get_header();?>
 						$classes[$_class->program] = $_class->program;
 					}			
 						
-					foreach($programs as $program){
-						foreach($classes as $class){
-							if($program['program'] == $class){
-								echo apply_filters('the_content', $program['description']);
-							}
-						}										
-					}
+					// foreach($programs as $program){
+					// 	foreach($classes as $class){
+					// 		if($program['program'] == $class){
+					// 			//echo apply_filters('the_content', $program['description']);
+					// 		}
+					// 	}										
+					// }
 				//}
 			}
 
@@ -275,7 +277,7 @@ get_header();?>
 					//$ctg_id = get_term_by( 'slug', $mypage, 'category')->term_id;				
 					$posts = get_posts(array(
 						'post_type' => $mypage, //'post',
-						'post_status' => 'pubslish',
+						'post_status' => 'publish',
 						'posts_per_page' => -1,
 						'author' => (int)$curauth->ID,
 						//'category' => $ctg_id,
