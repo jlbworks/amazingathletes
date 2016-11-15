@@ -203,8 +203,8 @@ foreach($_roster as $krost => $rost){
     $class_id = $rost->roster_class_id;
     $franchise_id = $rost->roster_franchise_id;
     $franchise = get_post($franchise_id);
-    $_coaches = get_post($class_id)->coaches ;
-    $_coaches = array_merge(array($franchise_id), $_coaches );
+    $_coaches = get_post($class_id)->coaches ;    
+    $_coaches = array_filter(array_merge(array($franchise_id), array($_coaches) ) );
 
     if(is_array($_coaches)){
         if(is_role('coach') && !is_role('franchisee')){

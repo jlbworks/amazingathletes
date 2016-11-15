@@ -1010,11 +1010,11 @@ function submit_data() {
         $args = array(
             'post_type'         => 'location',
             'posts_per_page'    => -1,
-            'post_status'       => 'publish',
+            'post_status'       => 'any',
             'author'            => $franchise_id
         );
 
-        if(isset($territory_id)) {
+        if(!empty($territory_id)) {
             $args['meta_query'] = array(
                 array(
                     'key' => 'unit_number',
@@ -1826,7 +1826,7 @@ function am2_insert_customer( ) {
         'childs_gender', 'childs_shirt_size', 'classroom_number_or_teachers_name',
         'parents_name', 'address', 'state', 'city', 'zip_code', 'telephone', 'email',
         'liability_release', 'photo_release', 'comments_or_questions', 'paid_tuition', 'location_id',
-        'franchise_id'
+        'franchise_id', 'class_id'
     );
     foreach ($meta_fields as $field) {
         $meta_data[$field] = $customer_data[$field];
@@ -1853,6 +1853,85 @@ function am2_insert_customer( ) {
             update_post_meta($post_id, $field, $meta_data[$field]);
         }
     }   
+
+    am2_insert_roster($post_id);
+}
+
+function am2_insert_roster($customer_id){
+    $id = null; //sanitize_text_field( $_POST['id'] );
+    $customer_meta = get_post_meta($customer_id);
+
+    $franchise_id = sanitize_text_field( $customer_meta['roster_franchise_id'][0] );
+    $customer_childs_name = get_post_meta( $customer_meta['childs_first_name'][0] );
+    $class = get_post( sanitize_text_field( $customer_meta['class_id'][0] ) );
+    $title = $customer_childs_name . ' ' . $class->post_title;
+    //$author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+
+    $data = array(
+        'roster_class_id' => $class->ID, 'roster_customer_id' => $customer_id,
+        'roster_location_id' => $class->location_id, /*'roster_coach_id',*/
+        /*'roster_customer_status', 'roster_customer_media',
+        'roster_customer_discount', 'roster_payment_type',*/
+    );
+
+    $post_data = array(
+        'ID' => $id,
+        'post_type' => 'roster',
+        'post_title' => $title,
+        'post_name' => sanitize_title_with_dashes( $title ),
+        'post_status' => 'publish',
+        //'post_author' => $author,
+    );
+
+    $meta_data = array();
+    $meta_fields = array(
+        'roster_class_id', 'roster_customer_id',
+        'roster_location_id', 'roster_coach_id',
+        'roster_customer_status', 'roster_customer_media',
+        'roster_customer_discount', 'roster_payment_type',
+    );
+    foreach ( $meta_fields as $field ) {
+        $meta_data[$field] = sanitize_text_field($data[$field]);
+    }
+
+    //$meta_data['roster_coach_id'] = get_post($_POST['roster_class_id'])->coaches;
+
+    $created = false;
+    // update
+    if ( $id > 0 ) {
+        $post_id = $id;
+        wp_update_post($post_data);
+
+        // insert
+    } else {
+        $post_id = wp_insert_post($post_data);
+        $created = true;
+    }
+
+    // meta
+    foreach ( $meta_fields as $field ) {
+        
+        if  (empty( $meta_data[$field] ) ) {
+            delete_post_meta( $post_id, $field );
+        } else {
+            update_post_meta( $post_id, $field, $meta_data[$field] );
+        }
+    }
+
+    //update_post_meta( $post_id, 'roster_coach_id', $meta_data['roster_coach_id']);
+
+    // if( current_user_can( 'administrator' ) ) {
+    //     $franchise_id = $_POST['roster_franchise_id'];
+    // }
+    // else {
+    //     $franchise_id = $current_user->ID;
+    // }
+
+    $franchise_id = $class->post_author;
+
+    update_post_meta( $post_id, 'roster_franchise_id', $franchise_id );
+
+    //exit(json_encode(array('success' => true, 'message' => "Roster saved successfully")));
 }
 
 add_action('wp_ajax_get_class_dates', 'erp_get_class_dates');
