@@ -20,6 +20,8 @@ html/.sass-cache/*
 /wp-content/languages/*
 phpminiadmin.php
 prepros.cfg
+launch.json
+.vscode/
 
 /wp-content/advanced-cache.php
 /wp-content/backup-db/
