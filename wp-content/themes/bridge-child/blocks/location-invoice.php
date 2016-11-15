@@ -250,7 +250,7 @@ endif;
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
-                                <input type="text" data-js="" name="other" class="form-control currency js-add-to-grand-total" title="Please add Others" value="$<?php echo $other; ?>" />
+                                <input type="text" data-js="" name="other" class="form-control currency js-add-to-grand-total editable" title="Please add Others" value="$<?php echo $other; ?>" />
                             </fieldset>
                         </div>
                         </div>
