@@ -687,7 +687,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 						<?php
 						generateTextField('Amount Earned per Student', 'amount_earned_per_student');
-						generateTextField('# Classes per Month', 'classes_per_month');
+						//generateTextField('# Classes per Month', 'classes_per_month');
 						?>
 					</div>
 
@@ -700,7 +700,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 						<?php
 						generateTextField('Amount Earned per Hour', 'amount_earned_per_hour');
 						generateTextField('# Hours per Month', 'hours_per_month');
-						generateTextField('# Classes per Month', 'classes_per_month');
+						//generateTextField('# Classes per Month', 'classes_per_month');
 						?>
 					</div>
 
@@ -713,7 +713,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 						<?php
 						generateTextField('Amount Earned per Day', 'amount_earned_per_day');
 						generateTextField('# Days per Month', 'days_per_month');
-						generateTextField('# Classes per Month', 'classes_per_month');
+						//generateTextField('# Classes per Month', 'classes_per_month');
 						?>
 					</div>
 

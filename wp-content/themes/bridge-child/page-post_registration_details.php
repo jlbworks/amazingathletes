@@ -85,20 +85,55 @@
 
             var class_costs = am2_registration.possible_class_costs;
 
-            var payment_type = class_costs[location_class.class_costs];    
-            var registration_fee = !paid_tuition ? parseInt(location_class[payment_type + '_registration_fee']) : 0;
+            var registration_fee = 0;
             var monthly_tuition = 0;
-            var session_tuition = 0;
+            var session_tuition = 0;                        
+            var contract_tuition = 0;
+
+            var payment_type = class_costs[location_class.class_costs]; 
+
+            if($.inArray(payment_type, ['parent_pay_monthly', 'parent_pay_session']) > -1){
+                 registration_fee = !paid_tuition ? location_class[payment_type + '_registration_fee'] ? parseFloat(location_class[payment_type + '_registration_fee']) : 0 : 0;
+            }
+            else {
+                registration_fee = 0;
+            }            
 
             try {
-                monthly_tuition = parseInt(location_class[payment_type + '_monthly_tuition']);                
-                session_tuition = parseInt(location_class[payment_type + '_session_tuition']);
+                monthly_tuition = parseFloat(location_class[payment_type + '_monthly_tuition']);                
+                session_tuition = parseFloat(location_class[payment_type + '_session_tuition']);
+
+                if(payment_type == 'contracts_events'){
+                    var contracts_events_type = location_class['contracts_events_type'];
+                    var price, num_units;
+
+                    switch(contracts_events_type){
+                        case 'Paid Per Class':
+                            price = location_class['amount_earned_per_class'];
+                            num_units = location_class['classes_per_month'];
+                        break;
+                        case 'Paid Per Student':
+                            price = location_class['amount_earned_per_student'];
+                            num_units = 1;
+                        break;
+                        case 'Paid Per Hour':
+                            price = location_class['amount_earned_per_hour'];
+                            num_units = location_class['hours_per_month'];
+                        break;
+                        case 'Paid Per Day':
+                            price = location_class['amount_earned_per_day'];
+                            num_units = location_class['days_per_month'];
+                        break;
+                    }
+                    contract_tuition = parseFloat(price) * parseFloat(num_units); 
+                } 
+                
             }   
             catch(exc){
                 //console.log(exc, monthly_tuition, session_tuition); 
             }    
 
-            var tuition = ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0));                               
+            var tuition = monthly_tuition ? monthly_tuition : session_tuition ? session_tuition : contract_tuition ? contract_tuition : 0;                               
 
             var tokens = {                   
                 franchise_name : franchisee.franchise_name,
