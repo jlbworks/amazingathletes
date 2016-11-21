@@ -261,10 +261,36 @@ endif;
     <div class="container clearfix">
         <div class="col-1 break-big">
 
-<div class="card-wrapper">
+        <div class="card-wrapper " style="overflow:hidden;">
 
-    <div class="card-inner">
-        
+            <div class="card-inner">
+
+                <table style="width:100%; background:#fff;">
+                    <tr>
+                        <td colspan=2 rowspan=3 height="67" align="left" valign=bottom><font face="Century Gothic" color="#000000"><br><img src="<?php echo get_stylesheet_directory_uri();?>/img/logo.jpg" width="auto" hspace=48 vspace=4 style="margin:0px">
+                        </font></td>
+                        <td align="left" valign=bottom><font face="Century Gothic" color="#000000"><br></font></td>
+                        <td style="border-right: 1px solid #000000" colspan=4 align="center" valign=bottom><b><font face="Century Gothic" color="#FF0000">Royalty Summary Sheet</font></b></td>
+                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=3 align="center" valign=middle sdnum="1033;0;_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* (#,##0.00);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"><font face="Century Gothic" color="#000000"> RSS for Month: </font></td>
+                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="42615" sdnum="1033;1033;[$-409]MMM-YY;@"><font face="Century Gothic" size=7><?php echo ucfirst($month);?>-<?php echo $year;?></font></td>
+                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=3 align="center" valign=middle sdnum="1033;0;_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* (#,##0.00);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"><font face="Century Gothic" color="#000000"> Franchise<br>Number: </font></td>
+                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="105" sdnum="1033;"><font face="Century Gothic" size=7><?php echo $franchise->ID;?></font></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign=bottom><font face="Century Gothic" color="#000000">Name:</font></td>
+                        <td style="border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom><font face="Century Gothic" color="#000000"><?php echo $franchise->franchise_name;?></font></td>
+                        </tr>
+                    <tr>
+                        <td align="right" valign=bottom><font face="Century Gothic" color="#000000">Date:</font></td>
+                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom sdval="42615" sdnum="1033;1033;M/D/YYYY"><font face="Century Gothic" color="#000000"><?php echo date('m/d/Y');?></font></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+<div class="card-wrapper tbl_header" style="overflow:hidden;">
+
+    <?php /*<div class="card-inner col-45 no_margin">        
         <div class="validation-message"><ul></ul></div>
             <div class="card-table">
                 <?php if( is_role( 'administrator') ) : ?>
@@ -291,7 +317,7 @@ endif;
                 </div>
             </div>
         </div>
-</div>
+    </div> */?>
 
 <div class="col-1 break-big">
 <div class="card-wrapper">
@@ -299,6 +325,7 @@ endif;
     </div>
     <div class="card-inner">
         <input type="button" onclick="tableToExcel('rssTable', '<?php echo $month.'-'.$year; ?>')" value="Export to Excel">
+        <input type="button" onclick="printTable()" value="Print">
         <style>
             table td {
                 padding: 5px;
@@ -345,8 +372,8 @@ endif;
                             <td class="status_code" style="padding: 5px; border: #000 1px solid;"><span><?php echo $class['status_code'];?></span><input type="text" class="hidden"/></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_status'];?></td>
                             <td class="no_weeks_taught" style="padding: 5px; border: #000 1px solid;"><span><?php echo $class['no_weeks_taught'];?></span><input type="text" class="hidden" /></td>
-                            <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo $class['earned_gross_revenue'];?></td>
-                            <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo $class['royalty_estimate'];?></td>
+                            <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['earned_gross_revenue'];?></td>
+                            <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['royalty_estimate'];?></td>
                         </tr>
                 <?php endforeach; 
                 endif;
@@ -356,7 +383,7 @@ endif;
 
         <?php //var_dump($master_array);?>
 
-        <table width="100%">
+        <table width="100%" border="1px">
             <tr style="background: #000; color: #fff">
                 <th colspan="7">Franchise Totals</th>
             </tr>            
@@ -371,12 +398,12 @@ endif;
             </tr>
             <tr>
                 <th><?php echo count($master_array['locations']);?></th>
-                <th><?php echo $master_array['total_enrollment'] ;?></th>
+                <th style="background-color:#FFCCCC;"><?php echo $master_array['total_enrollment'] ;?></th>
                 <th><?php echo round($master_array['total_enrollment'] / count($master_array['locations']),2) ;?></th>
-                <th><?php echo $master_array['rss_total'];?></th>
-                <th><?php echo (100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'])).'%';?></th>
+                <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['rss_total'];?></th>
+                <th><?php echo number_format(100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue']),2).'%';?></th>
                 <th><?php echo $master_array['earned_gross_revenue'];?></th>
-                <th><?php echo $master_array['total_due_royalties'];?></th>
+                <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['total_due_royalties'];?></th>
             <tr>
         </table>
 
@@ -442,6 +469,10 @@ var tableToExcel = (function() {
     window.location.href = uri + base64(format(template, ctx))
   }
 })();
+
+var printTable = function(){
+    window.print();  
+}
 
 
 
