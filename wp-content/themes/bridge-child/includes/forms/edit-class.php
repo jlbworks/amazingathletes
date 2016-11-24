@@ -537,7 +537,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 				<div id="schedule_weekly" data-section="class-schedule-type" style="display:none;">
 					<label>Day</label>
-					<select name="day" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+					<select name="day" <?php if (true === $please_confirm_delete || $values['schedule_type'] != 'Weekly'): ?>disabled<?php endif; ?> >
 						<?php foreach ($possible_days as $day):
 							$if_day_selected = '';
 							if ($day == $class_day) {
@@ -567,7 +567,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 					</select>
 
 					<label>Day</label>
-					<select name="day" <?php if (true === $please_confirm_delete): ?>disabled<?php endif; ?> >
+					<select name="day" <?php if (true === $please_confirm_delete || $values['schedule_type'] != 'Monthly'): ?>disabled<?php endif; ?> >
 						<?php foreach ($possible_days as $day):
 							$if_day_selected = '';
 							if ($day == $class_day) {
@@ -819,12 +819,12 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 				if ('class-schedule-type' == section) {
 					disableDay(target_id, section);
-				}
-
-				jQuery('#'+target_id).find(':input').prop('disabled',false);
+				}				
 
 				jQuery('[data-section="'+section+'"]').hide();
 				jQuery('#'+target_id).show();
+
+				jQuery('#'+target_id).find(':input:visible').prop('disabled',false);
 
 				
 			}
