@@ -15,7 +15,6 @@ if( ! class_exists('acf_field_wysiwyg') ) :
 
 class acf_field_wysiwyg extends acf_field {
 	
-	var $exists = 0;
 	
 	/*
 	*  __construct
@@ -44,7 +43,40 @@ class acf_field_wysiwyg extends acf_field {
 		);
     	
     	
-    	// Create an acf version of the_content filter (acf_the_content)
+    	// add acf_the_content filters
+    	$this->add_filters();
+    	
+    	
+		// actions
+		add_action('acf/input/admin_footer', 	array($this, 'input_admin_footer'));
+		
+		
+		// do not delete!
+    	parent::__construct();
+    	
+	}
+	
+	
+	/*
+	*  add_filters
+	*
+	*  This function will add filters to 'acf_the_content'
+	*
+	*  @type	function
+	*  @date	20/09/2016
+	*  @since	5.4.0
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	function add_filters() {
+		
+		// globals
+   		global $wp_version;
+   		
+   		
+		// wp-includes/class-wp-embed.php
 		if(	!empty($GLOBALS['wp_embed']) ) {
 		
 			add_filter( 'acf_the_content', array( $GLOBALS['wp_embed'], 'run_shortcode' ), 8 );
@@ -52,29 +84,39 @@ class acf_field_wysiwyg extends acf_field {
 			
 		}
 		
+		
+		// wp-includes/default-filters.php
 		add_filter( 'acf_the_content', 'capital_P_dangit', 11 );
 		add_filter( 'acf_the_content', 'wptexturize' );
-		add_filter( 'acf_the_content', 'convert_smilies' );
-		add_filter( 'acf_the_content', 'convert_chars' ); // not found in WP 4.4
-		add_filter( 'acf_the_content', 'wpautop' );
-		add_filter( 'acf_the_content', 'shortcode_unautop' );
-		//add_filter( 'acf_the_content', 'prepend_attachment' ); should only be for the_content (causes double image on attachment page)
-		if( function_exists('wp_make_content_images_responsive') ) {
+		add_filter( 'acf_the_content', 'convert_smilies', 20 );
+		
+		
+		// Removed in 4.4
+		if( version_compare($wp_version, '4.4', '<' ) ) {
 			
-			add_filter( 'acf_the_content', 'wp_make_content_images_responsive' ); // added in WP 4.4
+			add_filter( 'acf_the_content', 'convert_chars' );
 			
 		}
 		
+		
+		add_filter( 'acf_the_content', 'wpautop' );
+		add_filter( 'acf_the_content', 'shortcode_unautop' );
+		
+		
+		// should only be for the_content (causes double image on attachment page)
+		//add_filter( 'acf_the_content', 'prepend_attachment' ); 
+		
+		
+		// Added in 4.4
+		if( function_exists('wp_make_content_images_responsive') ) {
+			
+			add_filter( 'acf_the_content', 'wp_make_content_images_responsive' );
+			
+		}
+		
+		
 		add_filter( 'acf_the_content', 'do_shortcode', 11);
 		
-
-		// actions
-		add_action('acf/input/admin_footer_js', 	array($this, 'input_admin_footer_js'));
-		
-		
-		// do not delete!
-    	parent::__construct();
-    	
 	}
 	
 	
@@ -162,7 +204,7 @@ class acf_field_wysiwyg extends acf_field {
    	
    	
    	/*
-   	*  input_admin_footer_js
+   	*  input_admin_footer
    	*
    	*  description
    	*
@@ -174,7 +216,7 @@ class acf_field_wysiwyg extends acf_field {
    	*  @return	$post_id (int)
    	*/
    	
-   	function input_admin_footer_js() {
+   	function input_admin_footer() {
 	   	
 	   	// vars
 		$json = array();
@@ -214,9 +256,12 @@ class acf_field_wysiwyg extends acf_field {
 			
 		}
 		
-		
-		?>acf.fields.wysiwyg.toolbars = <?php echo json_encode($json); ?>;
-	<?php
+
+?>
+<script type="text/javascript">
+acf.fields.wysiwyg.toolbars = <?php echo json_encode($json); ?>;
+</script>
+<?php
 	
    	}
    	
@@ -256,7 +301,11 @@ class acf_field_wysiwyg extends acf_field {
 		
 		
 		// detect mode
-		if( $field['tabs'] == 'visual' ) {
+		if( !user_can_richedit() ) {
+			
+			$show_tabs = false;
+			
+		} elseif( $field['tabs'] == 'visual' ) {
 			
 			// case: visual tab only
 			$default_editor = 'tinymce';
@@ -459,8 +508,10 @@ class acf_field_wysiwyg extends acf_field {
 	
 }
 
-new acf_field_wysiwyg();
 
-endif;
+// initialize
+acf_register_field_type( new acf_field_wysiwyg() );
+
+endif; // class_exists check
 
 ?>
