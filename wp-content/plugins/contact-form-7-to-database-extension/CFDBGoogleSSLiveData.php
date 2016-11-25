@@ -22,4 +22,3 @@
     header("Content-Type: text/plain");
     readfile('CFDBGoogleSSLiveData.js');
 ?>
-

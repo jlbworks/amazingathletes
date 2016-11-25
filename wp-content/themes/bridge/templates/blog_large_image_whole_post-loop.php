@@ -300,5 +300,4 @@ $_post_format = get_post_format();
 		</article>
 <?php
 }
-?>		
-
+?>

@@ -140,4 +140,4 @@ if(get_post_meta($id, "qode_margin_after_title", true) != ""){
 <?php endif; ?>	
 
 
-<?php get_footer(); ?>	
+<?php get_footer(); ?>

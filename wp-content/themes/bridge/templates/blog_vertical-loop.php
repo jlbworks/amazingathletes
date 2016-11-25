@@ -469,4 +469,3 @@ switch ($_post_format) {
         <?php
 }
 ?>
-

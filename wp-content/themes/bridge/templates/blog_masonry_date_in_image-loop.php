@@ -206,5 +206,4 @@ switch ($thumb_size_temp) {
 		</article>
 <?php
 }
-?>		
-
+?>
