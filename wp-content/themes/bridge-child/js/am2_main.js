@@ -206,6 +206,9 @@ var classes_with_special_title = ['Contract','Camp'];
         $('#frm_franchisee_account').ajaxForm({
           beforeSubmit: function() {
             am2_show_preloader();
+            if(typeof(tinyMCE)!='undefined')
+                tinyMCE.triggerSave();
+                  
             return $('#frm_franchisee_account').valid();
           },
           success: function(resp) {

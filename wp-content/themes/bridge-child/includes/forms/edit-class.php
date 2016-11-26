@@ -257,6 +257,10 @@ if (isset($_POST['looc_id'])) {
 	
 	update_post_meta($class_id, 'special_event_title', $_POST['special_event_title']);
 	update_post_meta($class_id, 'datetype', $_POST['datetype']);
+	update_post_meta($class_id, 'payment_intro_msg', $_POST['payment_intro_msg']);
+	update_post_meta($class_id, 'personal_check_payment_msg', $_POST['personal_check_payment_msg']);
+	update_post_meta($class_id, 'one_time_credit_card_payment_msg', $_POST['one_time_credit_card_payment_msg']);
+	update_post_meta($class_id, 'recurring_payment_msg', $_POST['recurring_payment_msg']);
 
 	foreach($fieldsToGet as $fieldToGet):
 			update_post_meta($class_id, $fieldToGet, $_POST[$fieldToGet]);
@@ -739,20 +743,41 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 			<label><input type="checkbox" class="js-induce-change-checkboxes" data-change-to-section="class-payment-option" data-change-to-id="one_time_credit_card_payment" name="payment_options[]" value="One Time Credit Card Payment" <?php if(is_array($values['payment_options']) && in_array('One Time Credit Card Payment',$values['payment_options'])){ echo 'checked="checked"'; } ?>>One Time Credit Card Payment</label>
 			<label><input type="checkbox" class="js-induce-change-checkboxes" data-change-to-section="class-payment-option" data-change-to-id="recurring_credit_card_payments" name="payment_options[]" value="Recurring Credit Card Payments" <?php if(is_array($values['payment_options']) && in_array('Recurring Credit Card Payments',$values['payment_options'])){ echo 'checked="checked"'; } ?>>Recurring Credit Card Payments</label>
 
+			<div class="form--section" id="payment_intro" >
+				<h3>Payment Popup Intro</h3>
+				<?php
+					$payment_intro_msg = get_post_meta( $class_id, 'payment_intro_msg'  , true );					
+
+					wp_editor( $payment_intro_msg, 'payment_intro_msg' );
+				?>
+			</div>
+
 			<div class="form--section" id="personal_check_of_cash_payment" data-section="class-payment-option" style="display:none;">
 				<h3>Personal Check Or Cash Payments</h3>
-				No additional options.
+				<?php										
+					$personal_check_payment_msg = get_post_meta( $class_id, 'personal_check_payment_msg'  , true );					
+
+					wp_editor( $personal_check_payment_msg, 'personal_check_payment_msg' );
+				?>
 			</div>
 			<div class="form--section" id="one_time_credit_card_payment" data-section="class-payment-option" style="display:none;">
 				<h3>One Time Credit Card Payment</h3>
 				<?php
 					generateTextField('Enter URL (Quick Link to Credit Card Payment)', 'one_time_credit_card_payment_url');
+					
+					$one_time_credit_card_payment_msg = get_post_meta( $class_id, 'one_time_credit_card_payment_msg'  , true );					
+
+					wp_editor( $one_time_credit_card_payment_msg, 'one_time_credit_card_payment_msg' );
 				?>
 			</div>
 			<div class="form--section" id="recurring_credit_card_payments" data-section="class-payment-option" style="display:none;">
 				<h3>Recurring Credit Card Payments</h3>
 				<?php
 					generateTextField('Enter URL (Quick Link to Recurring Credit Card Payment)', 'recurring_credit_card_payments_url');
+
+					$recurring_payment_msg = get_post_meta( $class_id, 'recurring_payment_msg'  , true );					
+
+					wp_editor( $recurring_payment_msg, 'recurring_payment_msg' );
 				?>
 			</div>
 		</div>

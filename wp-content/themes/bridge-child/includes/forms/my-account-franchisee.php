@@ -197,6 +197,40 @@ else {
 		<label> Video </label>
 		<input type="text" id="video" name="video" value="<?php echo get_user_meta($user->ID, 'video', true);?>" />
 
+		<div class="form--section" id="payment_intro" >
+			<h3>Payment Popup Intro</h3>
+			<?php
+				$payment_intro_msg = get_user_meta( $user_id, 'payment_intro_msg'  , true );					
+
+				wp_editor( $payment_intro_msg, 'payment_intro_msg' );
+			?>
+		</div>
+
+		<div class="form--section" id="personal_check_of_cash_payment" data-section="class-payment-option" >
+			<h3>Personal Check Or Cash Payments</h3>
+			<?php										
+				$personal_check_payment_msg = get_user_meta( $user_id, 'personal_check_payment_msg'  , true );					
+
+				wp_editor( $personal_check_payment_msg, 'personal_check_payment_msg' );
+			?>
+		</div>
+		<div class="form--section" id="one_time_credit_card_payment" data-section="class-payment-option" >
+			<h3>One Time Credit Card Payment</h3>
+			<?php
+				$one_time_credit_card_payment_msg = get_user_meta( $user_id, 'one_time_credit_card_payment_msg'  , true );					
+
+				wp_editor( $one_time_credit_card_payment_msg, 'one_time_credit_card_payment_msg' );
+			?>
+		</div>
+		<div class="form--section" id="recurring_credit_card_payments" data-section="class-payment-option" >
+			<h3>Recurring Credit Card Payments</h3>
+			<?php
+				$recurring_payment_msg = get_user_meta( $user_id, 'recurring_payment_msg'  , true );					
+
+				wp_editor( $recurring_payment_msg, 'recurring_payment_msg' );
+			?>
+		</div>
+
 		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/> */?>
 		<input type="hidden" name="action" value="am2_franchisee_account" />
 

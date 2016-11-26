@@ -8,6 +8,7 @@
     $class = array_merge((array)$_class_meta, (array)$_class);        
 
     foreach($class as $kc => $c){
+        if(!is_array($c)) continue;
         $class[$kc] = $c[0];
     }
     
@@ -22,9 +23,21 @@
     
     foreach($_franchisee_meta as $kf => $fm){
         $_franchisee_meta[$kf] = $fm[0];        
-    }    
+    }   
 
-    $franchise = array_merge((array)$_franchisee, (array)$_franchisee_meta);    
+    $wpautop_fields = array('payment_intro_msg', 'personal_check_payment_msg', 'one_time_credit_card_payment_msg', 'recurring_payment_msg');        
+
+    $franchise =  (array)$_franchisee_meta;    
+
+    foreach($wpautop_fields as $wpautop_field){
+        if(isset($franchise[$wpautop_field])) {
+            $franchise[$wpautop_field] = wpautop($franchise[$wpautop_field]);
+        }        
+        if(isset($class[$wpautop_field])) {
+            $class[$wpautop_field] = wpautop($class[$wpautop_field]);
+        }             
+    } 
+    // $franchise = array_merge((array)$_franchisee, (array)$_franchisee_meta);    
 ?>
 <?php if(isset($_GET['iframe'])) wp_head(); else get_header();?>
 
@@ -69,6 +82,26 @@
 
 </style>
 <?php the_content();?>
+<div style="display:none;">
+    <div class="payment_intro_text">
+        {data.franchise_name} currently offers the following payment options to pay for {data.program_name}. Please select one of the following and follow the instructions to complete your payment and finalize your registration.
+        <br/>
+        If you have any questions regarding the payment options below please contact {data.contact_name} at {data.contact_number} or {data.contact_email}.
+    </div>
+    <div class="payment_personal_check_text">
+        Thank you for enrolling your child in Amazing Athletes! Complete your enrollment by leaving a personal check for {data.amount_due} made out to {data.franchise_name} at your child’s class location. Please be sure to put your child’s first and last name in the notes section. If you have any questions regarding this payment, please don’t hesitate to contact at {data.contact_number} or {data.contact_email}.
+    </div>
+    <div class="payment_one_time_cc_text">
+        Thank you for enrolling your child in Amazing Athletes! By selecting One-Time Credit Card Payment, you agree to be charged immediately for your selected program {data.tuition} and the annual registration fee {data.registration_fee}. Complete your enrollment by clicking “Make a One-Time Payment” below. If you have any questions regarding this payment, please don’t hesitate to contact at {data.contact_number} or {data.contact_email}.
+        <br/>
+        {data.payment_link_onetime}
+    </div>
+    <div class="payment_recurring_text">
+        Thank you for enrolling your child in Amazing Athletes! By selecting auto-pay you agree to be charged immediately for your selected program {data.tuition} and the annual registration fee {data.registration_fee}. You will then be charged again for just the monthly tuition {data.tuition} on the 1st of every month until a 2-week written notice is received to cancel the auto-pay. Complete your enrollment by clicking “Enrolling in Auto-Pay” below. If you have any questions regarding this payment, please don’t hesitate to contact at {data.contact_number} or {data.contact_email}.
+        <br/>
+        {data.payment_link_auto}
+    </div>
+</div>
 <?php } ?>
 <script>          
     (function($){
@@ -147,7 +180,12 @@
                 contact_number : franchisee.telephone,
                 contact_email : '<a href="'+franchisee.aa_email_address+'">'+franchisee.aa_email_address+'</a>',
                 payment_link_onetime : '<a href="'+location_class.one_time_credit_card_payment_url+'">New Student One-Time Payment</a>',
-                payment_link_auto : '<a href="'+location_class.recurring_credit_card_payments_url+'">New Student Auto-Pay</a>',
+                payment_link_auto : '<a href="'+location_class.recurring_credit_card_payments_url+'">New Student Auto-Pay</a>',                
+
+                payment_intro: $.trim(location_class.payment_intro_msg) != '' ? location_class.payment_intro_msg : $.trim(franchisee.payment_intro_msg) != '' ? franchisee.payment_intro_msg : $('.payment_intro_text').html(),
+                payment_personal_check: $.trim(location_class.personal_check_payment_msg) != '' ? location_class.personal_check_payment_msg : $.trim(franchisee.personal_check_payment_msg) != '' ?  franchisee.personal_check_payment_msg : $('.payment_personal_check_text').html(),
+                payment_one_time_cc: $.trim(location_class.one_time_credit_card_payment_msg) != '' ? location_class.one_time_credit_card_payment_msg : $.trim(franchisee.one_time_credit_card_payment_msg) != '' ? franchisee.one_time_credit_card_payment_msg : $('.payment_one_time_cc_text').html(),
+                payment_recurring: $.trim(location_class.recurring_payment_msg) != '' ? location_class.recurring_payment_msg : $.trim(franchisee.recurring_payment_msg) != '' ? franchisee.recurring_payment_msg : $('.payment_recurring_text').html() 
             } ;     
 
             var payment_options_table = {
@@ -163,6 +201,13 @@
             $.each(payment_options, function(i,v){                
                 $('.tab-title:contains('+payment_options_table[v]+')').closest('h5').show();
             });
+
+            var html = $('.full_section_inner').html();
+            html = html.replace(/{(.*?)}/g, function(a,b) {         
+                console.log(a,b);                       
+                return tokens[b.replace('data.','')];
+            });
+            $('.full_section_inner').html(html);
 
             //console.log(tuition, franchise_name, individual_1_first_name, individual_1_last_name, contact_number, contact_email, one_time_payment_url, recurring_credit_card_payments_url);            
             var html = $('.full_section_inner').html();

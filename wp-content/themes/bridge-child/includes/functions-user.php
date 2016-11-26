@@ -202,6 +202,10 @@ function am2_franchisee_account() {
 		'individual_1_last_name' => 'individual_1_last_name',
 		'individual_2_first_name' => 'individual_2_first_name',
 		'individual_2_last_name' => 'individual_2_last_name',
+		'payment_intro_msg' => 'payment_intro_msg',
+		'personal_check_payment_msg' => 'personal_check_payment_msg',
+		'one_time_credit_card_payment_msg' => 'one_time_credit_card_payment_msg',
+		'recurring_payment_msg' => 'recurring_payment_msg',
 	);
 
 	$required_fields = array(
