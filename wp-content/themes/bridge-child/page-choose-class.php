@@ -18,7 +18,7 @@ $classes = get_posts(array(
 			'value'	=> $location_id,
 		)
 	)
-));
+));	
 
 if(!isset($_GET['iframe'])) get_header(); else wp_head();
 ?>
@@ -42,6 +42,10 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 		</tr>
 		<?php foreach ($classes as $c):
 			$classes_meta = get_post_meta($c->ID);
+			$class_date = am2_get_meta_value('day', 	$classes_meta);
+			$class_time = am2_get_meta_value('time', 	$classes_meta);
+			$class_display_day = am2_get_meta_value('display_day', $classes_meta);
+			$class_display_time = am2_get_meta_value('display_time', $classes_meta);
 			/*$day = am2_get_meta_value('day', 		$classes_meta);
 
 			if (in_array($c->type, array('Camp','Demo'))) {
@@ -63,8 +67,8 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 		?>
 		<tr>
 			<td><?php echo (!empty($classes_meta['special_event_title'][0]) ? $classes_meta['special_event_title'][0] : get_the_title($c->ID) ); ?></td>
-			<td><?php echo $day; ?></td>
-			<td><?php echo am2_get_meta_value('time', 		$classes_meta); ?></td>
+			<td><?php echo !empty($class_display_day) ? $class_display_day : $day;?></td>
+			<td><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></td>
 			<td><?php echo am2_get_meta_value('program', 	$classes_meta); ?></td>
 			<?php /*<td><?php echo am2_get_meta_value('type', 	$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('coach_pay_scale', 	$classes_meta); ?></td>

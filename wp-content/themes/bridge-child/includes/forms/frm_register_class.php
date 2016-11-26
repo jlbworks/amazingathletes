@@ -12,6 +12,8 @@
   $class_program = (!empty($special_event_title) ? $special_event_title : $class_title ); //get_post_meta($class_id, 'program', true);
   $class_time = get_post_meta($class_id, 'time', true);
   $class_date = get_class_date($class, 'date', true);
+  $class_display_day = get_post_meta($class->ID, 'display_day', true);
+  $class_display_time = get_post_meta($class->ID, 'display_time', true);
 
   // var_dump($class_type);
 ?>
@@ -24,8 +26,8 @@
   <div "location_class_info">
     <h1>Register for <span><?php echo $class_program;?></span></h1>
     <h2>Location: <span><?php echo $location_name;?></span></h2>
-    <h2>Date: <span><?php echo $class_date;?></span></h2>
-    <h2>Time: <span><?php echo $class_time;?></span></h2>    
+    <h2>Date: <span><?php echo !empty($class_display_day) ? $class_display_day : $class_date;?></span></h2>
+    <h2>Time: <span><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></span></h2>    
   </div>
   <?php } ?>
   <br/>

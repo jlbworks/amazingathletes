@@ -226,6 +226,8 @@ if (isset($_POST['looc_id'])) {
 	update_post_meta($class_id, 'location_id',	$_POST['looc_id']);
 	update_post_meta($class_id, 'day', 			$_POST['day']);
 	update_post_meta($class_id, 'time', 		$_POST['time']);
+	update_post_meta($class_id, 'display_day', 			$_POST['display_day']);
+	update_post_meta($class_id, 'display_time', 		$_POST['display_time']);
 	update_post_meta($class_id, 'registration_option', 		$_POST['registration_option']);
 	update_post_meta($class_id, 'age_range', 		$_POST['age_range']);
 	update_post_meta($class_id, 'length', 		$_POST['length']);
@@ -340,6 +342,8 @@ if (isset($location_class)) {
 	endforeach;
 
 	$class_day 		= am2_get_meta_value('day', 	$location_class_meta);
+	$class_display_day 		= am2_get_meta_value('display_day', 	$location_class_meta);
+	$class_display_time 		= am2_get_meta_value('display_time', 	$location_class_meta);
 	$class_registration_option 		= am2_get_meta_value('registration_option', 	$location_class_meta);
 	$class_age_range 		= am2_get_meta_value('age_range', 	$location_class_meta);
 	$class_length 		= am2_get_meta_value('length', 	$location_class_meta);
@@ -600,6 +604,13 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 				<label>Length(minutes)</label>
 				<input type="text" name="length" id="class_length" value="<?php echo $class_length; ?>" />
+			</div>
+
+			<div id="class_display_date_time">
+				<label>Display Day</label>
+				<input type="text" value="<?php echo $class_display_day;?>" name="display_day"/>
+				<label>Display Time</label>
+				<input type="text" value="<?php echo $class_display_time;?>" name="display_time"/>
 			</div>
 		</div>
 
