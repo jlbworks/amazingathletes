@@ -224,7 +224,7 @@ if(!empty($locations)):
                     )
                 )
             );
-            $class_array['royalty_estimate'] = $royalty_estimate;
+            $class_array['royalty_estimate'] = $class_array['monthly_enrollment'] > 0 ? $royalty_estimate : 0; 
 
             $location_array['classes'][] = $class_array;
 
@@ -345,9 +345,9 @@ endif;
                     <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="3">ROY Due: <?php echo $location_array['max_royalty'];?></td>
                 </tr>
                 <tr style="">
-                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program Code</td>
+                    <?php /*<td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program Code</td>*/ ?>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program</td>
-                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Code</td>
+                    <?php /*<td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Code</td>*/?>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Type</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Monthly Enrollment</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Standard Tuition</td>
@@ -363,9 +363,9 @@ endif;
                 if($location['classes']):
                     foreach($location['classes'] as $class): ?>
                         <tr data-class-id="<?php echo $class['post']->ID ;?>">
-                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['program_code']; ?></td>
+                            <?php /*<td style="padding: 5px; border: #000 1px solid;"><?php echo $class['program_code']; ?></td>*/?>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['program']; ?></td>
-                            <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_code']; ?></td>
+                            <?php /*<td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_code']; ?></td>*/ ?>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_type']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['monthly_enrollment']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['standard_tuition']; ?></td>
