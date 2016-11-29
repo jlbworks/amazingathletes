@@ -404,7 +404,7 @@ endif;
                 <th><?php echo round($master_array['total_enrollment'] / count($master_array['locations']),2) ;?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['rss_total'];?></th>
                 <th><?php echo number_format(100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue']),2).'%';?></th>
-                <th><?php echo $master_array['earned_gross_revenue'];?></th>
+                <th><?php echo '$'. $master_array['earned_gross_revenue'];?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['total_due_royalties'];?></th>
             <tr>
         </table>
