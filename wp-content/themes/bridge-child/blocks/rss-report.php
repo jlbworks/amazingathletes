@@ -338,7 +338,7 @@ endif;
             <?php //var_dump($location);?>
 
                 <tr style="">
-                    <td style="background-color: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;"><?php echo $location['post']->zip;?></td>
+                    <td style="background-color: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;">ZIP: <?php echo $location['post']->zip;?></td>
                     <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
                     <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Enrollment <?php echo $location_array['monthly_enrollment'];?></td>
                     <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: <?php echo $location_array['earned_gross_revenue'];?></td>
