@@ -349,7 +349,7 @@ endif;
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Code</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Class Type</td>
-                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Monthly Engagement</td>
+                    <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Monthly Enrollment</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Standard Tuition</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Standard # Weeks</td>
                     <td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Weekly Tuition</td>
