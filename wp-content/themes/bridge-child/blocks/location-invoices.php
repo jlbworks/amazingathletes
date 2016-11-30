@@ -2,7 +2,7 @@
 global $current_user; 
 get_currentuserinfo();
 
-restrict_access('administrator,franchisee');
+restrict_access('super_admin,administrator,franchisee');
 
 $args = array(
   'post_type'   => 'invoice',
@@ -74,7 +74,7 @@ $location_invoices = get_posts($args);
                                 <a class="btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                                    href="#location-invoice/?id=<?php echo $location_invoice->ID; ?>"><i class="fa fa-pencil"></i></a>
-                                <?php if( is_role('administrator') ){ ?>
+                                <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                                     <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                                        data-object="location_invoice" data-id="<?php echo $location_invoice->ID; ?>"><i class="fa fa-trash-o"></i></a>

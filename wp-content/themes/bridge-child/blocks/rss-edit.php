@@ -55,7 +55,7 @@ $franchises = get_users( $franchise_args );
         
         <div class="validation-message"><ul></ul></div>
             <div class="card-table">
-                <?php if( is_role( 'administrator') ) : ?>
+                <?php if( is_role('administrator') || is_role('super_admin') ) : ?>
                     <div class="card-table-row">
                         <span class="card-table-cell fixed250">Franchise <span class="required">*</span></span>
                         <div class="card-table-cell">

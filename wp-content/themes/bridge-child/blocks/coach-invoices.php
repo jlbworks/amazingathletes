@@ -81,7 +81,7 @@ $coach_invoices = get_posts($args);
                                 <a class="btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                                    href="#coach-invoice/?id=<?php echo $coach_invoice->ID; ?>"><i class="fa fa-pencil"></i></a>
-                                <?php if( is_role('administrator') ){ ?>
+                                <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                                     <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                                        data-object="coach_invoice" data-id="<?php echo $coach_invoice->ID; ?>"><i class="fa fa-trash-o"></i></a>

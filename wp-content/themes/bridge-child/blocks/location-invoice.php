@@ -5,7 +5,7 @@ get_currentuserinfo();
 global $target_args;
 $id = $target_args['id'];
 
-restrict_access('administrator,franchisee');
+restrict_access('super_admin,administrator,franchisee');
 
 $location_invoice = get_post($id);
 $franchise = get_user_by('id', $location_invoice->franchise_id); 

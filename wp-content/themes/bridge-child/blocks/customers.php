@@ -2,7 +2,7 @@
 global $current_user; 
 get_currentuserinfo();
 
-restrict_access('administrator,franchisee');
+restrict_access('super_admin,administrator,franchisee');
 
 $args = array(
     'post_type'   => 'customer',

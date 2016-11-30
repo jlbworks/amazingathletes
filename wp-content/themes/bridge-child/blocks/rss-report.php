@@ -7,7 +7,7 @@ get_currentuserinfo();
 global $target_args;
 $id = $target_args['id'];
 
-restrict_access('administrator,franchisee');
+restrict_access('super_admin,administrator,franchisee');
 
 $rss_report = get_post($id);
 $rss_classes = $rss_report->classes;

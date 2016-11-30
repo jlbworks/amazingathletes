@@ -82,7 +82,7 @@ $months = array(
     <!-- PRODUCT INFORMATION -->
     <div class="layout">
         <div class="container clearfix">
-            <?php if(is_role('administrator')) { ?>
+            <?php if(is_role('administrator') || is_role('super_admin')) { ?>
             <div class="col-1 break-big" id="filter">
                 Filter by: 
                 <select id="f_franchise_id" name="f_franchise_id" >
@@ -135,7 +135,7 @@ $months = array(
                         <a class="btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                                    href="#rss-report/?id=<?php echo $rss->ID; ?>"><i class="fa fa-pencil"></i></a>
-                        <?php if( is_role('administrator') ){ ?>
+                        <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                           <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                           data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                           data-object="rss" data-id="<?php echo $rss->ID; ?>"><i class="fa fa-trash-o"></i></a>

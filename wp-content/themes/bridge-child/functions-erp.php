@@ -516,7 +516,7 @@ function submit_data() {
         $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['payment_customer_id'] ), 'childs_first_name', true );
         $class = get_post( sanitize_text_field( $_POST['payment_class_id'] ) );
         $title = $customer_childs_name . ' ' . $class->post_title;
-        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+        $author = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
 
         $post_data = array(
             'ID' => $id,
@@ -735,7 +735,7 @@ function submit_data() {
         $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['roster_customer_id'] ), 'childs_first_name', true );
         $class = get_post( sanitize_text_field( $_POST['roster_class_id'] ) );
         $title = $customer_childs_name . ' ' . $class->post_title;
-        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+        $author = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
 
         $post_data = array(
             'ID' => $id,
@@ -801,7 +801,7 @@ function submit_data() {
     if ($_POST['form_handler'] == 'rss_create') {
         $id = sanitize_text_field( $_POST['id'] );
         $franchise_id = sanitize_text_field( $_POST['rss_franchise_id'] );
-        $author = $franchise_id = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+        $author = $franchise_id = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
 
         $post_data = array(
             'ID' => $id,
@@ -856,7 +856,7 @@ function submit_data() {
         $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['attendance_customer_id'] ), 'childs_first_name', true );
         $class = get_post( sanitize_text_field( $_POST['attendance_class_id'] ) );
         $title = $customer_childs_name . ' ' . $class->post_title;
-        $author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
+        $author = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
 
         $post_data = array(
             'ID' => $id,

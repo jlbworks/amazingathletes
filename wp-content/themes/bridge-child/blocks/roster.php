@@ -244,7 +244,7 @@ foreach($_roster as $krost => $rost){
         <div class="container clearfix">
             <div class="col-1 break-big" id="filter">
                 Filter by: 
-                <?php if(is_role('administrator')) { ?>
+                <?php if(is_role('administrator') || is_role('super_admin')) { ?>
                 <select id="f_franchise_id" name="f_franchise_id" >
                     <option value="">Choose Franchise</option>
                     <?php foreach($franchises as $franchise){  ?>
@@ -471,7 +471,7 @@ foreach($_roster as $krost => $rost){
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                         data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><i class="fa fa-pencil"></i></a>
-                        <?php if( is_role('administrator') ){ ?>
+                        <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                           <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                           data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                           data-object="attend" data-id="<?php echo $rost->ID; ?>"><i class="fa fa-trash-o"></i></a>
