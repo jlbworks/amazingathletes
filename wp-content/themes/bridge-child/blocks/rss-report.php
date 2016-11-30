@@ -85,9 +85,9 @@ if(!empty($locations)):
             
             if(is_array($rss_classes)){
                 foreach($rss_classes as $k_rss_class => $rss_class){
-                    if($k_rss_class == $class->ID) {                        
-                        $rss_status_code = isset($rss_class['status_code'][$month]) && !empty($rss_class['status_code'][$month])? $rss_class['status_code'][$month] : $rss_class['status_code'];
-                        $rss_no_weeks_taught = isset($rss_class['no_weeks_taught'][$month]) && !empty($rss_class['no_weeks_taught'][$month])? $rss_class['no_weeks_taught'][$month] : $rss_class['no_weeks_taught'];                        
+                    if($k_rss_class == $class->ID) {                                               
+                        $rss_status_code = isset($rss_class['status_code']) && !empty($rss_class['status_code'])? $rss_class['status_code'] : $rss_class['status_code'];
+                        $rss_no_weeks_taught = isset($rss_class['no_weeks_taught']) && !empty($rss_class['no_weeks_taught'])? $rss_class['no_weeks_taught'] : $rss_class['no_weeks_taught'];                                                
                     }
                 }
             }            
@@ -198,7 +198,7 @@ if(!empty($locations)):
             $class_array['status_code'] = $rss_status_code ? $rss_status_code : 'Y';
             $class_array['class_status'] = 'Ongoing';
 
-            $class_array['no_weeks_taught'] = $rss_no_weeks_taught ? $rss_no_weeks_taught : count($weeks);
+            $class_array['no_weeks_taught'] = $rss_no_weeks_taught != null ? $rss_no_weeks_taught : count($weeks);
 
             $earned_gross_revenue = ($class_array['no_weeks_taught'] > 0 ? ( $class_array['no_weeks_taught'] * ($class_array['weekly_tuition'] * $class_array['monthly_enrollment'] ) ) : 0);
             $class_array['earned_gross_revenue'] = $earned_gross_revenue;
@@ -224,7 +224,8 @@ if(!empty($locations)):
                     )
                 )
             );
-            $class_array['royalty_estimate'] = $class_array['monthly_enrollment'] > 0 ? $royalty_estimate : 0; 
+            $royalty_estimate = $class_array['monthly_enrollment'] > 0 && $class_array['no_weeks_taught'] > 0 ? $royalty_estimate : 0;
+            $class_array['royalty_estimate'] =  $royalty_estimate;
 
             $location_array['classes'][] = $class_array;
 
