@@ -435,3 +435,9 @@ text-align: center;
 button, input[type="button"], input[type="submit"] {
     cursor:pointer;
 }
+
+.h1.franchise_register {
+    border:3px solid #FE0000;
+    border-radius: 10px;
+    padding:10px;
+}
