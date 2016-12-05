@@ -357,7 +357,7 @@ jQuery(document).ready(function(){
 jQuery(document).ready(function(){
 	jQuery('.datepicker').datetimepicker({
 		  timepicker:false,
-  		  format:'d/m/Y'
+  		  format:'m/d/Y'
 	});
 });
 </script>
