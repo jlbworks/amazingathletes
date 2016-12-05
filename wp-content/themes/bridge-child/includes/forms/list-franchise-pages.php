@@ -75,7 +75,7 @@ else {
 			
 			$_mypage = str_replace("-", "_", $_GET['page']);
 			$show_mypage = "show_{$_mypage}";
-			$checked_show = $user->$show_mypage == 1 || (!in_array($_GET['page'], $mypages_optional) && (!isset($user->$show_page)));
+			$checked_show = $user->$show_mypage == 1;// || (!in_array($_GET['page'], $mypages_optional) && (!isset($user->$show_page)));
 
 			//var_dump($user->$show_mypage == 1 , !in_array($_GET['page'], $mypages_optional), !isset($user->$show_page));
 
