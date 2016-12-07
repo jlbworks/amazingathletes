@@ -215,7 +215,10 @@ if (isset($_POST['looc_id'])) {
 		);
 		?>
 		<div class="alert alert-success" role="alert"> <strong>Well done!</strong> Your class is saved.</div>
-		<script>window.location='<?php echo site_url().'/my-account/locations/?loc_id='.$loc_id;?>';</script>
+		<script>
+		//window.location='<?php echo site_url().'/my-account/locations/?loc_id='.$loc_id;?>';
+		window.location='<?php echo site_url().'/my-account/locations/';?>';
+		</script>
 
 		<?php 
 	}
@@ -860,7 +863,13 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				jQuery('[data-section="'+section+'"]').hide();
 				jQuery('#'+target_id).show();
 
-				jQuery('#'+target_id).find(':input:visible').prop('disabled',false);
+				jQuery('#'+target_id).find(':input').each(function(){
+					var $that = jQuery(this);
+					$that.attr('data-type','i');
+					if($that.parent().is(':visible')){
+						$that.prop('disabled',false).attr('data-visible',1);
+					}
+				});
 
 				
 			}
