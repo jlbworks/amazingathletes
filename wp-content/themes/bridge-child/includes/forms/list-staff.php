@@ -14,7 +14,11 @@ $staff = get_users(
 <?php
 echo "<ul>";
 foreach ($staff as $member) {
-	echo '<li><a href="' . get_permalink() . '?user_id=' . $member->ID . '">' . $member->display_name . '</a></li>';
+	$member_name = $member->display_name;
+	if(!empty($member->first_name) || !empty($member->last_name)) {
+		$member_name = $member->first_name . ' ' . $member->last_name;
+	}
+	echo '<li><a href="' . get_permalink() . '?user_id=' . $member->ID . '">' . $member_name . '</a></li>';
 }
 echo "</ul>";
 ?>

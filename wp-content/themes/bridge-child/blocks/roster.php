@@ -274,7 +274,11 @@ foreach($_roster as $krost => $rost){
                 <select id="f_coach_id" name="f_coach_id" >
                     <option value="">Choose Coach</option>
                     <?php foreach($coaches as $coach){ if(!in_array($coach->ID, $coach_ids)) continue;?>
-                    <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach->display_name;?></option>
+                    $coach_name = $coach->display_name;
+                    if(!empty($coach->first_name) || !empty($coach->last_name)) {
+                        $coach_name = $coach->first_name . ' ' . $coach->last_name;
+                    }
+                    <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach_name;?></option>
                     <?php } ?>
                 </select>
                 

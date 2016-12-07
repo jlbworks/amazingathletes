@@ -276,8 +276,13 @@ $payment_types = array('','Ck/$');
                         <div class="card-form">
                             <fieldset>
                                 <select id="roster_coach_id" name="roster_coach_id" class="form-control" title="Please select a coach." required>
-                                    <?php   foreach( $coaches as $coach ) : ?>                                        
-                                        <option value="<?php echo $coach->ID; ?>" <?php selected( $coach_id, $coach->ID, true ); ?>><?php echo $coach->display_name;  ?></option>
+                                    <?php foreach( $coaches as $coach ) : 
+                                        $coach_name = $coach->display_name;
+                                        if(!empty($coach->first_name) || !empty($coach->last_name)) {
+                                            $coach_name = $coach->first_name . ' ' . $coach->last_name;
+                                        }
+                                    ?>                                        
+                                        <option value="<?php echo $coach->ID; ?>" <?php selected( $coach_id, $coach->ID, true ); ?>><?php echo $coach_name;  ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <!-- /# -->

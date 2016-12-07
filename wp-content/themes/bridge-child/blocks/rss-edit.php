@@ -65,10 +65,10 @@ $franchises = get_users( $franchise_args );
                                         <option value="">Select Franchisee</option>
                                         <?php foreach( $franchises as $franchisee ) :
                                             $franchise_name = $franchisee->display_name;  
-                                              /*$franchise_name = $franchise->franchise_name;
-                                                if(!empty($franchise->first_name) || !empty($franchise->last_name)) {
-                                                    $franchise_name = $franchise->first_name . ' ' . $franchise->last_name;
-                                                }*/ 
+                                            //$franchise_name = $franchise->franchise_name;
+                                            if(!empty($franchise->first_name) || !empty($franchise->last_name)) {
+                                                $franchise_name = $franchise->first_name . ' ' . $franchise->last_name;
+                                            } 
                                         ?>
                                             <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchise_name; ?></option>
                                         <?php endforeach; ?>
