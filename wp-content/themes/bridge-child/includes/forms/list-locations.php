@@ -12,8 +12,9 @@ $locations = get_posts(
 );
 ?>
 <div class="user_form">
-	<a class="button" href="<?php the_permalink();?>?add">Add location</a>
-
+<div style="text-align:center;">
+	<a class="button" href="<?php the_permalink();?>?add">Add A Location</a>
+</div>
 	<div class="state">
 		<ul class="locations">
 		<?php
