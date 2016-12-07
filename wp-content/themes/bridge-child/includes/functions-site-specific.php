@@ -145,150 +145,152 @@ function am2_filter_locations(){
 	$franchise_name = isset($_REQUEST['franchise_name']) ? $_REQUEST['franchise_name'] : null;
 	
 	$zip_code = isset($_REQUEST['zip_code']) ? $_REQUEST['zip_code'] : null;
-		
-	$args = array(
-	'post_type' => 'location',
-	'post_status' => 'publish',
-	'posts_per_page' => -1,
-	'orderby' => 'title',
-	'order' => 'ASC',
-	//'	meta_query' => $meta_query,
-    );
 
-    $_locations = array();
-    $meta_query = array();
+    am2_get_state_locations($zip_code);
+		    
+	// $args = array(
+	// 'post_type' => 'location',
+	// 'post_status' => 'publish',
+	// 'posts_per_page' => -1,
+	// 'orderby' => 'title',
+	// 'order' => 'ASC',
+	// //'	meta_query' => $meta_query,
+    // );
 
-    if(!empty($state)){
-        $meta_query[] = array(
-            'key' => 'city__state',
-            'value' => "$state|",
-            'compare' => 'LIKE',
-        );
-    }
+    // $_locations = array();
+    // $meta_query = array();
 
-    if(!empty($franchise_name)){
-        $_franchisees = get_users(
-            array(
-                'meta_query' => array(
-                    array(
-                        'key' => 'franchise_name',
-                        'value' => $franchise_name,
-                        'compare' => 'LIKE',
-                    )
-                )
-            )
-        );
+    // if(!empty($state)){
+    //     $meta_query[] = array(
+    //         'key' => 'city__state',
+    //         'value' => "$state|",
+    //         'compare' => 'LIKE',
+    //     );
+    // }
 
-        $user_ids = array();
+    // if(!empty($franchise_name)){
+    //     $_franchisees = get_users(
+    //         array(
+    //             'meta_query' => array(
+    //                 array(
+    //                     'key' => 'franchise_name',
+    //                     'value' => $franchise_name,
+    //                     'compare' => 'LIKE',
+    //                 )
+    //             )
+    //         )
+    //     );
 
-        foreach($_franchisees as $f){
-            $user_ids[] = $f->ID;
-        }
+    //     $user_ids = array();
 
-        $args['author__in'] = (!empty($user_ids) ? $user_ids : array(0)) ;
-    }
+    //     foreach($_franchisees as $f){
+    //         $user_ids[] = $f->ID;
+    //     }
 
-    if(!empty($zip_code)){
-        $meta_query[] = array(
-            'key' => 'zip_areas',
-            'value' => $zip_code,
-            'compare' => 'LIKE',
-        );
-    }
+    //     $args['author__in'] = (!empty($user_ids) ? $user_ids : array(0)) ;
+    // }
 
-    $args['meta_query'] = $meta_query;
-    $_locations = get_posts($args);    
+    // if(!empty($zip_code)){
+    //     $meta_query[] = array(
+    //         'key' => 'zip_areas',
+    //         'value' => $zip_code,
+    //         'compare' => 'LIKE',
+    //     );
+    // }
 
-    //var_dump($_locations);
+    // $args['meta_query'] = $meta_query;
+    // $_locations = get_posts($args);    
 
-    $locations = array();
+    // //var_dump($_locations);
 
-    foreach($_locations as $_loc){
-        $meta = get_post_meta($_loc->ID);            
-        $author_id = get_post_field( 'post_author', $_loc->ID );
+    // $locations = array();
 
-        $author = get_user_by('ID', $author_id);
+    // foreach($_locations as $_loc){
+    //     $meta = get_post_meta($_loc->ID);            
+    //     $author_id = get_post_field( 'post_author', $_loc->ID );
 
-        $author_name = $author->user_nicename;
-        $display_name = $author->display_name;
+    //     $author = get_user_by('ID', $author_id);
 
-        foreach($meta as $key => $val){
-            $meta[$key] = $val[0];
-        }
+    //     $author_name = $author->user_nicename;
+    //     $display_name = $author->display_name;
 
-        $_meta_franchisee = get_user_meta($author_id);    
-        $meta_franchisee = array();    
+    //     foreach($meta as $key => $val){
+    //         $meta[$key] = $val[0];
+    //     }
 
-        /*foreach($meta_franchisee as $key => $val){
+    //     $_meta_franchisee = get_user_meta($author_id);    
+    //     $meta_franchisee = array();    
 
-            $meta_franchisee[$key] = $val[0];
+    //     /*foreach($meta_franchisee as $key => $val){
 
-            if ('session_tokens' == $key) {
-                unset($meta_franchisee[$key]);
-            }
+    //         $meta_franchisee[$key] = $val[0];
 
-            if ('page_content' == $key) {
-                unset($meta_franchisee[$key]);
-            }
-        }*/
+    //         if ('session_tokens' == $key) {
+    //             unset($meta_franchisee[$key]);
+    //         }
 
-        $meta['post_title'] = get_the_title( $_loc->ID );
-        $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
-        $meta_franchisee['franchisee'] = $display_name;     
-        $meta_franchisee['franchise_slug'] = $_meta_franchisee['franchise_slug'][0];
-        $meta_franchisee['franchise_name'] = $_meta_franchisee['franchise_name'][0];      
-        $meta_franchisee['franchise_phone'] = $_meta_franchisee['telephone'][0];
-        $meta_franchisee['franchise_email'] = $_meta_franchisee['email_address'][0];
-        $meta_franchisee['franchise_photo'] = wp_get_attachment_image_src( (int) $_meta_franchisee['user_photo'][0] , 'medium' )[0];
+    //         if ('page_content' == $key) {
+    //             unset($meta_franchisee[$key]);
+    //         }
+    //     }*/
+
+    //     $meta['post_title'] = get_the_title( $_loc->ID );
+    //     $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
+    //     $meta_franchisee['franchisee'] = $display_name;     
+    //     $meta_franchisee['franchise_slug'] = $_meta_franchisee['franchise_slug'][0];
+    //     $meta_franchisee['franchise_name'] = $_meta_franchisee['franchise_name'][0];      
+    //     $meta_franchisee['franchise_phone'] = $_meta_franchisee['telephone'][0];
+    //     $meta_franchisee['franchise_email'] = $_meta_franchisee['email_address'][0];
+    //     $meta_franchisee['franchise_photo'] = wp_get_attachment_image_src( (int) $_meta_franchisee['user_photo'][0] , 'medium' )[0];
 
 
-        $city = explode('|',$meta['city__state'])[1];
-        $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;         
-    }
+    //     $city = explode('|',$meta['city__state'])[1];
+    //     $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;         
+    // }
 
-    ksort($locations);
+    // ksort($locations);
 
-    header('Content-Type: application/json');
-    echo json_encode($locations);
-    exit();
+    // header('Content-Type: application/json');
+    // echo json_encode($locations);
+    // exit();
 
-    /*$locations = array();
+    // /*$locations = array();
 
-    foreach($_locations as $_loc){
-        $meta = get_post_meta($_loc->ID);            
-        $author_id = get_post_field( 'post_author', $_loc->ID );
+    // foreach($_locations as $_loc){
+    //     $meta = get_post_meta($_loc->ID);            
+    //     $author_id = get_post_field( 'post_author', $_loc->ID );
 
-        $author_name = get_user_by('ID', $author_id)->user_nicename;
+    //     $author_name = get_user_by('ID', $author_id)->user_nicename;
 
-        foreach($meta as $key => $val){
-            $meta[$key] = $val[0];
-        }
+    //     foreach($meta as $key => $val){
+    //         $meta[$key] = $val[0];
+    //     }
 
-        $meta_franchisee = get_user_meta($author_id);        
+    //     $meta_franchisee = get_user_meta($author_id);        
 
-        foreach($meta_franchisee as $key => $val){
+    //     foreach($meta_franchisee as $key => $val){
 
-            $meta_franchisee[$key] = $val[0];
+    //         $meta_franchisee[$key] = $val[0];
 
-            if ('session_tokens' == $key) {
-                unset($meta_franchisee[$key]);
-            }
+    //         if ('session_tokens' == $key) {
+    //             unset($meta_franchisee[$key]);
+    //         }
 
-            if ('page_content' == $key) {
-                unset($meta_franchisee[$key]);
-            }
-        }
+    //         if ('page_content' == $key) {
+    //             unset($meta_franchisee[$key]);
+    //         }
+    //     }
 
-        $meta['post_title'] = get_the_title( $_loc->ID );
-        $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
+    //     $meta['post_title'] = get_the_title( $_loc->ID );
+    //     $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
 
-        $city = explode('|',$meta['city__state'])[1];
-        $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
-    }
+    //     $city = explode('|',$meta['city__state'])[1];
+    //     $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;
+    // }
 
-    header('Content-Type: application/json');
-    echo json_encode($locations);
-    exit();*/
+    // header('Content-Type: application/json');
+    // echo json_encode($locations);
+    // exit();*/
 
 }
 
@@ -296,12 +298,43 @@ function am2_filter_locations(){
 add_action('wp_ajax_am2_get_state_locations', 'am2_get_state_locations');
 add_action('wp_ajax_nopriv_am2_get_state_locations', 'am2_get_state_locations');
 
-function am2_get_state_locations(){
+function am2_get_state_locations($zip_code = null){
     $state = isset($_REQUEST['am2_state']) ? $_REQUEST['am2_state'] : null;    
 
     $_locations = array();
 
     if(!empty($state)){
+        $meta_query = array(                
+            array(
+                'key' => 'city__state',
+                'value' => "$state|",
+                'compare' => 'LIKE',
+            )
+        );        
+    }    
+    if(!empty($zip_code)){
+        $meta_query[] = array(
+            'key' => 'zip_code',
+            'value' => $zip_code,
+            'compare' => 'LIKE',
+        );
+    }       
+
+    $args = array(
+        'role' => 'franchisee',
+        'meta_query' => $meta_query
+    );    
+
+    $_franchisees = get_users($args);
+
+    //var_dump($_locations);
+
+    $franchisees = array();
+    $locations = array();
+
+    foreach($_franchisees as $author){    
+        $author_id = $author->ID;
+
         $_locations = get_posts(array(
             'post_type' => 'location',
             'post_status' => 'publish',
@@ -314,45 +347,17 @@ function am2_get_state_locations(){
                     'value' => "$state|",
                     'compare' => 'LIKE',
                 )
-            )
+            ),
+            'author' => $author_id,
         ));
-    }
-
-    //var_dump($_locations);
-
-    $locations = array();
-
-    foreach($_locations as $_loc){
-        $meta = get_post_meta($_loc->ID);            
-        $author_id = get_post_field( 'post_author', $_loc->ID );
-
-        $author = get_user_by('ID', $author_id);
 
         $author_name = $author->user_nicename;
         $display_name = $author->display_name;
 
-        foreach($meta as $key => $val){
-            $meta[$key] = $val[0];
-        }
-
         $_meta_franchisee = get_user_meta($author_id);    
         $meta_franchisee = array();    
-
-        /*foreach($meta_franchisee as $key => $val){
-
-            $meta_franchisee[$key] = $val[0];
-
-            if ('session_tokens' == $key) {
-                unset($meta_franchisee[$key]);
-            }
-
-            if ('page_content' == $key) {
-                unset($meta_franchisee[$key]);
-            }
-        }*/
-
-        $meta['post_title'] = get_the_title( $_loc->ID );
         $meta_franchisee['url'] = site_url() . '/franchisee/' . $author_name . '/about';
+        $meta_franchisee['ID'] = $author_id;     
         $meta_franchisee['franchisee'] = $display_name;     
         $meta_franchisee['franchise_slug'] = $_meta_franchisee['franchise_slug'][0];
         $meta_franchisee['franchise_name'] = $_meta_franchisee['franchise_name'][0];      
@@ -361,16 +366,33 @@ function am2_get_state_locations(){
         $meta_franchisee['franchise_phone'] = $_meta_franchisee['telephone'][0];
         $meta_franchisee['franchise_email'] = $_meta_franchisee['email_address'][0];
         $meta_franchisee['franchise_photo'] = wp_get_attachment_image_src( (int) $_meta_franchisee['user_photo'][0] , 'medium' )[0];
+        $meta_franchisee['state'] = explode('|', $_meta_franchisee['city__state'][0])[0]; 
+        $meta_franchisee['city'] = explode('|', $_meta_franchisee['city__state'][0])[1]; 
 
+        foreach($_locations as $_loc){
+            $meta = get_post_meta($_loc->ID);            
+            //$author_id = $author->ID;
+            //$author_id = get_post_field( 'post_author', $_loc->ID );
+            //$author = get_user_by('ID', $author_id);
 
-        $city = explode('|',$meta['city__state'])[1];
-        $locations[$city][] = array('id' => $_loc->ID, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;         
+            foreach($meta as $key => $val){
+                $meta[$key] = $val[0];
+            }
+
+            $meta['post_title'] = get_the_title( $_loc->ID );
+            $meta['author_id'] = $author_id;
+
+            $city = explode('|',$meta['city__state'])[1];
+            $locations[] = array('id' => $_loc->ID, 'city' => $city, 'meta' => $meta, 'url' => get_permalink( $_loc->ID ), 'meta_franchisee' => $meta_franchisee ) ;            
+        }         
+
+        $franchisees[] = $meta_franchisee;
     }
 
     ksort($locations);
 
     header('Content-Type: application/json');
-    echo json_encode($locations);
+    echo json_encode(array('locations' => $locations, 'franchisees' => $franchisees) );
     exit();
 }
 

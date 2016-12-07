@@ -9,15 +9,15 @@ var remodal_popup;
     "Session" : "parent_pay_session",
     "Contracts/Events" : "contracts_events"
 };*/
-var classes_with_special_title = ['Contract','Camp']; 
+var classes_with_special_title = ['Contract', 'Camp'];
 
-(function($){
-    $(document).ready(function(){
+(function ($) {
+    $(document).ready(function () {
 
         var xhr;
         var select_state, $select_state;
         var select_city, $select_city;
-        var val_city ;
+        var val_city;
         var ajax_talking = false;
         var loc_state = null;
         var state_name = "";
@@ -26,38 +26,37 @@ var classes_with_special_title = ['Contract','Camp'];
 
         var city_state_selects = [];
 
-        if(window.location.protocol + '//' + window.location.hostname !== window.location.href){
+        if (window.location.protocol + '//' + window.location.hostname !== window.location.href) {
             //$('a[href="'+window.location.href.split('?')[0]+'"]').addClass('current');
-            $('a').each(function(){
-            	try{
-            		var link = $(this).attr('href').replace(/\/$/, "");;
-	            	var url = window.location.href.split('?')[0].replace(/\/$/, "");;
+            $('a').each(function () {
+                try {
+                    var link = $(this).attr('href').replace(/\/$/, "");;
+                    var url = window.location.href.split('?')[0].replace(/\/$/, "");;
 
-	            	if(link == url){
-	            		$(this).addClass('current');
-	            	}
-            	}
-            	catch(exc){}
+                    if (link == url) {
+                        $(this).addClass('current');
+                    }
+                } catch (exc) {}
             });
         }
 
-        $('.sidebar-link').on('mouseover',function(e){
-            var $img = $(this).find('img');                     
+        $('.sidebar-link').on('mouseover', function (e) {
+            var $img = $(this).find('img');
             $img.attr('src', $img.data('mouseover'));
         });
 
-        $('.sidebar-link:not(.current)').on('mouseout',function(e){
-            var $img = $(this).find('img');                        
+        $('.sidebar-link:not(.current)').on('mouseout', function (e) {
+            var $img = $(this).find('img');
             $img.attr('src', $img.data('mouseout'));
         });
 
-        $('.sidebar-link.current img').each(function(){
-           $(this).attr('src', $(this).data('mouseover'));
+        $('.sidebar-link.current img').each(function () {
+            $(this).attr('src', $(this).data('mouseover'));
         });
 
         $('.sidebar-link.current').closest('.side-nav').find('.side-nav.sub').show();
 
-        try{
+        try {
             var myId = getVideoId(author_object.video_url);
             //console.log(myId);
 
@@ -67,14 +66,14 @@ var classes_with_special_title = ['Contract','Camp'];
         }
 
         $select_state = $('.am2_cc_state').selectize({
-            onChange: function(value) {
+            onChange: function (value) {
                 if (!value.length) return;
 
                 $select_city.addClass('loading');
 
                 select_city.disable();
                 select_city.clearOptions();
-                select_city.load(function(callback) {
+                select_city.load(function (callback) {
                     xhr && xhr.abort();
                     xhr = $.ajax({
                         url: ajax_login_object.ajaxurl,
@@ -83,14 +82,14 @@ var classes_with_special_title = ['Contract','Camp'];
                             stateID: value,
                         },
                         // url: 'https://jsonp.afeld.me/?url=http://api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
-                        success: function(results) {
+                        success: function (results) {
                             select_city.enable();
                             callback(results);
                             $select_city.removeClass('loading');
                             select_city.setValue(val_city);
                             //console.log(results);
                         },
-                        error: function() {
+                        error: function () {
                             callback();
                         }
                     })
@@ -102,24 +101,25 @@ var classes_with_special_title = ['Contract','Camp'];
             valueField: 'name',
             labelField: 'name',
             searchField: ['name'],
-            maxItems:1,
-            placeholder: 'Select a city...'/*,
-            create:function (input){
-               return { name:input, zip:-1};
-           }*/
+            maxItems: 1,
+            placeholder: 'Select a city...'
+                /*,
+                            create:function (input){
+                               return { name:input, zip:-1};
+                           }*/
         });
 
         $select_coaches = $('.am2_coaches').selectize({
-            multiple:true,
-            maxItems:null,
+            multiple: true,
+            maxItems: null,
 
         });
 
-        if($select_city.length > 0 && $select_state.length > 0){
-            select_city  = $select_city[0].selectize;
+        if ($select_city.length > 0 && $select_state.length > 0) {
+            select_city = $select_city[0].selectize;
             select_state = $select_state[0].selectize;
 
-            if($select_state.val() == '') select_city.disable();
+            if ($select_state.val() == '') select_city.disable();
             else {
                 value = $select_state.val();
                 val_city = $select_city.val();
@@ -129,7 +129,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
                 select_city.disable();
                 select_city.clearOptions();
-                select_city.load(function(callback) {
+                select_city.load(function (callback) {
                     xhr && xhr.abort();
                     xhr = $.ajax({
                         url: ajax_login_object.ajaxurl,
@@ -138,151 +138,157 @@ var classes_with_special_title = ['Contract','Camp'];
                             stateID: value,
                         },
                         // url: 'https://jsonp.afeld.me/?url=http://api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
-                        success: function(results) {
+                        success: function (results) {
                             select_city.enable();
                             callback(results);
                             $select_city.removeClass('loading');
                             select_city.setValue(val_city);
                             //console.log(results);
                         },
-                        error: function() {
+                        error: function () {
                             callback();
                         }
                     })
                 });
             }
 
-            $select_state.on('change', function(){
-                $('.cc_city_state').val($select_state.val() + '|' +  $select_city.val() );
+            $select_state.on('change', function () {
+                $('.cc_city_state').val($select_state.val() + '|' + $select_city.val());
             });
-            $select_city.on('change', function(){
-                $('.cc_city_state').val($select_state.val() + '|' +  $select_city.val() );
+            $select_city.on('change', function () {
+                $('.cc_city_state').val($select_state.val() + '|' + $select_city.val());
             });
         }
 
-        $('#frm_edit_mypage input[type="submit"]').on('mousedown',function(e){
-            if(typeof(tinyMCE)!='undefined')
+        $('#frm_edit_mypage input[type="submit"]').on('mousedown', function (e) {
+            if (typeof (tinyMCE) != 'undefined')
                 tinyMCE.triggerSave();
         });
 
         $('#frm_edit_mypage').ajaxForm({
-          beforeSubmit: function() {
-            am2_show_preloader();
-            return true; //$('#frm_edit_mypage').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp.status);
-            if(typeof (resp.post_id) != 'undefined' && resp.post_id != 0) {
-                window.location.href = updateQueryStringParameter(window.location.href, 'post_id', resp.post_id );
+            beforeSubmit: function () {
+                am2_show_preloader();
+                return true; //$('#frm_edit_mypage').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp.status);
+                if (typeof (resp.post_id) != 'undefined' && resp.post_id != 0) {
+                    window.location.href = updateQueryStringParameter(window.location.href, 'post_id', resp.post_id);
+                }
+            },
+            error: function () {
+                am2_hide_preloader();
             }
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
         });
 
         $('#frm_add_mypage').ajaxForm({
-          beforeSubmit: function() {
-            am2_show_preloader();
-            return true; //$('#frm_edit_mypage').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp.status);
-            if(typeof (resp.mypage_slug) != 'undefined') {
-                window.location.href = updateQueryStringParameter(window.location.href, 'page', resp.mypage_slug );
+            beforeSubmit: function () {
+                am2_show_preloader();
+                return true; //$('#frm_edit_mypage').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp.status);
+                if (typeof (resp.mypage_slug) != 'undefined') {
+                    window.location.href = updateQueryStringParameter(window.location.href, 'page', resp.mypage_slug);
+                }
+            },
+            error: function () {
+                am2_hide_preloader();
             }
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
         });
 
-        $('#frm_franchisee_account').validate({ rules: {
+        $('#frm_franchisee_account').validate({
+            rules: {
 
-        }});
+            }
+        });
 
         $('#frm_franchisee_account').ajaxForm({
-          beforeSubmit: function() {
-            am2_show_preloader();
-            if(typeof(tinyMCE)!='undefined')
-                tinyMCE.triggerSave();
-                  
-            return $('#frm_franchisee_account').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp);
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
+            beforeSubmit: function () {
+                am2_show_preloader();
+                if (typeof (tinyMCE) != 'undefined')
+                    tinyMCE.triggerSave();
+
+                return $('#frm_franchisee_account').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp);
+            },
+            error: function () {
+                am2_hide_preloader();
+            }
         });
 
-        $('#frm_user_account').validate({ rules: {
-            //password: "",
-            password2: {
-                equalTo: "#password"
+        $('#frm_user_account').validate({
+            rules: {
+                //password: "",
+                password2: {
+                    equalTo: "#password"
+                }
             }
-        }});
+        });
 
-        $('#frm_user_password').validate({ rules: {
-            //password: "required",
-            password2: {
-                equalTo: "#password"
+        $('#frm_user_password').validate({
+            rules: {
+                //password: "required",
+                password2: {
+                    equalTo: "#password"
+                }
             }
-        }});
+        });
 
         $('#frm_user_password').ajaxForm({
-          beforeSubmit: function() {
-            am2_show_preloader();
-            return $('#frm_user_password').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp);
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
+            beforeSubmit: function () {
+                am2_show_preloader();
+                return $('#frm_user_password').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp);
+            },
+            error: function () {
+                am2_hide_preloader();
+            }
         });
 
         $('#frm_user_account').ajaxForm({
-          beforeSubmit: function() {
-            am2_show_preloader();
-            return $('#frm_user_account').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp);
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
+            beforeSubmit: function () {
+                am2_show_preloader();
+                return $('#frm_user_account').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp);
+            },
+            error: function () {
+                am2_hide_preloader();
+            }
         });
 
         $('#frm_edit_location').validate({ /* ... */ });
 
         $('#frm_edit_location').ajaxForm({
-          beforeSubmit: function() {
-            am2_show_preloader();
-            return $('#frm_edit_location').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp.message);
-            location.href = permalink + '?loc_id=' + resp.loc_id;
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
+            beforeSubmit: function () {
+                am2_show_preloader();
+                return $('#frm_edit_location').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp.message);
+                location.href = permalink + '?loc_id=' + resp.loc_id;
+            },
+            error: function () {
+                am2_hide_preloader();
+            }
         });
 
-        $('#frm_edit_location [name="address"], #frm_edit_location [name="city"], #frm_edit_location [name="state"], #frm_edit_location [name="zip"]').on('change', function(){
-            $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()),function(res){
+        $('#frm_edit_location [name="address"], #frm_edit_location [name="city"], #frm_edit_location [name="state"], #frm_edit_location [name="zip"]').on('change', function () {
+            $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val()), function (res) {
                 //console.log($('[name="address"]').val() + ", " + $('[name="city"]').val() + ", " + $('[name="state"]').val() + " " + $('[name="zip"]').val());
-                if(typeof res != 'undefined' && typeof res.results != 'undefined' && res.length > 0){
+                if (typeof res != 'undefined' && typeof res.results != 'undefined' && res.length > 0) {
                     $('.latlng').val(res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng);
                     initMap();
                 }
@@ -290,23 +296,23 @@ var classes_with_special_title = ['Contract','Camp'];
         });
 
 
-        $('[data-button="delete"]').click(function(e) {
+        $('[data-button="delete"]').click(function (e) {
             var delete_button = this;
             e.preventDefault();
             if (confirm('Are you sure?')) {
                 $(delete_button).closest('[data-form="frm_delete_location"]').ajaxSubmit({
-                  beforeSubmit: function() {
-                    am2_show_preloader();
-                    return $(delete_button).closest('[data-form="frm_delete_location"]').valid();
-                  },
-                  success: function(resp) {
-                    am2_hide_preloader();
-                    alert(resp.message);
-                    location.href = permalink + '?deleted=true';
-                  },
-                  error: function() {
-                    am2_hide_preloader();
-                  }
+                    beforeSubmit: function () {
+                        am2_show_preloader();
+                        return $(delete_button).closest('[data-form="frm_delete_location"]').valid();
+                    },
+                    success: function (resp) {
+                        am2_hide_preloader();
+                        alert(resp.message);
+                        location.href = permalink + '?deleted=true';
+                    },
+                    error: function () {
+                        am2_hide_preloader();
+                    }
                 });
             }
         });
@@ -318,13 +324,15 @@ var classes_with_special_title = ['Contract','Camp'];
             delete_digital_artwork($(this).data('attid'), $(this).data('user-id'));
         });*/
 
-        $(document).on('click', 'a[href="#logout"]', function(e){
+        $(document).on('click', 'a[href="#logout"]', function (e) {
             e.preventDefault();
 
-            if(ajax_talking) return;
+            if (ajax_talking) return;
 
-            $.post(ajax_login_object.ajaxurl, {action: 'am2_logout'}, function(resp){
-                if(resp=='adios!'){
+            $.post(ajax_login_object.ajaxurl, {
+                action: 'am2_logout'
+            }, function (resp) {
+                if (resp == 'adios!') {
                     $('#login_box').addClass('logged_out').removeClass('logged_in');
 
                     am2_alert('You have logged out successfully. Bye!', 'Log out', true);
@@ -336,8 +344,12 @@ var classes_with_special_title = ['Contract','Camp'];
 
         $('#frm_login').validate({
             rules: {
-                'username': { required: true },
-                'password' : { required : true }
+                'username': {
+                    required: true
+                },
+                'password': {
+                    required: true
+                }
             },
             /*errorPlacement: function(error, element) {
                 element.siblings(".error").html(error);
@@ -345,14 +357,14 @@ var classes_with_special_title = ['Contract','Camp'];
             debug: true
         });
 
-        $('#frm_login').on("submit", function(){
-            if(!$(this).valid()) return;
-            if(ajax_talking) return;
+        $('#frm_login').on("submit", function () {
+            if (!$(this).valid()) return;
+            if (ajax_talking) return;
 
             var serialized_form = $(this).serialize();
 
-            $.post(ajax_login_object.ajaxurl, serialized_form, function(resp){
-                if(resp.loggedin){
+            $.post(ajax_login_object.ajaxurl, serialized_form, function (resp) {
+                if (resp.loggedin) {
                     $('#login_box').addClass('logged_in').removeClass('logged_out');
 
                     am2_alert("You have logged in successfully. Welcome!", "Log in", resp.redirect);
@@ -367,16 +379,19 @@ var classes_with_special_title = ['Contract','Camp'];
             ajax_talking = true;
         });
 
-        $(".show_forgot_password").click(function(e){
+        $(".show_forgot_password").click(function (e) {
             e.preventDefault();
             $(".forgot_password_wrap").show();
         });
 
-        $("#new_password").click(function(){
-            if(ajax_talking) return;
+        $("#new_password").click(function () {
+            if (ajax_talking) return;
 
-            $.post(ajax_login_object.ajaxurl, {action: 'ajax_forgotPassword', forgot_password: $('#forgot_password').val()}, function(resp){
-                if(resp.success){
+            $.post(ajax_login_object.ajaxurl, {
+                action: 'ajax_forgotPassword',
+                forgot_password: $('#forgot_password').val()
+            }, function (resp) {
+                if (resp.success) {
                     $(".forgot_password_wrap").slideToggle();
                 }
 
@@ -386,37 +401,40 @@ var classes_with_special_title = ['Contract','Camp'];
             ajax_talking = true;
         });
 
-        $('.btn_toggle_add_coach').on('click', function(e){
+        $('.btn_toggle_add_coach').on('click', function (e) {
             e.preventDefault();
             $('.add_coach_wrap').slideToggle();
         });
 
-        $('.btn_add_coach').on('click', function(e){
+        $('.btn_add_coach').on('click', function (e) {
             e.preventDefault();
 
-            if($.trim($('#first_name').val()) == '' || $.trim($('#first_name').val()) == '' || $.trim($('#coach_email').val()) == ''){
+            if ($.trim($('#first_name').val()) == '' || $.trim($('#first_name').val()) == '' || $.trim($('#coach_email').val()) == '') {
                 alert("Please fill all the fields");
                 return;
             }
 
-            if(!isValidEmailAddress($.trim($('#coach_email').val())) ){
+            if (!isValidEmailAddress($.trim($('#coach_email').val()))) {
                 alert("Please enter a valid email address");
                 return;
             }
 
             $.post(ajax_login_object.ajaxurl, {
-                action    : 'am2_add_coach',
+                action: 'am2_add_coach',
                 first_name: $('#first_name').val(),
-                last_name : $('#last_name').val(),
+                last_name: $('#last_name').val(),
                 coach_email: $('#coach_email').val(),
                 loc_id: $('[name="looc_id"]').val()
-            }, function(resp) {
-                if(resp.status == 'success') {
+            }, function (resp) {
+                if (resp.status == 'success') {
 
                     alert('Successfully added coach');
 
                     var select_coaches = $select_coaches[0].selectize;
-                    select_coaches.addOption({value: resp.user_id, text: $('#first_name').val() + ' ' + $('#last_name').val()});
+                    select_coaches.addOption({
+                        value: resp.user_id,
+                        text: $('#first_name').val() + ' ' + $('#last_name').val()
+                    });
                     select_coaches.addItem(resp.user_id);
                     select_coaches.refreshOptions();
 
@@ -425,427 +443,451 @@ var classes_with_special_title = ['Contract','Camp'];
                     alert('Error');
                 }
             });
-         });
+        });
 
         $('#frm_edit_staff').validate({ /* ... */ });
-        $('#frm_edit_staff').on('submit',function(){
-            if(typeof(tinyMCE)!='undefined')
-                tinyMCE.triggerSave();            
+        $('#frm_edit_staff').on('submit', function () {
+            if (typeof (tinyMCE) != 'undefined')
+                tinyMCE.triggerSave();
         });
         $('#frm_edit_staff').ajaxForm({
-          beforeSubmit: function() {
-            am2_show_preloader();            
-            return $('#frm_edit_staff').valid();
-          },
-          success: function(resp) {
-            am2_hide_preloader();
-            alert(resp.message);
-            location.href = permalink + '?user_id=' + resp.user_id;
-          },
-          error: function() {
-            am2_hide_preloader();
-          }
+            beforeSubmit: function () {
+                am2_show_preloader();
+                return $('#frm_edit_staff').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp.message);
+                location.href = permalink + '?user_id=' + resp.user_id;
+            },
+            error: function () {
+                am2_hide_preloader();
+            }
         });
 
-         /*$('#frm_edit_staff').on('submit', function(e){
-            e.preventDefault();
+        /*$('#frm_edit_staff').on('submit', function(e){
+           e.preventDefault();
 
-            if($.trim($('#first_name').val()) == '' || $.trim($('#first_name').val()) == '' || $.trim($('#coach_email').val()) == ''){
-                alert("Please fill all the fields");
-                return;
-            }
+           if($.trim($('#first_name').val()) == '' || $.trim($('#first_name').val()) == '' || $.trim($('#coach_email').val()) == ''){
+               alert("Please fill all the fields");
+               return;
+           }
 
-            if(!isValidEmailAddress($.trim($('#coach_email').val())) ){
-                alert("Please enter a valid email address");
-                return;
-            }
+           if(!isValidEmailAddress($.trim($('#coach_email').val())) ){
+               alert("Please enter a valid email address");
+               return;
+           }
 
-            $.post(ajax_login_object.ajaxurl,
-                {
-                action: $(this).find('[name="action"]').val(),
-                first_name: $('#first_name').val(),
-                last_name: $('#last_name').val(),
-                coach_email: $('#coach_email').val(),
-                coach_description: $('#coach_description').val(),
-                user_id: $('#user_id').val(),
-                attid: $('#btn_delete_user_photo').data('attid')
-                },
+           $.post(ajax_login_object.ajaxurl,
+               {
+               action: $(this).find('[name="action"]').val(),
+               first_name: $('#first_name').val(),
+               last_name: $('#last_name').val(),
+               coach_email: $('#coach_email').val(),
+               coach_description: $('#coach_description').val(),
+               user_id: $('#user_id').val(),
+               attid: $('#btn_delete_user_photo').data('attid')
+               },
 
-                function(resp){
-                if(resp.status == 'success') {
+               function(resp){
+               if(resp.status == 'success') {
 
-                    alert('Successfully edited staff member');
+                   alert('Successfully edited staff member');
 
-                } else {
-                    alert('Error');
-                }
-            });
-         });*/
+               } else {
+                   alert('Error');
+               }
+           });
+        });*/
 
-        if($('.dynamic-locaion-content').length > 0){
+        if ($('.dynamic-locaion-content').length > 0) {
             $('.dynamic-locaion-content').html(
                 '<form id="frmFilterMap">' +
-                    //'<input type="text" name="franchise_name" id="txtFranchiseName" placeholder="franchise name" />'+
-                    '<input type="text" name="zip_code" id="txtZipCode" placeholder="enter zip code" />'+
-                    '<input type="hidden" name="am2_state" id="hidState" />'+
-                    '<input type="hidden" name="action" id="hidAction" value="am2_filter_locations" />'+
-                    '<input type="submit" value="filter" />'+
-                '</form><br/>'+
-                '<div class="list">'+
-                '<div class="state"></div>'+
+                //'<input type="text" name="franchise_name" id="txtFranchiseName" placeholder="franchise name" />'+
+                '<input type="text" name="zip_code" id="txtZipCode" placeholder="enter zip code" />' +
+                '<input type="hidden" name="am2_state" id="hidState" />' +
+                '<input type="hidden" name="action" id="hidAction" value="am2_filter_locations" />' +
+                '<input type="submit" value="filter" />' +
+                '</form><br/>' +
+                '<div class="list">' +
+                '<div class="state"></div>' +
                 '</div>'
             );
 
-            $('#frmFilterMap').on('submit', function(e){
+            $('#frmFilterMap').on('submit', function (e) {
                 e.preventDefault();
 
                 am2_show_preloader();
-                $.get(ajax_login_object.ajaxurl, $(this).serialize(), function(resp){
+
+                $.get(ajax_login_object.ajaxurl, $(this).serialize(), function (resp) {
                     //console.log(resp);
+                    filterProvidersLocations(resp);
 
-                    $.each(ajax_login_object.states, function(k,v){
-                        if(v.state_code == loc_state){
-                            state_name = v.state;
-                        }
-                });
+                    // $.each(ajax_login_object.states, function (k, v) {
+                    //     if (v.state_code == loc_state) {
+                    //         state_name = v.state;
+                    //     }
+                    // });
 
-                var $state = $('<div class="state"></div>');
+                    // var $state = $('<div class="state"></div>');
 
-                if(loc_state){
-                    $state.append('<h1 class="state_title" style="text-align: center;"><div class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ loc_state +'.png" /></div><span class="td">'+state_name+'</span></h1>')
-                }
-                
+                    // if (loc_state) {
+                    //     $state.append('<h1 class="state_title" style="text-align: center;"><div class="td"><img src="' + ajax_login_object.theme_url + '/img/states/' + loc_state + '.png" /></div><span class="td">' + state_name + '</span></h1>')
+                    // }
 
-                if(Object.keys(resp).length>0){
-                	var $ul = $('<select class="cities"></select>');
-                    $ul.append('<option value="">Select a city</option>');
 
-                    var i=0;
-	                $.each(resp, function(k,v){                        
-	                    var $li = $('<option value="'+k+'" data-id="'+ k +'"></option>');
-	                    $li.append(k);
+                    // if (Object.keys(resp.locations).length > 0) {
+                    //     var $ul = $('<select class="cities"></select>');
+                    //     $ul.append('<option value="">Select a city</option>');
 
-	                    $ul.append($li);
-	                });
+                    //     var i = 0;
+                    //     $.each(resp.locations, function (k, v) {
+                    //         var $li = $('<option value="' + k + '" data-id="' + k + '"></option>');
+                    //         $li.append(k);
 
-	                $state.append($ul);
+                    //         $ul.append($li);
+                    //     });
 
-	                $state.append('<span class="h1">'+state_name+' Providers</span>');
+                    //     $state.append($ul);
 
-                    var $ul_child = $('<ul class="providers state" ></ul>');
-                    $state.append($ul_child);
-                    $('.dynamic-locaion-content .list').html($state);
+                    //     $state.append('<span class="h1">' + state_name + ' Providers</span>');
 
-                    $ul_child = $('ul.providers');
+                    //     var $ul_child = $('<ul class="providers state" ></ul>');
+                    //     $state.append($ul_child);
+                    //     $('.dynamic-locaion-content .list').html($state);
 
-	                $.each(resp, function(k,v){
-	                	
-	                	// var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
+                    //     $ul_child = $('ul.providers');
 
-		                $.each(v, function(k2,v2){
-                            var $franchise = $('#franchise_'+v2.meta_franchisee.franchise_slug);
+                    //     $.each(resp.locations, function (k, v) {
+                    //         var meta_franchisee = v.meta_franchisee;
 
-                            //console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
+                    //         // var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
-                            if($franchise.length>0){                                
-                                var $li_child = $franchise;
-                                if($li_child.find('.franchise_cities').find('.franchise_city:contains("'+k+'")').length<1){
-                                    $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type=""  href="'+ajax_login_object.site_url+'/'+v2.meta_franchisee.franchise_slug+'/locations/?city='+k+'">'+ k +'</a></span>');
-                                }                                                                
-                            }
-                            else {
-                                //console.log('f0',v2.meta_franchisee.franchise_photo);
-                                var $li_child = $('<li class="franchise" id="franchise_'+v2.meta_franchisee.franchise_slug+'"></li>');
-                                $li_child.append(
-                                    '<div class="franchise_left">'+
-                                        (v2.meta_franchisee.franchise_photo ? 
-                                        '<img src="' + v2.meta_franchisee.franchise_photo + '"/>' :
-                                        '<img src="' + ajax_login_object.theme_url  + '/images/no-image.jpg"/>' )                                        
-                                        +
-                                    '</div>'+
-                                    '<div class="franchise_right">' +
-                                        '<h3 class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></h3>' +
-                                        '<span class="franchise_owner">' + v2.meta_franchisee.franchisee + ', Owner</span><br/>'+
-                                        '<span class="franchise_tel">' + v2.meta_franchisee.franchise_phone + '</span><br/>' +
-                                        '<a href="mailto:' + v2.meta_franchisee.franchise_email + '" class="franchise_email">' + v2.meta_franchisee.franchise_email + '</a><br/>' +  
-                                        //'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
-                                        '<div class="franchise_cities"></div>'+                                                                                
-                                    '</div>'
-                                );   
-                                $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type="" href="'+ajax_login_object.site_url+'/'+v2.meta_franchisee.franchise_slug+'/locations/?city='+k+'">'+ k +'</a></span>');
-                                $ul_child.append($li_child);           
-                            }                            
-                                                                     
+                    //         $.each(v, function (k2, v2) {
+                    //             var $franchise = $('#franchise_' + v2.meta_franchisee.franchise_slug);
 
-		                	
-		                	/*$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
-		                	$li_child.append(
-		                	'<div class="franchise_details">' +
-			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
-			                	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
-			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
-			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
-		                	'</div>'
-		                	);*/
+                    //             //console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
 
-		                   
-		                });
-		                
-		            });
-                    
+                    //             if ($franchise.length > 0) {
+                    //                 var $li_child = $franchise;
+                    //                 if ($li_child.find('.franchise_cities').find('.franchise_city:contains("' + k + '")').length < 1) {
+                    //                     $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type=""  href="' + ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug + '/locations/?city=' + k + '">' + k + '</a></span>');
+                    //                 }
+                    //             } else {
+                    //                 //console.log('f0',v2.meta_franchisee.franchise_photo);
+                    //                 var $li_child = $('<li class="franchise" id="franchise_' + v2.meta_franchisee.franchise_slug + '"></li>');
+                    //                 $li_child.append(
+                    //                     '<div class="franchise_left">' +
+                    //                     (v2.meta_franchisee.franchise_photo ?
+                    //                         '<img src="' + v2.meta_franchisee.franchise_photo + '"/>' :
+                    //                         '<img src="' + ajax_login_object.theme_url + '/images/no-image.jpg"/>') +
+                    //                     '</div>' +
+                    //                     '<div class="franchise_right">' +
+                    //                     '<h3 class="franchise_name"><a href="' + ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug + '">' + v2.meta_franchisee.franchise_name + '</a></h3>' +
+                    //                     '<span class="franchise_owner">' + v2.meta_franchisee.franchisee + ', Owner</span><br/>' +
+                    //                     '<span class="franchise_tel">' + v2.meta_franchisee.franchise_phone + '</span><br/>' +
+                    //                     '<a href="mailto:' + v2.meta_franchisee.franchise_email + '" class="franchise_email">' + v2.meta_franchisee.franchise_email + '</a><br/>' +
+                    //                     //'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
+                    //                     '<div class="franchise_cities"></div>' +
+                    //                     '</div>'
+                    //                 );
+                    //                 $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type="" href="' + ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug + '/locations/?city=' + k + '">' + k + '</a></span>');
+                    //                 $ul_child.append($li_child);
+                    //             }
 
-	                
 
-                    /*var options = $('select.cities option');
-                    var arr = options.map(function(_, o) { return { t: $(o).text(), v: o.value }; }).get();
-                    arr.sort(function(o1, o2) { return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0; });
-                    options.each(function(i, o) {
-                      o.value = arr[i].v;
-                      $(o).text(arr[i].t);
-                    });*/
 
-                    //$('select.cities').html(options);
+                    //             /*$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
+		            //     	$li_child.append(
+		            //     	'<div class="franchise_details">' +
+			        //         	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
+			        //         	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
+			        //         	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
+			        //         	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
+		            //     	'</div>'
+		            //     	);*/
 
-	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500);
 
-	                $('.state .cities').off('change').on('change', function(e){
-                        var that = this;
-                        $('.franchise').hide();
-                        $('.franchise_city').filter(function() {return $(this).text() == $(that).val()}).closest('.franchise').show();                             
+                    //         });
 
-	                	//$('.state .cities li').removeClass('selected');
-	                	//$(this).addClass('selected');
-	                	// var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
-	                	// var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
+                    //     });
 
-	                	// console.log($(this).val());
 
-	                	// //$('.state .locations').hide();
-	                	// $('.state .locations[data-id="'+data_id+'"]').show();
 
-	                	// if($locations.length>0){
-	               		// 	$('html, body').animate({scrollTop: $locations.offset().top},500);
-	               		// }
 
-	                }); //.trigger('change');
+                    //     /*var options = $('select.cities option');
+                    //     var arr = options.map(function(_, o) { return { t: $(o).text(), v: o.value }; }).get();
+                    //     arr.sort(function(o1, o2) { return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0; });
+                    //     options.each(function(i, o) {
+                    //       o.value = arr[i].v;
+                    //       $(o).text(arr[i].t);
+                    //     });*/
 
-	                $('.state .cities').selectize({
-                        placeholder: 'Select a city...'
-                    });
+                    //     //$('select.cities').html(options);
 
-                    $('a[data-fancybox-type="iframe"]').fancybox();
+                    //     $('html, body').animate({
+                    //         scrollTop: $('.dynamic-locaion-content').eq(0).offset().top
+                    //     }, 500);
 
-                    $('.state .cities'); //.trigger('change');
+                    //     $('.state .cities').off('change').on('change', function (e) {
+                    //         var that = this;
+                    //         $('.franchise').hide();
+                    //         $('.franchise_city').filter(function () {
+                    //             return $(this).text() == $(that).val()
+                    //         }).closest('.franchise').show();
 
-                } else {
-                	$('.dynamic-locaion-content .list').html((state_name ? 'There are no locations for your query in '+ state_name : 'No locations in this area' ));
-                }
+                    //         //$('.state .cities li').removeClass('selected');
+                    //         //$(this).addClass('selected');
+                    //         // var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
+                    //         // var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
 
-                am2_hide_preloader();
+                    //         // console.log($(this).val());
+
+                    //         // //$('.state .locations').hide();
+                    //         // $('.state .locations[data-id="'+data_id+'"]').show();
+
+                    //         // if($locations.length>0){
+                    //         // 	$('html, body').animate({scrollTop: $locations.offset().top},500);
+                    //         // }
+
+                    //     }); //.trigger('change');
+
+                    //     $('.state .cities').selectize({
+                    //         placeholder: 'Select a city...'
+                    //     });
+
+                    //     $('a[data-fancybox-type="iframe"]').fancybox();
+
+                    //     $('.state .cities'); //.trigger('change');
+
+                    // } else {
+                    //     $('.dynamic-locaion-content .list').html((state_name ? 'There are no locations for your query in ' + state_name : 'No locations in this area'));
+                    // }
+
+                    // am2_hide_preloader();
                 });
             });
         }
 
 
-         $('#regions path, #text-abb text').on('click', function(){
-            loc_state = $('#text-abb text#'+$(this).attr('id')).text();
+        $('#regions path, #text-abb text').on('click', function () {
+            loc_state = $('#text-abb text#' + $(this).attr('id')).text();
 
             $('#hidState').val(loc_state);
 
-            if($(this).is('text')) {
+            if ($(this).is('text')) {
                 loc_state = $(this).text();
-                $('#regions path').attr('class','');
-            	$('#regions path[id="'+$(this).attr('id')+'"]').attr('class','selected');
-            }
-            else {
-            	$('#regions path').attr('class','');
-            	$(this).attr('class','selected');
-            	//console.log(this);
+                $('#regions path').attr('class', '');
+                $('#regions path[id="' + $(this).attr('id') + '"]').attr('class', 'selected');
+            } else {
+                $('#regions path').attr('class', '');
+                $(this).attr('class', 'selected');
+                //console.log(this);
             }
 
             am2_show_preloader();
-            $.get(ajax_login_object.ajaxurl, {action:'am2_get_state_locations', am2_state:loc_state}, function(resp){
+            $.get(ajax_login_object.ajaxurl, {
+                action: 'am2_get_state_locations',
+                am2_state: loc_state
+            }, function (resp) {
                 //console.log(resp);
 
-                $.each(ajax_login_object.states, function(k,v){
-                	if(v.state_code == loc_state){
-                		state_name = v.state;
-                	}
+                filterProvidersLocations(resp);
+            });
+        });
+
+        function filterProvidersLocations(resp){
+            $.each(ajax_login_object.states, function (k, v) {
+                if (v.state_code == loc_state) {
+                    state_name = v.state;
+                }
+            });
+
+            var $state = $('<div class="state"></div>');
+
+            $state.append('<h1 class="state_title" style="text-align: center;"><div class="td"><img src="' + ajax_login_object.theme_url + '/img/states/' + loc_state + '.png" /></div><span class="td">' + state_name + '</span></h1>');
+
+            if (Object.keys(resp.franchisees).length > 0) {
+                var $ul = $('<select class="cities"></select>');
+                $ul.append('<option value="">Select a city</option>');
+
+                var i = 0;
+                $.each(resp.franchisees, function (k, v) {                        
+                    var $li = $('<option value="' + v.city + '" data-id="' + v.city + '"></option>');
+                    $li.append(v.city);
+
+                    $ul.append($li);
                 });
 
-                var $state = $('<div class="state"></div>');
+                $state.append($ul);
 
-                $state.append('<h1 class="state_title" style="text-align: center;"><div class="td"><img src="'+ajax_login_object.theme_url+'/img/states/'+ loc_state +'.png" /></div><span class="td">'+state_name+'</span></h1>')
-                
+                $state.append('<span class="h1">' + state_name + ' Providers</span>');
 
-                if(Object.keys(resp).length>0){
-                	var $ul = $('<select class="cities"></select>');
-                    $ul.append('<option value="">Select a city</option>');
+                var $ul_child = $('<ul class="providers state" ></ul>');
+                $state.append($ul_child);
+                $('.dynamic-locaion-content .list').html($state);
 
-                    var i=0;
-	                $.each(resp, function(k,v){                        
-	                    var $li = $('<option value="'+k+'" data-id="'+ k +'"></option>');
-	                    $li.append(k);
+                $ul_child = $('ul.providers');
 
-	                    $ul.append($li);
-	                });
+                $.each(resp.franchisees, function (k, v) {
 
-	                $state.append($ul);
+                    // var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
 
-	                $state.append('<span class="h1">'+state_name+' Providers</span>');
+                    //$.each(v, function (k2, v2) {
+                        var $franchise = $('#franchise_' + v.franchise_slug);
 
-                    var $ul_child = $('<ul class="providers state" ></ul>');
-                    $state.append($ul_child);
-                    $('.dynamic-locaion-content .list').html($state);
+                        //console.log('#franchise_'+v.franchise_slug, $franchise.length, v.franchise_photo);
 
-                    $ul_child = $('ul.providers');
-
-	                $.each(resp, function(k,v){
-	                	
-	                	// var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
-
-		                $.each(v, function(k2,v2){
-                            var $franchise = $('#franchise_'+v2.meta_franchisee.franchise_slug);
-
-                            //console.log('#franchise_'+v2.meta_franchisee.franchise_slug, $franchise.length, v2.meta_franchisee.franchise_photo);
-
-                            if($franchise.length>0){                                
-                                var $li_child = $franchise;
-                                if($li_child.find('.franchise_cities').find('.franchise_city:contains("'+k+'")').length<1){
-                                    $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type=""  href="'+ajax_login_object.site_url+'/'+v2.meta_franchisee.franchise_slug+'/locations/?city='+k+'">'+ k +'</a></span>');
-                                }                                                                
+                        if ($franchise.length > 0) {
+                            var $li_child = $franchise;
+                            if ($li_child.find('.franchise_cities').find('.franchise_city:contains("' + k + '")').length < 1) {
+                                $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type=""  href="' + ajax_login_object.site_url + '/' + v.franchise_slug + '/locations/?city=' + k + '">' + k + '</a></span>');
                             }
-                            else {
-                                //console.log('f0',v2.meta_franchisee.franchise_photo);
-                                var $li_child = $('<li class="franchise" id="franchise_'+v2.meta_franchisee.franchise_slug+'"></li>');
-                                $li_child.append(
-                                    '<div class="franchise_left">'+
-                                        (v2.meta_franchisee.franchise_photo ? 
-                                        '<img src="' + v2.meta_franchisee.franchise_photo + '"/>' :
-                                        '<img src="' + ajax_login_object.theme_url  + '/images/no-image.jpg"/>' )                                        
-                                        +
-                                    '</div>'+
-                                    '<div class="franchise_right">' +
-                                        '<h3 class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></h3>' +
-                                        '<span class="franchise_owner">' + v2.meta_franchisee.franchisee + ', Owner</span><br/>'+
-                                        '<span class="franchise_tel">' + v2.meta_franchisee.franchise_phone + '</span><br/>' +
-                                        '<a href="mailto:' + v2.meta_franchisee.franchise_email + '" class="franchise_email">' + v2.meta_franchisee.franchise_email + '</a><br/>' +  
-                                        //'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
-                                        '<div class="franchise_cities"></div>'+                                                                                
-                                    '</div>'
-                                );   
-                                $li_child.find('.franchise_cities').append('<span class="franchise_city"><a data-fancybox-type="" href="'+ajax_login_object.site_url+'/'+v2.meta_franchisee.franchise_slug+'/locations/?city='+k+'">'+ k +'</a></span>');
-                                $ul_child.append($li_child);           
-                            }                            
-                                                                     
+                        } else {
+                            //console.log('f0',v.franchise_photo);
+                            var $li_child = $('<li class="franchise" id="franchise_' + v.franchise_slug + '"></li>');
+                            $li_child.append(
+                                '<div class="franchise_left">' +
+                                (v.franchise_photo ?
+                                    '<img src="' + v.franchise_photo + '"/>' :
+                                    '<img src="' + ajax_login_object.theme_url + '/images/no-image.jpg"/>') +
+                                '</div>' +
+                                '<div class="franchise_right">' +
+                                '<h3 class="franchise_name"><a href="' + ajax_login_object.site_url + '/' + v.franchise_slug + '">' + v.franchise_name + '</a></h3>' +
+                                '<span class="franchise_owner">' + v.franchisee + ', Owner</span><br/>' +
+                                '<span class="franchise_tel">' + v.franchise_phone + '</span><br/>' +
+                                '<a href="mailto:' + v.franchise_email + '" class="franchise_email">' + v.franchise_email + '</a><br/>' +
+                                //'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v.id+'" class="h1 franchise_register">Register Now</a><br/>' +
+                                '<div class="franchise_cities"></div>' +
+                                '</div>'
+                            );
+                            var $cities = $li_child.find('.franchise_cities');
+                            var cities = [];
+                            
+                            $.each(resp.locations, function(k2,v2){
+                                if(v.ID == v2.meta.author_id && $.inArray(v2.city,cities)===-1){     
+                                    cities.push(v2.city);                            
+                                }                                
+                            });                            
 
-		                	
-		                	/*$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
-		                	$li_child.append(
-		                	'<div class="franchise_details">' +
-			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
-			                	'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
-			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
-			                	'<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
-		                	'</div>'
-		                	);*/
-
-		                   
-		                });
-		                
-		            });
-
-                    $.each(resp, function(k,v){
-	                	var $ul_child = $('<ul class="locations" data-id="'+ k +'"></ul>');
-
-		                $.each(v, function(k2,v2){
-                            var contact_person = typeof(v2.meta.director) != 'undefined' ? v2.meta.director : v2.meta.location_contact_name;
-                            var contact_phone = typeof(v2.meta.telephone) != 'undefined' ? v2.meta.telephone : v2.meta.location_contact_number;                            
-
-		                	$li_child = $('<li class="franchise"></li>');
-		                	$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
-		                	$li_child.append(
-		                	'<div class="franchise_details">' +
-			                	'<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
-			                	'<a data-fancybox-type="iframe" href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'&iframe" class="h1 franchise_register">Register Now</a><br/>' +
-			                	'<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
-			                	'<span class="franchise_footer">' + v2.meta_franchisee.display_name + ' | ' + v2.meta_franchisee.franchise_phone + '</span><br/>' +
-		                	'</div>'
-		                	);
-
-		                    $ul_child.append($li_child);
-		                });
-
-		                $state.append($ul_child);
-		            });
-                    
-
-	                
-
-                    /*var options = $('select.cities option');
-                    var arr = options.map(function(_, o) { return { t: $(o).text(), v: o.value }; }).get();
-                    arr.sort(function(o1, o2) { return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0; });
-                    options.each(function(i, o) {
-                      o.value = arr[i].v;
-                      $(o).text(arr[i].t);
-                    });*/
-
-                    //$('select.cities').html(options);
-
-	                $('html, body').animate({scrollTop: $('.dynamic-locaion-content').eq(0).offset().top},500);
-
-	                $('.state .cities').off('change').on('change', function(e){
-	                	//$('.state .cities li').removeClass('selected');
-	                	//$(this).addClass('selected');
-                        $('.providers').hide();
-
-	                	var data_id = $(this).val();// $(this).find('[value="'+$(this).val()+'"]').data('id');
-	                	var $locations = $('.state .locations[data-id="'+data_id+'"]').eq(0);
-
-	                	//console.log($(this).val());
-
-	                	$('.state .locations').hide();
-	                	$('.state .locations[data-id="'+data_id+'"]').show();
-
-	                	if($locations.length>0){
-	               			$('html, body').animate({scrollTop: $locations.offset().top},500);
-	               		}
-
-	                });
-
-	                $('.state .cities').selectize({
-                        placeholder: 'Select a city...'
-                    });
-
-                    $('a[data-fancybox-type="iframe"]').fancybox();
-
-                    $('.state .cities'); //.trigger('change');
+                            cities.sort();
+                            $cities.append(cities.map(function(city){
+                                return '<span class="franchise_city"><a data-fancybox-type="" href="' + ajax_login_object.site_url + '/' + v.franchise_slug + '/locations/?city=' + city + '">' + city + '</a></span>';
+                            }));
+                            
+                            $ul_child.append($li_child);
+                        }
 
 
-                } else {
-                	$('.dynamic-locaion-content .list').html($state);
-                }
 
-                am2_hide_preloader();
-            });
-         });
+                        /*$li_child.append('<a>'+v2.meta.post_title + ' - ' + v2.meta.address + '</a>');
+                        $li_child.append(
+                        '<div class="franchise_details">' +
+                            '<span class="franchise_address">' + v2.meta.address + ' - ' + k + ' - ' + loc_state + " " + v2.meta.zip + '</span><br/>' +
+                            '<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v2.id+'" class="h1 franchise_register">Register Now</a><br/>' +
+                            '<span class="franchise_name"><a href="'+ ajax_login_object.site_url + '/' + v2.meta_franchisee.franchise_slug+'">' + v2.meta_franchisee.franchise_name + '</a></span><br/>' +
+                            '<span class="franchise_footer">' + v2.meta.director + ' | ' + v2.meta.telephone + '</span><br/>' +
+                        '</div>'
+                        );*/
 
-         $('.js-induce-change-select-class').on('change',function(e){          
-             //console.log($.inArray($(this).val(), classes_with_special_title)==-1);   
-             $('[name="special_event_title"]').closest('div.special_event_title_wrap').toggleClass('hidden', $.inArray($(this).val(), classes_with_special_title)==-1);
-         });
 
-         $(document).on('click', '.state .franchise > a, .state .franchise > h3', function(e){
+                    //});
+
+                });
+
+                $.each(resp.locations, function (k, v) {
+                    var $ul_child = $('<ul class="locations" data-id="' + v.city + '"></ul>');
+
+                    //$.each(v, function (k2, v2) {
+                        var contact_person = typeof (v.meta.director) != 'undefined' ? v.meta.director : v.meta.location_contact_name;
+                        var contact_phone = typeof (v.meta.telephone) != 'undefined' ? v.meta.telephone : v.meta.location_contact_number;
+
+                        $li_child = $('<li class="franchise"></li>');
+                        $li_child.append('<a>' + v.meta.post_title + ' - ' + v.meta.address + '</a>');
+                        $li_child.append(
+                            '<div class="franchise_details">' +
+                            '<span class="franchise_address">' + v.meta.address + ' - ' + v.city + ' - ' + loc_state + " " + v.meta.zip + '</span><br/>' +
+                            '<a data-fancybox-type="iframe" href="' + ajax_login_object.site_url + '/choose-class/?location_id=' + v.id + '&iframe" class="h1 franchise_register">Register Now</a><br/>' +
+                            '<span class="franchise_name"><a href="' + ajax_login_object.site_url + '/' + v.meta_franchisee.franchise_slug + '">' + v.meta_franchisee.franchise_name + '</a></span><br/>' +
+                            '<span class="franchise_footer">' + v.meta_franchisee.display_name + ' | ' + v.meta_franchisee.franchise_phone + '</span><br/>' +
+                            '</div>'
+                        );
+
+                        $ul_child.append($li_child);
+                    //});
+
+                    $state.append($ul_child);
+                });
+
+
+
+
+                /*var options = $('select.cities option');
+                var arr = options.map(function(_, o) { return { t: $(o).text(), v: o.value }; }).get();
+                arr.sort(function(o1, o2) { return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0; });
+                options.each(function(i, o) {
+                    o.value = arr[i].v;
+                    $(o).text(arr[i].t);
+                });*/
+
+                //$('select.cities').html(options);
+
+                $('html, body').animate({
+                    scrollTop: $('.dynamic-locaion-content').eq(0).offset().top
+                }, 500);
+
+                $('.state .cities').off('change').on('change', function (e) {
+                    //$('.state .cities li').removeClass('selected');
+                    //$(this).addClass('selected');
+                    $('.providers').hide();
+
+                    var data_id = $(this).val(); // $(this).find('[value="'+$(this).val()+'"]').data('id');
+                    var $locations = $('.state .locations[data-id="' + data_id + '"]').eq(0);
+
+                    //console.log($(this).val());
+
+                    $('.state .locations').hide();
+                    $('.state .locations[data-id="' + data_id + '"]').show();
+
+                    if ($locations.length > 0) {
+                        $('html, body').animate({
+                            scrollTop: $locations.offset().top
+                        }, 500);
+                    }
+
+                });
+
+                $('.state .cities').selectize({
+                    placeholder: 'Select a city...'
+                });
+
+                $('a[data-fancybox-type="iframe"]').fancybox();
+
+                $('.state .cities'); //.trigger('change');
+
+
+            } else {
+                $('.dynamic-locaion-content .list').html($state);
+            }
+
+            am2_hide_preloader();
+        }
+
+        $('.js-induce-change-select-class').on('change', function (e) {
+            //console.log($.inArray($(this).val(), classes_with_special_title)==-1);   
+            $('[name="special_event_title"]').closest('div.special_event_title_wrap').toggleClass('hidden', $.inArray($(this).val(), classes_with_special_title) == -1);
+        });
+
+        $(document).on('click', '.state .franchise > a, .state .franchise > h3', function (e) {
             $('.state .franchise > a, .state .franchise > h3').removeClass('selected');
             $(this).addClass('selected');
             $(this).siblings('.franchise_details').slideToggle();
         });
 
-        if(ajax_login_object.aa_state != "" && $('#map_base').length>0){
+        if (ajax_login_object.aa_state != "" && $('#map_base').length > 0) {
             //console.log('aa_state set');
-            $('#map_base').find('text:contains("'+ajax_login_object.aa_state.toUpperCase()+'")').trigger('click');
-        }
-        else if( $('#map_base').length>0 ) {
+            $('#map_base').find('text:contains("' + ajax_login_object.aa_state.toUpperCase() + '")').trigger('click');
+        } else if ($('#map_base').length > 0) {
             //console.log('please select state on the map');
             $('.dynamic-locaion-content .list .state').html('Please choose a state on the map');
         }
@@ -858,23 +900,26 @@ var classes_with_special_title = ['Contract','Camp'];
     };
 
     function initMap() {
-      var myLatLng = $('.latlng').val().split(',');
-      myLatLng = {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])};
-      //console.log(myLatLng);
+        var myLatLng = $('.latlng').val().split(',');
+        myLatLng = {
+            lat: parseFloat(myLatLng[0]),
+            lng: parseFloat(myLatLng[1])
+        };
+        //console.log(myLatLng);
 
-      // Create a map object and specify the DOM element for display.
-      var map = new google.maps.Map(document.getElementById('map'), {
-        center: myLatLng,
-        scrollwheel: false,
-        zoom: 15
-      });
+        // Create a map object and specify the DOM element for display.
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            scrollwheel: false,
+            zoom: 15
+        });
 
-      // Create a marker and set its position.
-      var marker = new google.maps.Marker({
-        map: map,
-        position: myLatLng,
-        title: 'Hello World!'
-      });
+        // Create a marker and set its position.
+        var marker = new google.maps.Marker({
+            map: map,
+            position: myLatLng,
+            title: 'Hello World!'
+        });
     }
 
     //Delete image
@@ -912,43 +957,43 @@ var classes_with_special_title = ['Contract','Camp'];
         });
     }   */
 
-    function am2_alert(message, title, reload_redirect, callback){
+    function am2_alert(message, title, reload_redirect, callback) {
 
         $('[data-remodal-id="message"] .title').html(title);
         $('[data-remodal-id="message"] .message').html(message);
         $('[data-remodal-id="message"]').remodal().open();
 
         $(document).off('confirmation', '[data-remodal-id="message"]').on('confirmation', '[data-remodal-id="message"]', function () {
-          //console.log('Confirmation button is clicked');
-          if(reload_redirect === true){
+            //console.log('Confirmation button is clicked');
+            if (reload_redirect === true) {
                 window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
-          } else if(reload_redirect === false) {
+            } else if (reload_redirect === false) {
 
-          } else {
+            } else {
                 window.location.href = reload_redirect;
-          }
+            }
 
-          if(callback) callback();
+            if (callback) callback();
 
         });
 
         $(document).off('closed', '[data-remodal-id="message"]').on('closed', '[data-remodal-id="message"]', function (e) {
-          // Reason: 'confirmation', 'cancellation'
-          //console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));
-          if(reload_redirect === true){
-            window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
-          } else if(reload_redirect) {
-            window.location.href = reload_redirect;
-          }
+            // Reason: 'confirmation', 'cancellation'
+            //console.log('Modal is closed' + (e.reason ? ', reason: ' + e.reason : ''));
+            if (reload_redirect === true) {
+                window.location.reload(true); //window.location.href = window.location.href.split('#')[0];
+            } else if (reload_redirect) {
+                window.location.href = reload_redirect;
+            }
 
         });
     }
 
-    function am2_show_preloader(){
+    function am2_show_preloader() {
         $('#preloader_overlay').show();
     }
 
-    function am2_hide_preloader(){
+    function am2_hide_preloader() {
         $('#preloader_overlay').hide();
     }
 
@@ -965,58 +1010,58 @@ var classes_with_special_title = ['Contract','Camp'];
 
     $('#franchisee_email').val($('#hid_franchisee_email').val());
 
-    $(document).on('change','[data-remodal-id="popup"] .content .payment_options', function(){
+    $(document).on('change', '[data-remodal-id="popup"] .content .payment_options', function () {
         $('.payment_details > div').hide();
-        $('.payment_details > .'+$(this).val()).show();
+        $('.payment_details > .' + $(this).val()).show();
     });
 
     $('#frm_registration').validate();
 
-    $('#frm_registration').on('submit', function(e){
+    $('#frm_registration').on('submit', function (e) {
         e.preventDefault();
-        if($('#frm_registration').valid()){
+        if ($('#frm_registration').valid()) {
             $('#frm_registration').ajaxSubmit({
-                beforeSubmit: function() {
+                beforeSubmit: function () {
                     //console.log('before_submit');
-                    am2_show_preloader();                    
+                    am2_show_preloader();
                 },
-                success: function(resp) {
+                success: function (resp) {
                     //console.log('success_submit');
                     am2_hide_preloader();
-                    show_payment_options(resp.paid_tuition);           
+                    show_payment_options(resp.paid_tuition);
                 },
-                error: function() {
+                error: function () {
                     //console.log('error');
                     am2_hide_preloader();
                 }
             });
-        }        
+        }
     });
 
-    $('.tabs li').on('click', function(){
-        var id = $(this).attr('id').replace('tab_',''); 
-        $(this).siblings().removeClass('active');       
+    $('.tabs li').on('click', function () {
+        var id = $(this).attr('id').replace('tab_', '');
+        $(this).siblings().removeClass('active');
         $(this).addClass('active');
         $('.tab_content').hide();
-        $('.tab_content_' + id).show();        
+        $('.tab_content_' + id).show();
     });
 
     $('.tabs li:first-child').click();
 
-    $('.accord').on('click', function(){
-        var id = $(this).attr('id').replace('accord_','');        
+    $('.accord').on('click', function () {
+        var id = $(this).attr('id').replace('accord_', '');
         $('.accord_content').hide();
-        $('.accord_content_' + id).show();        
+        $('.accord_content_' + id).show();
     });
 
-    function show_payment_options(paid_tuition){
+    function show_payment_options(paid_tuition) {
 
         var payment_href = $('.payment_options_popup').attr('data-href');
 
         //console.log(payment_href);
 
         payment_href += $('[name="paid_tuition"]:checked').length > 0 ? 1 : 0;
-        
+
         //console.log(payment_href);
 
         $('.payment_options_popup').attr('href', payment_href);
@@ -1024,8 +1069,8 @@ var classes_with_special_title = ['Contract','Camp'];
         //console.log(payment_href);       
 
         $('.payment_options_popup').show();
-        $('.payment_options_popup').fancybox();        
-        $('.payment_options_popup').trigger('click'); 
+        $('.payment_options_popup').fancybox();
+        $('.payment_options_popup').trigger('click');
 
         $('#frm_registration').hide();
 
@@ -1040,7 +1085,7 @@ var classes_with_special_title = ['Contract','Camp'];
         //         var template = wp.template( 'payment-options' );            
 
         //         $('body').append(resp_popupmodal);            
-                
+
         //         var class_id = getParameterByName('class_id');
         //         var loc_id = getParameterByName('location_id');
 
@@ -1049,7 +1094,7 @@ var classes_with_special_title = ['Contract','Camp'];
 
         //         var resp_class;
         //         var resp_author;
-                
+
         //         $.post(ajax_login_object.ajaxurl, { action: 'am2_ajax_get_postmeta', post_id: class_id }, function(resp){
         //             resp_class=resp;
         //             d1.resolve();                                                       
@@ -1073,7 +1118,7 @@ var classes_with_special_title = ['Contract','Camp'];
         //             catch(exc){
         //                 console.log(exc, monthly_tuition, session_tuition); 
         //             }                   
-                    
+
         //             var tuition = ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0));           
         //             var franchise_name = resp_author.meta.franchise_name;    
         //             var individual_1_first_name = resp_author.meta.individual_1_first_name;            
@@ -1094,7 +1139,7 @@ var classes_with_special_title = ['Contract','Camp'];
         //                 payment_link_onetime : one_time_payment_url,
         //                 payment_link_auto : recurring_credit_card_payments_url
         //             } ) ) ;
-                    
+
         //             remodal_popup = $('[data-remodal-id=popup]').remodal();
         //             remodal_popup.open();
         //         });             
@@ -1104,31 +1149,34 @@ var classes_with_special_title = ['Contract','Camp'];
 
     $('input[name="child-birthday"]').datetimepicker({
         timepicker: false,
-        format:'m/d/Y'
+        format: 'm/d/Y'
     });
 
-    $('.delete_post').on('click',function(){
+    $('.delete_post').on('click', function () {
         var post_object = $(this).data('object');
         var id = $(this).data('id');
 
-        $.post( ajax_login_object.ajaxurl, {action : 'am2_delete_post', id: id, object: post_object }, function(resp){
+        $.post(ajax_login_object.ajaxurl, {
+            action: 'am2_delete_post',
+            id: id,
+            object: post_object
+        }, function (resp) {
             alert(resp.message);
-            $('.post[data-id="'+resp.id+'"]').remove();
-            window.location.href=ajax_login_object.site_url + '/my-account/my-pages/?page=' + resp.object;
+            $('.post[data-id="' + resp.id + '"]').remove();
+            window.location.href = ajax_login_object.site_url + '/my-account/my-pages/?page=' + resp.object;
         });
     });
 })(jQuery);
 
 
 function updateQueryStringParameter(uri, key, value) {
-  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-  if (uri.match(re)) {
-    return uri.replace(re, '$1' + key + "=" + value + '$2');
-  }
-  else {
-    return uri + separator + key + "=" + value;
-  }
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+    } else {
+        return uri + separator + key + "=" + value;
+    }
 }
 
 function getParameterByName(name, url) {
@@ -1140,4 +1188,3 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
