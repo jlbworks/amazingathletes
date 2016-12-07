@@ -119,7 +119,7 @@ function generate_image_field($field_name, $context, $context_id){
 			<input type="text" id="emergency_contact_email" name="emergency_contact_email" style="" value="<?php echo  $staff->emergency_contact_name; ?>"><br/>
 			
 			<label>Birthday</label>
-			<input type="text" id="birthday" class="datepicker" name="birthday" style="" value="<?php echo $staff->birthday; ?>"><br/>
+			<input type="text" id="birthday" class="datepicker" name="birthday" style="" value="<?php echo $staff->birthday; ?>" placeholder="MM/DD/YYYY"><br/>
 		</div>
 		
 		<div class="form--section">
