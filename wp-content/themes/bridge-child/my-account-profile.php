@@ -31,18 +31,19 @@ get_header();
 			<h1 class="entry-title" style="text-align: center;">My Account</h1>
 		<?php    
 							if (!empty($user->roles) && is_array($user->roles)) {
-								foreach ($user->roles as $role) {
-									if ($role == 'franchisee') {
+								//foreach ($user->roles as $role) {
+									if (am2_has_role($user,'franchisee')){
+									//if ($role == 'franchisee') {
 										include_once 'includes/forms/my-account-franchisee.php';
-										break;
+										//break;
 									} /*else if ($role == 'coach') {
 										include_once 'includes/forms/my-account-coach.php';
 										break;
 									}*/else {
 										include_once 'includes/forms/my-account-user.php';
-										break;
+										//break;
 									}
-								}
+								//}
 							}
 							?>
 		</div> 
