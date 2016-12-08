@@ -587,7 +587,7 @@ function am2_edit_location() {
 		$required_fields = array('location_type', /*'location_name',*/ 'address', 'city__state', 'zip', 'telephone', 'director');
 
 		foreach ($fields as $post_key) {
-			if (isset($_POST[$post_key]) && !empty($_POST[$post_key])) {
+			if (isset($_POST[$post_key]) /*&& !empty($_POST[$post_key])*/) {
 				update_post_meta($loc_id, $post_key, $_POST[$post_key]);
 			}
 			else if(in_array($post_key, $required_fields)){
