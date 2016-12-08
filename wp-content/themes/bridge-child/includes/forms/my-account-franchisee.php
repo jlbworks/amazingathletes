@@ -84,7 +84,11 @@ else {
 		</div>
 
 		<label>Display Bio</label>
-		<textarea name="display_bio"><?php echo get_user_meta($user_id,'display_bio',true); ?></textarea>
+		<?php 
+			$display_bio = get_user_meta($user_id,'display_bio',true);
+			wp_editor( $display_bio, 'display_bio' );
+		?>
+		<?php /*<textarea name="display_bio"><?php echo get_user_meta($user_id,'display_bio',true); ?></textarea>*/?>
 
 		<div class="form--section">
 			<h2>Social Media</h2>

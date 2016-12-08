@@ -205,11 +205,18 @@ var classes_with_special_title = ['Contract', 'Camp'];
             }
         });
 
-        $('#frm_franchisee_account').ajaxForm({
+        $('#frm_franchisee_account').on('submit',function(e){
+            //e.preventDefault();
+            var tinySave;     
+
+            if (typeof (tinymce) != 'undefined')
+                tinySave = tinymce.triggerSave();
+
+            console.log('tinySave:', tinymce, tinySave);
+
+        }).ajaxForm({
             beforeSubmit: function () {
-                am2_show_preloader();
-                if (typeof (tinyMCE) != 'undefined')
-                    tinyMCE.triggerSave();
+                am2_show_preloader();                           
 
                 return $('#frm_franchisee_account').valid();
             },
