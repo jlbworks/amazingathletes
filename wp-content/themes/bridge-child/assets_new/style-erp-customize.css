@@ -429,3 +429,7 @@ td.edit span{
 td.edit input {
   display:inline;
 }
+
+.select2-dropdown {
+  width: 600px !important;
+}

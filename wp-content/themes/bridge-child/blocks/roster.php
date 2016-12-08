@@ -48,7 +48,7 @@ if( isset($hash_query['f_class_id']) ){
     $meta_query[] = 
         array('key' => 'roster_class_id', 'value' => $hash_query['f_class_id'], 'compare' => '=');
 
-    $class_id = $hash_query['f_class_id'];
+    $class_id = (int)$hash_query['f_class_id'];
     $sel_class = get_post($class_id); 
 
     /*$possible_class_costs = array(
@@ -116,7 +116,7 @@ if(false && isset($hash_query['f_location_id'])){
 }
 else {
     $location_ids = array_map(function($loc){
-        return $loc->ID;
+        return (int)$loc->ID;
     }, $locations);
 }
 
@@ -156,7 +156,7 @@ if(isset($hash_query['f_class_id'])){
             $location = get_post($sel_class->location_id);                
             $sel_class->franchise_id = $location->post_author;
 
-            $coach_ids[] = $coach;
+            $coach_ids[] = (int)$coach;
         }
     }
 }
@@ -168,7 +168,7 @@ else {
 
         if(is_array($class->coaches)){                
             foreach($class->coaches as $coach){                               
-                $coach_ids[] = $coach;
+                $coach_ids[] = (int)$coach;
             }
         }
     }
@@ -227,6 +227,8 @@ foreach($_roster as $krost => $rost){
     }
 }
 
+$coach_ids = array_unique($coach_ids);
+$location_ids = array_unique($location_ids);
 ?>
 
     <!-- CONTENT HEADER -->
@@ -271,14 +273,16 @@ foreach($_roster as $krost => $rost){
                     <option  value="<?php echo $class->ID;?>" data-location-id="<?php echo $class->location_id ?>" data-franchise-id="<?php echo $class->franchise_id ?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title;?></option>
                     <?php } ?>
                 </select>
+                <?php //var_dump($coach_ids);?>
                 <select id="f_coach_id" name="f_coach_id" >
-                    <option value="">Choose Coach</option>
-                    <?php foreach($coaches as $coach){ if(!in_array($coach->ID, $coach_ids)) continue;?>
-                    $coach_name = $coach->display_name;
-                    if(!empty($coach->first_name) || !empty($coach->last_name)) {
+                    <option value="">Choose Coach</option>                    
+                    <?php foreach($coaches as $coach){  if(!in_array($coach->ID, $coach_ids)) continue;
+                    $coach_name = $coach->display_name;                    
+                    if(isset($coach->first_name) && !empty($coach->first_name) || isset($coach->last_name) && !empty($coach->last_name)) {
                         $coach_name = $coach->first_name . ' ' . $coach->last_name;
                     }
-                    <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach_name;?></option>
+                    ?>
+                    <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach_name;?><?php //var_dump($coach);?></option>
                     <?php } ?>
                 </select>
                 
