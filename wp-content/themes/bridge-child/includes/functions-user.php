@@ -179,9 +179,9 @@ function am2_franchisee_account() {
 
 	$fields = array(
 		'franchise_name' => 'franchise_name',
-		//'display_title' => 'display_title',
+		'display_title' => 'display_title',
 		//'display_market' => 'display_market',
-		//'display_name' => 'display_name',
+		'display_name' => 'display_name',
 		'display_bio' => 'display_bio',
 		'franchise_address' => 'mailing_address',
 		'franchise_zip' => 'zip_code',
