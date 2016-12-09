@@ -5,7 +5,7 @@
         {
             "key": "field_576e3eed2a371",
             "label": "Info",
-            "name": "_copy",
+            "name": "",
             "type": "tab",
             "instructions": "",
             "required": 0,
@@ -121,6 +121,25 @@
             "append": ""
         },
         {
+            "key": "field_570b6d42220dd",
+            "label": "Display Phone Number",
+            "name": "telephone",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
             "key": "field_570b6e1caa369",
             "label": "Display photo",
             "name": "user_photo",
@@ -229,27 +248,6 @@
             "key": "field_576e40122a379",
             "label": "Individual 2 Last Name",
             "name": "individual_2_last_name",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": "",
-            "readonly": 0,
-            "disabled": 0
-        },
-        {
-            "key": "field_570b6d42220dd",
-            "label": "Franchise Contact Number",
-            "name": "telephone",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -685,5 +683,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1480168849
+    "modified": 1481292680
 }
