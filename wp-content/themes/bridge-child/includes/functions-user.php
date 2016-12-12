@@ -995,7 +995,8 @@ function am2_edit_mypage() {
 	$category = array_search ($mypage_slug, $mypages);	
 
 	$mypage_exists = false;
-	if(!empty(trim($new_mypage_name))){		
+	$new_mypage_name = trim($new_mypage_name);
+	if(!empty($new_mypage_name)){		
 		foreach($mypages as $k_mypage => $mypage){
 			if( $k_mypage == $new_mypage_name ){
 				$mypage_exists = true;
