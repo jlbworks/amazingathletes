@@ -1,5 +1,7 @@
 <?php
 global $mypages, $mypages_multi, $mypages_optional; 
+$user_id = get_current_user_id();
+$custom_pages = get_user_meta($user_id, 'custom_mypages', true);
 
 if(!isset($_GET['page'])){	
 	?>
@@ -67,9 +69,9 @@ else {
 	}	
 
 ?>
-<h2><?php echo $title;?></h2>
 <div class="user_form">	
 	<form id="frm_edit_mypage" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >	
+		<h2><span class="mypage_title"><?php echo $title;?></span> <button class="edit_mypage_title"><i class="icon-software-pencil"></i></button> <input type="text" name="new_mypage_name" value="<?php echo $title;?>" style="display:inline;width:200px;display:none;" /></h2>
 		<?php //if( in_array($_GET['page'], $mypages_optional)){		
 			//var_dump($mypages_optional);
 			
@@ -79,7 +81,7 @@ else {
 
 			//var_dump($user->$show_mypage == 1 , !in_array($_GET['page'], $mypages_optional), !isset($user->$show_page));
 
-			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".($checked_show ? 'checked' : '')."/>Show ".$_GET['page']."</label>";
+			echo "<label><input type=\"checkbox\" name=\"{$show_mypage}\" value=\"1\" ".($checked_show ? 'checked' : '')."/>Show ". $title."</label>";
 			echo "<input type=\"hidden\" name=\"mypage\" value=\"{$_GET['page']}\" />";
 		//}?>	
 		<br/><br/>
@@ -90,15 +92,25 @@ else {
 			'textarea_name' => $page,
 			"drag_drop_upload" => true
 			) ); ?>
-		<?php } ?>
-		<input type="hidden" name="mypage" value="<?php echo $page; ?>" />
+		<?php } ?>				
+		<!--<input type="hidden" name="mypage" value="<?php echo $title; ?>" />-->
+		<input type="hidden" name="mypage_slug" value="<?php echo $page; ?>" />
 		<input type="hidden" name="post_id" value="<?php echo (isset($_GET['post_id']) ? $_GET['post_id'] : 0);?>" />		
 		<input type="hidden" name="action" value="am2_edit_mypage" />		
 		<input type="submit" value="Submit" class="button"/>
 	</form>
 
+	<?php if(array_search($page,$custom_pages)){?>
+	<form id="frm_delete_mypage" method="POST" action="<?php echo admin_url('admin-ajax.php') ?>">
+		<input type="hidden" name="to_delete" value="<?php echo $page; ?>" />
+		<input type="hidden" name="action" value="am2_delete_mypage" /> 		
+		<input type="submit" class="delete-btn"  value="Delete this page"/>		
+	</form>
+	<?php } ?>
+	<br/>
+
 	<?php if(in_array($_GET['page'], $mypages_multi)){ ?>
-	<a href="<?php echo remove_query_arg('post_id', add_query_arg( 'add', '', $_SERVER['REQUEST_URI']) ); ?>" class="button">Add new</a>
+	<a href="<?php echo remove_query_arg('post_id', add_query_arg( 'add', '', $_SERVER['REQUEST_URI']) ); ?>" class="button">Add new post</a>
 	<div class="posts">
 		<?php 		
 		//$ctg_id = get_term_by( 'name', $_GET['page'], 'category')->term_id;

@@ -133,7 +133,7 @@ function am2_init() {
 	wp_register_script('jquery.datepicker', get_stylesheet_directory_uri() . '/js/jquery.datetimepicker.min.js' , array('jquery'), '', true);	
 	wp_enqueue_script('jquery.datepicker');
 
-	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), 2, true);
+	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), 3, true);
 
 	wp_localize_script('am2_main', 'am2_registration', array(		
 		'possible_class_costs' => $possible_class_costs,

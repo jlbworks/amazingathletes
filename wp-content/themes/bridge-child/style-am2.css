@@ -444,10 +444,10 @@ button, input[type="button"], input[type="submit"] {
 
 
 .button.delete_post, .delete-btn {
-    background-color: red !important;
+    background-color: red !important; color:white !important;
 }
 
 .button.delete_post:hover, .delete-btn:hover {
-    background-color: #b10000 !important;
+    background-color: #b10000 !important; color:white !important;
 }
 

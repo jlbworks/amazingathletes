@@ -37,8 +37,28 @@ $mypages = array(
 	'Pay online' => 'pay_online',
 );
 
+global $mypages_renames;
+
+$mypages_renames = get_user_meta($user_id, 'mypages_renames', true);
+if(!is_array($mypages_renames)) $mypages_renames = array();
+
 $custom_pages = get_user_meta($user_id, 'custom_mypages', true);
 if(is_array($custom_pages)) $mypages = array_merge($mypages, $custom_pages);
+
+foreach($mypages_renames as $k_mypage_rename => $mypage_rename){
+	foreach($mypages as $k_mypage => $mypage){
+		$mypage_slug = $mypage;
+
+		if(is_array($mypage)){
+			$mypage_slug = $mypage['menu']; 
+		}
+		
+		if($k_mypage_rename == $mypage_slug){			
+			unset($mypages[$k_mypage]);
+			$mypages[$mypage_rename] = $mypage; 
+		}
+	}
+}
 
 /*var_dump($custom_pages);
 var_dump($mypages);*/

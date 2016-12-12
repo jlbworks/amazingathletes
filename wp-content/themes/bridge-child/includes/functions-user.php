@@ -885,7 +885,6 @@ if(!empty($city_state)){
 <?php
 }
 
-
 add_action('wp_ajax_am2_add_mypage', 'am2_add_mypage');
 
 function am2_add_mypage(){
@@ -894,50 +893,133 @@ function am2_add_mypage(){
 
 	$custom_pages = get_user_meta($user_id, 'custom_mypages', true);
 	$mypage_title = $_REQUEST['page_name'];
-	$mypage_slug = sanitize_title_with_dashes($mypage_title);
+	$new_mypage_slug = sanitize_title_with_dashes($mypage_title);
 
-	if(is_array($custom_pages)) $mypages = array_merge($mypages, $custom_pages);
+	//if(is_array($custom_pages)) $mypages = array_merge($mypages, $custom_pages);
 
-	$response = array('status' => 'Scuccess');
+	$response = array('status' => 'Success');
 
 	$exists = false;
 	foreach($mypages as  $key => $mypage) {
-		if($key == $mypage_title){
+		$mypage_slug = $mypage;
+
+		if(is_array($mypage)){
+			$mypage_slug = $mypage['menu']; 
+		}
+
+		if( $key == $mypage_title ){
 			$exists = true;
 			$response['status'] = 'The page name already exists';
 			break;
 		}
+		
+		if( $mypage_slug == $new_mypage_slug ) {			
+			$i=1;
+			while(am2_mypage_slug_exists($new_mypage_slug.$i)){
+				$i++;				
+			}
+			$new_mypage_slug = $new_mypage_slug.$i;
+		}
+	}		
+
+	if(!$exists){
+		$custom_pages[(string)$mypage_title] = $new_mypage_slug;
+		update_user_meta($user_id, 'custom_mypages', $custom_pages);
 	}	
-
-	$custom_pages[(string)$mypage_title] = $mypage_slug;
-
-	if(!$exists)	update_user_meta($user_id, 'custom_mypages', $custom_pages);
 
 	header("Content-Type: application/json; charset=UTF-8");
 	echo json_encode( $response );	
 	exit();
 }
 
+function am2_mypage_slug_exists($slug){
+	global $mypages;
+	
+	foreach($mypages as $k_mypage => $mypage){
+		$mypage_slug = $mypage;
+		if(is_array($mypage)){
+			$mypage_slug = $mypage['menu']; 
+		}
+
+		if( $slug == $mypage_slug ){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+add_action('wp_ajax_am2_delete_mypage', 'am2_delete_mypage');
+
+function am2_delete_mypage() {
+	global $mypages, $mypages_multi, $mypages_optional, $mypages_renames;
+	$user_id = get_current_user_id();
+	$custom_pages = get_user_meta($user_id, 'custom_mypages', true);
+	
+
+	$to_delete = $_REQUEST['to_delete'];
+
+	$status = false;
+	$message = "Error deleting $to_delete custom page";
+
+	foreach($custom_pages as $k_c_page => $c_page){
+		if($to_delete == $c_page){			
+			unset($custom_pages[$k_c_page]);
+			update_user_meta($user_id, 'custom_mypages', $custom_pages);
+
+			$status = true;
+			$message = "Successfully deleted $k_c_page custom page";
+			break;
+		}
+	}
+
+	header("Content-Type: application/json; charset=UTF-8");
+	echo json_encode( array( 'status' => $status, 'message' => $message, 'user_id' => $user_id ) );
+	exit();
+}
+
 add_action('wp_ajax_am2_edit_mypage', 'am2_edit_mypage');
 
 function am2_edit_mypage() {
-	global $mypages, $mypages_multi, $mypages_optional;
+	global $mypages, $mypages_multi, $mypages_optional, $mypages_renames;	
 
 	$user_id = get_current_user_id();
 	$post_id = (isset($_POST['post_id']) ? $_POST['post_id'] : 0);
-	$category = array_search ($_POST['mypage'], $mypages);
+	
+	//$mypage_title = $_REQUEST['mypage'];
+	$mypage_slug = $_REQUEST['mypage_slug'];	
+	$new_mypage_name = $_REQUEST['new_mypage_name'];		
 
-	if(!in_array($_POST['mypage'], $mypages_multi)){
+	$custom_pages = get_user_meta($user_id, 'custom_mypages', true);	
+
+	$category = array_search ($mypage_slug, $mypages);	
+
+	$mypage_exists = false;
+	if(!empty(trim($new_mypage_name))){		
+		foreach($mypages as $k_mypage => $mypage){
+			if( $k_mypage == $new_mypage_name ){
+				$mypage_exists = true;
+				break;
+			}			
+		}			
+
+		if(!$mypage_exists){
+			$mypages_renames[$mypage_slug] = $new_mypage_name;
+			update_user_meta( $user_id, 'mypages_renames', $mypages_renames );
+		}		
+	}
+
+	if(!in_array($mypage_slug, $mypages_multi)){
 		$page_content = get_user_meta($user_id, 'page_content', true);
 		if(!is_array($page_content)) $page_content = array();
 
 		foreach($mypages as $key => $page) {
-			if($page == $_POST['mypage']){
+			if($page == $mypage_slug){
 				$page_content[$page] = $_POST[$page];
 				break;
 			}
 		}
-		if('locations' == $_POST['mypage']){
+		if('locations' == $mypage_slug){
 			$page_content['locations'] = $_POST['locations'];
 		}
 
@@ -946,24 +1028,17 @@ function am2_edit_mypage() {
 	else if(!empty($post_id)){
 		$args = array(
 			'ID' => $post_id,
-			'post_content' => $_POST[$_POST['mypage']],
+			'post_content' => $_POST[$mypage_slug],
 		);
 
 		wp_update_post($args);
 	}
-	else if(isset($_POST[$_POST['mypage']])){
-		//$ctg_id = wp_insert_category( array('cat_name' => $category) );
-
-		//if(empty($ctg_id)){
-		// 	$ctg_id = get_term_by('slug', $category, 'category')->term_id;
-		//}
-
-		//var_dump(array_key_exists($_POST['mypage'], $_POST));
+	else if(isset($_POST[$mypage_slug])){
 
 		$args = array(
-			'post_title' => $_POST['mypage'],
-			'post_content' => $_POST[$_POST['mypage']],
-			'post_type' => $_POST['mypage'], // array($ctg_id) ,
+			'post_title' => $mypage_slug,
+			'post_content' => $_POST[$mypage_slug],
+			'post_type' => $mypage_slug, // array($ctg_id) ,
 			'post_status' => 'publish',
 		);
 
@@ -971,8 +1046,8 @@ function am2_edit_mypage() {
 	}
 
 	//foreach($mypages_optional as $key => $val){
-	if(isset($_POST['mypage'])){
-		$_val = str_replace('-','_',$_POST['mypage']);
+	if(isset($mypage_slug)){
+		$_val = str_replace('-','_',$mypage_slug);
 		if(isset($_POST['show_' . $_val])){
 			update_user_meta($user_id, 'show_' . $_val, 1);
 		}
@@ -982,8 +1057,15 @@ function am2_edit_mypage() {
 	}
 	//}
 
+	if($mypage_exists){
+		$status = 'Page title/slug already exists';
+	}
+	else {
+		$status = 'Success';
+	}	
+
 	header("Content-Type: application/json; charset=UTF-8");
-	echo json_encode( array('status' => 'success', 'user_id' => $user_id, 'post_id' => $post_id) );
+	echo json_encode( array('status' => $status, 'user_id' => $user_id, 'post_id' => $post_id) );
 
 	exit();
 }

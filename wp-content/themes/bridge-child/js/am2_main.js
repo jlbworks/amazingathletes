@@ -40,6 +40,13 @@ var classes_with_special_title = ['Contract', 'Camp'];
             });
         }
 
+        $('#frm_edit_mypage h2 .edit_mypage_title').on('click', function(e){
+            e.preventDefault();
+
+            $(this).siblings('[name="new_mypage_name"]').show();
+            $(this).siblings('.mypage_title').hide();
+        });
+
         $('.sidebar-link').on('mouseover', function (e) {
             var $img = $(this).find('img');
             $img.attr('src', $img.data('mouseover'));
@@ -176,15 +183,40 @@ var classes_with_special_title = ['Contract', 'Camp'];
                 if (typeof (resp.post_id) != 'undefined' && resp.post_id != 0) {
                     window.location.href = updateQueryStringParameter(window.location.href, 'post_id', resp.post_id);
                 }
+                else {
+                    window.location.reload();
+                }
             },
             error: function () {
                 am2_hide_preloader();
             }
         });
 
-        $('#frm_add_mypage').ajaxForm({
+        $('#frm_delete_mypage').ajaxForm({
             beforeSubmit: function () {
                 am2_show_preloader();
+                return true; //$('#frm_edit_mypage').valid();
+            },
+            success: function (resp) {
+                am2_hide_preloader();
+                alert(resp.message);
+                if (resp.status) {
+                    window.location.href = window.location.href.split('?')[0];
+                }
+            },
+            error: function () {
+                am2_hide_preloader();
+            }
+        });        
+
+        $('#frm_edit_mypage input[type="submit"]').on('mousedown', function(){
+            $('#frm_edit_mypage').find('input[type="text"]').not(':visible').prop('disabled',true);
+            console.log($('#frm_edit_mypage').find('input[type="text"]').not(':visible').length);
+        });
+
+        $('#frm_add_mypage').ajaxForm({
+            beforeSubmit: function () {
+                am2_show_preloader();                
                 return true; //$('#frm_edit_mypage').valid();
             },
             success: function (resp) {
