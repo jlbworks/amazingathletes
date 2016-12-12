@@ -1,5 +1,5 @@
 <?php 
-global $current_user; 
+global $current_user, $wpdb; 
 get_currentuserinfo();
 
 restrict_access('administrator,franchisee,coach');
@@ -16,8 +16,18 @@ $args = array(
 );
 
 if( is_role('franchisee') ) {
-  $meta_query[] =
-        array('key'=> 'rss_franchise_id', 'value'=> $current_user->ID, 'compare'=>'=');
+    $coaches = $wpdb->get_col(
+        $wpdb->prepare("SELECT DISTINCT u.ID FROM $wpdb->users u INNER JOIN $wpdb->usermeta um ON u.ID = um.user_id WHERE um.meta_key = 'franchisee' AND um.meta_value = %s",$current_user->ID)
+    );    
+
+    $coaches[] = $current_user->ID;
+
+    $meta_query[] =
+        array('key'=> 'rss_franchise_id', 'value'=> $coaches, 'compare'=>'IN');
+}
+else if(is_role('coach')){
+    $meta_query[] =
+        array('key'=> 'rss_franchise_id', 'value'=> array(/*$current_user->franchisee,*/ $current_user->ID) , 'compare'=>'IN');
 }
 
 $args['meta_query'] = $meta_query;

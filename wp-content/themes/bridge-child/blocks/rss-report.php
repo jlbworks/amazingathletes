@@ -7,17 +7,42 @@ get_currentuserinfo();
 global $target_args;
 $id = $target_args['id'];
 
-restrict_access('super_admin,administrator,franchisee');
+restrict_access('super_admin,administrator,franchisee,coach');
 
 $rss_report = get_post($id);
 $rss_classes = $rss_report->classes;
 
-//var_dump($rss_classes);
+$author = get_user_by('id', $rss_report->rss_franchise_id); 
 
-$franchise = get_user_by('id', $rss_report->rss_franchise_id);
-$franchise_name = $franchise->franchise_name;
-if(!empty($franchise->first_name) || !empty($franchise->last_name)) {
-    $franchise_name = $franchise->first_name . ' ' . $franchise->last_name;
+if(am2_has_role($author, 'franchisee')){
+    $author_franchise = $author;
+    $author_role = 'franchisee';
+}
+else if(am2_has_role($author, 'coach')){
+    $author_franchise = get_user_by('id', $author->franchisee);
+    $author_role = 'coach';
+}
+
+if(am2_has_role($current_user, 'administrator')){
+    /* */
+    $current_user_role = 'administrator';
+}
+else if(am2_has_role($current_user, 'franchisee')){
+    $franchise_user = $current_user;
+    $current_user_role = 'franchisee';
+}
+else if(am2_has_role($current_user, 'coach')){
+    $franchise_user = get_user_by('id', $current_user->franchisee);
+    $current_user_role = 'coach';
+}
+
+if($current_user_role != 'administrator' && $franchise_user->ID != $author_franchise->ID){
+    exit('Not Allowed.');
+}
+
+$franchise_name = $author_franchise->franchise_name;
+if(!empty($author_franchise->first_name) || !empty($author_franchise->last_name)) {
+    $franchise_name = $author_franchise->first_name . ' ' . $author_franchise->last_name;
 }
 
 $month = get_post_meta($rss_report->ID, 'rss_month', true);
@@ -29,7 +54,7 @@ $args = array(
     'posts_per_page' => -1,
 );
 
-$args['author']  =  $rss_report->rss_franchise_id;
+$args['author']  = $author_franchise->ID; //$rss_report->rss_franchise_id;
 
 $master_array = array();
 
@@ -52,7 +77,7 @@ $args = array(
   'posts_per_page'=> -1,
 );
 //if( is_role('franchisee') ) {
-  $args['author ']  =  $rss_report->rss_franchise_id;
+  $args['author ']  =  $author_franchise->ID; //$rss_report->rss_franchise_id;
 //}
 $attendances = get_posts($args);
 
@@ -77,6 +102,10 @@ if(!empty($locations)):
         $location_array['earned_gross_revenue'] = 0;        
 
         foreach($classes as $class):
+            if($current_user_role == 'coach' && !in_array($current_user->ID, $class->coaches)){                                
+                //continue;
+            }
+
             $class_array = array();
             $class_array['post'] = $class;
 
@@ -134,16 +163,18 @@ if(!empty($locations)):
             $class_array['class_costs'] = get_post_meta($class->ID, 'class_costs', true);
             
             if($class_array['class_costs'] == 'Parent-Pay Monthly'){
+                $no_weeks = get_post_meta($class->ID, 'parent_pay_monthly_classes_monthly', true);
                 $class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_monthly_monthly_tuition', true);
-                $class_array['standard_tuition'] = str_replace('$','',$class_array['standard_tuition']);
-                $class_array['standard_no_weeks'] = get_post_meta($class->ID, 'parent_pay_monthly_classes_monthly', true);
-                $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2); 
+                $class_array['standard_tuition'] = !empty(str_replace('$','',$class_array['standard_tuition'])) ? str_replace('$','',$class_array['standard_tuition']) : 0 ;
+                $class_array['standard_no_weeks'] = !empty($no_weeks) ? $no_weeks : 0; 
+                $class_array['weekly_tuition'] = !empty($no_weeks) ? round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2) : 0 ; 
             }
             elseif($class_array['class_costs'] == 'Parent-Pay Session'){    
+                $no_weeks = get_post_meta($class->ID, 'parent_pay_session_weeks_in_session', true);
                 $class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_session_session_tuition', true);
-                $class_array['standard_tuition'] = str_replace('$','',$class_array['standard_tuition']);
-                $class_array['standard_no_weeks'] = get_post_meta($class->ID, 'parent_pay_session_weeks_in_session', true);
-                $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2);
+                $class_array['standard_tuition'] = !empty(str_replace('$','',$class_array['standard_tuition'])) ? str_replace('$','',$class_array['standard_tuition']) : 0 ;
+                $class_array['standard_no_weeks'] = !empty($no_weeks) ? $no_weeks : 0;
+                $class_array['weekly_tuition'] = !empty($no_weeks) ? round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2) : 0 ; 
             } 
             elseif($class_array['class_costs'] == 'Contracts/Events'){
                 $contracts_events_type = get_post_meta($class->ID, 'contracts_events_type', true);
@@ -174,6 +205,13 @@ if(!empty($locations)):
                                                 
                 $class_array['weekly_tuition'] = round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2);
             }
+            else {                
+                $class_array['standard_tuition'] = 0;
+                $class_array['standard_no_weeks'] = 0;
+                $class_array['weekly_tuition'] = 0;
+            }
+
+            //var_dump($class_array['standard_no_weeks']);
 
             $attendances = get_posts(array(
                 'post_type' => 'attendance',
@@ -275,11 +313,11 @@ endif;
                         <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=3 align="center" valign=middle sdnum="1033;0;_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* (#,##0.00);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"><font face="Century Gothic" color="#000000"> RSS for Month: </font></td>
                         <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="42615" sdnum="1033;1033;[$-409]MMM-YY;@"><font face="Century Gothic" size=7><?php echo ucfirst($month);?>-<?php echo $year;?></font></td>
                         <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=3 align="center" valign=middle sdnum="1033;0;_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* (#,##0.00);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"><font face="Century Gothic" color="#000000"> Franchise<br>Number: </font></td>
-                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="105" sdnum="1033;"><font face="Century Gothic" size=7><?php echo $franchise->ID;?></font></td>
+                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="105" sdnum="1033;"><font face="Century Gothic" size=7><?php echo $author_franchise->ID;?></font></td>
                     </tr>
                     <tr>
                         <td align="right" valign=bottom><font face="Century Gothic" color="#000000">Name:</font></td>
-                        <td style="border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom><font face="Century Gothic" color="#000000"><?php echo $franchise->franchise_name;?></font></td>
+                        <td style="border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom><font face="Century Gothic" color="#000000"><?php echo $author_franchise->franchise_name;?></font></td>
                         </tr>
                     <tr>
                         <td align="right" valign=bottom><font face="Century Gothic" color="#000000">Date:</font></td>
@@ -404,7 +442,7 @@ endif;
                 <th style="background-color:#FFCCCC;"><?php echo $master_array['total_enrollment'] ;?></th>
                 <th><?php echo round($master_array['total_enrollment'] / count($master_array['locations']),2) ;?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['rss_total'];?></th>
-                <th><?php echo number_format(100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue']),2).'%';?></th>
+                <th><?php echo number_format(100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'] ),2).'%';?></th>
                 <th><?php echo '$'. $master_array['earned_gross_revenue'];?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['total_due_royalties'];?></th>
             <tr>
@@ -414,6 +452,8 @@ endif;
 </div>
 </div>
 </div>
+
+<?php //var_dump($master_array);?>
 
 <script src="<?php bloginfo('stylesheet_directory'); ?>/js-erp/vendor/jquery.maskMoney/jquery.maskMoney.js"></script>
 <script type="text/javascript">
