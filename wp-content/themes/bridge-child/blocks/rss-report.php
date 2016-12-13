@@ -170,15 +170,17 @@ if(!empty($locations)):
             
             if($class_array['class_costs'] == 'Parent-Pay Monthly'){
                 $no_weeks = get_post_meta($class->ID, 'parent_pay_monthly_classes_monthly', true);
+                $standard_tuition = str_replace('$','',$class_array['standard_tuition']);
                 $class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_monthly_monthly_tuition', true);
-                $class_array['standard_tuition'] = !empty(str_replace('$','',$class_array['standard_tuition'])) ? str_replace('$','',$class_array['standard_tuition']) : 0 ;
+                $class_array['standard_tuition'] = !empty($standard_tuition) ? $standard_tuition : 0 ;
                 $class_array['standard_no_weeks'] = !empty($no_weeks) ? $no_weeks : 0; 
                 $class_array['weekly_tuition'] = !empty($no_weeks) ? round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2) : 0 ; 
             }
             elseif($class_array['class_costs'] == 'Parent-Pay Session'){    
                 $no_weeks = get_post_meta($class->ID, 'parent_pay_session_weeks_in_session', true);
+                $standard_tuition = str_replace('$','',$class_array['standard_tuition']);
                 $class_array['standard_tuition'] = get_post_meta($class->ID, 'parent_pay_session_session_tuition', true);
-                $class_array['standard_tuition'] = !empty(str_replace('$','',$class_array['standard_tuition'])) ? str_replace('$','',$class_array['standard_tuition']) : 0 ;
+                $class_array['standard_tuition'] = !empty($standard_tuition) ? $standard_tuition : 0 ;
                 $class_array['standard_no_weeks'] = !empty($no_weeks) ? $no_weeks : 0;
                 $class_array['weekly_tuition'] = !empty($no_weeks) ? round($class_array['standard_tuition'] / $class_array['standard_no_weeks'],2) : 0 ; 
             } 
@@ -471,7 +473,7 @@ $(document).ready(function () {
 
   $('#rssTable td').on('click', function(){
       console.log('td click');
-      
+
       if(!$(this).hasClass('edit')){
           $(this).addClass('edit');
           console.log('edit');

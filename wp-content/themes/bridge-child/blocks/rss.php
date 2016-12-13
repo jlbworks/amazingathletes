@@ -15,7 +15,24 @@ $args = array(
   'posts_per_page'=> -1,
 );
 
-if( is_role('franchisee') ) {
+$hash_query = str_replace('?','',$_REQUEST['target_args']);
+parse_str($hash_query,$hash_query); 
+
+if(is_role('administrator')){
+    if( isset($hash_query['f_franchise_id']) ){
+
+        $coaches = $wpdb->get_col(
+            $wpdb->prepare("SELECT DISTINCT u.ID FROM $wpdb->users u INNER JOIN $wpdb->usermeta um ON u.ID = um.user_id WHERE um.meta_key = 'franchisee' AND um.meta_value = %s", $hash_query['f_franchise_id'])
+        );    
+
+        $coaches[] = $hash_query['f_franchise_id'];                
+
+        $meta_query[] =
+            array('key'=> 'rss_franchise_id', 'value'=> $coaches , 'compare'=>'IN');
+    }
+}
+
+else if( is_role('franchisee') ) {
     $coaches = $wpdb->get_col(
         $wpdb->prepare("SELECT DISTINCT u.ID FROM $wpdb->users u INNER JOIN $wpdb->usermeta um ON u.ID = um.user_id WHERE um.meta_key = 'franchisee' AND um.meta_value = %s",$current_user->ID)
     );    
@@ -28,6 +45,22 @@ if( is_role('franchisee') ) {
 else if(is_role('coach')){
     $meta_query[] =
         array('key'=> 'rss_franchise_id', 'value'=> array(/*$current_user->franchisee,*/ $current_user->ID) , 'compare'=>'IN');
+}
+
+if( isset($hash_query['f_year']) ){
+    $year = $hash_query['f_year'];
+    $meta_query[] =
+        array('key'=> 'rss_year', 'value'=> $year , 'compare'=>'=');
+}
+
+if( isset($hash_query['f_month']) ){
+    $month = (int)$hash_query['f_month'];
+    $dateObj = DateTime::createFromFormat('!m', $month);    
+    $month_name = $dateObj->format('M');
+    $month_name = strtolower($month_name);
+    
+    $meta_query[] =
+        array('key'=> 'rss_month', 'value'=> $month_name , 'compare'=>'=');
 }
 
 $args['meta_query'] = $meta_query;
@@ -92,9 +125,10 @@ $months = array(
     <!-- PRODUCT INFORMATION -->
     <div class="layout">
         <div class="container clearfix">
-            <?php if(is_role('administrator') || is_role('super_admin')) { ?>
+            <?php if(is_role('administrator') || is_role('super_admin') || is_role('franchisee')) { ?>
             <div class="col-1 break-big" id="filter">
                 Filter by: 
+                <?php if(is_role('administrator') || is_role('super_admin')){ ?>
                 <select id="f_franchise_id" name="f_franchise_id" >
                     <option value="">Choose Franchise</option>
                     <?php foreach($franchises as $franchise){   
@@ -106,6 +140,35 @@ $months = array(
                     <option value="<?php echo $franchise->ID;?>" <?php if($hash_query['f_franchise_id'] == $franchise->ID) echo "selected";?>><?php echo $franchise_name;?></option>
                     <?php } ?>
                 </select>                
+                <?php } ?>
+                <select id="f_year" name="f_year" >
+                    <?php 
+                    $starting_year = (int) date('Y');
+                    $ending_year = (int) date('Y', strtotime('-10 year'));                   
+
+                    for($starting_year; $starting_year >= $ending_year; $starting_year--) {
+                        if($starting_year == $year) {
+                            echo '<option value="'.$starting_year.'" selected="selected">'.$starting_year.'</option>';
+                        } else {
+                            echo '<option value="'.$starting_year.'">'.$starting_year.'</option>';
+                        }
+                    }?> 
+                </select>     
+
+                <select id="f_month" name="f_month" >
+                    <?php 
+                    $starting_month = 1;
+                    $ending_month = 12;                   
+
+                    for($starting_month; $starting_month <= $ending_month; $starting_month++) {
+                        $dt = DateTime::createFromFormat('!m', $starting_month);                        
+                        if($starting_month == $month) {
+                            echo '<option value="'.$starting_month.'" selected="selected">'. $dt->format('F').'</option>';
+                        } else {
+                            echo '<option value="'.$starting_month.'">'.$dt->format('F').'</option>';
+                        }
+                    }?> 
+                </select>  
             </div>
             <?php } ?> 
             <br/>
