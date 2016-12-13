@@ -776,7 +776,16 @@ function am2_edit_staff() {
 		$status = 'error';
 	}
 
-	echo json_encode( array("message"=>"Staff details were successfully $loc_verb.", 'status' => $status, 'user_id' => $user_id) );
+	if($status == 'error'){
+		foreach($user_id->errors as $error){
+			$message .= $error[0] . '.';
+		}
+	}
+	else {
+		$message = "Staff details were successfully $loc_verb.";
+	}
+
+	echo json_encode( array("message"=> $message, 'status' => $status, 'user_id' => $user_id) );
 
 	exit();
 }
