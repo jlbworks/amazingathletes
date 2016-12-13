@@ -493,7 +493,7 @@ $(document).ready(function () {
     var $td = $(this).closest('td');
     var new_val = $(this).val();
 
-    alert(new_val);
+    //alert(new_val);
     
     $td.children('span').text(new_val);
 
