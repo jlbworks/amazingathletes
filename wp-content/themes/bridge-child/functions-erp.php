@@ -1061,7 +1061,7 @@ function submit_data() {
         $class_id = (int) $_REQUEST['class_id'];
 
         if(! current_user_can( 'administrator' ) && !current_user_can( 'franchisee' ) ) {
-            exit(json_encode(array('success' => false , 'message' => "RSS edit failed" ) ) ) ;
+            exit(json_encode(array('success' => false , 'message' => "Not Allowed" ) ) ) ;
         }
         
         $rss = get_post($rss_id);

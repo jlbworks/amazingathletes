@@ -81,6 +81,12 @@ $args = array(
 //}
 $attendances = get_posts($args);
 
+$status_codes = array('New Location' => 'N', 'Location Re-Start' => 'RS', 'Ongoing Classes' => 'Y', 'Break' => 'B');
+$status_options = '';
+foreach($status_codes as $key => $opt){    
+    $status_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
+}  
+
 if(!empty($locations)):
     $total_enrollment = 0;
     foreach($locations as $location):
@@ -410,7 +416,7 @@ endif;
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['standard_tuition']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['standard_no_weeks']; ?></td>
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['weekly_tuition']; ?></td>
-                            <td class="status_code" style="padding: 5px; border: #000 1px solid;"><span><?php echo $class['status_code'];?></span><input type="text" class="hidden"/></td>
+                            <td class="status_code" style="padding: 5px; border: #000 1px solid;"><span><?php echo $class['status_code'];?></span><select class="hidden"><?php echo $status_options; ?></select></td>
                             <td style="padding: 5px; border: #000 1px solid;"><?php echo $class['class_status'];?></td>
                             <td class="no_weeks_taught" style="padding: 5px; border: #000 1px solid;"><span><?php echo $class['no_weeks_taught'];?></span><input type="text" class="hidden" /></td>
                             <td style="padding: 5px; border: #000 1px solid;" class="price"><?php echo '$'. $class['earned_gross_revenue'];?></td>
@@ -464,28 +470,39 @@ $(document).ready(function () {
   initMasks();
 
   $('#rssTable td').on('click', function(){
-      $(this).toggleClass('edit');
-
-      if($(this).hasClass('edit')){
-          $(this).children('input').eq(0).val($(this).children('span').text()).focus().select();
+      console.log('td click');
+      
+      if(!$(this).hasClass('edit')){
+          $(this).addClass('edit');
+          console.log('edit');
+          $(this).children('input,select').eq(0).val($(this).children('span').text()).focus().select();
       }      
-      else {
-          var $tr = $(this).closest('tr');
-          var new_val = $(this).children('input').eq(0).val();
-          $(this).children('span').text(new_val);
-
-          var class_id = $tr.data('class-id');
-          var status_code = $tr.find('.status_code span').text();
-          var no_weeks_taught = $tr.find('.no_weeks_taught span').text();
-
-          $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'rss_inline_edit', rss_id: <?php echo $id;?>, class_id : class_id, no_weeks_taught: no_weeks_taught, status_code: status_code  }, function(resp){
-              console.log(resp);
-          });
+      else {          
       }
   });  
 
-  $('#rssTable td input').on('blur', function(){
-      $(this).closest('td').trigger('click');
+  /*$('#rssTable td.edit :input').on('blur', function(){
+
+  });*/
+
+  $('#rssTable td :input').on('blur', function(){
+    //$(this).closest('td').trigger('click');
+    var $tr = $(this).closest('tr');
+    var $td = $(this).closest('td');
+    var new_val = $(this).val();
+
+    alert(new_val);
+    
+    $td.children('span').text(new_val);
+
+    var class_id = $tr.data('class-id');
+    var status_code = $tr.find('.status_code span').text();
+    var no_weeks_taught = $tr.find('.no_weeks_taught span').text();
+
+    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'rss_inline_edit', rss_id: <?php echo $id;?>, class_id : class_id, no_weeks_taught: no_weeks_taught, status_code: status_code  }, function(resp){
+        console.log(resp);
+        $td.removeClass('edit');
+    });
   });
 });
 

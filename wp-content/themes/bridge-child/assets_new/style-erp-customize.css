@@ -426,7 +426,7 @@ td.price {
 td.edit span{
   display:none;
 }
-td.edit input {
+td.edit input, td.edit select {
   display:inline;
 }
 
