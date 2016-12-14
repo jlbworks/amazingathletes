@@ -204,7 +204,7 @@ foreach($_roster as $krost => $rost){
     $franchise_id = $rost->roster_franchise_id;
     $franchise = get_post($franchise_id);
     $_coaches = get_post($class_id)->coaches ;    
-    $_coaches = array_filter(array_merge(array($franchise_id), array($_coaches) ) );
+    $_coaches = array_filter(array_merge(array($franchise_id), $_coaches) );
 
     if(is_array($_coaches)){
         if(is_role('coach') && !is_role('franchisee')){
@@ -454,7 +454,7 @@ $location_ids = array_unique($location_ids);
                         <td><span class="a_details">+</span></td>
                         <td style="white-space:nowrap"><a class="am2-ajax-modal"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                        data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><?php echo $i; ?></a></td>
+                        data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><?php echo $i+1; ?></a></td>
                         <td><span><?php echo $rost->roster_customer_status;?></span></td>
                         <td><span><?php echo $rost->roster_customer_media;?></span></td>
                         <td><span><?php echo $customer->childs_first_name . ' ' . $customer->childs_last_name;?></span></td>
