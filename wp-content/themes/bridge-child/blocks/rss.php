@@ -71,7 +71,7 @@ $rss_reports = get_posts($args);
 $args = array(
     'role' => 'franchisee'         
 );
-if(is_role('franchisee')){
+if(!is_role('administrator') && !is_role('super_admin') && is_role('franchisee')){
     $args['include'] = get_current_user_id();
 }
 
