@@ -285,7 +285,7 @@ $franchises = get_users( $franchise_args );
                   <div class="card-table-cell">
                       <div class="card-form">
                           <fieldset>
-                              <input type="checkbox" name="paid_tuition" class="form-control" value="1" <?php checked( '1', $paid_tuition, 1 ); ?>"/>
+                              <input type="checkbox" name="paid_tuition" class="form-control" value="1" <?php checked( '1', $paid_tuition, 1 ); ?>/>
                               <i class="fieldset-overlay" data-js="focus-on-field"></i>
                           </fieldset>
                       </div>
