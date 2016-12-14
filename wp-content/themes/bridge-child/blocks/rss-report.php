@@ -9,6 +9,9 @@ $id = $target_args['id'];
 
 restrict_access('super_admin,administrator,franchisee,coach');
 
+$hash_query = str_replace('?','',$_REQUEST['target_args']);
+parse_str($hash_query,$hash_query);
+
 $rss_report = get_post($id);
 $rss_classes = $rss_report->classes;
 
@@ -87,9 +90,14 @@ foreach($status_codes as $key => $opt){
     $status_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
 }  
 
+$territories = get_field('territories', 'user_' . $author_franchise->ID);
+
 if(!empty($locations)):
     $total_enrollment = 0;
     foreach($locations as $location):
+        if(isset($hash_query['f_territory_id']) && $location->unit_number != $hash_query['f_territory_id']){
+            continue;
+        }
         $location_array = array('monthly_enrollment'=> 0);
         $location_array['post'] = $location;
 
@@ -303,6 +311,23 @@ endif;
     </div>
 </div>
 
+<!-- Filter -->
+<div class="layout context--filter">
+    <div class="container clearfix">
+        <div class="col-12 break-big" id="filter">
+            Filter by:
+            <?php if(is_role('administrator') || is_role('franchisee')){?>
+                <select id="f_territory_id" name="f_territory_id" >
+                    <option value="">Choose Territory</option>
+                    <?php foreach($territories as $territory){  ?>
+                    <option value="<?php echo $territory['unit_number'];?>" <?php if( in_array($territory['unit_number'], array($hash_query['f_territory_id'] ) ) ) echo "selected";?>>Territory <?php echo $territory['territory_name'];?></option>
+                    <?php } ?>
+                </select>
+            <?php } ?> 
+        </div>
+    </div>
+</div>
+
 <!-- PRODUCT INFORMATION -->
 <div class="layout">
     <div class="container clearfix">
@@ -506,6 +531,39 @@ $(document).ready(function () {
         $td.removeClass('edit');
     });
   });
+
+  $('#f_territory_id').select2({
+        placeholder: 'Select a territory',
+        width: '100%',
+        minimumResultsForSearch: -1
+    })
+    .on('select2:select', function() {
+        
+    });
+
+    $('#filter select').on('select2:select', function(){
+        if( true || $('#f_class_id').val()){
+            var filters = new Array;
+
+            var sep = '&'; // '?';            
+            if(window.location.hash.indexOf('&')>-1){                
+                var query = window.location.hash.split('&')[0];
+            }
+            else {
+                var query = window.location.hash;
+            }
+            
+            $('#filter select').each(function(){
+                if($(this).val()){
+                    //query += sep + $(this).attr('name') + '=' + $(this).val();
+                    query += sep + $(this).attr('name') + '=' + $(this).val();
+                    sep = '&';
+                }            
+            });
+            window.location.hash =  query;
+        }        
+    });
+
 });
 
 function initMasks() {
