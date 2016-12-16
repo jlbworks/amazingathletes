@@ -29,6 +29,8 @@ if(!isset($_GET['page'])){
 <?php }
 else { 
 	$show_editor = (!in_array($_GET['page'], $mypages_multi) || (in_array($_GET['page'], $mypages_multi) && (isset($_GET['post_id']) || isset($_GET['add']) ) ) );
+	$show_editor = $_GET['page'] == 'staff' ? false : $show_editor;
+	
 	$page_content = get_user_meta($user->ID, 'page_content', true); 
 	$content = '';
 
