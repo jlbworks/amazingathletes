@@ -30,11 +30,11 @@
     $franchise =  (array)$_franchisee_meta;    
 
     foreach($wpautop_fields as $wpautop_field){
-        if(isset($franchise[$wpautop_field])) {
-            $franchise[$wpautop_field] = wpautop($franchise[$wpautop_field]);
+        if(isset($franchise->{$wpautop_field})) {
+            $franchise->{$wpautop_field} = wpautop($franchise->{$wpautop_field});
         }        
-        if(isset($class[$wpautop_field])) {
-            $class[$wpautop_field] = wpautop($class[$wpautop_field]);
+        if(isset($class->{$wpautop_field})) {
+            $class->{$wpautop_field} = wpautop($class->{$wpautop_field});
         }             
     } 
     // $franchise = array_merge((array)$_franchisee, (array)$_franchisee_meta);    
