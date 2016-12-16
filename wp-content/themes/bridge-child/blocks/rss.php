@@ -18,7 +18,7 @@ $args = array(
 $hash_query = str_replace('?','',$_REQUEST['target_args']);
 parse_str($hash_query,$hash_query); 
 
-if(is_role('administrator')){
+if(is_role('administrator') || is_role('super_admin')){
     if( isset($hash_query['f_franchise_id']) ){
 
         $coaches = $wpdb->get_col(
@@ -69,16 +69,23 @@ $rss_reports = get_posts($args);
 
 
 $args = array(
-    'role' => 'franchisee'         
+    'role' => 'franchisee',
+    'orderby' => 'first_name,last_name', 
+    'order' => 'ASC'        
 );
-if(!is_role('administrator') && !is_role('super_admin') && is_role('franchisee')){
+if( am2_is_top_role('franchisee') ){
     $args['include'] = get_current_user_id();
 }
 
 $franchises = get_users($args);
 
+usort($franchises, function($a, $b) {
+    if($a->first_name == $b->first_name)
+        return $a->last_name < $b->last_name ? -1 : 1;
+    return $a->first_name < $b->first_name ? -1 : 1;
+});
 
-if(!is_role('franchisee') && is_role('coach')){
+/*if(am2_is_single_role('coach')){
     $classes = get_posts(
         array(
             'post_type' => 'location_class',
@@ -92,7 +99,7 @@ if(!is_role('franchisee') && is_role('coach')){
     $class_ids = array_map(function($class){
         return $class->ID;
     }, $classes);
-}
+}*/
 
 $months = array(
     'jan' => 'January',
@@ -142,6 +149,7 @@ $months = array(
                 </select>                
                 <?php } ?>
                 <select id="f_year" name="f_year" >
+                    <option value="">Choose a Year</option>
                     <?php 
                     $starting_year = (int) date('Y');
                     $ending_year = (int) date('Y', strtotime('-10 year'));                   
@@ -156,6 +164,7 @@ $months = array(
                 </select>     
 
                 <select id="f_month" name="f_month" >
+                    <option value="">Choose a Month</option>
                     <?php 
                     $starting_month = 1;
                     $ending_month = 12;                   
@@ -348,7 +357,15 @@ $(document).ready(function() {
     
     });*/
     $('#filter select').on('change', function(){
+        var idx = $(this).index();
         var filters = new Array;
+
+        $('#filter select').each(function(){
+            if($(this).index() > idx){
+                //console.log($(this).index());
+                $(this)/*.html('')*/.val('').trigger('change');
+            }
+        });
 
         var sep = '?';
         var query = '';

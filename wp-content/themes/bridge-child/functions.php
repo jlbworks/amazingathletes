@@ -222,5 +222,106 @@ function am2_get_occurrences($_class) {
     return  $occurences;
 }
 
+function am2_is_top_role($role){
+	global $current_user;
+	global $aa_role_hierarchy;
+
+	if(empty($role)){
+		return false;
+	}
+	
+	if(in_array($role, $current_user->roles) ){
+		if(count($current_user->roles)<2){
+			return true;
+		}
+		else {
+			$pos = array_search($role, $aa_role_hierarchy);
+			if( $pos === FALSE ) return false;
+
+			foreach($current_user->roles as $_role){
+				$r_pos = array_search($_role, $aa_role_hierarchy);
+
+				if($r_pos !== FALSE && $r_pos < $pos) return false;				
+			}
+
+			return true;
+		}		
+	}		
+
+	return false;
+}
+
+/*function am2_is_bottom_role($role){
+	global $current_user;
+	global $aa_role_hierarchy;
+
+	if(empty($role)){
+		return false;
+	}
+	
+	if(in_array($role, $current_user->roles) ){
+		if(count($current_user->roles)<2){
+			return true;
+		}
+		else {
+			$pos = array_search($role, $aa_role_hierarchy);
+			
+			if( $pos === FALSE || $pos < count($aa_role_hierarchy)-1 ) return false;
+			else return true;
+		}		
+	}		
+
+	return false;
+}*/
+
+function am2_is_single_role($role){
+	global $current_user;
+
+	if(empty($role)){
+		return false;
+	}
+	
+	if(count($current_user->roles)>1){
+		return false;
+	} 
+	else if(in_array($role, $current_user->roles)){
+		return true;
+	}
+
+	return false;
+}
+
+/*function am2_is_single_role($user,$role){
+	if(empty($user) || empty($role)) return false;
+
+	if(is_object($user)){
+				
+	}
+	else if(is_integer($user)){
+		$user = get_user_by('id',$user);
+	}
+	else
+		return false;
+	
+	if(count($user->roles)>1){
+		return false;
+	} 
+	else if(in_array($role, $user->roles)){
+		return true;
+	}
+
+	return false;
+}*/
+
+/*
+$users = get_users();
+
+echo '<pre>';
+foreach($users as $user){
+	print_r($user->roles);
+}
+echo '</pre>';
+
+exit();*/
 
 ?>

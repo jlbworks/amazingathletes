@@ -15,13 +15,13 @@ $args = array(
   'posts_per_page'=> -1,
 );
 
-if( is_role('franchisee') ) {
+if( am2_is_top_role('franchisee') ) {
   $curr_franchise = $args['author ']  =  get_current_user_id();
 
   $meta_query[] =
         array('key'=> 'roster_franchise_id', 'value'=> $current_user->ID, 'compare'=>'=');
 }
-else if( is_role('coach') ){
+else if( am2_is_single_role('coach') ){
     $curr_franchise = $current_user->franchisee;
     
     $meta_query[] =
@@ -42,6 +42,9 @@ if(isset($curr_franchise)){
 if( isset($hash_query['f_location_id']) ){
     $meta_query[] = 
         array('key' => 'roster_location_id', 'value' => $hash_query['f_location_id'], 'compare' => '=');
+    $location = get_post($hash_query['f_location_id']);
+
+    $class_franchise_id = $location->post_author; 
 }
 
 if( isset($hash_query['f_class_id']) ){
@@ -84,30 +87,51 @@ if( isset($hash_query['f_coach_id']) ){
 
 $args['meta_query'] = $meta_query;
 
-$_roster = get_posts($args);
+$_rosters = get_posts($args);
 
 $args = array(
     'role' => 'franchisee'         
 );
 
-if(is_role('franchisee')){
+if( am2_is_top_role('franchisee') ){
     $args['include'] = get_current_user_id();
 }
+/*else if(isset($hash_query['f_franchise_id'])){
+    $args['include'] = $hash_query['f_franchise_id'];    
+}*/
 
 $franchises = get_users($args);
+
+usort($franchises, function($a, $b) {   
+    return $a->franchise_name < $b->franchise_name ? -1 : 1;
+});
 
 $args = array(
     'post_type' => 'location',
     'post_status' => 'publish',
     'posts_per_page' => -1,
+    'orderby' => 'title',
+    'order' => 'ASC',
 );
 
-if(is_role('franchisee')){
-    $args['author']  =  get_current_user_id();        
-} 
-else if(isset($hash_query['f_franchise_id'])){
-    $args['author'] = $hash_query['f_franchise_id'];    
+if(is_role('administrator') || is_role('super_admin')){
+    if(isset($hash_query['f_franchise_id'])){
+        $args['author'] = $hash_query['f_franchise_id'];    
+    }
 }
+else if(is_role('franchisee')){
+    $args['author'] = get_current_user_id();        
+} 
+
+if(isset($hash_query['f_territory_id'])){
+    $args['meta_query'][] = array(
+        array(
+            'key' => 'unit_number',
+            'value' => $hash_query['f_territory_id'],
+            'compare' => '=',
+        )
+    );
+} 
 
 $locations = get_posts($args);
 
@@ -124,6 +148,8 @@ $classes_args = array(
     'post_type' => 'location_class',
     'post_status' => 'publish',
     'posts_per_page' => -1,    
+    'orderby' => 'title',
+    'order' => 'ASC',
 );
 
 if(isset($hash_query['f_location_id'])){
@@ -156,8 +182,8 @@ if(isset($hash_query['f_class_id'])){
             $location = get_post($sel_class->location_id);                
             $sel_class->franchise_id = $location->post_author;
 
-            $coach_ids[] = (int)$coach;
-        }
+            //$coach_ids[] = (int)$coach;
+        }        
     }
 }
 else {
@@ -166,15 +192,20 @@ else {
         $class->franchise_id = $location->post_author;
         $classes[$kclass] = $class;
 
-        if(is_array($class->coaches)){                
+        /*if(is_array($class->coaches)){                
             foreach($class->coaches as $coach){                               
                 $coach_ids[] = (int)$coach;
             }
-        }
+        }*/
     }
 }
 
-$coach_ids[] = (int) $class_franchise_id;
+$_coaches = array_map(function($_roster){
+    return $_roster->roster_coach_id;
+}, $_rosters);
+
+//$coach_ids[] = (int) $class_franchise_id;
+$coach_ids = array_filter(array_unique (array_merge((array)$coach_ids,(array)$_coaches) ) );   
 
 $coaches = get_users(
     array(
@@ -182,41 +213,46 @@ $coaches = get_users(
     )                
 );
 
-if(!is_role('franchisee') && is_role('coach')){
+usort($coaches, function($a, $b) {
+    if($a->first_name == $b->first_name)
+        return $a->last_name < $b->last_name ? -1 : 1;
+    return $a->first_name < $b->first_name ? -1 : 1;
+});
+
+if(am2_is_single_role('coach')){
+    $sel_coach_id = get_current_user_id();
+
     $classes = get_posts(
         array(
             'post_type' => 'location_class',
             'post_status' => 'publish',
             'posts_per_page' => -1,
             'meta_query' => array(
-                array('key' => 'coaches', 'value' => '"' .  get_current_user_id() . '"', 'compare' => 'LIKE' ),
+                array('key' => 'coaches', 'value' => '"' . $sel_coach_id . '"', 'compare' => 'LIKE' ),
             )
         )
     );
+
     $class_ids = array_map(function($class){
         return $class->ID;
     }, $classes);
 }
+else if( isset($hash_query['f_coach_id']) ){
+    $sel_coach_id = $hash_query['f_coach_id'];
+}    
 
 $roster = array();
-foreach($_roster as $krost => $rost){
+foreach($_rosters as $krost => $rost){
     $class_id = $rost->roster_class_id;
     $franchise_id = $rost->roster_franchise_id;
     $franchise = get_post($franchise_id);
     $_coaches = get_post($class_id)->coaches ;    
-    $_coaches = array_filter(array_merge(array($franchise_id), $_coaches) );
+    $_coaches = array_filter(array_merge(array($franchise_id), (array)$_coaches) );
 
     if(is_array($_coaches)){
-        if(is_role('coach') && !is_role('franchisee')){
-            $coach_id = get_current_user_id();
-            if(in_array($coach_id, $_coaches)){
-                $roster[] = $rost;
-            }
-        }
-        else if( isset($hash_query['f_coach_id']) ){        
-            if(in_array($hash_query['f_coach_id'], $_coaches)){
-                $roster[] = $rost;
-            }        
+        if( am2_is_single_role('coach') || isset($hash_query['f_coach_id']) ){
+            if(in_array($sel_coach_id, $_coaches)) 
+                $roster[] = $rost;                                        
         }    
         else {
             $roster[] = $rost;
@@ -250,7 +286,7 @@ $location_ids = array_unique($location_ids);
                 <select id="f_franchise_id" name="f_franchise_id" >
                     <option value="">Choose Franchise</option>
                     <?php foreach($franchises as $franchise){  ?>
-                    <option value="<?php echo $franchise->ID;?>" <?php if(in_array($franchise->ID, array($hash_query['f_franchise_id'], $class_franchise_id ) ) ) echo "selected";?>><?php echo $franchise->franchise_name;?></option>
+                    <option value="<?php echo $franchise->ID;?>" <?php if(in_array($franchise->ID, array($hash_query['f_franchise_id'], $class_franchise_id ) ) ) echo "selected";?>><?php echo $franchise->franchise_name;?> <?php //echo $franchise->ID;?></option>
                     <?php } ?>
                 </select>                
                 <?php } ?> 
@@ -264,13 +300,13 @@ $location_ids = array_unique($location_ids);
                 <select id="f_location_id" name="f_location_id" >
                     <option value="">Choose Location</option>
                     <?php foreach($locations as $location){ if(!in_array($location->ID, $location_ids)) continue; ?>
-                    <option value="<?php echo $location->ID;?>" <?php if( in_array($location->ID, array($hash_query['f_location_id'], $class_location_id) ) ) echo "selected";?>><?php echo $location->post_title;?></option>
+                    <option value="<?php echo $location->ID;?>" <?php if( in_array($location->ID, array($hash_query['f_location_id'], $class_location_id) ) ) echo "selected";?>><?php echo $location->post_title;?> <?php //echo $location->ID;?></option>
                     <?php } ?>
                 </select>                                
                 <select id="f_class_id" name="f_class_id" >
                     <option value="">Choose Class</option>
                     <?php foreach($classes as $class){ if(!in_array($class->ID, $class_ids)) continue;?>
-                    <option  value="<?php echo $class->ID;?>" data-location-id="<?php echo $class->location_id ?>" data-franchise-id="<?php echo $class->franchise_id ?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title;?></option>
+                    <option  value="<?php echo $class->ID;?>" data-location-id="<?php echo $class->location_id ?>" data-franchise-id="<?php echo $class->franchise_id ?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title;?> <?php //echo $class->ID;?></option>
                     <?php } ?>
                 </select>
                 <?php //var_dump($coach_ids);?>
@@ -282,7 +318,7 @@ $location_ids = array_unique($location_ids);
                         $coach_name = $coach->first_name . ' ' . $coach->last_name;
                     }
                     ?>
-                    <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach_name;?><?php //var_dump($coach);?></option>
+                    <option value="<?php echo $coach->ID;?>" <?php if($hash_query['f_coach_id'] == $coach->ID) echo "selected";?>><?php echo $coach_name;?> <?php //echo $coach->ID;?></option>
                     <?php } ?>
                 </select>
                 
@@ -470,7 +506,7 @@ $location_ids = array_unique($location_ids);
                         <td><span><?php echo $weeks[1];?></span></td>
                         <td><span><?php echo $weeks[2];?></span></td>
                         <td><span><?php echo $weeks[3];?></span></td>
-                        <td><span></span></td>             
+                        <td><span><?php //echo "F{$rost->roster_franchise_id} L{$rost->roster_location_id} C{$rost->roster_class_id} CO{$rost->roster_coach_id}";?></span></td>             
                         <td style="display:none;"><?php echo $customer->childs_birthday;?></td>
                         <td style="display:none;"><?php echo $customer->parents_name;?></td>
                         <td style="display:none;"><?php echo $customer->email;?></td>
@@ -575,6 +611,7 @@ $(document).ready(function() {
         minimumResultsForSearch: -1
     })
     .on('select2:select', function() {
+        console.log('f_franchise_id select()');
         $.ajax({
             url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
             type: 'POST',
@@ -587,7 +624,7 @@ $(document).ready(function() {
                 am2_show_preloader(form);
             },
             success: function(data) {
-                var placeholder = data.length == 1 ? "No territories found for this territory" : "Select a territory";
+                var placeholder = data.length == 1 ? "No territories found for this franchise" : "Select a territory";
 
                 $('#f_territory_id').html('').select2({
                     placeholder: placeholder,
@@ -691,6 +728,7 @@ $(document).ready(function() {
                 am2_show_preloader(form);
             },
             success: function(data) {
+                //alert(123);
                 var placeholder = data.length == 1 ? "No coaches found for this class" : "Select a coach";                
                 
                 $('#f_coach_id').select2({
@@ -722,13 +760,25 @@ $(document).ready(function() {
     });
 
     $('#filter select').on('select2:select', function(){
+        console.log('select2:select');
+
+        var idx = $(this).index();
+
         /*if($(this).attr('id')=='f_franchise_id'){
             window.location.hash = '#roster/?f_franchise_id=' + $(this).val();
         }
         else if($(this).attr('id')=='f_location_id'){            
             window.location.hash = '#roster/?f_franchise_id=' + $('#f_franchise_id').val() + '&f_location_id=' + $(this).val();
         }
-        else*/ if($('#f_class_id').val()){
+        else*/
+        $('#filter select').each(function(){
+            if($(this).index() > idx){
+                //console.log($(this).index());
+                $(this).html('').val('').trigger('change');
+            }
+        });
+
+        if( $('#f_class_id').val() ){
 
             /*window.location.hash = '#roster/?f_franchise_id=' + $('#f_class_id').find(':selected').data('franchise-id') + 
             '&f_location_id=' + $('#f_class_id').find(':selected').data('location-id') +
@@ -738,12 +788,14 @@ $(document).ready(function() {
 
             var sep = '?';
             var query = '';
-            $('#filter select').each(function(){
+
+            $('#filter select').each(function(){                
                 if($(this).val()){
                     query += sep + $(this).attr('name') + '=' + $(this).val();
                     sep = '&';
                 }            
             });
+
             window.location.hash = '#roster/' + query;
         }        
     });

@@ -137,7 +137,12 @@ $mypages_images = array(
 site_url(). "/wp-content/uploads/2016/03/my-locations-soccerball-icon.png",
 site_url(). "/wp-content/uploads/2016/03/logout-baseball-icon.png",
 site_url(). "/wp-content/uploads/2016/03/my-pages-football-icon.png",*/
+);
+
+$aa_role_hierarchy = array(
+	'super_admin',
+	'administrator',
+	'franchisee',
+	'coach',
 )
-
-
 ?>

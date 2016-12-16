@@ -4,7 +4,7 @@ get_currentuserinfo();
 
 $id = $_REQUEST['id'];
 
-restrict_access('administrator,franchisee,coach');
+restrict_access('super_admin,administrator,franchisee,coach');
 /*
 echo( "<div>In Development</div>" );
 return;*/
@@ -27,25 +27,30 @@ $coach = get_user_by('id', $coach_id);
 $location_id   = get_post_meta( $roster->ID, 'roster_location_id', true );
 $location      = get_post( $location_id );
 
-
-
 $roster_date = get_post_meta( $roster->ID, 'roster_date', true );
 
-$customers_args = array(
-    'post_type'         => 'customer',
-    'post_status'       => 'publish',
-    'posts_per_page'    => -1
-);
-if( is_role( 'franchisee' ) ) {
-    $customers_args['meta_query'] = array(
-        array(
-            'key'       => 'franchise_id',
-            'value'     => get_current_user_id(),
-            'compare'   => '='
-        )
+if(empty($customer_id)){
+    $customers_args = array(
+        'post_type'         => 'customer',
+        'post_status'       => 'publish',
+        'posts_per_page'    => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
     );
+    if( is_role( 'franchisee' ) ) {
+        $customers_args['meta_query'] = array(
+            array(
+                'key'       => 'franchise_id',
+                'value'     => get_current_user_id(),
+                'compare'   => '='
+            )
+        );
+    }
+    $customers = get_posts( $customers_args );
 }
-$customers = get_posts( $customers_args );
+else {
+    $customers = array($customer);
+}
 
 $classes = array();
 if( $location_id) {
@@ -59,7 +64,9 @@ if( $location_id) {
                 'value'     => $location_id,
                 'compare'   => '='
             )
-        )
+        ),
+        'orderby' => 'title',
+        'order' => 'ASC',
     );
 
     $classes = get_posts( $class_args );
@@ -80,6 +87,11 @@ foreach($classes as $class){
     }        
 }
 
+usort($coaches, function($a, $b) {
+    if($a->first_name == $b->first_name)
+        return $a->last_name < $b->last_name ? -1 : 1;
+    return $a->first_name < $b->first_name ? -1 : 1;
+});
 
 $locations = array();
 if( !$franchise_id &&  is_role( 'franchisee' )) {
@@ -87,16 +99,20 @@ if( !$franchise_id &&  is_role( 'franchisee' )) {
         'post_type' => 'location',
         'post_status'       => 'publish',
         'posts_per_page'    => -1,
-        'author'            => get_current_user_id()
+        'author'            => get_current_user_id(),
+        'orderby' => 'title',
+        'order' => 'ASC',
     );
     $locations = get_posts( $location_args );
 }
-elseif( $franchise_id ) {
+else if( $franchise_id ) {
     $location_args = array(
         'post_type' => 'location',
         'post_status'       => 'publish',
         'posts_per_page'    => -1,
-        'author'            => $franchise_id
+        'author'            => $franchise_id,
+        'orderby' => 'title',
+        'order' => 'ASC',
     );
     $locations = get_posts( $location_args );
 }
@@ -104,13 +120,24 @@ elseif( $franchise_id ) {
 $franchise_args = array(
     'role' => 'franchisee'
 );
-if( is_role( 'franchisee' ) ) {
+if( !empty($franchise_id) ){
+    $franchise_args['include'] = array(
+        $franchise_id,
+    );
+}
+else if ( am2_is_top_role( 'franchisee' ) ) {
     $franchise_args['include'] = array(
         get_current_user_id(),
     );
 }
 
 $franchises = get_users( $franchise_args );
+
+usort($franchises, function($a, $b) {   
+    if($a->first_name == $b->first_name)
+        return $a->last_name < $b->last_name ? -1 : 1;
+    return $a->first_name < $b->first_name ? -1 : 1;
+});
 
 $customer_statuses = array('','E','N','FT');
 $customer_media = array('y','n');
@@ -346,9 +373,9 @@ $(document).ready(function () {
             }
             am2_hide_preloader(form);
         },
-    		url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
-    		type: 'post',
-    		dataType: 'json'
+        url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+        type: 'post',
+        dataType: 'json'
     });
 
     $('#roster_franchise_id').select2({

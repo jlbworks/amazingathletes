@@ -919,19 +919,45 @@ function submit_data() {
             exit( json_encode( array( 'success' => false, 'message' => "Unauthorized action." ) ) );
         }*/
 
+        /*$rosters = get_posts(
+            array(
+                'post_type' => 'roster',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    array(
+                        'key' => 'roster_class_id',
+                        'value' => $class_id,
+                        'compare' => '=',
+                    )
+                )
+            )
+        );
+
+        $coaches = array(
+            array(
+                'id'    => '',
+                'text'  => 'Select a coach',          
+            )
+        );*/
+
         $franchisee = get_post($class_id);
         $franchisee_id = $franchisee->post_author;
-        $coaches = array($franchisee_id);
+        //$coaches = array($franchisee_id);
         $_coaches = get_post_meta($class_id, 'coaches', true);
-        $coaches = array_unique (array_merge($coaches,$_coaches) );         
+        /*$_coaches = array_map(function($roster){
+            return $roster->roster_coach_id;
+        }, $rosters);*/
+        //$_coaches = array_unique(array_filter($_coaches));
+        $_coaches = array_filter( array_unique (array_merge( (array)$_coaches, array($franchisee_id) ) ) );
 
-        if(is_array($coaches)){
-            $coaches = array_map(function($_coach){
+        if(is_array($_coaches)){
+            $_coaches = array_map(function($_coach){
                 $coach = get_user_by('id', $_coach);
                 $coach_name = $coach->first_name.' '.$coach->last_name;
                 $coach = array( 'id' => $_coach, 'text' => $coach_name);            
                 return $coach;
-            },$coaches);
+            },$_coaches);
+            $coaches =  (array_filter(array_merge((array)$coaches, (array)$_coaches)));
         }        
         else {
             $coaches = array();
@@ -959,7 +985,9 @@ function submit_data() {
                     'value'     => $location_id,
                     'compare'   => '='
                 )
-            )
+            ),
+            'orderby' => 'title',
+            'order' => 'ASC',
         );
 
         $classes_unordered = get_posts( $args );
@@ -992,10 +1020,19 @@ function submit_data() {
     if ($_POST['form_handler'] == 'get_territories') {
         $franchise_id = sanitize_text_field( $_POST['franchise_id'] );
 
-        $territories = get_field('territories', 'user_' .$franchise_id);
-        $territories = array_map(function($terr){
+        $territories = array(
+            array(
+                'id'    => '',
+                'text'  => 'Select a class',          
+            )
+        );
+
+        $_territories = get_field('territories', 'user_' .$franchise_id);
+        $_territories = array_map(function($terr){
             return array('id'=> $terr['unit_number'], 'text' => $terr['territory_name']);
-        },$territories);
+        }, $_territories);
+
+        $territories = array_merge($territories, (array)$_territories); 
 
         exit(json_encode( $territories ) );
     }
@@ -1011,7 +1048,9 @@ function submit_data() {
             'post_type'         => 'location',
             'posts_per_page'    => -1,
             'post_status'       => 'any',
-            'author'            => $franchise_id
+            'author'            => $franchise_id,
+            'orderby' => 'title',
+            'order' => 'ASC',
         );
 
         if(!empty($territory_id)) {

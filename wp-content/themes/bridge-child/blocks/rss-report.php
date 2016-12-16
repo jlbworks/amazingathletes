@@ -26,8 +26,7 @@ else if(am2_has_role($author, 'coach')){
     $author_role = 'coach';
 }
 
-if(am2_has_role($current_user, 'administrator')){
-    /* */
+if(am2_has_role($current_user, 'administrator')){    
     $current_user_role = 'administrator';
 }
 else if(am2_has_role($current_user, 'franchisee')){
@@ -57,7 +56,7 @@ $args = array(
     'posts_per_page' => -1,
 );
 
-$args['author']  = $author_franchise->ID; //$rss_report->rss_franchise_id;
+$args['author'] = $author_franchise->ID; //$rss_report->rss_franchise_id;
 
 $master_array = array();
 
@@ -412,9 +411,9 @@ endif;
                 <tr style="">
                     <td style="background-color: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;">ZIP: <?php echo $location['post']->zip;?></td>
                     <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
-                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Enrollment <?php echo $location_array['monthly_enrollment'];?></td>
-                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: <?php echo $location_array['earned_gross_revenue'];?></td>
-                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="3">ROY Due: <?php echo $location_array['max_royalty'];?></td>
+                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Enrollment <?php echo $location['monthly_enrollment'];?></td>
+                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: <?php echo $location['earned_gross_revenue'];?></td>
+                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="3">ROY Due: <?php echo $location['max_royalty'];?></td>
                 </tr>
                 <tr style="">
                     <?php /*<td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program Code</td>*/ ?>
@@ -473,9 +472,9 @@ endif;
             <tr>
                 <th><?php echo count($master_array['locations']);?></th>
                 <th style="background-color:#FFCCCC;"><?php echo $master_array['total_enrollment'] ;?></th>
-                <th><?php echo round($master_array['total_enrollment'] / count($master_array['locations']),2) ;?></th>
+                <th><?php echo (count($master_array['locations']) > 0 ? round($master_array['total_enrollment'] / count($master_array['locations']),2) : 'N/A' );?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['rss_total'];?></th>
-                <th><?php echo number_format(100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'] ),2).'%';?></th>
+                <th><?php echo ($master_array['earned_gross_revenue'] > 0 ? number_format ( 100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'] ),2).'%' : 'N/A') ;?></th>
                 <th><?php echo '$'. $master_array['earned_gross_revenue'];?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['total_due_royalties'];?></th>
             <tr>
