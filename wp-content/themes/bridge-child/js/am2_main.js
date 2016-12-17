@@ -744,11 +744,11 @@ var classes_with_special_title = ['Contract', 'Camp'];
 
             var $state = $('<div class="state"></div>');
 
-            $state.append('<h1 class="state_title" style="text-align: center;"><div class="td"><img src="' + ajax_login_object.theme_url + '/img/states/' + loc_state + '.png" /></div><span class="td">' + state_name + '</span></h1>');
+            $state.append('<h1 class="state_title" style="text-align: center;"><div class="td" style="float:left;width:49%;"><img src="' + ajax_login_object.theme_url + '/img/states/' + loc_state + '.png" /></div><span class="td" style="float:right; width:49%;">' + state_name + '</span></h1><br class="clear"/>');
 
             if (Object.keys(resp.franchisees).length > 0) {
                 var $ul = $('<select class="cities"></select>');
-                $ul.append('<option value="">Select a city</option>');
+                $ul.append('<option value="">Select A City</option>');
 
                 var i = 0;
                 $.each(resp.franchisees, function (k, v) {                        
@@ -758,7 +758,7 @@ var classes_with_special_title = ['Contract', 'Camp'];
                     $ul.append($li);
                 });
 
-                $state.append($ul);
+                $state.find('.state_title span.td').append($ul);
 
                 $state.append('<span class="h1">' + state_name + ' Providers</span>');
 
@@ -787,15 +787,17 @@ var classes_with_special_title = ['Contract', 'Camp'];
                             var $li_child = $('<li class="franchise" id="franchise_' + v.franchise_slug + '"></li>');
                             $li_child.append(
                                 '<div class="franchise_left">' +
+                                '<a href="'+ajax_login_object.site_url + '/' + v.franchise_slug+'">'+
                                 (v.franchise_photo ?
                                     '<img src="' + v.franchise_photo + '"/>' :
                                     '<img src="' + ajax_login_object.theme_url + '/images/no-image.jpg"/>') +
+                                '</a>'+
                                 '</div>' +
                                 '<div class="franchise_right">' +
                                 '<h3 class="franchise_name"><a href="' + ajax_login_object.site_url + '/' + v.franchise_slug + '">' + v.franchise_name + '</a></h3>' +
-                                '<span class="franchise_owner">' + v.franchisee + ', Owner</span><br/>' +
-                                '<span class="franchise_tel">' + v.franchise_phone + '</span><br/>' +
-                                '<a href="mailto:' + v.franchise_email + '" class="franchise_email">' + v.franchise_email + '</a><br/>' +
+                                '<span class="franchise_owner">' + v.display_name + ', '+v.display_title+'</span><br/>' +
+                                '<span class="franchise_tel "><i class="icon_phone"></i>' + v.franchise_phone + '</span><br/>' +
+                                '<span class="franchise_email "><i class="icon_mail"></i><a href="mailto:' + v.franchise_email + '" class=" ">' + v.franchise_email + '</a></span><br/>' +
                                 //'<a href="'+ajax_login_object.site_url+'/choose-class/?location_id='+v.id+'" class="h1 franchise_register">Register Now</a><br/>' +
                                 '<div class="franchise_cities"></div>' +
                                 '</div>'
@@ -879,6 +881,8 @@ var classes_with_special_title = ['Contract', 'Camp'];
                     //$('.state .cities li').removeClass('selected');
                     //$(this).addClass('selected');
                     $('.providers').hide();
+
+                    $('span.h1').text($(this).val() + ' Class Locations');
 
                     var data_id = $(this).val(); // $(this).find('[value="'+$(this).val()+'"]').data('id');
                     var $locations = $('.state .locations[data-id="' + data_id + '"]').eq(0);

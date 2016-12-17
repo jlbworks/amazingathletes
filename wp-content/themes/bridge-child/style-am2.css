@@ -350,6 +350,9 @@ text-align: center;
 .state .providers.state .franchise_right {
     float:left;
     width:66%;
+    text-align: left;
+    padding: 0px 10px;
+    box-sizing: border-box;
 }
 
 .state .providers.state .franchise {
@@ -372,20 +375,33 @@ text-align: center;
 .state .providers.state .franchise_city a {
     font-size:12px; color:red;    
 }
+.state .providers.state .franchise_city a:hover {
+    font-size:12px; color:#00397d;    
+}
 .state .providers.state .franchise_city:after {
-    content:', ';
+    content:' • ';
 }
 .state .providers.state .franchise_city:last-child:after {
     content:'';
 }
 
 .state .providers.state .franchise_name {
-    font-size: 32px;
-    line-height: 22px;
+    font-size: 18px;
+    line-height: 0px;
+    margin:0px;
+    margin-bottom:10px;
+}
+
+.state .providers.state .franchise_name a{
+    line-height: 18px;
 }
 
 .state .providers.state .franchise_owner, .state .providers.state .franchise_tel, .state .providers.state .franchise_email {
     font-size:16px;
+}
+
+.franchise_tel .icon_phone, .franchise_email .icon_mail {
+    padding:0px 10px 0px 5px;
 }
 
 #ui-datepicker-div {
