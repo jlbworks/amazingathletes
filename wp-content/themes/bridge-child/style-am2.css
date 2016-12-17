@@ -137,7 +137,7 @@ text-align: center;
     background-color: #e7eaf1;
     font-size:24px; 
     line-height: 60px;
-	font-family:'oswald'
+	font-family:'oswald';    
 }
 
 /*.state .locations .franchise > h3.selected {
@@ -497,35 +497,35 @@ button, input[type="button"], input[type="submit"] {
     color:#00397d;
 }
 
-.state #frm_delete_location {
+.my_account .state #frm_delete_location {
     float:left;
 }
 
-.state .locations .franchise h3{
+.my_account .state .locations .franchise h3{
     padding:0px 35px;
 }
 
-.state .locations .franchise .edit-btn {
+.my_account .state .locations .franchise .edit-btn {
     float:left;
     line-height: 22px;
 }
 
-.state .locations .franchise .edit-btn a{    
+.my_account .state .locations .franchise .edit-btn a{    
     color:#000 !important;
     font-size:14px !important;    
 }
 
-.state .locations .franchise .edit-btn a:hover {
+.my_account .state .locations .franchise .edit-btn a:hover {
     color:red !important;
 }
 
-.state #frm_delete_location {
+.my_account .state #frm_delete_location {
     float:left;
     line-height: 22px;
     margin-left:10px;
 }
 
-.state #frm_delete_location .delete-btn {
+.my_account .state #frm_delete_location .delete-btn {
     background: none !important;
     border:0px none !important;    
     color:#000 !important;
@@ -534,15 +534,20 @@ button, input[type="button"], input[type="submit"] {
     padding:0px !important;    
 }
 
-.state #frm_delete_location .delete-btn:hover {
+.my_account .state #frm_delete_location .delete-btn:hover {
     color:red !important;
 }
 
-.state .locations .franchise  {
+.my_account .state .locations .franchise  {
     text-align:left;
 }
 
-.state .locations .franchise .add_class {
+.my_account .state .locations .franchise .add_class {
     display: block;
     padding:10px 0px;
+}
+
+.location_name {
+    line-height: 40px;
+
 }

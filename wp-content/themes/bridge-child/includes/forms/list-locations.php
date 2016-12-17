@@ -11,7 +11,7 @@ $locations = get_posts(
 	)
 );
 ?>
-<div class="user_form">
+<div class="my_account user_form">
 <div style="text-align:center;">
 	<a class="button" href="<?php the_permalink();?>?add">Add A Location</a>
 </div>
@@ -71,7 +71,7 @@ $locations = get_posts(
 			} ?>
 			<li class="franchise">
 				<h3>
-					<?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span>					
+					<span class="location_name"><?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span></span>					
 					<br class="clear"/>
 					<span class="edit-btn"><a href="<?php echo get_permalink() . '?loc_id=' . $loc->ID;?>">Edit</a></span>					
 					<form id="frm_delete_location" data-form="frm_delete_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
@@ -79,8 +79,9 @@ $locations = get_posts(
 						<input type="hidden" name="loc_id" value="<?php echo $loc->ID; ?>"/>
 						<input class="delete-btn" type="submit" data-button="delete" value="Delete"/>
 					</form>
-					<br class="clear"/>
+					<br class="clear"/>					
 				</h3>
+
 					
 
 				<ul class="franchise_details_visible">
