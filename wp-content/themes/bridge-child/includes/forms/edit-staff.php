@@ -31,9 +31,18 @@ function generate_image_field($field_name, $context, $context_id){
 
 	$output = '';
 	if ($custom_image_id) {
-		$custom_image_url = wp_get_attachment_image_src($custom_image_id, 'medium');
-		$output .= '<img class="photo_preview" src="'.$custom_image_url[0].'" width="175"/>';
-		$output .= '<a class="delete_button button small-button" id="btn_delete_'.$field_name.'" data-attid="'.$custom_image_id.'" data-context-id="'.$context_id.'" data-context="'.$context.'" data-custom_field_key="'.$field_name.'">x</a>';
+		$mime = get_post_mime_type($custom_image_id);
+		//var_dump($mime);
+		if(strpos($mime,'image/')>-1){
+			$custom_image_url = wp_get_attachment_image_src($custom_image_id, 'medium');
+			$output .= '<img class="photo_preview" src="'.$custom_image_url[0].'" width="175"/>';
+			$output .= '<a class="delete_button button small-button" id="btn_delete_'.$field_name.'" data-attid="'.$custom_image_id.'" data-context-id="'.$context_id.'" data-context="'.$context.'" data-custom_field_key="'.$field_name.'">x</a>';
+		}
+		else {
+			$output .= '<a class="download_link" href="'.wp_get_attachment_url($custom_image_id).'" download>Download file</a><br class="clear"/>';
+			$output .= '<a style="position:relative" class="delete_button button small-button" id="btn_delete_'.$field_name.'" data-attid="'.$custom_image_id.'" data-context-id="'.$context_id.'" data-context="'.$context.'" data-custom_field_key="'.$field_name.'">x</a>';
+		}		
+		
 	 } else {
 		$output .= '<div id="digital_image_upload_'.$field_name.'"></div>';
 	}
@@ -290,7 +299,7 @@ uploadOptions = {
 	    }
 	},
 	validation: {
-	      allowedExtensions: ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ai', 'psd', 'rar', 'pdf'],
+	      allowedExtensions: ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ai', 'psd', 'rar', 'pdf', 'doc', 'docx'],
 		  sizeLimit: 10485760
 	  },
   	multiple: false
@@ -328,8 +337,15 @@ function loadDigitalArtwork_multiple(field_name, context, context_id){
     jQuery('#digital_image_upload_'+field_name).fineUploader(uploadOptions).on('complete', function(event, id, fileName, responseJSON) {
        if (responseJSON.success) {
 		   	//jQuery('input[name="'+responseJSON.custom_field_key+'"]').val(responseJSON.file_id);
+			   if(responseJSON.mime.indexOf('image/')>0){
+				   var display_file = '<div class="upload_success"><img class="photo_preview" src="'+responseJSON.file_url+'" width="175"/><a class="delete_button button small-button" id="btn_delete_'+responseJSON.custom_field_key+'" data-attid="'+responseJSON.file_id+'" data-context-id="'+responseJSON.context_id+'" data-context="'+responseJSON.context+'" data-custom_field_key="'+responseJSON.custom_field_key+'">x</a><input name="'+responseJSON.custom_field_key+'" type="hidden" value="'+responseJSON.file_id+'" /></div>'
+			   }
+			   else {
+				   var display_file = '<div class="upload_success"><a class="download_link" href="'+responseJSON.file_url+'" download>Download file</a><br class="clear"/></div>';
+			   }
+
          	  jQuery(this).parent().delay(1000).fadeOut(400, function(){
-              jQuery(this).empty().append('<div class="upload_success"><img class="photo_preview" src="'+responseJSON.file_url+'" width="175"/><a class="delete_button button small-button" id="btn_delete_'+responseJSON.custom_field_key+'" data-attid="'+responseJSON.file_id+'" data-context-id="'+responseJSON.context_id+'" data-context="'+responseJSON.context+'" data-custom_field_key="'+responseJSON.custom_field_key+'">x</a><input name="'+responseJSON.custom_field_key+'" type="hidden" value="'+responseJSON.file_id+'" /></div>').fadeIn();
+              jQuery(this).empty().append(display_file).fadeIn();
               jQuery(document).on('click','#btn_delete_'+responseJSON.custom_field_key, function(e){
 			    e.preventDefault();
 			    jQuery(this).empty().append('Deleting...');

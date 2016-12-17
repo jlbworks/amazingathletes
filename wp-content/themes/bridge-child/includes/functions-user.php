@@ -386,14 +386,30 @@ function upload_file(){
 				update_post_meta($_POST['context_id'], $custom_field_key, $attach_id);
 		}
 
-		$response['success'] = 'true';
-		$response['file_id'] = $attach_id;
-		$response['file_url'] = $attach_url[0];
-		$response['file_name'] = basename($files['name']);
-		$response['context'] = $context;
-		$response['context_id'] = $_POST['context_id'];
-		$response['custom_field_key'] = $custom_field_key;
-		$response['data'] = $_FILES;
+		$mime = get_post_mime_type($attach_id);
+		
+		if(strpos($mime,'image/')>-1){
+			$response['success'] = 'true';
+			$response['mime'] = $mime;
+			$response['file_id'] = $attach_id;
+			$response['file_url'] = $attach_url[0];
+			$response['file_name'] = basename($files['name']);
+			$response['context'] = $context;
+			$response['context_id'] = $_POST['context_id'];
+			$response['custom_field_key'] = $custom_field_key;
+			$response['data'] = $_FILES;
+		}
+		else {
+			$response['success'] = 'true';
+			$response['mime'] = $mime;
+			$response['file_id'] = $attach_id;
+			$response['file_url'] = wp_get_attachment_url($attach_id);
+			$response['file_name'] = basename($files['name']);
+			$response['context'] = $context;
+			$response['context_id'] = $_POST['context_id'];
+			$response['custom_field_key'] = $custom_field_key;
+			$response['data'] = $_FILES;
+		}
 	}
 	else {
 		$response['success'] = 'false';
