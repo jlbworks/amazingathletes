@@ -2,9 +2,9 @@
 global $current_user; 
 get_currentuserinfo(); 
 
-$id = $_REQUEST['id'];
-
 restrict_access('administrator,franchisee,coach');
+
+$id = $_REQUEST['id'];
 
 /*
 echo( "<div>In Development</div>" );
@@ -13,8 +13,12 @@ return;*/
 $rss_report = get_post($id);
 
 
-$franchise_id   = get_post_meta( $roster->ID, 'rss_franchise_id', true );
+$franchise_id   = get_post_meta( $rss_report->ID, 'rss_franchise_id', true );
 $franchise      = get_user_by( 'id', $franchise_id );
+
+if(isset($franchise_id)){
+    $territories = get_field('territories', 'user_' .$current_user->ID);
+}
 
 $month = array(
     'jan' => 'January',
@@ -72,6 +76,30 @@ $franchises = get_users( $franchise_args );
                                         ?>
                                             <option value="<?php echo $franchisee->ID; ?>" <?php selected($franchise_id, $franchisee->ID, true ); ?>><?php echo $franchise_name; ?></option>
                                         <?php endforeach; ?>
+                                    </select>
+                                    <!-- /# -->
+                                    <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if( is_role('administrator') || is_role('super_admin') || is_role('franchisee') ) : ?>
+                    <div class="card-table-row">
+                        <span class="card-table-cell fixed250">Territory <span class="required">*</span></span>
+                        <div class="card-table-cell">
+                            <div class="card-form">
+                                <fieldset>
+                                    <select id="rss_territory_id" name="rss_territory_id" class="form-control" title="Please select a territory." required>
+                                        <option value="">Select Territory</option>
+                                        <?php 
+                                        if(am2_is_top_role('franchisee')) {
+                                        foreach($territories as $territory){  ?>
+                                        <option value="<?php echo $territory['unit_number'];?>" <?php if( in_array($territory['unit_number'], array($hash_query['f_territory_id'] ) ) ) echo "selected";?>><?php echo $territory['territory_name'];?></option>
+                                        <?php } 
+                                        }
+                                        ?>
                                     </select>
                                     <!-- /# -->
                                     <i class="fieldset-overlay" data-js="focus-on-field"></i>
@@ -177,6 +205,39 @@ $(document).ready(function () {
 
     $('#rss_franchise_id').select2({
         placeholder: 'Select a Franchise',
+        width: '100%',
+        minimumResultsForSearch: -1
+    }).on('select2:select', function() {
+        console.log('rss_franchise_id select()');
+        $.ajax({
+            url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                form_handler: 'get_territories',
+                franchise_id: ($('#rss_franchise_id').val() ? $('#rss_franchise_id').val() : <?php echo $curr_franchise ? $curr_franchise : 'null';?>)
+            },
+            beforeSend: function() {
+                am2_show_preloader(form);
+            },
+            success: function(data) {
+                var placeholder = data.length == 1 ? "No territories found for this franchise" : "Select a territory";
+
+                $('#rss_territory_id').html('').select2({
+                    placeholder: placeholder,
+                    data: data,
+                    width: '100%',
+                    id: 'unit_number',
+                    formatSelection: function (item) { return item.territory_name; },
+                    formatResult: function (item) { return item.territory_name; }
+                });
+
+                am2_hide_preloader(form);
+            }
+        });
+    });
+    $('#rss_territory_id').select2({
+        placeholder: 'Select a Territory',
         width: '100%',
         minimumResultsForSearch: -1
     });

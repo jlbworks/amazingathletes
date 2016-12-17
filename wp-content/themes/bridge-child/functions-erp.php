@@ -814,7 +814,9 @@ function submit_data() {
 
         $meta_data = array();
         $meta_fields = array(
-            'rss_franchise_id', 'rss_month',
+            'rss_franchise_id', 
+            'rss_territory_id',
+            'rss_month',
             'rss_year'
         );
         foreach ( $meta_fields as $field ) {

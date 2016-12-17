@@ -638,7 +638,6 @@ $(document).ready(function() {
                 am2_hide_preloader(form);
             }
         });
-        
     });
 
     $('#f_territory_id').select2({

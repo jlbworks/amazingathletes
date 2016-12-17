@@ -210,7 +210,7 @@ $months = array(
                     <tr class="gradeA">
                       <td style="white-space:nowrap"><a class=""
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                        href="#rss-report/?id=<?php echo $rss->ID; ?>"><?php echo $franchise_name; ?></a></td>
+                        href="#rss-report/?id=<?php echo $rss->ID; ?><?php echo isset($rss->rss_territory_id) ? '&f_territory_id=' . $rss->rss_territory_id : '';?>"><?php echo $franchise_name; ?></a></td>
                       <td><?php echo $months[$month]; ?></td>                                            
                       <td><?php echo $year;?></td>                                          
                       <td>

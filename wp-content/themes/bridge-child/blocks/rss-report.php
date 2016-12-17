@@ -315,7 +315,7 @@ endif;
     <div class="container clearfix">
         <div class="col-12 break-big" id="filter">
             Filter by:
-            <?php if(is_role('administrator') || is_role('franchisee')){?>
+            <?php if(is_role('super_admin') || is_role('administrator') || is_role('franchisee')){?>
                 <select id="f_territory_id" name="f_territory_id" >
                     <option value="">Choose Territory</option>
                     <?php foreach($territories as $territory){  ?>
@@ -532,7 +532,7 @@ $(document).ready(function () {
   });
 
   $('#f_territory_id').select2({
-        placeholder: 'Select a territory',
+        placeholder: 'Select a Territory',
         width: '100%',
         minimumResultsForSearch: -1
     })
