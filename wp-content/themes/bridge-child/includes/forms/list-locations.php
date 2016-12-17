@@ -71,14 +71,17 @@ $locations = get_posts(
 			} ?>
 			<li class="franchise">
 				<h3>
-					<?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span>
-				</h3>
+					<?php echo get_the_title( $loc->ID );?>&nbsp;-&nbsp;<span class="franchise_address"><?php echo implode("-", array(get_post_meta($loc->ID, 'address',true)));?></span>					
+					<br class="clear"/>
 					<span class="edit-btn"><a href="<?php echo get_permalink() . '?loc_id=' . $loc->ID;?>">Edit</a></span>					
-					<form data-form="frm_delete_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
+					<form id="frm_delete_location" data-form="frm_delete_location" action="<?php echo admin_url('admin-ajax.php') ?>" method="POST" >
 						<input type="hidden" name="action" value="am2_delete_location">
 						<input type="hidden" name="loc_id" value="<?php echo $loc->ID; ?>"/>
 						<input class="delete-btn" type="submit" data-button="delete" value="Delete"/>
 					</form>
+					<br class="clear"/>
+				</h3>
+					
 
 				<ul class="franchise_details_visible">
 				<?php foreach($class_dates as $c){?>
@@ -89,16 +92,17 @@ $locations = get_posts(
 					if(trim($c->special_event_title) != ''){
 						$title .= ' - ' . $c->special_event_title;
 					}
-					?>
-					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array( get_class_date($c), $c->time, $title)) ); ?></a>
+					?>					
 					<a class="roster_link" href="<?php echo site_url() . '/amp/#roster/?f_class_id=' . $c->ID ;  ?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/roster.png" width="40px"/></a>
+					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array( get_class_date($c), $c->time, $title)) ); ?></a>
 					<br class="clear"/>
 				</li>
-				<?php } ?>
+				<?php } ?>				
+				<a class="add_class" href="<?php echo site_url();?>/my-account/locations/?looc_id=<?php echo $loc->ID;?>&add-class=1">+ Add a Class</a>
 				</ul>
 			</li>
 	<?php
 		endforeach; ?>
-		</ul>
+		</ul>		
 	</div>
 </div>

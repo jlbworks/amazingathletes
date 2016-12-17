@@ -140,10 +140,10 @@ text-align: center;
 	font-family:'oswald'
 }
 
-.state .locations .franchise > h3.selected {
+/*.state .locations .franchise > h3.selected {
     color:red;
     font-weight: bold;
-}
+}*/
 
 .form--section {
     padding: 20px;
@@ -415,7 +415,7 @@ text-align: center;
 }
 
 .roster_link{
-    float: right;
+    float: left;
 }
 
 .clear {
@@ -424,7 +424,7 @@ text-align: center;
 
 .franchise .class{
     border-bottom: 1px solid #ccc;
-    padding:20px;
+    padding:10px;
 }
 
 .state .locations .franchise {
@@ -497,3 +497,52 @@ button, input[type="button"], input[type="submit"] {
     color:#00397d;
 }
 
+.state #frm_delete_location {
+    float:left;
+}
+
+.state .locations .franchise h3{
+    padding:0px 35px;
+}
+
+.state .locations .franchise .edit-btn {
+    float:left;
+    line-height: 22px;
+}
+
+.state .locations .franchise .edit-btn a{    
+    color:#000 !important;
+    font-size:14px !important;    
+}
+
+.state .locations .franchise .edit-btn a:hover {
+    color:red !important;
+}
+
+.state #frm_delete_location {
+    float:left;
+    line-height: 22px;
+    margin-left:10px;
+}
+
+.state #frm_delete_location .delete-btn {
+    background: none !important;
+    border:0px none !important;    
+    color:#000 !important;
+    font-size:14px !important;
+    margin:0px !important;
+    padding:0px !important;    
+}
+
+.state #frm_delete_location .delete-btn:hover {
+    color:red !important;
+}
+
+.state .locations .franchise  {
+    text-align:left;
+}
+
+.state .locations .franchise .add_class {
+    display: block;
+    padding:10px 0px;
+}
