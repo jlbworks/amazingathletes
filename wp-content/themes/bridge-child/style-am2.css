@@ -444,8 +444,12 @@ text-align: center;
     border-radius:10px;
 }
 
+.tbl_register_class tr {
+    border-bottom:1px solid #eee;
+}
 .tbl_register_class td {
     padding:10px;
+    font-size:14px;
 }
 
 button, input[type="button"], input[type="submit"] {
@@ -465,5 +469,23 @@ button, input[type="button"], input[type="submit"] {
 
 .button.delete_post:hover, .delete-btn:hover {
     background-color: #b10000 !important; color:white !important;
+}
+
+.registration_popup_header{
+    background-color:#eee;
+    padding:10px;
+    text-align:center;
+}
+
+.registration_popup_header h4{
+    color:#000;
+}
+
+.registration_popup_header .location_name {
+    color:#FE0000;
+}
+
+.registration_popup_header .location_name:hover {
+    color:#1E3C7E;
 }
 

@@ -1,5 +1,6 @@
 <?php
 $location_id = (int) $_GET['location_id'];
+$location = get_post($location_id);
 
 
 if (empty($location_id)) {
@@ -22,17 +23,23 @@ $classes = get_posts(array(
 
 if(!isset($_GET['iframe'])) get_header(); else wp_head();
 ?>
-<div <?php if(!isset($_GET['iframe'])) {?> style="margin-top: 100px"<?php } ?>>
+<div style="background-color:#fff;" <?php if(!isset($_GET['iframe'])) {?> style="margin-top: 100px"<?php } ?>>
 <?php if(empty($classes)): ?>
 <p>This location has no classes.</p>
 <?php else: ?>
-<table class="tbl_register_class basic small" width="100%">
+<header class="registration_popup_header" style="">
+<h4 >SELECT THE CLASS YOU WOULD LIKE TO REGISTER FOR</h4>
+<a href="<?php echo '#' ;?>" class="location_name" ><?php echo $location->post_title; ?></a> | <span class="location_address"><?php echo $location->address; ?></span>
+</header>
+<table class="tbl_register_class basic small" width="100%" style="background-color:#fff;">
 	<tbody>
 		<tr>
-			<th>Class</th>
+			<!--<th>Class</th>-->
 			<th>Day</th>
 			<th>Time</th>
 			<th>Program</th>
+			<th>Ages</th>
+			<th>Length</th>
 			<?php /*<th>Type</th>
 			<th>Coach Pay scale</th>
 			<th>Payment Information</th>
@@ -46,6 +53,9 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 			$class_time = am2_get_meta_value('time', 	$classes_meta);
 			$class_display_day = am2_get_meta_value('display_day', $classes_meta);
 			$class_display_time = am2_get_meta_value('display_time', $classes_meta);
+			$class_age_range = am2_get_meta_value('age_range', $classes_meta);
+			$class_length = am2_get_meta_value('length', $classes_meta);
+
 			/*$day = am2_get_meta_value('day', 		$classes_meta);
 
 			if (in_array($c->type, array('Camp','Demo'))) {
@@ -66,10 +76,12 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 			$day = get_class_date($c);
 		?>
 		<tr>
-			<td><?php echo (!empty($classes_meta['special_event_title'][0]) ? $classes_meta['special_event_title'][0] : get_the_title($c->ID) ); ?></td>
+			<?php /*<td><?php echo (!empty($classes_meta['special_event_title'][0]) ? $classes_meta['special_event_title'][0] : get_the_title($c->ID) ); ?></td>*/?>
 			<td><?php echo !empty($class_display_day) ? $class_display_day : $day;?></td>
 			<td><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></td>
 			<td><?php echo am2_get_meta_value('program', 	$classes_meta); ?></td>
+			<td><?php echo $class_age_range;?></td>
+			<td><?php echo $class_length;?></td>
 			<?php /*<td><?php echo am2_get_meta_value('type', 	$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('coach_pay_scale', 	$classes_meta); ?></td>
 			<td><?php echo am2_get_meta_value('class_paynent_information', 	$classes_meta); ?></td>
