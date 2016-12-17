@@ -415,6 +415,8 @@ td.price {
   input[type="button"], input[type="submit"] {display:none;} 
   .tbl_header .logo  img {width:100%;margin-top:18px;} 
   .card-wrapper {margin-bottom:0px;}
+
+  #filter {display:none;}
 }
 
 .frm_invoice_additional .editable, #location-invoice-form .editable {
