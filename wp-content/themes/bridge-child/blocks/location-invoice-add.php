@@ -94,14 +94,14 @@ $franchises = get_users( $franchise_args );
                             <fieldset>
                                 <select name="location_id" class="form-control" id="attendance_location_id" title="Please select a location." required>
                                     <option value=""></option>
-                                    <?php /*foreach( $locations as $location ) :
-                                        $user_name = $location->display_name;
-                                        if(!empty($location->first_name) || !empty($location->last_name)) {
-                                            $user_name = $location->first_name . ' ' . $location->last_name;
-                                        }
+                                    <?php foreach( $locations as $location ) :
+                                        // $user_name = $location->display_name;
+                                        // if(!empty($location->first_name) || !empty($location->last_name)) {
+                                        //     $user_name = $location->first_name . ' ' . $location->last_name;
+                                        // }
                                      ?>
-                                        <option value="<?php echo $location->ID; ?>" required><?php echo $user_name; ?></option>
-                                    <?php endforeach;*/ ?>
+                                        <option value="<?php echo $location->ID; ?>" required><?php echo $location->post_title; ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                                 <!-- /# -->
                                 <i class="fieldset-overlay" data-js="focus-on-field"></i>

@@ -95,7 +95,7 @@
 		</div>
     </div>
 	<div class="side-nav">
-        <a href="http://amazingathletes.jlbdev.net/erp/#dashboard" target=_blank; class="sidebar-link">
+        <a href="<?php echo site_url();?>/amp/#dashboard" target=_blank; class="sidebar-link">
             <span>
                 <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/my-pages-football-icon.png" width="30px" class="spt-icons" id="fball2"
                 data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-my-pages-football-icon.png"

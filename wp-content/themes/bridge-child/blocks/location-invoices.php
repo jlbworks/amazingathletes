@@ -20,6 +20,7 @@ $args = array(
 if( is_role( 'franchisee'  ) ) {
   $args['author']  = get_current_user_id();
 }
+
 $location_invoices = get_posts($args);
 
 ?>

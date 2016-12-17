@@ -19,7 +19,7 @@ if(!is_user_logged_in()){
                 if( file_exists( get_template_directory().'blocks/'.$show.'.php') ){
                     get_template_part('blocks/'.$show);
                 } else {
-                    echo '<script>var hash = window.location.hash;if( hash==\'\' ){ window.location.href=\''.site_url().'/erp/#dashboard\'; }</script>';
+                    echo '<script>var hash = window.location.hash;if( hash==\'\' ){ window.location.href=\''.site_url().'/amp/#dashboard\'; }</script>';
                 }
             ?>
         </div>

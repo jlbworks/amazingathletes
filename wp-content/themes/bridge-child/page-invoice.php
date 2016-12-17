@@ -16,10 +16,10 @@ setlocale(LC_MONETARY, 'en_US');
 
 $back_link = '';
 if($invoice_type == 'coach') {
-    $back_link = site_url().'/erp/#coach-invoice/?id='.$invoice_id;
+    $back_link = site_url().'/amp/#coach-invoice/?id='.$invoice_id;
 }
 if($invoice_type == 'location') {
-    $back_link = site_url().'/erp/#location-invoice/?id='.$invoice_id;
+    $back_link = site_url().'/amp/#location-invoice/?id='.$invoice_id;
 }
 if($invoice_type == 'coach') {
 /* Invoice data */
