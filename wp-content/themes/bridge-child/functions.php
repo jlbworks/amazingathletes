@@ -58,7 +58,7 @@ function wp_schools_enqueue_scripts() {
 	wp_register_style('childstyle', get_stylesheet_directory_uri() . '/style.css');
 	wp_enqueue_style('childstyle');
 
-	wp_register_style('style-am2', get_stylesheet_directory_uri() . '/style-am2.css');
+	wp_register_style('style-am2', get_stylesheet_directory_uri() . '/style-am2.css', array(),1);
 	wp_enqueue_style('style-am2');
 
 	//wp_register_script('jquery', get_stylesheet_directory_uri() . '/js/jquery-1.12.3.min.js');
@@ -133,7 +133,7 @@ function am2_init() {
 	wp_register_script('jquery.datepicker', get_stylesheet_directory_uri() . '/js/jquery.datetimepicker.min.js' , array('jquery'), '', true);	
 	wp_enqueue_script('jquery.datepicker');
 
-	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), 3, true);
+	wp_register_script('am2_main', get_stylesheet_directory_uri() . '/js/am2_main.js' , array('jquery'), 4, true);
 
 	wp_localize_script('am2_main', 'am2_registration', array(		
 		'possible_class_costs' => $possible_class_costs,
