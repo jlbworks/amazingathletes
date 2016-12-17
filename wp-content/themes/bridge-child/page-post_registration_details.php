@@ -108,7 +108,7 @@
         $(document).ready(function(){
             var franchisee = <?php echo json_encode($franchise);?>;
             var location_class = <?php echo json_encode($class);?>;
-            var paid_tuition = <?php echo $paid_tuition; ?>;
+            var paid_tuition = <?php echo json_encode($paid_tuition == true); ?>;
 
             /*var class_costs = {
                 "Parent-Pay Monthly" : "parent_pay_monthly",

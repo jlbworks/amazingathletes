@@ -177,7 +177,7 @@
 </div>
 
 <?php } 
-else {?>
+else { ?>
   <h2>No registration needed for this class, this class is provided free of charge thanks to <?php echo $location_name;?></h2>
 <?php }
 ?>
