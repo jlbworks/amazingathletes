@@ -54,7 +54,7 @@ function am2_ajax_get_authormeta() {
 }
 
 function get_next_date_by_weekday($weekday){	
-     return date('Y-m-d', strtotime('next ' . $weekday ));
+     return date('m/d/Y', strtotime('next ' . $weekday ));
 }
 
 function get_class_date($c, $only_start_date = false) {
@@ -78,7 +78,7 @@ function get_class_date($c, $only_start_date = false) {
 
 	if ('Yearly' == $c->schedule_type) {
 		$this_year = date('Y');
-		$day = new DateTime(date("{$this_year}-m-d", strtotime("{$c->date_every_year}")));
+		$day = new DateTime(date("m/d/{$this_year}", strtotime("{$c->date_every_year}")));
 
 		if($only_start_date){
 			$day = $day->format('m/d/Y');
