@@ -2,7 +2,7 @@
 <?php if(!isset($_GET['class_id'])) exit('No class selected');?>
 <?php
     $class_id = (int)$_GET['class_id'];   
-    $paid_tuition = $_GET['paid_tuition']; 
+    //$paid_tuition = $_GET['paid_tuition']; 
     $_class = get_post($class_id);
     $_class_meta = get_post_meta($class_id);
     $class = array_merge((array)$_class_meta, (array)$_class);        
@@ -81,6 +81,10 @@
     }
 
 </style>
+<div class="paid_tuition_wrap">
+    <label><input type="checkbox" name="paid_tuition" id="paid_tuition" value="Yes"/>&nbsp; I have already paid the registration fee.</label>
+    <br/>
+</div>
 <?php the_content();?>
 <div style="display:none;">
     <div class="payment_intro_text">
@@ -108,7 +112,7 @@
         $(document).ready(function(){
             var franchisee = <?php echo json_encode($franchise);?>;
             var location_class = <?php echo json_encode($class);?>;
-            var paid_tuition = <?php echo json_encode($paid_tuition == true); ?>;
+            var paid_tuition = $('#paid_tuition').is(':checked'); // <?php echo json_encode($paid_tuition == true); ?>;
 
             /*var class_costs = {
                 "Parent-Pay Monthly" : "parent_pay_monthly",
@@ -172,7 +176,7 @@
                 franchise_name : franchisee.franchise_name,
                 program_name : location_class.program,
                 tuition : '$' +  ((monthly_tuition) ? monthly_tuition : ((session_tuition) ? session_tuition : 0)),
-                registration_fee : '$' + registration_fee,
+                registration_fee : '<span class="registration_fee">$' + registration_fee + '</span>',
                 amount_due : '$' + (registration_fee + tuition),
                 individual_1_first_name : franchisee.individual_1_first_name,            
                 individual_1_last_name : franchisee.individual_1_last_name,
@@ -202,6 +206,28 @@
                 $('.tab-title:contains('+payment_options_table[v]+')').closest('h5').show();
             });
 
+            replace_tokens(tokens);
+
+            $('#paid_tuition').on('change', function(){
+                console.log('#paid_tuition change');
+
+                var paid_tuition = $('#paid_tuition').is(':checked'); 
+                if($.inArray(payment_type, ['parent_pay_monthly', 'parent_pay_session']) > -1){
+                    registration_fee = !paid_tuition ? location_class[payment_type + '_registration_fee'] ? parseFloat(location_class[payment_type + '_registration_fee']) : 0 : 0;
+                }
+                else {
+                    registration_fee = 0;
+                }  
+                tokens.registration_fee = '$' + registration_fee;
+                
+                $('.registration_fee').text(tokens.registration_fee);
+
+            });
+        });
+
+        function replace_tokens(tokens){
+            $('.payment-subheader').append($('.paid_tuition_wrap').eq(0));
+
             var html = $('.full_section_inner').html();
             html = html.replace(/{(.*?)}/g, function(a,b) {         
                 console.log(a,b);                       
@@ -215,7 +241,7 @@
                 return tokens[b.replace('data.','')];
             });
             $('.full_section_inner').html(html);
-        });
+        }
     })(jQuery);
 </script>
 <?php if(isset($_GET['iframe'])) wp_footer(); else get_footer();?>

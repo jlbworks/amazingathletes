@@ -241,6 +241,11 @@ text-align: center;
     color:#fe0000;
 }
 
+#frm_registration input[type="submit"]:hover{
+    border-color: #00397d;    
+    color:#00397d;    
+}
+
 #frm_registration .error {
     border:1px solid red;
 }

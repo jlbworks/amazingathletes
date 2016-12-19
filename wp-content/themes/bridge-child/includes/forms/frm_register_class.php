@@ -14,6 +14,11 @@
   $class_date = get_class_date($class, 'date', true);
   $class_display_day = get_post_meta($class->ID, 'display_day', true);
   $class_display_time = get_post_meta($class->ID, 'display_time', true);
+  $class_program = get_post_meta($class->ID, 'program', true);
+  $class_coaches = array_map(function($coach){
+    $_coach = get_user_by('id', $coach);
+    return ( !empty($_coach->first_name) || !empty($_coach->last_name) ? implode(' ', array($_coach->first_name, $_coach->last_name) ) : $_coach->diplay_name );
+  }, (array)$class->coaches);
 
   // var_dump($class_type);
 ?>
@@ -27,7 +32,9 @@
     <h1>Register for <span><?php echo $class_program;?></span></h1>
     <h2>Location: <span><?php echo $location_name;?></span></h2>
     <h2>Date: <span><?php echo !empty($class_display_day) ? $class_display_day : $class_date;?></span></h2>
-    <h2>Time: <span><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></span></h2>    
+    <h2>Time: <span><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></span></h2>   
+    <h2>Program: <span><?php echo $class_program ;?></span></h2> 
+    <h2>Coach: <span><?php echo implode(', ', $class_coaches) ;?></span></h2> 
   </div>
   <?php } ?>
   <br/>
@@ -150,7 +157,7 @@
     <h3>Liability &amp; Photo Release</h3>
     <p><span class="wpcf7-form-control-wrap liability"><span class="wpcf7-form-control wpcf7-checkbox wpcf7-validates-as-required wpcf7-exclusive-checkbox"><span class="wpcf7-list-item first last">
       <input type="checkbox" name="liability" value="I Agree to the Liability Release" required>
-      &nbsp;<span class="wpcf7-list-item-label">I Agree to the Liability Release</span></span></span></span> </p>
+      &nbsp;<span class="wpcf7-list-item-label">I Agree to the Liability Release *</span></span></span></span> </p>
     <p>Your child will remain under the care, direction and supervision of the school while receiving instruction from AMAZING ATHLETES. I hereby release and discharge AMAZING ATHLETES, the Childcare Facility and its members from all actions, claims, demands, injury or damage resulting from my child"s participation in this activity.</p>
     <p><span class="wpcf7-form-control-wrap photo_release"><span class="wpcf7-form-control wpcf7-checkbox wpcf7-exclusive-checkbox"><span class="wpcf7-list-item first last">
       <input type="checkbox" name="photo_release" value="I Agree to the Photo Release">
@@ -162,9 +169,13 @@
       <textarea name="comments" cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea" aria-invalid="false"></textarea>
       </span></p>
     <p>
-      <span class="wpcf7-form-control-wrap paid_tuition"><span class="wpcf7-form-control wpcf7-checkbox wpcf7-exclusive-checkbox"><span class="wpcf7-list-item first last">
-      <input type="checkbox" name="paid_tuition" value="Yes"/>&nbsp;<span class="wpcf7-list-item-label">Have you paid a tuition for this class already?</span>
-      </span></span></span>
+      <?php /*<span class="wpcf7-form-control-wrap paid_tuition">
+        <span class="wpcf7-form-control wpcf7-checkbox wpcf7-exclusive-checkbox">
+          <span class="wpcf7-list-item first last">
+            <input type="checkbox" name="paid_tuition" value="Yes"/>&nbsp; <span class="wpcf7-list-item-label">Have you paid a tuition for this class already?</span> 
+          </span>
+        </span>
+      </span> */?>
     </p>
     <div class="wpcf7-response-output wpcf7-display-none"></div>
     <input type="hidden" name="action" value="am2_ajax_register_for_class" />

@@ -111,10 +111,13 @@ function am2_ajax_register_for_class(){
     $headers2 .= "Reply-To: <$to>" . "\r\n";     
 
     /*to franchisee*/
-    $result1 = wp_mail($to, $subject, $message, $headers1);
+    $result1 = wp_mail($to, $subject, $message, $headers1);    
 
     /*to parent*/
     $result2 = wp_mail($reply_to, $subject, $message, $headers2);
+
+    /*to corporate*/
+    $result3 = wp_mail('info@amazingathletes.com', $subject, $message, $headers1);
 
     $response['success'] = 'true';
     $response['paid_tuition'] = isset($_POST['paid_tuition']);
@@ -123,7 +126,6 @@ function am2_ajax_register_for_class(){
        do_action( 'am2_register_for_class_complete' ); 
     }   
     else {
-
     } 
 
     echo json_encode($response);
