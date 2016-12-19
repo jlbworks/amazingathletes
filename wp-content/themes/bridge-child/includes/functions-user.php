@@ -702,11 +702,13 @@ function am2_add_coach() {
 		update_user_meta($user_id, 'franchisee', $location->post_author);
 
 	    $status = 'success';
+		$message = "Your staff was successfully $loc_verb.";
 	} else {
 		$status = 'error';
+		$message = $user_id->get_error_message();
 	}
 
-	echo json_encode( array("message"=>"Your staff was successfully $loc_verb.", 'status' => $status, 'user_id' => $user_id) );
+	echo json_encode( array("message"=> $message, 'status' => $status, 'user_id' => $user_id) );
 
 	exit();
 }

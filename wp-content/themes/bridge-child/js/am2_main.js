@@ -479,7 +479,7 @@ var classes_with_special_title = ['Contract', 'Camp'];
 
                     $('.add_coach_wrap').slideToggle();
                 } else {
-                    alert('Error');
+                    alert(resp.message);
                 }
             });
         });
