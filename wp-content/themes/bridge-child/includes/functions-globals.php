@@ -106,6 +106,7 @@ $class_types = array(
     'Session',
     'Contract',
     'Camp',
+	'Special Event'
     //'Event',
 );
 

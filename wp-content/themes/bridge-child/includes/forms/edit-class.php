@@ -471,6 +471,10 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				value="Camp"
 				data-change-to-id="class_schedule_single_day"
 				data-change-to-section="class-schedule">Camp</option>
+			<option<?php if($class_type == 'Special Event'){ ?> selected="selected"<?php } ?>
+				value="Special Event"
+				data-change-to-id="class_schedule_single_day"
+				data-change-to-section="class-schedule">Special Event</option>
 			<!--<option<?php if($class_type == 'Event'){ ?> selected="selected"<?php } ?> data-change-to-id="class_schedule_single_day"  data-change-to-section="class-schedule">Event</option>-->
 		</select>
 		<div class="special_event_title_wrap <?php echo (empty($values['special_event_title']) ? 'hidden' : '');?>">
