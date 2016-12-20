@@ -94,7 +94,7 @@ $locations = get_posts(
 						$title .= ' - ' . $c->special_event_title;
 					}
 					?>					
-					<a class="roster_link" href="<?php echo site_url() . '/amp/#roster/?f_class_id=' . $c->ID ;  ?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/roster.png" width="40px"/></a>
+					<a target="_blank" class="roster_link" href="<?php echo site_url() . '/amp/#roster/?f_class_id=' . $c->ID ;  ?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/roster.png" width="40px"/></a>
 					<a href="?looc_id=<?php echo $loc->ID; ?>&class_id=<?php echo $c->ID; ?>&add-class=1"><?php echo implode(' - ', array_filter(array( get_class_date($c), $c->time, $title)) ); ?></a>
 					<br class="clear"/>
 				</li>
