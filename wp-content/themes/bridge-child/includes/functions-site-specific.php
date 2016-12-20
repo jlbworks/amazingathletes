@@ -165,7 +165,7 @@ function am2_ajax_register_for_class(){
     $result2 = wp_mail($reply_to, $subject, $message, $headers2);
 
     /*to corporate*/
-    $result3 = wp_mail('ivan.svaljek@gmail.com', $subject, $message, $headers1);
+    $result3 = wp_mail('info@amazingathletes.com', $subject, $message, $headers1);
 
     $response['success'] = 'true';
     $response['paid_tuition'] = isset($_POST['paid_tuition']);
