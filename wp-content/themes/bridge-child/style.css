@@ -13,12 +13,19 @@ Template: bridge
 /*****************************************ADDITIONAL CSS******************************/
 
 /***************************HEADER*****************/
+@media only screen and (min-width: 1300px){
+.header_bottom
+.container_inner {
+    width: 1300px;
+}
+}
 
 @media only screen and (min-width: 1400px){
+
 .headerhead{
     position: fixed;
     left: 3%;
-    top: 65px;
+    top: 30px;
 }
 }
 
@@ -37,7 +44,7 @@ header.stick_with_left_right_menu:not(.sticky) {
     background-position: bottom center;
     background-repeat:no-repeat;
     background-size:cover;
-    height: 175px;
+    height: 205px;
 }
 }
 
@@ -47,8 +54,23 @@ header.stick_with_left_right_menu:not(.sticky) {
 /*********NAVIGATION***********/
 
 nav.main_menu>ul>li>a {
-    padding: 0px 7.5px;
+    padding: 0px 3px;
 }
+
+nav.main_menu > ul > li > a {
+    font-size: 1vw;
+    padding: 0px 6px;
+}
+
+.drop_down .second .inner>ul, li.narrow .second .inner ul {
+    background-color: #fff;
+}
+
+
+.drop_down .second .inner ul li a{
+    color: red;
+}
+
 
 
 /*************slider***********/
@@ -255,10 +277,83 @@ margin: 5% 15%;
 
 /************STATE MAP*************/
 
+
+
+.state_title img{
+max-width:200px;
+}
+
+
+
 .dynamic-locaion-content{
     min-height: 300px;
     width: 100%;
 }
+
+
+
+
+.cities
+::-webkit-input-placeholder { 
+  color: red;
+}
+.cities
+::-moz-placeholder {
+  color: red;
+}
+.cities
+:-ms-input-placeholder {
+  color: red;
+}
+.cities
+:-moz-placeholder {
+  color: red;
+}
+
+
+
+.h1.franchise_register:hover {
+    border: 3px solid #1e3c7e;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+.wpcf7-form-control-wrap input[type="text"].wpcf7-form-control, .wpcf7-form-control-wrap input[type="password"], .wpcf7-form-control-wrap input[type="email"], .wpcf7-form-control-wrap input[type="date"], .wpcf7-form-control-wrap textarea.wpcf7-form-control, .wpcf7-form-control-wrap select.wpcf7-form-control{
+	max-width: 600px;
+}
+
+
+
+#frmFilterMap{
+	text-align:center;
+}
+
+#txtZipCode{
+    border-radius: 2px;
+    border: solid 1px red;
+    padding: 4px;
+    margin: 5px;
+}
+
+#frmFilterMap
+input[type="submit"]{
+	background: red;
+    border: solid 1px red;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'oswald';
+    border-radius: 2px;
+    padding: 0px 14px;
+    padding-bottom: 2px;
+}
+
+#frmFilterMap
+input[type="submit"]:hover{
+	background: #1e3c7e;
+    border: solid 1px #1e3c7e;
+}
+
 
 
 
@@ -277,6 +372,39 @@ h1 {
 
 
 /**************sidebar*************/
+
+
+/*sidebar sub items*/
+
+.sidebar
+h3{
+color:white;
+}
+
+
+
+
+aside .widget a:hover{
+color:#fcdb02 !important;
+}
+
+
+.cps-button{
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'oswald';
+    font-size: 17px;
+    margin-left: 50px;
+    margin-top: 25px;
+    border-bottom: #FDCE00 2px solid;
+}
+
+
+
+
+
+
 
 @media screen and (min-width: 1650px){
 #fball-account-page {
@@ -521,6 +649,23 @@ padding: 10px;
 
 /* BACK OFFICE STYLE */
 
+.user_form {    
+    width:100%;
+    max-width: 1280px;
+    margin:50px auto 50px auto;
+}
+
+.locations
+.user_form input[type="submit"] {
+    background-color: red;
+}
+
+.locations
+.user_form input[type="submit"] {
+    background-color: #b10000;
+}
+
+
 
 
 .hidden {
@@ -720,9 +865,13 @@ animation-delay: .8s;
     vertical-align: middle;
 }
 
+
 .state_title > .td:first-child {
-    margin-left: -350px;
+    width: 100px;
+    margin: auto;
 }
+
+
 /*.state_title {
     display: table;
     text-align: left;
