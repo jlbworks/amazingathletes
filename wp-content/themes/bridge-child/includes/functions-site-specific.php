@@ -56,49 +56,97 @@ add_action('am2_register_for_class_complete', 'am2_insert_customer');
 function am2_ajax_register_for_class(){
     header('Content-Type: application/json');
     $response = array('success' => false);
+    global $registration_data;
    
     $location_id = $_POST['location_id'];
+    $location = get_post($location_id);
+
     $franchisee_id = get_post($location_id)->post_author;
     $franchisee = get_user_by('id', $franchisee_id);    
+    
+    $class_id = $_POST['class_id'];
+    $class = get_post($class_id);
+    $class_time = get_post_meta($class_id, 'time', true);
+    $class_date = get_class_date($class, 'date', true);
+    $class_display_day = get_post_meta($class->ID, 'display_day', true);
+    $class_display_time = get_post_meta($class->ID, 'display_time', true);
+    $class_display_day = !empty($class_display_day) ? $class_display_day : $class_day;
+    $class_display_time = !empty($class_display_time) ? $class_display_time : $class_time;
+    $current_time = date('m/d/Y H:i:s');
+
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+
+    $registration_data = array(
+        'franchisee_id' => $franchisee_id,
+        'franchise_name' => $franchisee->franchise_name,
+        'franchisee_display_name' => $franchisee->display_name,
+        'location_name' => $location->post_title,
+        'location_address' => $location->address,
+        'class_type' => $class->type,
+        'class_display_day' => $class_display_day,
+        'class_display_time' => $class_display_time,
+        'class_age_range' => $class->age_range,
+        'current_time' => $current_time,
+        'ip' => $ip,
+    );
+
+    $registration_data = array_merge($registration_data,$_POST);
 
     $to = $franchisee->user_email;
     $from = 'web@jlbworks.com';
     $subject = 'Amazing Athletes registration';
-    $reply_to = $_POST['email'];
+    $reply_to = $_POST['email'];    
 
-    $message = 
-    //'From: [parent-name] <[email]>
-    'Child name: [child-first-name] [child-last-name]
-    Birthday: [child-birthday]
-    Gender: [child-gender]
-    Shirt size: [child-shirt-size]
-    Classroom/Teacher: [classroom-teacher]
-    Parent name: [parent-name]
-    Address: [address]
-    State: [state]
-    City: [city]
-    ZIP: [zipcode]
-    Phone: [primary-phone]
-    Email: [email]
-    Liability release: [liability]
-    Photo release: [photo_release]
-    Location ID: [location_id]
-    Class ID: [class_id]
-    Paid Tuition: [paid_tuition]
+    $message = get_field('registration_mail', 'option', false, false); //file_get_contents(dirname(__FILE__). '/registration_email.php');
 
-    Comments & Questions:
-    [comments]
+    //var_dump($message);
 
-    --
-    This e-mail was sent from a contact form on Amazing Athletes ('.site_url().')';
+    // //'From: [parent-name] <[email]>
+    // 'Child name: [child-first-name] [child-last-name]
+    // Birthday: [child-birthday]
+    // Gender: [child-gender]
+    // Shirt size: [child-shirt-size]
+    // Classroom/Teacher: [classroom-teacher]
+    // Parent name: [parent-name]
+    // Address: [address]
+    // State: [state]
+    // City: [city]
+    // ZIP: [zipcode]
+    // Phone: [primary-phone]
+    // Email: [email]
+    // Liability release: [liability]
+    // Photo release: [photo_release]
+    // Location ID: [location_id]
+    // Class ID: [class_id]
+    // Paid Tuition: [paid_tuition]
 
-    function replace_with_postdata($match){
+    // Comments & Questions:
+    // [comments]
+
+    // --
+    // This e-mail was sent from a contact form on Amazing Athletes ('.site_url().')';
+
+    /*function replace_with_postdata($match){
         //var_dump($match);
         if(!isset($_POST[$match[1]])) return '';
         return $_POST[$match[1]];
+    }*/
+
+    function replace_with_data($match){
+        global $registration_data;
+        //var_dump($match);
+        if(!isset($registration_data[$match[1]])) return '';
+        return $registration_data[$match[1]];
     }
 
-    $message = preg_replace_callback('(\[([a-zA-Z0-9-_]+?)\])', "replace_with_postdata", $message );
+    //$message = preg_replace_callback('(\[([a-zA-Z0-9-_]+?)\])', "replace_with_postdata", $message );
+    $message = preg_replace_callback('(\[([a-zA-Z0-9-_]+?)\])', "replace_with_data", $message );
     
     $headers  = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type: text/plain; charset=utf-8" . "\r\n";
@@ -117,7 +165,7 @@ function am2_ajax_register_for_class(){
     $result2 = wp_mail($reply_to, $subject, $message, $headers2);
 
     /*to corporate*/
-    $result3 = wp_mail('info@amazingathletes.com', $subject, $message, $headers1);
+    $result3 = wp_mail('ivan.svaljek@gmail.com', $subject, $message, $headers1);
 
     $response['success'] = 'true';
     $response['paid_tuition'] = isset($_POST['paid_tuition']);
