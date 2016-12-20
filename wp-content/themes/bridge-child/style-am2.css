@@ -449,6 +449,11 @@ text-align: center;
     border-radius:10px;
 }
 
+.btn_register_class:hover {
+	color:white!important;
+	background:red;
+}
+
 .tbl_register_class tr {
     border-bottom:1px solid #eee;
 }

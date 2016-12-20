@@ -1,966 +1,974 @@
-/*
-Theme Name: Bridge Child
-Theme URI: http://demo.qodeinteractive.com/bridge/
-Description: A child theme of Bridge Theme
-Author: Qode Interactive
-Author URI: http://www.qodethemes.com/
-Version: 1.0.0
-Template: bridge
-*/
-@import url("../bridge/style.css");
-
-
-/*****************************************ADDITIONAL CSS******************************/
-
-/***************************HEADER*****************/
-@media only screen and (min-width: 1300px){
-.header_bottom
-.container_inner {
-    width: 1300px;
-}
-}
-
-@media only screen and (min-width: 1400px){
-
-.headerhead{
-    position: fixed;
-    left: 3%;
-    top: 30px;
-}
-}
-
-
-@media only screen and (max-width: 1399px){
-.headerhead{
-display:none;
-}
-}
-
-
-@media only screen and (min-width: 1000px){
-header.stick_with_left_right_menu:not(.sticky) {
-    text-align: center;
-    background-image: url("http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/header-swath.png");
-    background-position: bottom center;
-    background-repeat:no-repeat;
-    background-size:cover;
-    height: 205px;
-}
-}
-
-
-/*************LOGO*************/
-
-/*********NAVIGATION***********/
-
-nav.main_menu>ul>li>a {
-    padding: 0px 3px;
-}
-
-nav.main_menu > ul > li > a {
-    font-size: 1vw;
-    padding: 0px 6px;
-}
-
-.drop_down .second .inner>ul, li.narrow .second .inner ul {
-    background-color: #fff;
-}
-
-
-.drop_down .second .inner ul li a{
-    color: red;
-}
-
-
-
-/*************slider***********/
-
-
-
-/******************mobile slider****************/
-
-
-.slide-text{
-    display:BLOCK;
-}
-
-@media screen and (max-width: 782px) and (min-width: 480px){
-.q_slider {
-    margin-top: 8%;
-}
-}
-
-@media screen and (max-width: 479px){
-.q_slider {
-    margin-top: 20%;
-}
-
-.slide-text{
-    display:none;
-}
-}
-
-/***********END MOBILE SLIDER***********/
-
-
-/*********************************HOMEPAGE CSS******************************/
-
-
-/****************feature buttons***********/
-
-@media screen and (min-width: 1300px){
-.home-top-row{
-    margin-left: 15%;
-    margin-right: 15%;
-    margin-top:1.5%;
-}
-}
-
-
-
-.home-top-row{
-    margin-top:2.5%;
-}
-
-
-
-/***********welcome text****************/
-
-
-.home-welcome-header{
-     margin-top:1.5%;
-     margin-right:15%;
-     margin-left:15%;
-}
-
-
-/**********sports icons************/
-
-
-
-.icon-row{
-    margin:0% 15%;
-}
-
-.spt-icons{
-    margin: 0 1.25%;
-}
-
-
-#bball:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-basketball-icon.png');
-}
-
-#vball:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-account-volleyball-icon.png');
-}
-
-#sball:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-locations-soccerball-icon.png');
-}
-
-#fball:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-pages-football-icon.png');
-}
-
-#bsball:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/logout-baseball-icon.png');
-}
-
-#hockey:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png');
-}
-
-#lacross:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-lacross-icon.png');
-}
-
-#tennis:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-tennis-icon.png');
-}
-
-#golf:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/rescources-golf-icon.png');
-}
-
-
-
-/*************** KARDIO SECTION ***************/
-
-.kardio-section{
-    margin-top: 45px;
-    margin-right: 15%;
-    margin-left: 15%;
-}
-
-.dynk{
-    color:white!important;
-
-}
-
-
-.kardio-section
-p{
-   font-size: 1.25em;
-}
-
-/******************Kardio section mobile************/
-
-@media screen and (max-width: 479px){
-.dynkl{
-    font-size:1em;
-}
-}
-
-
-/***************CAROUSIL*********/
-
-.qode_carousels .slides>li {
-    margin: 0 15px 0 0;
-}
-
-
-/*************TESTIMONIAL************/
-
-.testimonials .testimonial_text_inner p:first-of-type {
-    font-family: 'lobster';
-    font-size: 2.25em!important;
-}
-
-.testimonial_author p{
-    color: #fe0000;
-    font-weight: 300;
-    color: #333333;
-    font-size: 22px!important;
-    font-family: 'open sans';
-}
-
-.testimonials-row{
-    text-align: center;
-    margin: 0 15%;
-}
-
-
-/**************Testimonials mobile*************/
-
-@media screen and (max-width: 479px){
-.testimonials .testimonial_text_inner p:first-of-type {
-    font-family: 'lobster';
-    font-size: 1em!important;
-}
-}
-
-
-
-/***********************END HOMEPAGE CSS***********************/
-
-
-
-/**********************CHILD PAGES**********************/
-
-
-.copy-child-page{
-margin: 5% 15%;
-}
-
-
-
-/****************FRANCHISE VIDEO***************/
-@media screen and (min-width: 1000px){
-.franchise-video{
-    margin: 5% 15% 0px 15%;
-}
-}
-
-
-
-
-/************STATE MAP*************/
-
-.dynamic-locaion-content{
-    min-height: 300px;
-    width: 100%;
-}
-
-
-
-
-.cities
-::-webkit-input-placeholder { 
-  color: red;
-}
-.cities
-::-moz-placeholder {
-  color: red;
-}
-.cities
-:-ms-input-placeholder {
-  color: red;
-}
-.cities
-:-moz-placeholder {
-  color: red;
-}
-
-
-
-.h1.franchise_register:hover {
-    border: 3px solid #1e3c7e;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-
-.wpcf7-form-control-wrap input[type="text"].wpcf7-form-control, .wpcf7-form-control-wrap input[type="password"], .wpcf7-form-control-wrap input[type="email"], .wpcf7-form-control-wrap input[type="date"], .wpcf7-form-control-wrap textarea.wpcf7-form-control, .wpcf7-form-control-wrap select.wpcf7-form-control{
-	max-width: 600px;
-}
-
-
-
-#frmFilterMap{
-	text-align:center;
-}
-
-#txtZipCode{
-    border-radius: 2px;
-    border: solid 1px red;
-    padding: 4px;
-    margin: 5px;
-}
-
-#frmFilterMap
-input[type="submit"]{
-	background: red;
-    border: solid 1px red;
-    color: white;
-    text-transform: uppercase;
-    font-family: 'oswald';
-    border-radius: 2px;
-    padding: 0px 14px;
-    padding-bottom: 2px;
-}
-
-#frmFilterMap
-input[type="submit"]:hover{
-	background: #1e3c7e;
-    border: solid 1px #1e3c7e;
-}
-
-
-
-
-/**************FONTS***********/
-
-/**************fonts mobile************/
-@media screen and (max-width: 479px){
-h1 {
-    line-height: 1;
-    font-size: 2em;
-    padding-bottom: 10px;
-}
-}
-
-
-
-
-/**************sidebar*************/
-
-
-/*sidebar sub items*/
-
-.sidebar
-h3{
-color:white;
-}
-
-
-
-
-aside .widget a:hover{
-color:#fcdb02 !important;
-}
-
-
-.cps-button{
-    background: none;
-    border: none;
-    color: white;
-    font-family: 'oswald';
-    font-size: 17px;
-    margin-left: 50px;
-    margin-top: 25px;
-    border-bottom: #FDCE00 2px solid;
-}
-
-
-
-
-
-
-
-@media screen and (min-width: 1650px){
-#fball-account-page {
-padding-top: 0px;
-}
-}
-
-
-@media screen and (max-width: 1649px){
-#fball-account-page {
-padding-top: 40px;
-}
-}
-
-
-
-
-
-.q_accordion_holder.accordion .ui-accordion-header .accordion_mark {
-
-    display: block;
-
-    width: 45px;
-
-    height: 45px;
-
-    border: none;
-
-}
-
-
-
-
-
-.q_accordion_holder.accordion .ui-accordion-header.ui-state-active .accordion_mark{
-
-    background-color: transparent;
-
-}
-
-
-
-.nav-icon-1 .q_accordion_holder.accordion .ui-accordion-header.ui-state-active .accordion_mark_icon {
-
-    background-image: url(http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png);
-
-}
-
-
-
-.nav-icon-1 .q_accordion_holder.accordion .ui-accordion-header .accordion_mark_icon {
-
-    display: block;
-
-    width: 41px;
-
-    height: 41px;
-
-    background-image: url(http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-account-volleyball-icon.png);
-
-    background-repeat: no-repeat;
-
-    background-position: center;
-
-    background-size: cover;
-
-}
-
-
-
-.column1 {
-    width: 25%;
-    float: left;
-    background-color: #1E3C7E;
-    height: 114%;
-    background-image: url("http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/franchisee-sidebar-foot-bg.jpg");
-    background-position: bottom center;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-
-
-.two_columns_25_75>.column1>.column_inner {
-    padding: 0 20px 0 0;
-    margin: 25% 0 0 15%;
-}
-
-
-
-#vball2:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png');
-}
-
-#sball2:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-locations-soccerball-icon.png');
-}
-
-#fball2:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-pages-football-icon.png');
-}
-
-#hockey2{
-padding: 5px 0;
-}
-
-#hockey2:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-sports-store-hockey-puck-icon.png');
-}
-
-#golf2:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-rescources-golf-icon.png');
-}
-
-#bsball2:hover{
-    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-logout-baseball-icon.png');
-}
-
-
-
-.side-nav{
-    position: relative;
-    padding: 15px 0;
-}
-
-.sidebar-nav{
-    position:absolute;
-    display:inline;
-    padding: 0 0 10px 0;
-    margin: 0 0 0 10px;
-}
-
-.sidebar-nav
-h2{
-    line-height: 30px;
-    color: white;
-}
-
-
-.sidebar-nav:after {
-  content:""; 
-  background: #FDCE00; 
-  position: absolute; 
-  bottom: 0; 
-  left: 0; 
-  width: 10em; 
-  height: 2px;
-}
-
-
-
-.q_social_icon_holder.circle_social .fa-stack {
-    border-radius: 50%;
-    margin: 5px;
-}
-
-
-.q_social_icon_holder .fa-stack i:last-child, .q_social_icon_holder .fa-stack span {
-    font-size: 1em;
-}
-
-.sidebar-text{
-    margin: 0 25% 0 0;
-    font-size: 18px;
-    color: white;
-    line-height: 40px;
-}
-
-
-
-.sidebar-telephone
-h2{
-    color: #FDCE00;
-}
-
-
-.sidebar-telephone
-h2
-a:hover{
-    color: #fe0000!important;
-}
-
-.sidebar
-.email-link
-a{
-color:white;
-}
-
-.sidebar
-.email-link
-a{
-color:#FDCE00;
-}
-
-aside
-.widget.widget_search {
-    padding: 25px 0 0 0;
-}
-
-.widget #searchform {
-    width: 95%;
-}
-
-
-
-.dropdown {
-    position: relative;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
-    z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/*********************************FOOTER CSS*******************************/
-
-
-.footer-link
-padding: 10px;
-}
-
-
-.footer_top {
-    border-top: solid 20px rgb(253, 0, 0);
-}
-
-
-.footer_top
-.container {
-    background-color: transparent;
-}
-
-
-
-/* BACK OFFICE STYLE */
-
-.user_form {    
-    width:100%;
-    max-width: 1280px;
-    margin:50px auto 50px auto;
-}
-
-.locations
-.user_form input[type="submit"] {
-    background-color: red;
-}
-
-.locations
-.user_form input[type="submit"] {
-    background-color: #b10000;
-}
-
-
-
-
-.hidden {
-    display:none;
-}
-
-.btn_add_coach {
-    text-decoration: underline;
-}
-
-#map {
-    height:300px;
-}
-
-.user_form *{        
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.user_form {    
-    width:100%;
-    max-width: 1280px;
-    margin:100px auto 50px auto;
-}
-
-.dynamic-locaion-content{
-    width:100%;
-    max-width: 1280px;
-    margin: 20px auto;
-}
-
-.user_form input[type="text"], .user_form input[type="email"], .user_form input[type="password"], .user_form textarea, .user_form select {
-    padding:8px;
-    border:1px #ccc solid;
-    margin-bottom:10px;
-    width:100%;
-}
-
-.user_form button, .user_form input[type="submit"], .user_form input[type="button"], .user_form .button {
-    padding:8px 16px;
-    border:1px solid #ccc;
-    margin:10px 0px;
-    display:inline-block;
-    background-color: #ccc;
-}
-
-#preloader_wrap{    
-    width: 54px;
-    height: 25px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 10001;
-}
-
-#preloader_1 {
-    /*display:none;*/
-    position:relative;    
-}
-
-#preloader_1 span{
-    display:block;
-    bottom:0px;
-    width: 9px;
-    height: 5px;
-    background:#9b59b6;
-    position:absolute;
-    animation: preloader_1 1.5s  infinite ease-in-out;
-}
- 
-#preloader_1 span:nth-child(2){
-left:11px;
-animation-delay: .2s;
- 
-}
-#preloader_1 span:nth-child(3){
-left:22px;
-animation-delay: .4s;
-}
-#preloader_1 span:nth-child(4){
-left:33px;
-animation-delay: .6s;
-}
-#preloader_1 span:nth-child(5){
-left:44px;
-animation-delay: .8s;
-}
-@keyframes preloader_1 {
-    0% {height:5px;transform:translateY(0px);background:#9b59b6;}
-    25% {height:30px;transform:translateY(15px);background:#3498db;}
-    50% {height:5px;transform:translateY(0px);background:#9b59b6;}
-    100% {height:5px;transform:translateY(0px);background:#9b59b6;}
-}
-
-.btn_toggle_add_coach, .btn_add_coach {
-    text-decoration: underline;
-}
-
-#preloader_overlay {
-    display: none;
-    width:100%;
-    height:100%;
-    top:0px;
-    left:0px;
-    z-index: 999999;
-    position: absolute;
-    background-color: rgba(255,255,255,0.8);
-}
-
-.user_form .hr {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #ccc;
-}
-.user_form h3 {
-    margin-bottom: 15px;
-}
-
-.state {
-    text-align: center;
-    width:960px;
-    margin:0px auto;
-    padding-bottom: 30px;    
-}
-.state li{
-    list-style: none;   
-}
-
-.state .cities {
-    clear: both;
-    margin:0px auto;    
-    display: block;
-    padding:20px;
-    width:300px;
-}
-
-.state .cities option{
-
-}
-
-.state .cities li {
-    cursor: pointer;
-}
-
-.state .cities li.selected {
-    color:blue;
-}
-
-.state .cities li, .state .franchise_name{    
-    color: #1e3c7e;
-    font-family: 'Oswald', sans-serif;
-    font-size: 22px;
-    font-weight: 400;
-    text-transform: uppercase;
-    margin:5px;
-}
-.state .locations {
-    display:none;
-}
-.state .locations .franchise {
-    margin-bottom: 10px;
-    font-size:20px;
-    color: #1e3c7e;
-    font-weight: bold;
-    border:1px solid #e7eaf1;
-}
-
-.state .locations .franchise_footer {
-    text-transform: uppercase;
-    font-size:15px;
-}
-
-.state .locations .franchise > .franchise_details {
-    display:none;
-    margin:20px;
-}
-
-.state .locations .franchise > a {
-    font-weight:normal;
-    display:block;
-    background-color: #e7eaf1;
-    font-size:20px; 
-    line-height: 60px;    
-}
-
-.state .locations .franchise > a.selected {
-    color:red;
-    font-weight: bold;
-}
-
-#regions path.selected {
-    fill: rgb(255,0,0) !important;
-}
-
-.state_title > .td img {
-    vertical-align: middle;
-}
-
-
-.state_title > .td:first-child {
-    width: 100px;
-    margin: auto;
-}
-
-
-/*.state_title {
-    display: table;
-    text-align: left;
-    margin:0px auto;
-}
-
-.state_title .td {
-    display:table-cell;
-    vertical-align: middle;
-    width:50%
-}
-
-.state_title .td:first-child {
-    
-}*/
-
-.welcome {text-align: center; color:#203e7c; font-weight: bold;}
-
-#franchise_video {
-    box-sizing: border-box;
-    width: 50%;
-    float:left;
-    padding: 10px;
-}
-
-#franchise_about {
-    box-sizing: border-box;
-    width: 50%;
-    float:left;
-    padding: 10px;
-}
-
-#franchise_about .learn_more {
-    font-family: 'Oswald', sans-serif;
-    font-size: 24px;
-    line-height: 48px;
-    font-weight: 500;
-    text-transform: uppercase;
-    color:red;
-    clear:left;
-    float:right;
-}
-
-#franchise_about .wpb_wrapper {
-    text-align: right;
-}
-
-.franchise_pages {
-    clear: both;
-    list-style: none;
-    margin:30px 0px;
-    padding:10px;
-    box-sizing: border-box;
-}
-
-.franchise_pages li {
-    display:inline-block;
-    width:33%;
-    padding-right:1%;
-    box-sizing: border-box;
-}
-
-.franchise_pages li img {
-    max-width:100%;
-}
-
-.author .state {
-    display:block;
-}
-
-.author .state .locations {
-    display:block;
-}
-
-.author .state .locations .franchise > .franchise_details {
-    display:block;
-}
-
-.select2-loader {
-    display: inline-block;
-    z-index: 2000;
-    width: 14px;
-    height: 14px;
-    border: solid 2px transparent;
-    border-top-color: #29d;
-    border-left-color: #29d;
-    border-radius: 14px;
-    -webkit-animation: pace-spinner 400ms linear infinite;
-    -moz-animation: pace-spinner 400ms linear infinite;
-    -ms-animation: pace-spinner 400ms linear infinite;
-    -o-animation: pace-spinner 400ms linear infinite;
-    animation: pace-spinner 400ms linear infinite;
-    -webkit-pointer-events: none;
-    pointer-events: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-
-.dataTables_filter { visibility: hidden; display: none;}
+/*
+Theme Name: Bridge Child
+Theme URI: http://demo.qodeinteractive.com/bridge/
+Description: A child theme of Bridge Theme
+Author: Qode Interactive
+Author URI: http://www.qodethemes.com/
+Version: 1.0.0
+Template: bridge
+*/
+@import url("../bridge/style.css");
+
+
+/*****************************************ADDITIONAL CSS******************************/
+
+/***************************HEADER*****************/
+@media only screen and (min-width: 1300px){
+.header_bottom
+.container_inner {
+    width: 1300px;
+}
+}
+
+@media only screen and (min-width: 1400px){
+
+.headerhead{
+    position: fixed;
+    left: 3%;
+    top: 30px;
+}
+}
+
+
+@media only screen and (max-width: 1399px){
+.headerhead{
+display:none;
+}
+}
+
+
+@media only screen and (min-width: 1000px){
+header.stick_with_left_right_menu:not(.sticky) {
+    text-align: center;
+    background-image: url("http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/header-swath.png");
+    background-position: bottom center;
+    background-repeat:no-repeat;
+    background-size:cover;
+    height: 205px;
+}
+}
+
+
+/*************LOGO*************/
+
+/*********NAVIGATION***********/
+
+nav.main_menu>ul>li>a {
+    padding: 0px 3px;
+}
+
+nav.main_menu > ul > li > a {
+    font-size: 1vw;
+    padding: 0px 6px;
+}
+
+.drop_down .second .inner>ul, li.narrow .second .inner ul {
+    background-color: #fff;
+}
+
+
+.drop_down .second .inner ul li a{
+    color: red;
+}
+
+
+
+/*************slider***********/
+
+
+
+/******************mobile slider****************/
+
+
+.slide-text{
+    display:BLOCK;
+}
+
+@media screen and (max-width: 782px) and (min-width: 480px){
+.q_slider {
+    margin-top: 8%;
+}
+}
+
+@media screen and (max-width: 479px){
+.q_slider {
+    margin-top: 20%;
+}
+
+.slide-text{
+    display:none;
+}
+}
+
+/***********END MOBILE SLIDER***********/
+
+
+/*********************************HOMEPAGE CSS******************************/
+
+
+/****************feature buttons***********/
+
+@media screen and (min-width: 1300px){
+.home-top-row{
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top:1.5%;
+}
+}
+
+
+
+.home-top-row{
+    margin-top:2.5%;
+}
+
+
+
+/***********welcome text****************/
+
+
+.home-welcome-header{
+     margin-top:1.5%;
+     margin-right:15%;
+     margin-left:15%;
+}
+
+
+/**********sports icons************/
+
+
+
+.icon-row{
+    margin:0% 15%;
+}
+
+.spt-icons{
+    margin: 0 1.25%;
+}
+
+
+#bball:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-basketball-icon.png');
+}
+
+#vball:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-account-volleyball-icon.png');
+}
+
+#sball:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-locations-soccerball-icon.png');
+}
+
+#fball:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-pages-football-icon.png');
+}
+
+#bsball:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/logout-baseball-icon.png');
+}
+
+#hockey:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/sports-store-hockey-puck-icon.png');
+}
+
+#lacross:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-lacross-icon.png');
+}
+
+#tennis:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/hover-tennis-icon.png');
+}
+
+#golf:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/rescources-golf-icon.png');
+}
+
+
+
+/*************** KARDIO SECTION ***************/
+
+.kardio-section{
+    margin-top: 45px;
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+.dynk{
+    color:white!important;
+
+}
+
+
+.kardio-section
+p{
+   font-size: 1.25em;
+}
+
+/******************Kardio section mobile************/
+
+@media screen and (max-width: 479px){
+.dynkl{
+    font-size:1em;
+}
+}
+
+
+/***************CAROUSIL*********/
+
+.qode_carousels .slides>li {
+    margin: 0 15px 0 0;
+}
+
+
+/*************TESTIMONIAL************/
+
+.testimonials .testimonial_text_inner p:first-of-type {
+    font-family: 'lobster';
+    font-size: 2.25em!important;
+}
+
+.testimonial_author p{
+    color: #fe0000;
+    font-weight: 300;
+    color: #333333;
+    font-size: 22px!important;
+    font-family: 'open sans';
+}
+
+.testimonials-row{
+    text-align: center;
+    margin: 0 15%;
+}
+
+
+/**************Testimonials mobile*************/
+
+@media screen and (max-width: 479px){
+.testimonials .testimonial_text_inner p:first-of-type {
+    font-family: 'lobster';
+    font-size: 1em!important;
+}
+}
+
+
+
+/***********************END HOMEPAGE CSS***********************/
+
+
+
+/**********************CHILD PAGES**********************/
+
+
+.copy-child-page{
+margin: 5% 15%;
+}
+
+
+
+/****************FRANCHISE VIDEO***************/
+@media screen and (min-width: 1000px){
+.franchise-video{
+    margin: 5% 15% 0px 15%;
+}
+}
+
+
+
+
+/************STATE MAP*************/
+
+
+
+.state_title img{
+max-width:200px;
+}
+
+
+
+.dynamic-locaion-content{
+    min-height: 300px;
+    width: 100%;
+}
+
+
+
+
+.cities
+::-webkit-input-placeholder { 
+  color: red;
+}
+.cities
+::-moz-placeholder {
+  color: red;
+}
+.cities
+:-ms-input-placeholder {
+  color: red;
+}
+.cities
+:-moz-placeholder {
+  color: red;
+}
+
+
+
+.h1.franchise_register:hover {
+    border: 3px solid #1e3c7e;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+.wpcf7-form-control-wrap input[type="text"].wpcf7-form-control, .wpcf7-form-control-wrap input[type="password"], .wpcf7-form-control-wrap input[type="email"], .wpcf7-form-control-wrap input[type="date"], .wpcf7-form-control-wrap textarea.wpcf7-form-control, .wpcf7-form-control-wrap select.wpcf7-form-control{
+	max-width: 600px;
+}
+
+
+
+#frmFilterMap{
+	text-align:center;
+}
+
+#txtZipCode{
+    border-radius: 2px;
+    border: solid 1px red;
+    padding: 4px;
+    margin: 5px;
+}
+
+#frmFilterMap
+input[type="submit"]{
+	background: red;
+    border: solid 1px red;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'oswald';
+    border-radius: 2px;
+    padding: 0px 14px;
+    padding-bottom: 2px;
+}
+
+#frmFilterMap
+input[type="submit"]:hover{
+	background: #1e3c7e;
+    border: solid 1px #1e3c7e;
+}
+
+
+
+
+/**************FONTS***********/
+
+/**************fonts mobile************/
+@media screen and (max-width: 479px){
+h1 {
+    line-height: 1;
+    font-size: 2em;
+    padding-bottom: 10px;
+}
+}
+
+
+
+
+/**************sidebar*************/
+
+
+/*sidebar sub items*/
+
+.sidebar
+h3{
+color:white;
+}
+
+
+
+
+aside .widget a:hover{
+color:#fcdb02 !important;
+}
+
+
+.cps-button{
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'oswald';
+    font-size: 17px;
+    margin-left: 50px;
+    margin-top: 25px;
+    border-bottom: #FDCE00 2px solid;
+}
+
+
+
+
+
+
+
+@media screen and (min-width: 1650px){
+#fball-account-page {
+padding-top: 0px;
+}
+}
+
+
+@media screen and (max-width: 1649px){
+#fball-account-page {
+padding-top: 40px;
+}
+}
+
+
+
+
+
+.q_accordion_holder.accordion .ui-accordion-header .accordion_mark {
+
+    display: block;
+
+    width: 45px;
+
+    height: 45px;
+
+    border: none;
+
+}
+
+
+
+
+
+.q_accordion_holder.accordion .ui-accordion-header.ui-state-active .accordion_mark{
+
+    background-color: transparent;
+
+}
+
+
+
+.nav-icon-1 .q_accordion_holder.accordion .ui-accordion-header.ui-state-active .accordion_mark_icon {
+
+    background-image: url(http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png);
+
+}
+
+
+
+.nav-icon-1 .q_accordion_holder.accordion .ui-accordion-header .accordion_mark_icon {
+
+    display: block;
+
+    width: 41px;
+
+    height: 41px;
+
+    background-image: url(http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/my-account-volleyball-icon.png);
+
+    background-repeat: no-repeat;
+
+    background-position: center;
+
+    background-size: cover;
+
+}
+
+
+
+.column1 {
+    width: 25%;
+    float: left;
+    background-color: #1E3C7E;
+    height: 114%;
+    background-image: url("http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/franchisee-sidebar-foot-bg.jpg");
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+.two_columns_25_75>.column1>.column_inner {
+    padding: 0 20px 0 0;
+    margin: 25% 0 0 15%;
+}
+
+
+
+#vball2:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-account-volleyball-icon.png');
+}
+
+#sball2:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-locations-soccerball-icon.png');
+}
+
+#fball2:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-my-pages-football-icon.png');
+}
+
+#hockey2{
+padding: 5px 0;
+}
+
+#hockey2:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-sports-store-hockey-puck-icon.png');
+}
+
+#golf2:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-rescources-golf-icon.png');
+}
+
+#bsball2:hover{
+    content: url('http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/active-logout-baseball-icon.png');
+}
+
+
+
+.side-nav{
+    position: relative;
+    padding: 15px 0;
+}
+
+.sidebar-nav{
+    position:absolute;
+    display:inline;
+    padding: 0 0 10px 0;
+    margin: 0 0 0 10px;
+}
+
+.sidebar-nav
+h2{
+    line-height: 30px;
+    color: white;
+}
+
+
+.sidebar-nav:after {
+  content:""; 
+  background: #FDCE00; 
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  width: 10em; 
+  height: 2px;
+}
+
+
+
+.q_social_icon_holder.circle_social .fa-stack {
+    border-radius: 50%;
+    margin: 5px;
+}
+
+
+.q_social_icon_holder .fa-stack i:last-child, .q_social_icon_holder .fa-stack span {
+    font-size: 1em;
+}
+
+.sidebar-text{
+    margin: 0 25% 0 0;
+    font-size: 18px;
+    color: white;
+    line-height: 40px;
+}
+
+
+
+.sidebar-telephone
+h2{
+    color: #FDCE00;
+}
+
+
+.sidebar-telephone
+h2
+a:hover{
+    color: #fe0000!important;
+}
+
+.sidebar
+.email-link
+a{
+color:white;
+}
+
+.sidebar
+.email-link
+a{
+color:#FDCE00;
+}
+
+aside
+.widget.widget_search {
+    padding: 25px 0 0 0;
+}
+
+.widget #searchform {
+    width: 95%;
+}
+
+
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*********************************FOOTER CSS*******************************/
+
+
+.footer-link
+padding: 10px;
+}
+
+
+.footer_top {
+    border-top: solid 20px rgb(253, 0, 0);
+}
+
+
+.footer_top
+.container {
+    background-color: transparent;
+}
+
+
+
+/* BACK OFFICE STYLE */
+
+.user_form {    
+    width:100%;
+    max-width: 1280px;
+    margin:50px auto 50px auto;
+}
+
+.locations
+.user_form input[type="submit"] {
+    background-color: red;
+}
+
+.locations
+.user_form input[type="submit"] {
+    background-color: #b10000;
+}
+
+
+
+
+.hidden {
+    display:none;
+}
+
+.btn_add_coach {
+    text-decoration: underline;
+}
+
+#map {
+    height:300px;
+}
+
+.user_form *{        
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.user_form {    
+    width:100%;
+    max-width: 1280px;
+    margin:100px auto 50px auto;
+}
+
+.dynamic-locaion-content{
+    width:100%;
+    max-width: 1280px;
+    margin: 20px auto;
+}
+
+.user_form input[type="text"], .user_form input[type="email"], .user_form input[type="password"], .user_form textarea, .user_form select {
+    padding:8px;
+    border:1px #ccc solid;
+    margin-bottom:10px;
+    width:100%;
+}
+
+.user_form button, .user_form input[type="submit"], .user_form input[type="button"], .user_form .button {
+    padding:8px 16px;
+    border:1px solid #ccc;
+    margin:10px 0px;
+    display:inline-block;
+    background-color: #ccc;
+}
+
+#preloader_wrap{    
+    width: 54px;
+    height: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10001;
+}
+
+#preloader_1 {
+    /*display:none;*/
+    position:relative;    
+}
+
+#preloader_1 span{
+    display:block;
+    bottom:0px;
+    width: 9px;
+    height: 5px;
+    background:#9b59b6;
+    position:absolute;
+    animation: preloader_1 1.5s  infinite ease-in-out;
+}
+ 
+#preloader_1 span:nth-child(2){
+left:11px;
+animation-delay: .2s;
+ 
+}
+#preloader_1 span:nth-child(3){
+left:22px;
+animation-delay: .4s;
+}
+#preloader_1 span:nth-child(4){
+left:33px;
+animation-delay: .6s;
+}
+#preloader_1 span:nth-child(5){
+left:44px;
+animation-delay: .8s;
+}
+@keyframes preloader_1 {
+    0% {height:5px;transform:translateY(0px);background:#9b59b6;}
+    25% {height:30px;transform:translateY(15px);background:#3498db;}
+    50% {height:5px;transform:translateY(0px);background:#9b59b6;}
+    100% {height:5px;transform:translateY(0px);background:#9b59b6;}
+}
+
+.btn_toggle_add_coach, .btn_add_coach {
+    text-decoration: underline;
+}
+
+#preloader_overlay {
+    display: none;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index: 999999;
+    position: absolute;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.user_form .hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+}
+.user_form h3 {
+    margin-bottom: 15px;
+}
+
+.state {
+    text-align: center;
+    width:960px;
+    margin:0px auto;
+    padding-bottom: 30px;    
+}
+.state li{
+    list-style: none;   
+}
+
+.state .cities {
+    clear: both;
+    margin:0px auto;    
+    display: block;
+    padding:20px;
+    width:300px;
+}
+
+.state .cities option{
+
+}
+
+.state .cities li {
+    cursor: pointer;
+}
+
+.state .cities li.selected {
+    color:blue;
+}
+
+.state .cities li, .state .franchise_name{    
+    color: #1e3c7e;
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin:5px;
+}
+.state .locations {
+    display:none;
+}
+.state .locations .franchise {
+    margin-bottom: 10px;
+    font-size:20px;
+    color: #1e3c7e;
+    font-weight: bold;
+    border:1px solid #e7eaf1;
+}
+
+.state .locations .franchise_footer {
+    text-transform: uppercase;
+    font-size:15px;
+}
+
+.state .locations .franchise > .franchise_details {
+    display:none;
+    margin:20px;
+}
+
+.state .locations .franchise > a {
+    font-weight:normal;
+    display:block;
+    background-color: #e7eaf1;
+    font-size:20px; 
+    line-height: 60px;    
+}
+
+.state .locations .franchise > a.selected {
+    color:red;
+    font-weight: bold;
+}
+
+#regions path.selected {
+    fill: rgb(255,0,0) !important;
+}
+
+.state_title > .td img {
+    vertical-align: middle;
+}
+
+
+.state_title > .td:first-child {
+    width: 100px;
+    margin: auto;
+}
+
+
+/*.state_title {
+    display: table;
+    text-align: left;
+    margin:0px auto;
+}
+
+.state_title .td {
+    display:table-cell;
+    vertical-align: middle;
+    width:50%
+}
+
+.state_title .td:first-child {
+    
+}*/
+
+.welcome {text-align: center; color:#203e7c; font-weight: bold;}
+
+#franchise_video {
+    box-sizing: border-box;
+    width: 50%;
+    float:left;
+    padding: 10px;
+}
+
+#franchise_about {
+    box-sizing: border-box;
+    width: 50%;
+    float:left;
+    padding: 10px;
+}
+
+#franchise_about .learn_more {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    line-height: 48px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color:red;
+    clear:left;
+    float:right;
+}
+
+#franchise_about .wpb_wrapper {
+    text-align: right;
+}
+
+.franchise_pages {
+    clear: both;
+    list-style: none;
+    margin:30px 0px;
+    padding:10px;
+    box-sizing: border-box;
+}
+
+.franchise_pages li {
+    display:inline-block;
+    width:33%;
+    padding-right:1%;
+    box-sizing: border-box;
+}
+
+.franchise_pages li img {
+    max-width:100%;
+}
+
+.author .state {
+    display:block;
+}
+
+.author .state .locations {
+    display:block;
+}
+
+.author .state .locations .franchise > .franchise_details {
+    display:block;
+}
+
+.select2-loader {
+    display: inline-block;
+    z-index: 2000;
+    width: 14px;
+    height: 14px;
+    border: solid 2px transparent;
+    border-top-color: #29d;
+    border-left-color: #29d;
+    border-radius: 14px;
+    -webkit-animation: pace-spinner 400ms linear infinite;
+    -moz-animation: pace-spinner 400ms linear infinite;
+    -ms-animation: pace-spinner 400ms linear infinite;
+    -o-animation: pace-spinner 400ms linear infinite;
+    animation: pace-spinner 400ms linear infinite;
+    -webkit-pointer-events: none;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.dataTables_filter { visibility: hidden; display: none;}
