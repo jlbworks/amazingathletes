@@ -89,6 +89,7 @@ function am2_ajax_register_for_class(){
         'location_name' => $location->post_title,
         'location_address' => $location->address,
         'class_type' => $class->type,
+        'class_program' => $class->program,
         'class_display_day' => $class_display_day,
         'class_display_time' => $class_display_time,
         'class_age_range' => $class->age_range,
