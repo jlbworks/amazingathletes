@@ -12,14 +12,14 @@ $args = array(
 
 if(isset($_GET['type'])){	
 	$slugs = array(
-		'community-classes' => 'Community classes',
-		'on-site' => 'On-site classes',
+		'community-classes' => array('Open Enrollment', 'Special Event'),
+		'on-site' => array('Member Only'),
 	);
 
 	$args['meta_query'][] = array(
 		'key'		=> 'location_type',
 		'value'		=> $slugs[$_GET['type']],
-		'compare'	=> '=',
+		'compare'	=> 'IN',
 	);
 }
 
