@@ -1,4 +1,7 @@
 <?php /*Template Name: 2nd individual to coach */
+
+restrict_access('super_admin,administrator');
+
 $args = array(
     'role' => 'franchisee'
 );
