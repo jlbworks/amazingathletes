@@ -170,12 +170,12 @@ $cid = false;
 
 foreach ($classes as $c) {
     //var_dump(get_post_meta($c->ID));
-    // if (isset($_GET['coach_id']) and !empty($_GET['coach_id'])) {
-    //     $cid = (int) $_GET['coach_id'];
-    //     if(!is_array($c->coaches) or !in_array($cid, $c->coaches)) {
-    //         continue;
-    //     }
-    // }    
+    if (isset($_GET['coach_id']) and !empty($_GET['coach_id'])) {
+        $cid = (int) $_GET['coach_id'];
+        if(!is_array($c->coaches) or !in_array($cid, $c->coaches)) {
+            continue;
+        }
+    }    
 
     if ('recurring' == $c->datetype ) {
 
