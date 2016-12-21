@@ -572,5 +572,75 @@ function am2_acf_on_user_save( $post_id ) {
 // run before ACF saves the $_POST['acf'] data
 add_action('acf/save_post', 'am2_acf_on_user_save', 99);
 
+function insert_2nd_individual_as_coach($franchisee){
+    if(!empty($franchisee->individual_2_first_name) && !empty($franchisee->individual_2_last_name)){
+        $franchisee_username = $franchisee->user_login;
+        $coach_username = $franchisee_username . '_i2';
+        $coach_password = wp_generate_password( 8 );
+        //$coach_id = wp_create_user( $coach_username, $coach_password, "$coach_username@amazingathletes.com" );        
 
+        $i2_coaches = get_users(
+            array(
+                'role' => 'coach',
+                'meta_query' => array(
+                    array(
+                        'key' => 'coach_type',
+                        'value' => 'individual_two',
+                        'compare' => '='
+                    ),
+                    array(
+                        'key' => 'franchisee',
+                        'value' => $franchisee->ID,
+                        'compare' => '='
+                    )
+                )
+            )       
+        );
+
+        if( count($i2_coaches) < 1 ){
+            $userdata = array(
+                'user_login'  =>  $coach_username,            
+                'user_pass'   =>  $coach_password,  // When creating an user, `user_pass` is expected.
+                'user_email'  =>  "$coach_username@amazingathletes.xyz",
+                'first_name'  =>  $franchisee->individual_2_first_name,
+                'last_name'   =>  $franchisee->individual_2_last_name,
+                'role'        =>  'coach',
+            );
+
+            $user_id = wp_insert_user( $userdata ) ;
+
+            if(is_wp_error( $coach_id )){
+                echo $franchisee->ID .': ';
+                echo $coach_id->get_error_message() .'<br/>';
+            }
+            else {
+                update_user_meta($user_id, 'franchisee', $franchisee->ID);
+                update_user_meta($user_id, 'coach_type', 'individual_two');
+                echo "{$franchisee->individual_2_first_name} {$franchisee->individual_2_last_name}<br/>";            
+            }
+        }        
+        else if(count($i2_coaches) === 1) {
+            $user_id = $i2_coaches[0]->ID;
+
+            update_user_meta($user_id, 'first_name', $franchisee->individual_2_first_name);
+            update_user_meta($user_id, 'last_name', $franchisee->individual_2_last_name);
+        }
+    }
+}
+
+function amat_init() {
+	add_filter( 'updated_user_meta', 'amat_updated_user_meta', 10, 4 );
+}
+
+function amat_updated_user_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
+    if( $meta_key == 'individual_2_first_name' || $meta_key == 'individual_2_last_name' ){
+        $franchisee = get_user_by('id', $object_id);
+
+        if(in_array('franchisee', $franchisee->roles)){
+            insert_2nd_individual_as_coach($franchisee);
+        }
+    }
+}
+
+add_action( 'init', 'amat_init' );
 ?>
