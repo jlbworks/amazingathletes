@@ -139,6 +139,8 @@ function am2_init() {
 		'possible_class_costs' => $possible_class_costs,
 	));
 
+	$author = get_query_var('author');	
+
 	wp_enqueue_script('am2_main');
 
 	$states_db = $wpdb->get_results("SELECT DISTINCT * FROM states ORDER BY state ASC");
@@ -148,6 +150,10 @@ function am2_init() {
 		'theme_url' => get_stylesheet_directory_uri(),
 		'states' => $states_db,
 		'aa_state' => get_query_var( 'aa_state' , '' ),
+	));
+
+	wp_localize_script('am2_main', 'author_object', array(		
+		'video_url' => get_user_meta($author, 'video', true),
 	));
 }
 

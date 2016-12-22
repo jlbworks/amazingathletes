@@ -65,7 +65,7 @@ var classes_with_special_title = ['Contract', 'Camp'];
 
         try {
             var myId = getVideoId(author_object.video_url);
-            //console.log(myId);
+            console.log(myId);
 
             $('#franchise_video').html('<iframe width="100%" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>');
         } catch (exc) {

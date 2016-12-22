@@ -18,15 +18,15 @@ foreach($_user_meta as $key => $um){
 
 $page_content = unserialize($user_meta['page_content']);
 
-function am2_user_data(){
-	$author = get_query_var('author');
+// function am2_user_data(){
+// 	$author = get_query_var('author');
 
-	wp_localize_script('am2_main', 'author_object', array(		
-		'video_url' => get_user_meta($author, 'video', true),
-	));
-}
+// 	wp_localize_script('am2_main', 'author_object', array(		
+// 		'video_url' => get_user_meta($author, 'video', true),
+// 	));
+// }
 
-add_action('wp_enqueue_scripts', 'am2_user_data', 12);
+// add_action('wp_enqueue_scripts', 'am2_user_data', 100);
 
 get_header();?>
 <div class="content " style="min-height: 758px;">
