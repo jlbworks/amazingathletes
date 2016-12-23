@@ -540,8 +540,8 @@ foreach($_payment_options as $key => $opt){
                         <td class="editable"><span><?php echo $roster_customer_discount;?></span><select name="roster_customer_discount" class="hidden"><?php echo $discount_options; ?></select></td>
                         <td><span><?php echo $tuition;?></span></td>
                         <td class="editable"><span><?php echo $roster_payment_type;?></span><select name="roster_payment_type" class="hidden"><?php echo $payment_options; ?></select></td>
-                        <td class="editable"><span><?php echo $tuition_paid_amt;?></span><input name="tuition_paid_amt" class="hidden" /></td>
-                        <td class="editable"><span><?php echo $tuition_paid_date;?></span><input name="tuition_paid_date" class="hidden" /></td>
+                        <td class="editable"><span><?php echo $tuition_paid_amt;?></span><input name="tuition_paid_amt" type="number" class="hidden" /></td>
+                        <td class="editable"><span><?php echo $tuition_paid_date;?></span><input name="tuition_paid_date" type="text"  class="hidden" /></td>
                         <td class="editable_direct"><span><?php echo $weeks[0];?></span><input type="checkbox" name="week1" value="x" <?php if($week1 == 'x') echo 'checked="checked"';?>/></td>
                         <td class="editable_direct"><span><?php echo $weeks[1];?></span><input type="checkbox" name="week2" value="x" <?php if($week2 == 'x') echo 'checked="checked"';?>/></td>
                         <td class="editable_direct"><span><?php echo $weeks[2];?></span><input type="checkbox" name="week3" value="x" <?php if($week3 == 'x') echo 'checked="checked"';?>/></td>
