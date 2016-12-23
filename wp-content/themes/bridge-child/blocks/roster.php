@@ -266,25 +266,25 @@ foreach($_rosters as $krost => $rost){
 $coach_ids = array_unique($coach_ids);
 $location_ids = array_unique($location_ids);
 
-$customer_statuses = array('' => '', 'E' => 'E', 'N' => 'N', 'FT' => 'FT');
+$customer_statuses = array( '' => '', 'Enrolled' => 'E', 'New' => 'N', 'Free Trial' => 'FT', 'Break' => 'B', 'Drop' => 'D' );
 $status_options = '';
 foreach($customer_statuses as $key => $opt){    
     $status_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
 }  
 
-$customer_media = array('' => '', 'Y' => 'Y', 'N' => 'N');
+$customer_media = array( '' => '', 'Y' => 'Y', 'N' => 'N' );
 $customer_media_options = '';
 foreach($customer_media as $key => $opt){    
     $customer_media_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
 }  
 
-$_discount = array('' => '', 'SIB' => 'SIB');
+$_discount = array('' => '', 'Director Discount' => 'DIR', 'Teacher Discount' => 'TEA', 'Sibling' => 'SIB', 'Other Discount' => 'OTH' );
 $discount_options = '';
 foreach($_discount as $key => $opt){    
     $discount_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
 }  
 
-$_payment_options = array('' => '', 'Ck/$' => 'Ck/$');
+$_payment_options = array('' => '', 'Check Cash' => 'Ck/$', 'Credit Card' => 'CC', 'Auto Pay' => 'Auto' );
 $payment_options = '';
 foreach($_payment_options as $key => $opt){    
     $payment_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
