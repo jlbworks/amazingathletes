@@ -1124,6 +1124,36 @@ function submit_data() {
     }
 
     /**
+        roster_inline_edit
+    **/
+    if($_POST['form_handler'] == 'roster_inline_edit'){
+        $roster_id = (int) $_REQUEST['roster_id']; 
+        $modifications = $_REQUEST['modifications'];
+
+        if(!current_user_can( 'super_admin' ) && !current_user_can( 'administrator' ) && !current_user_can( 'franchisee' ) ) {
+            exit(json_encode(array('success' => false , 'message' => "Not Allowed" ) ) ) ;
+        }
+        
+        $roster = get_post($roster_id);
+
+        $modifications_meta = $roster->modifications;
+
+        if(!is_array($modifications_meta)) $modifications_meta = array();
+
+        if(is_array($modifications) && !empty($modifications)){
+            foreach($modifications as $key => $val){
+                $modifications_meta[$key] = $val;
+            }
+            $result = update_post_meta($roster_id, 'modifications', $modifications_meta);            
+        }        
+        else {
+            $result = false;
+        }
+
+        exit(json_encode(array('success' => $result , 'message' => "Roster edit " . ($result ? 'success' : 'failed') )));
+    }
+
+    /**
       END OF SUBMIT FORM HANDLERS
      */
     //

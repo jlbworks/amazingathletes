@@ -265,6 +265,30 @@ foreach($_rosters as $krost => $rost){
 
 $coach_ids = array_unique($coach_ids);
 $location_ids = array_unique($location_ids);
+
+$customer_statuses = array('' => '', 'E' => 'E', 'N' => 'N', 'FT' => 'FT');
+$status_options = '';
+foreach($customer_statuses as $key => $opt){    
+    $status_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
+}  
+
+$customer_media = array('' => '', 'Y' => 'Y', 'N' => 'N');
+$customer_media_options = '';
+foreach($customer_media as $key => $opt){    
+    $customer_media_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
+}  
+
+$_discount = array('' => '', 'SIB' => 'SIB');
+$discount_options = '';
+foreach($_discount as $key => $opt){    
+    $discount_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
+}  
+
+$_payment_options = array('' => '', 'Ck/$' => 'Ck/$');
+$payment_options = '';
+foreach($_payment_options as $key => $opt){    
+    $payment_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
+}  
 ?>
 
     <!-- CONTENT HEADER -->
@@ -407,6 +431,7 @@ $location_ids = array_unique($location_ids);
                         //   $location_id = get_post_meta( $rost->ID, 'roster_location_id', true );                          
                         //   $class_id = get_post_meta( $rost->ID, 'roster_class_id', true );
                         //   $coach_ids = get_post($class_id)->coaches; // get_post_meta( $rost->ID, 'roster_coach_id', true );
+                        $modifications = $rost->modifications;
                         $customer_id = get_post_meta( $rost->ID, 'roster_customer_id', true );                                                    
 
                         //$franchise = get_user_meta( (int) $franchise_id, 'franchise_name', true);
@@ -416,7 +441,7 @@ $location_ids = array_unique($location_ids);
                     
                         $customer = get_post( (int) $customer_id );
                         //$customer_paid_registration_fee = $customer->paid_tuition ? 'x' : '';
-                        $tution_paid_date = '';
+                        $tuition_paid_date = '';
                         $registration_paid = '';
                         $tuition_paid_amt = 0;
                         $registration_paid_amt = 0;
@@ -440,8 +465,9 @@ $location_ids = array_unique($location_ids);
                             )
                         ));
 
-                        foreach($payments as $payment){
                         
+                    
+                        foreach($payments as $payment){                            
                             if($payment->payment_type == 'registration'){
                                 $registration_paid_amt = $payment->payment_paid_amount;
                                 if($registration_fee > $registration_paid_amt){
@@ -453,12 +479,12 @@ $location_ids = array_unique($location_ids);
                             }
                             else if($payment->payment_type == 'tuition' && $tuition_paid_amt == 0){                                
                                 if(date('Y',strtotime($payment->payment_paid_date)) == $year && date('m',strtotime($payment->payment_paid_date)) == $month){
-                                    $tution_paid_date = $payment->payment_paid_date;
+                                    $tuition_paid_date = $payment->payment_paid_date;
                                     $tuition_paid_amt = $payment->payment_paid_amount;
                                     //break;
                                 }                                                                
                             }
-                        }
+                        }                                            
 
                         $attendances = get_posts(array(
                             'post_type' => 'attendance',
@@ -478,6 +504,20 @@ $location_ids = array_unique($location_ids);
                             $formatted = vsprintf('%3$04d-%1$02d-%2$02d', sscanf($attendance_date,'%02d/%02d/%04d'));                     
                             $weeks[ am2GetWeekInMonth($formatted, "sunday") -1 ] = 'x';
                         }
+
+                        $roster_customer_status = isset($modifications['roster_customer_status']) ? $modifications['roster_customer_status'] : $rost->roster_customer_status;
+                        $roster_customer_media = isset($modifications['roster_customer_media']) ? $modifications['roster_customer_media'] : $rost->roster_customer_media;                    
+                        $roster_customer_discount = isset($modifications['roster_customer_discount']) ? $modifications['roster_customer_discount'] : $rost->roster_customer_discount;  
+                        $roster_payment_type = isset($modifications['roster_payment_type']) ? $modifications['roster_payment_type'] : $rost->roster_payment_type;                        
+                        $registration_paid = isset($modifications['registration_paid']) ? $modifications['registration_paid'] : $registration_paid;
+                        $tuition_paid_date = isset($modifications['tuition_paid_date']) ? $modifications['tuition_paid_date'] : $tuition_paid_date;
+                        $tuition_paid_amt = isset($modifications['tuition_paid_amt']) ? $modifications['tuition_paid_amt'] : $tuition_paid_amt;
+                        
+                        $week1 = isset($modifications['week1']) ? $modifications['week1'] : $weeks[0];
+                        $week2 = isset($modifications['week2']) ? $modifications['week2'] : $weeks[1];
+                        $week3 = isset($modifications['week3']) ? $modifications['week3'] : $weeks[2];
+                        $week4 = isset($modifications['week4']) ? $modifications['week4'] : $weeks[3];                        
+                        
                         
                         /*$sel_coaches = get_post_meta($class_id, 'coaches', true);
                         $sel_coaches = array_map(function($coach){
@@ -486,26 +526,26 @@ $location_ids = array_unique($location_ids);
                         
                         //$str_coaches = implode(',',$sel_coaches);
                     ?>
-                    <tr class="gradeA">
+                    <tr class="gradeA" data-roster-id="<?php echo $rost->ID;?>">
                         <td><span class="a_details">+</span></td>
                         <td style="white-space:nowrap"><a class="am2-ajax-modal"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                         data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><?php echo $i+1; ?></a></td>
-                        <td><span><?php echo $rost->roster_customer_status;?></span></td>
-                        <td><span><?php echo $rost->roster_customer_media;?></span></td>
+                        <td class="editable"><span><?php echo $roster_customer_status;?></span><select name="roster_customer_status" class="hidden"><?php echo $status_options; ?></select></td>
+                        <td class="editable"><span><?php echo $roster_customer_media;?></span><select name="roster_customer_media" class="hidden"><?php echo $customer_media_options; ?></select></td>
                         <td><span><?php echo $customer->childs_first_name . ' ' . $customer->childs_last_name;?></span></td>
                         <td><span><?php echo $customer->childs_gender;?></span></td>
                         <td><span><?php echo $registration_fee;?></span></td>
-                        <td><span><?php echo $registration_paid;?></span></td>
-                        <td><span><?php echo $rost->roster_customer_discount;?></span></td>
+                        <td class="editable_direct"><input type="checkbox" name="registration_paid" value="x" <?php if($registration_paid == 'x') echo 'checked="checked"';?>/></td>
+                        <td class="editable"><span><?php echo $roster_customer_discount;?></span><select name="roster_customer_discount" class="hidden"><?php echo $discount_options; ?></select></td>
                         <td><span><?php echo $tuition;?></span></td>
-                        <td><span><?php echo $rost->roster_payment_type;?></span></td>
-                        <td><span><?php echo $tuition_paid_amt;?></span></td>
-                        <td><span><?php echo $tution_paid_date;?></span></td>
-                        <td><span><?php echo $weeks[0];?></span></td>
-                        <td><span><?php echo $weeks[1];?></span></td>
-                        <td><span><?php echo $weeks[2];?></span></td>
-                        <td><span><?php echo $weeks[3];?></span></td>
+                        <td class="editable"><span><?php echo $roster_payment_type;?></span><select name="roster_payment_type" class="hidden"><?php echo $payment_options; ?></select></td>
+                        <td class="editable"><span><?php echo $tuition_paid_amt;?></span><input name="tuition_paid_amt" class="hidden" /></td>
+                        <td class="editable"><span><?php echo $tuition_paid_date;?></span><input name="tuition_paid_date" class="hidden" /></td>
+                        <td class="editable_direct"><span><?php echo $weeks[0];?></span><input type="checkbox" name="week1" value="x" <?php if($week1 == 'x') echo 'checked="checked"';?>/></td>
+                        <td class="editable_direct"><span><?php echo $weeks[1];?></span><input type="checkbox" name="week2" value="x" <?php if($week2 == 'x') echo 'checked="checked"';?>/></td>
+                        <td class="editable_direct"><span><?php echo $weeks[2];?></span><input type="checkbox" name="week3" value="x" <?php if($week3 == 'x') echo 'checked="checked"';?>/></td>
+                        <td class="editable_direct"><span><?php echo $weeks[3];?></span><input type="checkbox" name="week4" value="x" <?php if($week4 == 'x') echo 'checked="checked"';?>/></td>
                         <td><span><?php //echo "F{$rost->roster_franchise_id} L{$rost->roster_location_id} C{$rost->roster_class_id} CO{$rost->roster_coach_id}";?></span></td>             
                         <td style="display:none;"><?php echo $customer->childs_birthday;?></td>
                         <td style="display:none;"><?php echo $customer->parents_name;?></td>
@@ -772,17 +812,11 @@ $(document).ready(function() {
         else*/
         $('#filter select').each(function(){
             if($(this).index() > idx){
-                //console.log($(this).index());
                 $(this).html('').val('').trigger('change');
             }
         });
 
-        if( $('#f_class_id').val() ){
-
-            /*window.location.hash = '#roster/?f_franchise_id=' + $('#f_class_id').find(':selected').data('franchise-id') + 
-            '&f_location_id=' + $('#f_class_id').find(':selected').data('location-id') +
-            '&f_class_id=' + $('#f_class_id').val();*/
-            
+        if( $('#f_class_id').val() ){            
             var filters = new Array;
 
             var sep = '?';
@@ -798,6 +832,59 @@ $(document).ready(function() {
             window.location.hash = '#roster/' + query;
         }        
     });
+
+    $('#datatable-editable td.editable').on('click', function(){
+      console.log('td click');
+
+      if(!$(this).hasClass('edit')){
+          $(this).addClass('edit');
+          console.log('edit');
+          $(this).children('input,select').eq(0).val($(this).children('span').text()).focus().select();
+      }      
+      else {          
+      }
+  });  
+
+  $('#datatable-editable td.editable_direct :input').on('change', function(){
+    var $tr = $(this).closest('tr');
+    var $td = $(this).closest('td');        
+    var roster_id = $tr.data('roster-id');
+    var row_data = {};
+    var name = $(this).attr('name');
+    var val = $(this).val();
+    var type = $(this).attr('type');    
+
+    console.log(val);   
+    if(type=='checkbox' && !this.checked){
+       val = '';
+    }
+    console.log(val);
+
+    row_data[name] = val;    
+    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'roster_inline_edit', roster_id: roster_id, modifications: row_data  }, function(resp){
+        console.log(resp);
+        $td.removeClass('edit');
+    });
+
+  });
+
+  $('#datatable-editable td.editable :input').on('blur', function(){    
+    var $tr = $(this).closest('tr');
+    var $td = $(this).closest('td');
+    var name = $(this).attr('name');
+    var val = $(this).val();
+    var roster_id = $tr.data('roster-id');
+    var row_data = {};
+    
+    $td.children('span').text(val);    
+
+    row_data[name] = val;    
+
+    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'roster_inline_edit', roster_id: roster_id, modifications: row_data  }, function(resp){
+        console.log(resp);
+        $td.removeClass('edit');
+    });
+  });
 });
 </script>
 

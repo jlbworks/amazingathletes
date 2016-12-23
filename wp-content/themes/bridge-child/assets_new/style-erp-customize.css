@@ -435,3 +435,7 @@ td.edit input, td.edit select {
 .select2-dropdown {
   width: 600px !important;
 }
+
+td.editable:hover, td.editable_direct:hover {
+  border:1px dashed #ccc;
+}
