@@ -41,7 +41,7 @@ get_currentuserinfo();
 </title>
 		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/assets_new/css/style.css" />
 		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/style.css" />
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/assets_new/style-erp-customize.css" />
+		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/assets_new/style-erp-customize.css?ver=1" />
 
 		<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.12/b-1.2.2/b-flash-1.2.2/b-html5-1.2.2/r-2.1.0/datatables.min.css" />
 
