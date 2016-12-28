@@ -11,12 +11,35 @@ return;*/
 
 $attendance = get_post($id);
 
-$customer_id    = get_post_meta( $attendance->ID, 'attendance_customer_id', true );
+$customer_id    = isset($_REQUEST['customer_id']) ? $_REQUEST['customer_id'] : get_post_meta( $payment->ID, 'attendance_customer_id', true );
+//$customer_id    = get_post_meta( $attendance->ID, 'attendance_customer_id', true );
 $customer       = get_post( $customer_id );
 
 $customer_location_id = get_post_meta( $customer_id, 'location_id' );
 
-$class_id       = get_post_meta( $attendance->ID, 'attendance_class_id', true );
+if(isset($_REQUEST['class_id'])){
+    $class_id       = isset($_REQUEST['class_id']) ? $_REQUEST['class_id'] : get_post_meta( $payment->ID, 'payment_class_id', true );
+    $class = get_post($class_id);
+
+    $franchise_id   = $class->post_author;
+    $franchise      = get_post( $franchise_id );
+
+    $location_id   = $class->location_id;
+    $location      = get_post( $location_id );
+}
+else {
+    $class_id       = isset($_REQUEST['class_id']) ? $_REQUEST['class_id'] : get_post_meta( $payment->ID, 'payment_class_id', true );
+
+    $franchise_id   = get_post_meta( $payment->ID, 'payment_franchise_id', true );
+    $franchise      = get_post( $franchise_id );
+
+    $location_id   = get_post_meta( $payment->ID, 'payment_location_id', true );
+    $location      = get_post( $location_id );
+}
+
+$date = isset($_REQUEST['date']) ? $_REQUEST['date'] : '';
+
+/*$class_id       = get_post_meta( $attendance->ID, 'attendance_class_id', true );
 
 $franchise_id   = get_post_meta( $attendance->ID, 'attendance_franchise_id', true );
 $franchise      = get_post( $franchise_id );
@@ -25,7 +48,7 @@ $location_id   = get_post_meta( $attendance->ID, 'attendance_location_id', true 
 $location      = get_post( $location_id );
 
 $coach_id   = get_post_meta( $attendance->ID, 'attendance_coach_id', true );
-$coach      = get_post( $coach_id );
+$coach      = get_post( $coach_id );*/
 
 $coaches = array();
 if(!empty($class_id)) {
@@ -33,6 +56,7 @@ if(!empty($class_id)) {
 }
 
 $attendance_date = get_post_meta( $attendance->ID, 'attendance_date', true );
+$attendance_date = $attendance_date ? $attendance_date : $date;
 
 $customers_args = array(
     'post_type'         => 'customer',
@@ -164,16 +188,16 @@ $franchises = get_users( $franchise_args );
                 </div>
 
                 <div class="card-table-row">
-                    <span class="card-table-cell fixed250">Coach <span class="required">*</span></span>
+                    <span class="card-table-cell fixed250">Coach <span class="required"></span></span>
                     <div class="card-table-cell">
                         <div class="card-form">
                             <fieldset>
-                                <select name="attendance_coach_id" class="form-control" id="attendance_coach_id" title="Please select a coach." required>
+                                <select name="attendance_coach_id" class="form-control" id="attendance_coach_id" title="Please select a coach." >
                                     <option value=""></option>
                                      <?php foreach( $coaches as $temp_coach_id ) : 
                                             $coach = get_user_by('id', $temp_coach_id, true); ?>
                                             <option value="<?php echo $coach->ID; ?>" <?php selected($coach_id, $coach->ID, true ); ?>><?php echo $coach->first_name . ' ' . $coach->last_name; ?></option>
-                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
                                 </select>
                                 <!-- /# -->
                                 <i class="fieldset-overlay" data-js="focus-on-field"></i>

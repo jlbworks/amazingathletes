@@ -11,23 +11,37 @@ return;*/
 
 $payment = get_post($id);
 
-$customer_id    = get_post_meta( $payment->ID, 'payment_customer_id', true );
+$customer_id    = isset($_REQUEST['customer_id']) ? $_REQUEST['customer_id'] : get_post_meta( $payment->ID, 'payment_customer_id', true );
 $customer       = get_post( $customer_id );
 
 $customer_location_id = get_post_meta( $customer_id, 'location_id' );
 
-$class_id       = get_post_meta( $payment->ID, 'payment_class_id', true );
+if(isset($_REQUEST['class_id'])){
+    $class_id       = isset($_REQUEST['class_id']) ? $_REQUEST['class_id'] : get_post_meta( $payment->ID, 'payment_class_id', true );
+    $class = get_post($class_id);
 
-$franchise_id   = get_post_meta( $payment->ID, 'payment_franchise_id', true );
-$franchise      = get_post( $franchise_id );
+    $franchise_id   = $class->post_author;
+    $franchise      = get_post( $franchise_id );
 
-$location_id   = get_post_meta( $payment->ID, 'payment_location_id', true );
-$location      = get_post( $location_id );
+    $location_id   = $class->location_id;
+    $location      = get_post( $location_id );
+}
+else {
+    $class_id       = isset($_REQUEST['class_id']) ? $_REQUEST['class_id'] : get_post_meta( $payment->ID, 'payment_class_id', true );
+
+    $franchise_id   = get_post_meta( $payment->ID, 'payment_franchise_id', true );
+    $franchise      = get_post( $franchise_id );
+
+    $location_id   = get_post_meta( $payment->ID, 'payment_location_id', true );
+    $location      = get_post( $location_id );
+}
 
 $paid_amount    = get_post_meta( $payment->ID, 'payment_paid_amount', true );
 $paid_date    = get_post_meta( $payment->ID, 'payment_paid_date', true );
-$payment_type    = get_post_meta( $payment->ID, 'payment_type', true );
+$payment_type    =  isset($_REQUEST['pay_type']) ? $_REQUEST['pay_type'] : get_post_meta( $payment->ID, 'payment_type', true );
 $payment_description    = get_post_meta( $payment->ID, 'payment_description', true );
+$payment_discount = get_post_meta( $payment->ID, 'payment_discount', true );
+$payment_method = get_post_meta( $payment->ID, 'payment_method', true );
 
 $customers_args = array(
     'post_type'         => 'customer',
@@ -94,6 +108,20 @@ if( is_role( 'franchisee' ) ) {
 
 $franchises = get_users( $franchise_args );
 
+
+$_discount = array('' => '', 'Director Discount' => 'DIR', 'Teacher Discount' => 'TEA', 'Sibling' => 'SIB', 'Other Discount' => 'OTH' );
+$discount_options = '';
+foreach($_discount as $key => $opt){   
+    $selected = $opt == $payment_discount ? 'selected="selected"' : '';
+    $discount_options .= "<option value=\"{$opt}\" ".$selected.">{$key}</option>\n";    
+}  
+
+$_payment_options = array('' => '', 'Check Cash' => 'Ck/$', 'Credit Card' => 'CC', 'Auto Pay' => 'Auto' );
+$payment_options = '';
+foreach($_payment_options as $key => $opt){    
+    $selected = $opt == $payment_method ? 'selected="selected"' : '';
+    $payment_options .= "<option value=\"{$opt}\" ".$selected.">{$key}</option>\n";    
+}  
 ?>
 
 <div class="card-wrapper">
@@ -139,7 +167,7 @@ $franchises = get_users( $franchise_args );
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <input type="text" data-js="datepicker-format" name="payment_paid_date" class="form-control" title="Please choose the date." value="<?php echo esc_attr( $paid_date ); ?>" required/>
+                            <input type="text" data-js="datepicker-format" name="payment_paid_date" class="form-control" title="Please choose the date." value="<?php echo $paid_date ? esc_attr( $paid_date ) : date('m/d/Y'); ?>" required/>
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>
@@ -157,6 +185,36 @@ $franchises = get_users( $franchise_args );
                                 <!-- /.option -->
                                 <option value="other" class="option" <?php selected( 'other', $payment_type, 1 ); ?>>Other</option>
                                 <!-- /.option -->
+                            </select>
+                            <!-- /# -->
+                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-table-row">
+                <span class="card-table-cell fixed250">Payment Method <span class="required">*</span></span>
+                <div class="card-table-cell">
+                    <div class="card-form">
+                        <fieldset>
+                            <select name="payment_method" data-js="select" class="form-control" title="Select a payment method" required>
+                                <?php echo $payment_options;?>
+                            </select>
+                            <!-- /# -->
+                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-table-row">
+                <span class="card-table-cell fixed250">Payment Discount <span class="required">*</span></span>
+                <div class="card-table-cell">
+                    <div class="card-form">
+                        <fieldset>
+                            <select name="payment_discount" data-js="select" class="form-control" title="Select a discount type" required>
+                                <?php echo $discount_options;?>
                             </select>
                             <!-- /# -->
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>

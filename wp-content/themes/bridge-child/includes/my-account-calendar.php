@@ -192,7 +192,10 @@ foreach ($classes as $c) {
     }
 
     if ('session' === $c->datetype and (!empty($c->date_start) and !empty($c->date_end))) {
-        $event = am2_format_event_for_calendar($c, array('start' => $c->date_start, 'end' => $c->date_end));
+        $start = DateTime::createFromFormat('m/d/Y', $c->date_start);
+        $end = DateTime::createFromFormat('m/d/Y', $c->date_end);
+        $event = am2_format_event_for_calendar($c, array('start' => $start->format('Y-m-d'), 'end' => $end->format('Y-m-d 23:59:59')));
+
         if(!empty($event['start']) /*&& !empty($event['end'])*/){
             $classes_for_calendar[] = $event;
         }        

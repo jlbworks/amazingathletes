@@ -518,19 +518,22 @@ function submit_data() {
         $title = $customer_childs_name . ' ' . $class->post_title;
         $author = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
 
-        $post_data = array(
-            'ID' => $id,
+        $post_data = array(            
             'post_type' => 'payment',
             'post_title' => $title,
             'post_name' => sanitize_title_with_dashes( $title ),
             'post_status' => 'publish',
             'post_author' => $author,
         );
+        if($id > 0){
+            $post_data['ID'] = $id;
+        }
 
         $meta_data = array();
         $meta_fields = array(
            'payment_class_id', 'payment_customer_id', 'payment_description',
-            'payment_location_id', 'payment_paid_amount', 'payment_paid_date', 'payment_type'
+            'payment_location_id', 'payment_paid_amount', 'payment_paid_date', 'payment_type',
+            'payment_method', 'payment_discount'
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = sanitize_text_field($_POST[$field]);
@@ -569,6 +572,8 @@ function submit_data() {
 
         exit(json_encode(array('success' => true, 'message' => "Payment saved successfully")));
     }
+
+    
 
     /**
      * Add new location invoice
@@ -861,13 +866,16 @@ function submit_data() {
         $author = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
 
         $post_data = array(
-            'ID' => $id,
+            //'ID' => $id,
             'post_type' => 'attendance',
             'post_title' => $title,
             'post_name' => sanitize_title_with_dashes( $title ),
             'post_status' => 'publish',
             'post_author' => $author,
         );
+        if($id > 0){
+            $post_data['ID'] = $id;
+        }
 
         $meta_data = array();
         $meta_fields = array(
@@ -1129,6 +1137,8 @@ function submit_data() {
     if($_POST['form_handler'] == 'roster_inline_edit'){
         $roster_id = (int) $_REQUEST['roster_id']; 
         $modifications = $_REQUEST['modifications'];
+        $year = $_REQUEST['year'];
+        $month = $_REQUEST['month'];
 
         if(!current_user_can( 'super_admin' ) && !current_user_can( 'administrator' ) && !current_user_can( 'franchisee' ) ) {
             exit(json_encode(array('success' => false , 'message' => "Not Allowed" ) ) ) ;
@@ -1136,15 +1146,34 @@ function submit_data() {
         
         $roster = get_post($roster_id);
 
+        $roster_fields = array(
+            'roster_customer_status' => 'roster_customer_status',
+            'roster_customer_media' => 'roster_customer_media',
+            //'roster_customer_discount' => 'roster_customer_discount',
+            //'roster_payment_type' => 'roster_payment_type',
+        );
+
+        /*$modifications_fields = array(
+            'registration_paid' => 'registration_paid'
+        );*/
+        
         $modifications_meta = $roster->modifications;
 
         if(!is_array($modifications_meta)) $modifications_meta = array();
 
         if(is_array($modifications) && !empty($modifications)){
-            foreach($modifications as $key => $val){
-                $modifications_meta[$key] = $val;
+            foreach($roster_fields as $key => $key2){
+                if(isset($modifications[$key])){
+                    $val = $modifications[$key];                
+                    update_post_meta($roster_id, $key, $val);
+                }                
             }
-            $result = update_post_meta($roster_id, 'modifications', $modifications_meta);            
+
+            /*foreach($modifications_fields as $key => $key2){
+                $val = $modifications[$key];
+                $modifications_meta[$year][$month][$key] = $val;
+            }
+            $result = update_post_meta($roster_id, 'modifications', $modifications_meta); */           
         }        
         else {
             $result = false;
@@ -1232,6 +1261,21 @@ function delete_object() {
 
         wp_delete_post( $id, true );
         exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "RSS deleted")));
+
+    }
+
+    if ($object == 'attend' and $id > 0) {
+        if( !current_user_can( 'edit_posts' ) ) {
+            exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
+
+        }
+
+        $payment_object = array(
+            'ID' => $id,
+            'post_status' => 'trash'
+        );
+        wp_update_post( $payment_object );
+        exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Attendance deleted")));
 
     }
 

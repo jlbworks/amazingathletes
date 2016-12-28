@@ -393,6 +393,16 @@ td.price {
   width:100%;
   height:100%;
 }
+.a_details:before{
+ content:'+';
+}
+.a_details.open:before {
+  content:'-';
+}
+.a_details:hover{
+  cursor: pointer;
+}
+
 
 #filter .select2-container{
   width:auto !important;
@@ -436,6 +446,16 @@ td.edit input, td.edit select {
   width: 600px !important;
 }
 
-td.editable:hover, td.editable_direct:hover {
+td.editable:hover, td.editable_direct:hover, td.editable_popup:hover {
   border:1px dashed #ccc;
+}
+
+td.attendance_dates .attendance_date{
+  display:inline-block;
+  text-align: center;
+  padding:0px 5px;
+}
+
+td.attendance_dates > span {
+  vertical-align: top;
 }

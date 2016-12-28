@@ -410,10 +410,10 @@ foreach($_payment_options as $key => $opt){
                         <th data-colid="10"><span>Pay Type</span></th>
                         <th data-colid="11"><span>Amt. Pd</span></th>
                         <th data-colid="12"><span>Date Pd</span></th>
-                        <th data-colid="13"><span>Week 1</span></th>
-                        <th data-colid="14"><span>Week 2</span></th>
-                        <th data-colid="15"><span>Week 3</span></th>
-                        <th data-colid="16"><span>Week 4</span></th>
+                        <th style="display:none;" data-colid="13"><span>Week 1</span></th>
+                        <th style="display:none;" data-colid="14"><span>Week 2</span></th>
+                        <th style="display:none;" data-colid="15"><span>Week 3</span></th>
+                        <th style="display:none;" data-colid="16"><span>Week 4</span></th>
                         <th data-colid="17"><span>Room</span></th>
                         <th data-colid="18"><soan>Actions</span></th>
 
@@ -421,6 +421,7 @@ foreach($_payment_options as $key => $opt){
                         <th data-colid="20" style="display:none;">Guardian</th>
                         <th data-colid="21" style="display:none;">E-mail</th>
                         <th data-colid="22" style="display:none;">Notes</th>
+                        <th data-colid="23" style="display:none;">Dates</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -429,10 +430,17 @@ foreach($_payment_options as $key => $opt){
                     foreach($roster as $rost){
                         //   $franchise_id = get_post_meta( $rost->ID, 'roster_franchise_id', true );
                         //   $location_id = get_post_meta( $rost->ID, 'roster_location_id', true );                          
-                        //   $class_id = get_post_meta( $rost->ID, 'roster_class_id', true );
+                        $class_id = get_post_meta( $rost->ID, 'roster_class_id', true );
+                        $class = get_post($class_id);
+                        $_occurrences = am2_get_occurrences($class);
+                        $occurrences = array();                        
+                        
                         //   $coach_ids = get_post($class_id)->coaches; // get_post_meta( $rost->ID, 'roster_coach_id', true );
                         $modifications = $rost->modifications;
-                        $customer_id = get_post_meta( $rost->ID, 'roster_customer_id', true );                                                    
+                        $modifications = $modifications[$year][$month];
+                        $customer_id = get_post_meta( $rost->ID, 'roster_customer_id', true );     
+                        $registration_payment_id = -1;                                               
+                        $tuition_payment_id = -1;                                               
 
                         //$franchise = get_user_meta( (int) $franchise_id, 'franchise_name', true);
                         //$location = get_post( (int) $location_id );
@@ -445,29 +453,34 @@ foreach($_payment_options as $key => $opt){
                         $registration_paid = '';
                         $tuition_paid_amt = 0;
                         $registration_paid_amt = 0;
-                        $weeks = ['','','','',''];
+                        $weeks = ['','','','',''];                        
+                        $roster_customer_discount = '';
+                        $roster_payment_type = '';
+                        $tuition_payment_id = -1;
 
                         $payments = get_posts(array(
                             'post_type' => 'payment',
-                            'post_status' => 'any',
+                            'post_status' => 'publish',
                             'posts_per_page' => -1,
                             'meta_query' => array(
                                 array(
                                     'key' => 'payment_customer_id',
                                     'value' => $customer_id,
                                     'compare' => '=',
-                                ),
-                                /*array(
-                                    'key' => 'payment_paid_date',
-                                    'value' => "$month/",
-                                    'compare' => 'LIKE',
+                                )
+                                /**commented out, performance reasons**/
+                                /*,
+                                array(
+                                    'key' => 'payment_class_id',
+                                    'value' => $class_id,
+                                    'compare' => '=',
                                 )*/
                             )
-                        ));
-
-                        
+                        ));                      
                     
-                        foreach($payments as $payment){                            
+                        foreach($payments as $payment){   
+                            if($payment->payment_class_id != $class_id) continue;
+
                             if($payment->payment_type == 'registration'){
                                 $registration_paid_amt = $payment->payment_paid_amount;
                                 if($registration_fee > $registration_paid_amt){
@@ -476,11 +489,15 @@ foreach($_payment_options as $key => $opt){
                                 else {
                                     $registration_paid = 'x';
                                 }
+                                $registration_payment_id = $payment->ID;
                             }
                             else if($payment->payment_type == 'tuition' && $tuition_paid_amt == 0){                                
                                 if(date('Y',strtotime($payment->payment_paid_date)) == $year && date('m',strtotime($payment->payment_paid_date)) == $month){
                                     $tuition_paid_date = $payment->payment_paid_date;
                                     $tuition_paid_amt = $payment->payment_paid_amount;
+                                    $roster_customer_discount = $payment->payment_discount;
+                                    $roster_payment_type = $payment->payment_method;
+                                    $tuition_payment_id = $payment->ID;
                                     //break;
                                 }                                                                
                             }
@@ -488,36 +505,72 @@ foreach($_payment_options as $key => $opt){
 
                         $attendances = get_posts(array(
                             'post_type' => 'attendance',
-                            'post_status' => 'any',
+                            'post_status' => 'publish',
                             'posts_per_page' => -1,
                             'meta_query' => array(
                                 array(
                                     'key' => 'attendance_customer_id',
                                     'value' => $customer_id,
                                     'compare' => '=',
-                                )
+                                ),
+                                /**commented out, performance reasons**/
+                                /*
+                                array(
+                                    'key' => 'attendance_class_id',
+                                    'value' => $class_id,
+                                    'compare' => '=',
+                                )*/
                             )
                         ));                        
 
                         foreach($attendances as $attendance){   
                             $attendance_date = $attendance->attendance_date;
                             $formatted = vsprintf('%3$04d-%1$02d-%2$02d', sscanf($attendance_date,'%02d/%02d/%04d'));                     
-                            $weeks[ am2GetWeekInMonth($formatted, "sunday") -1 ] = 'x';
+                            $weeks[ am2GetWeekInMonth($formatted, "sunday") -1 ] = 'x';                            
                         }
 
-                        $roster_customer_status = isset($modifications['roster_customer_status']) ? $modifications['roster_customer_status'] : $rost->roster_customer_status;
-                        $roster_customer_media = isset($modifications['roster_customer_media']) ? $modifications['roster_customer_media'] : $rost->roster_customer_media;                    
-                        $roster_customer_discount = isset($modifications['roster_customer_discount']) ? $modifications['roster_customer_discount'] : $rost->roster_customer_discount;  
-                        $roster_payment_type = isset($modifications['roster_payment_type']) ? $modifications['roster_payment_type'] : $rost->roster_payment_type;                        
-                        $registration_paid = isset($modifications['registration_paid']) ? $modifications['registration_paid'] : $registration_paid;
-                        $tuition_paid_date = isset($modifications['tuition_paid_date']) ? $modifications['tuition_paid_date'] : $tuition_paid_date;
-                        $tuition_paid_amt = isset($modifications['tuition_paid_amt']) ? $modifications['tuition_paid_amt'] : $tuition_paid_amt;
+                        foreach($_occurrences as $occurrence){
+                            if($occurrence->format('Y-m') == "$year-$month"){
+                                $checked = '';
+                                $attendance_id = -1;                                
+
+                                foreach($attendances as $attendance){  
+                                    if($attendance->attendance_class_id != $class_id) continue;
+
+                                    $attendance_date = $attendance->attendance_date;
+                                    $formatted = vsprintf('%3$04d-%1$02d-%2$02d', sscanf($attendance_date,'%02d/%02d/%04d'));    
+
+                                    if($formatted == $occurrence->format('Y-m-d')){
+                                        $checked = 'checked="checked"';
+                                        $attendance_id = $attendance->ID;
+                                        break;
+                                    }                                    
+                                }   
+                                                             
+                                $occurrences[] = 
+                                '<div class="attendance_date">' . $occurrence->format('m/d/Y') . 
+                                '<br/>'.
+                                '<input type="checkbox" '.$checked.' />'.
+                                '<button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="'. get_ajax_url('modal','attendance-edit') .'&id='.$attendance_id.'&class_id='.$class_id.'&date='.$occurrence->format('m/d/Y').'&customer_id='.$customer_id.'"><i class="fa fa-plus"></i>&nbsp; Add New Attendance Entry</button>'.
+                                '<a class="hidden" href="'.admin_url('admin-ajax.php') . '?action=delete_object&target_page=dashboard&object=attend&id='.$attendance_id.'"></a>'.
+                                '</div>';
+                            }
+                        }
+
+                        $roster_customer_status = /*isset($modifications['roster_customer_status']) ? $modifications['roster_customer_status'] : */$rost->roster_customer_status;
+                        $roster_customer_media = /*isset($modifications['roster_customer_media']) ? $modifications['roster_customer_media'] : */$rost->roster_customer_media;                    
+                        //$roster_customer_discount = isset($modifications['roster_customer_discount']) ? $modifications['roster_customer_discount'] : $rost->roster_customer_discount;  
+                        //$roster_payment_type = isset($modifications['roster_payment_type']) ? $modifications['roster_payment_type'] : $rost->roster_payment_type;                        
+                        //$registration_paid = isset($modifications['registration_paid']) ? $modifications['registration_paid'] : $registration_paid;
+                        //$tuition_paid_date = isset($modifications['tuition_paid_date']) ? $modifications['tuition_paid_date'] : $tuition_paid_date;
+                        //$tuition_paid_amt = isset($modifications['tuition_paid_amt']) ? $modifications['tuition_paid_amt'] : $tuition_paid_amt;
+                        $roster_class_id = $rost->roster_class_id;
+                        $roster_customer_id = $rost->roster_customer_id;
                         
                         $week1 = isset($modifications['week1']) ? $modifications['week1'] : $weeks[0];
                         $week2 = isset($modifications['week2']) ? $modifications['week2'] : $weeks[1];
                         $week3 = isset($modifications['week3']) ? $modifications['week3'] : $weeks[2];
                         $week4 = isset($modifications['week4']) ? $modifications['week4'] : $weeks[3];                        
-                        
                         
                         /*$sel_coaches = get_post_meta($class_id, 'coaches', true);
                         $sel_coaches = array_map(function($coach){
@@ -526,8 +579,12 @@ foreach($_payment_options as $key => $opt){
                         
                         //$str_coaches = implode(',',$sel_coaches);
                     ?>
-                    <tr class="gradeA" data-roster-id="<?php echo $rost->ID;?>">
-                        <td><span class="a_details">+</span></td>
+                    <tr class="gradeA" data-roster-id="<?php echo $rost->ID;?>" 
+                    data-registration-payment-id="<?php echo $registration_payment_id;?>" 
+                    data-tuition-payment-id="<?php echo $tuition_payment_id;?>"
+                    data-customer-id="<?php echo $customer_id;?>"
+                    >
+                        <td><span class="a_details"></span></td>
                         <td style="white-space:nowrap"><a class="am2-ajax-modal"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                         data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><?php echo $i+1; ?></a></td>
@@ -536,21 +593,39 @@ foreach($_payment_options as $key => $opt){
                         <td><span><?php echo $customer->childs_first_name . ' ' . $customer->childs_last_name;?></span></td>
                         <td><span><?php echo $customer->childs_gender;?></span></td>
                         <td><span><?php echo $registration_fee;?></span></td>
-                        <td class="editable_direct"><input type="checkbox" name="registration_paid" value="x" <?php if($registration_paid == 'x') echo 'checked="checked"';?>/></td>
-                        <td class="editable"><span><?php echo $roster_customer_discount;?></span><select name="roster_customer_discount" class="hidden"><?php echo $discount_options; ?></select></td>
+                        <td class="editable_popup">
+                            <input type="checkbox" name="registration_paid" value="x" <?php if($registration_paid == 'x') echo 'checked="checked"';?>/>
+                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $registration_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=registration"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                        </td>
+                        <td class="editable_popup" data-name="discount">
+                            <span><?php echo $roster_customer_discount;?></span>
+                            <?php /*<select name="roster_customer_discount" class="hidden"><?php echo $discount_options; ?></select>*/?>
+                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                        </td>
                         <td><span><?php echo $tuition;?></span></td>
-                        <td class="editable"><span><?php echo $roster_payment_type;?></span><select name="roster_payment_type" class="hidden"><?php echo $payment_options; ?></select></td>
-                        <td class="editable"><span><?php echo $tuition_paid_amt;?></span><input name="tuition_paid_amt" type="number" class="hidden" /></td>
-                        <td class="editable"><span><?php echo $tuition_paid_date;?></span><input name="tuition_paid_date" type="text"  class="hidden" /></td>
-                        <td class="editable_direct"><span><?php echo $weeks[0];?></span><input type="checkbox" name="week1" value="x" <?php if($week1 == 'x') echo 'checked="checked"';?>/></td>
-                        <td class="editable_direct"><span><?php echo $weeks[1];?></span><input type="checkbox" name="week2" value="x" <?php if($week2 == 'x') echo 'checked="checked"';?>/></td>
-                        <td class="editable_direct"><span><?php echo $weeks[2];?></span><input type="checkbox" name="week3" value="x" <?php if($week3 == 'x') echo 'checked="checked"';?>/></td>
-                        <td class="editable_direct"><span><?php echo $weeks[3];?></span><input type="checkbox" name="week4" value="x" <?php if($week4 == 'x') echo 'checked="checked"';?>/></td>
+                        <td class="editable_popup" data-name="pay_type">
+                            <span><?php echo $roster_payment_type;?></span>
+                            <?php /*<select name="roster_payment_type" class="hidden"><?php echo $payment_options; ?></select>*/?>
+                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                        </td>
+                        <td class="editable_popup" data-name="tuition_paid_amt">
+                            <span><?php echo $tuition_paid_amt;?></span>
+                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                        </td>
+                        <td class="editable_popup" data-name="tuition_paid_date">
+                            <span><?php echo $tuition_paid_date;?></span>
+                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                        </td>
+                        <td style="display:none;" class="editable_direct"><span><?php echo $weeks[0];?></span><input type="checkbox" name="week1" value="x" <?php if($week1 == 'x') echo 'checked="checked"';?>/></td>
+                        <td style="display:none;" class="editable_direct"><span><?php echo $weeks[1];?></span><input type="checkbox" name="week2" value="x" <?php if($week2 == 'x') echo 'checked="checked"';?>/></td>
+                        <td style="display:none;" class="editable_direct"><span><?php echo $weeks[2];?></span><input type="checkbox" name="week3" value="x" <?php if($week3 == 'x') echo 'checked="checked"';?>/></td>
+                        <td style="display:none;" class="editable_direct"><span><?php echo $weeks[3];?></span><input type="checkbox" name="week4" value="x" <?php if($week4 == 'x') echo 'checked="checked"';?>/></td>
                         <td><span><?php //echo "F{$rost->roster_franchise_id} L{$rost->roster_location_id} C{$rost->roster_class_id} CO{$rost->roster_coach_id}";?></span></td>             
                         <td style="display:none;"><?php echo $customer->childs_birthday;?></td>
                         <td style="display:none;"><?php echo $customer->parents_name;?></td>
                         <td style="display:none;"><?php echo $customer->email;?></td>
                         <td style="display:none;"></td>
+                        <td style="display:none;"><?php echo implode('', $occurrences);?></td>
                       <td>
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
@@ -608,6 +683,7 @@ $(document).ready(function() {
             '<td>Guardian: '+d[19]+'</td>'+
             '<td><a href="mailto:'+d[20]+'">E-mail</a></td>'+
             '<td>Notes: ' + d[21] + '</td>'+
+            '<td class="attendance_dates"><span>Dates:</span> ' + d[22] + '</td>'+
             '<tr>'+
             '</table>';
 
@@ -617,6 +693,8 @@ $(document).ready(function() {
         var tr = $(this).closest('tr');
         var row = dt.row( tr );
         var idx = $.inArray( tr.attr('id'), detailRows );
+
+        $(this).toggleClass('open');
  
         if ( row.child.isShown() ) {
             tr.removeClass( 'details' );
@@ -845,27 +923,81 @@ $(document).ready(function() {
       }
   });  
 
-  $('#datatable-editable td.editable_direct :input').on('change', function(){
+  $('#datatable-editable td.editable_direct').on('change', function(){
     var $tr = $(this).closest('tr');
     var $td = $(this).closest('td');        
     var roster_id = $tr.data('roster-id');
     var row_data = {};
     var name = $(this).attr('name');
     var val = $(this).val();
-    var type = $(this).attr('type');    
+    var type = $(this).attr('type');   
+    var year = <?php echo $year;?>; 
+    var month = <?php echo $month;?>; 
 
-    console.log(val);   
     if(type=='checkbox' && !this.checked){
-       val = '';
+        val = '';
     }
-    console.log(val);
 
     row_data[name] = val;    
-    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'roster_inline_edit', roster_id: roster_id, modifications: row_data  }, function(resp){
+    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'roster_inline_edit', roster_id: roster_id, modifications: row_data, year: year, month: month }, function(resp){
         console.log(resp);
         $td.removeClass('edit');
     });
+  });
 
+  $('#datatable-editable td.editable_popup > button').on('click', function(e){      
+      //if(!$(e.target).is('td')) e.stopPropagation(); 
+      //e.stopPropagation();      
+  });
+
+  $('#datatable-editable td.editable_popup').on('click', function(e){    
+    if($(e.target).is('input')) return;  
+    if($(e.target).is('button')) return;
+    //if(!$(e.target).is('td')) e.stopPropagation();
+    //e.stopPropagation();    
+
+    var $tr = $(this).closest('tr');
+    var $td = !$(e.target).is('td') ? $(this).closest('td') : $(this);        
+    var roster_id = $tr.data('roster-id');
+    var row_data = {};
+    var name = $td.data('name');
+    var year = <?php echo $year;?>; 
+    var month = <?php echo $month;?>; 
+
+    var payment_popup_fields = ['tuition_paid_amt', 'tuition_paid_date', 'discount', 'pay_type']
+
+    console.log(name);
+
+    if($.inArray( name, payment_popup_fields )!==-1){        
+        $td.children('button').trigger('click');   
+    }
+  });
+
+  $('#datatable-editable td.editable_popup :input').on('change', function(e){
+    e.stopPropagation();
+
+    var $tr = $(this).closest('tr');
+    var $td = $(this).closest('td');        
+    var roster_id = $tr.data('roster-id');
+    var row_data = {};
+    var name = $(this).attr('name');
+    var val = $(this).val();
+    var type = $(this).attr('type');   
+    var year = <?php echo $year;?>; 
+    var month = <?php echo $month;?>; 
+
+    if(name == 'registration_paid'){
+        if(type=='checkbox' && !this.checked){
+            var registration_payment_id = $tr.data('registration-payment-id');            
+
+            $.get('<?php echo admin_url( 'admin-ajax.php' ) ;?>?action=delete_object&target_page=dashboard&object=payment&id=' + registration_payment_id , function(resp){
+                console.log(resp);
+            });
+        }
+        else if(type=='checkbox' && this.checked) {
+            $(this).siblings('button').trigger('click');
+        }        
+    }
   });
 
   $('#datatable-editable td.editable :input').on('blur', function(){    
@@ -875,15 +1007,31 @@ $(document).ready(function() {
     var val = $(this).val();
     var roster_id = $tr.data('roster-id');
     var row_data = {};
+    var year = <?php echo $year;?>; 
+    var month = <?php echo $month;?>; 
     
     $td.children('span').text(val);    
 
     row_data[name] = val;    
 
-    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'roster_inline_edit', roster_id: roster_id, modifications: row_data  }, function(resp){
+    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'roster_inline_edit', roster_id: roster_id, modifications: row_data, year: year, month: month }, function(resp){
         console.log(resp);
         $td.removeClass('edit');
     });
+  });
+
+  $(document).on('change', '#datatable-editable .attendance_dates input[type="checkbox"]', function(e){
+      console.log(e);
+      var $tr = $(this).closest('tr');
+      
+      if(this.checked){
+          $(this).siblings('button').trigger('click');
+      }      
+      else {
+          $.get($(this).siblings('a').attr('href'), function(resp){
+              console.log(resp);
+          });             
+      }
   });
 });
 </script>

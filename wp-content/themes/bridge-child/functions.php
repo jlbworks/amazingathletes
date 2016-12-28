@@ -215,10 +215,20 @@ function am2_get_occurrences($_class) {
 			$r->freq('yearly');
 		}
 	}    
-	else {
-		$r->startDate(new DateTime(date('Y-m-d', strtotime("{$_class->date_start}"))));
-		$r->until(new DateTime(date('Y-m-d', strtotime("{$_class->date_end}"))));
+	else if($_class->datetype == 'session') {
+		//$time = date('H:i:s', strtotime($_class->time));
+		$r->startDate(new DateTime(date('Y-m-d H:i:s', strtotime("{$_class->date_start}"))));
+		$r->until(new DateTime(date('Y-m-d 23:59:59', strtotime("{$_class->date_end}"))));
+
 		$r->freq('daily');
+	}
+	else {
+		$_dates = get_post_meta($_class->ID, 'date', false);
+		$dates = array();
+		foreach($_dates as $d){
+			$dates[] = new DateTime(date('Y-m-d', strtotime("{$d} {$_class->time}")));
+		}
+		return $dates;
 	}
 
     $r->generateOccurrences();
