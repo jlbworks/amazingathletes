@@ -263,7 +263,7 @@ $payment_types = array('','Ck/$');
                     </div>
                 </div>
 
-                <div class="card-table-row">
+                <?php /*<div class="card-table-row">
                     <span class="card-table-cell fixed250">Customer Discount<span class="required">*</span></span>
                     <div class="card-table-cell">
                         <div class="card-form">
@@ -295,7 +295,7 @@ $payment_types = array('','Ck/$');
                             </fieldset>
                         </div>
                     </div>
-                </div>
+                </div>*/?>
 
                 <?php /*<div class="card-table-row">
                     <span class="card-table-cell fixed250">Coach Name<span class="required">*</span></span>
