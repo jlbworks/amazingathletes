@@ -181,7 +181,7 @@ function my_custom4_init() {
         'taxonomies' => array()
     );
     register_post_type('rss', $args);
-
+    
 }
 
 function get_ajax_url($action = '', $target_page = '') {
@@ -1037,9 +1037,25 @@ function submit_data() {
             )
         );
 
-        $_territories = get_field('territories', 'user_' .$franchise_id);
+        if(isset($franchise_id)){
+            $args_territories = array(
+                'post_type' => 'territory',
+                'meta_query' => array(
+                    array(
+                        'key' => 'franchisee',
+                        'value' => $franchise_id,
+                        'compare' => '=',
+                    )
+                ),
+                'orderby' => 'title',
+                'order' => 'ASC'
+            );
+            $_territories = get_posts($args_territories);   
+            //$_territories = get_field('territories', 'user_' .$franchise_id);         
+        }
+
         $_territories = array_map(function($terr){
-            return array('id'=> $terr['unit_number'], 'text' => $terr['territory_name']);
+            return array('id'=> $terr->unit_number, 'text' => $terr->territory_name);
         }, $_territories);
 
         $territories = array_merge($territories, (array)$_territories); 

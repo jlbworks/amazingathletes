@@ -232,6 +232,37 @@ function am2_cpt() {
 
     register_post_type( 'customer', $args );
 
+	// Registriraj Territories CPT
+    $labels = array(
+        'name' => _x('Territories', 'post type general name'),
+        'singular_name' => _x('Territory', 'post type singular name'),
+        'add_new' => _x('Add new', 'Territory'),
+        'add_new_item' => __('Add new Territory'),
+        'edit_item' => __('Edit Territory'),
+        'new_item' => __('New Territory'),
+        'view_item' => __('View Territory'),
+        'search_items' => __('Search Territories'),
+        'not_found' => __('Not found'),
+        'not_found_in_trash' => __('Not found in trash'),
+        'parent_item_colon' => ''
+    );
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'has_archive' => false,
+        //'rewrite' => true,
+        'rewrite' => array('slug' => 'territory'),
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'menu_position' => null,
+        'supports' => array('title', 'author', 'editor', 'custom-fields'),
+        'taxonomies' => array()
+    );
+    register_post_type('territory', $args);
+
 }
 
 ?>

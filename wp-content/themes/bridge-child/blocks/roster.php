@@ -36,7 +36,20 @@ if( !isset($curr_franchise) && isset($hash_query['f_franchise_id']) ){
 }
 
 if(isset($curr_franchise)){
-    $territories = get_field('territories', 'user_' .$curr_franchise);
+    $args_territories = array(
+        'post_type' => 'territory',
+        'meta_query' => array(
+            array(
+                'key' => 'franchisee',
+                'value' => $curr_franchise,
+                'compare' => '=',
+            )
+        ),
+        'orderby' => 'title',
+        'order' => 'ASC'
+    );
+    $territories = get_posts($args_territories);
+    //$territories = get_field('territories', 'user_' .$curr_franchise);
 }
 
 if( isset($hash_query['f_location_id']) ){
@@ -318,7 +331,7 @@ foreach($_payment_options as $key => $opt){
                 <select id="f_territory_id" name="f_territory_id" >
                     <option value="">Choose Territory</option>
                     <?php foreach($territories as $territory){  ?>
-                    <option value="<?php echo $territory['unit_number'];?>" <?php if( in_array($territory['unit_number'], array($hash_query['f_territory_id'] ) ) ) echo "selected";?>><?php echo $territory['territory_name'];?></option>
+                    <option value="<?php echo $territory->unit_number;?>" <?php if( in_array($territory->unit_number, array($hash_query['f_territory_id'] ) ) ) echo "selected";?>><?php echo $territory->territory_name;?></option>
                     <?php } ?>
                 </select>
                 <select id="f_location_id" name="f_location_id" >

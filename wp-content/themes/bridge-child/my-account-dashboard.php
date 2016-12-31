@@ -34,7 +34,48 @@ $notifications = get_field('notifications', 'user_'.$user->ID); // 'option');
 $dates = get_field('important_dates', 'user_'.$user->ID); // 'option');
 $info_pages = get_field('info_pages', 'user_'.$user->ID); // 'option');
 $submit_pl_statement = get_field('submit_pl_statement', 'user_'.$user->ID); // 'option');
-$submit_certificate_of_liability_insurance = get_field('submit_certificate_of_liability_insurance', 'user_'.$user->ID); // 'option');?>
+$submit_certificate_of_liability_insurance = get_field('submit_certificate_of_liability_insurance', 'user_'.$user->ID); // 'option');
+if(isset($user->ID)){
+    $args_territories = array(
+        'post_type' => 'territory',
+        'meta_query' => array(
+            array(
+                'key' => 'franchisee',
+                'value' => $user->ID,
+                'compare' => '=',
+            )
+        ),
+        'orderby' => 'title',
+        'order' => 'ASC'
+    );
+    $territories = get_posts($args_territories);
+    //$territories = get_field('territories', 'user_' .$current_user->ID);
+
+	foreach($territories as $territory){
+		$dates[] = array(
+			'title' => '1st Tech Fee Due',
+			'notification' => '',
+			'date' => get_field('1st_tech_fee_due', $territory->ID),
+		);
+		$dates[] = array(
+			'title' => '1st NAF Due',
+			'notification' => '',
+			'date' => get_field('1st_naf_due', $territory->ID),
+		);
+		$dates[] = array(
+			'title' => '1st Royalty Minimum Due',
+			'notification' => '',
+			'date' => get_field('1st_royalty_minimum_due', $territory->ID),		
+		);
+		$dates[] = array(
+			'title' => '2nd Royalty Minimum Due',
+			'notification' => '',
+			'date' => get_field('2nd_royalty_minimum_due', $territory->ID),		
+		);
+	}
+}
+
+?>
 
 <ul class="tabs">
 	<li id="tab_notifications" class="tab">Notifications</li>
@@ -47,7 +88,7 @@ $submit_certificate_of_liability_insurance = get_field('submit_certificate_of_li
 <div class="ip_notifications tab_content tab_content_notifications">
 	<?php foreach($notifications as $notification){?>
 	<div>
-		<h3><?php echo $notification['title'];?><span class="date"><?php echo $notification['date'];?></span></h3>
+		<h3><?php echo $notification['title'];?> <span class="date"> (<?php echo $notification['date'];?>)</span></h3>
 		<?php echo $notification['notification'];?>
 	</div>
 	<?php }?>
@@ -57,7 +98,7 @@ $submit_certificate_of_liability_insurance = get_field('submit_certificate_of_li
 <div class="ip_dates tab_content tab_content_dates">
 	<?php foreach($dates as $date){?>
 	<div>
-		<h3><?php echo $date['title'];?><span class="date"><?php echo $date['date'];?></span></h3>
+		<h3><?php echo $date['title'];?><span class="date"> (<?php echo $date['date'];?>)</span></h3>
 		<?php echo $date['notification'];?>
 	</div>
 	<?php }?>

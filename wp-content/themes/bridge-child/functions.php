@@ -340,4 +340,18 @@ echo '</pre>';
 
 exit();*/
 
+
+function am2_display_includes() {
+    if(isset($_GET['am2_display_includes'])){
+		$includes = get_included_files();
+		echo '<pre>';
+		foreach($includes as $include){
+			if(strpos($include,'/wp-content/themes/bridge-child/') > -1 || strpos($include,'\\wp-content\\themes\\bridge-child\\') > -1){
+				echo  $include . '<br/>';
+			}	
+		}
+		echo '</pre>';
+	}
+}
+add_action( 'wp_footer', 'am2_display_includes' );
 ?>

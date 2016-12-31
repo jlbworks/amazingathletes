@@ -89,7 +89,22 @@ foreach($status_codes as $key => $opt){
     $status_options .= "<option value=\"{$opt}\">{$key}</option>\n";    
 }  
 
-$territories = get_field('territories', 'user_' . $author_franchise->ID);
+if(isset($author_franchise->ID)){
+    $args_territories = array(
+        'post_type' => 'territory',
+        'meta_query' => array(
+            array(
+                'key' => 'franchisee',
+                'value' => $author_franchise->ID,
+                'compare' => '=',
+            )
+        ),
+        'orderby' => 'title',
+        'order' => 'ASC'
+    );
+    $territories = get_posts($args_territories);
+    //$territories = get_field('territories', 'user_' . $author_franchise->ID);
+}
 
 if(!empty($locations)):
     $total_enrollment = 0;
@@ -319,7 +334,7 @@ endif;
                 <select id="f_territory_id" name="f_territory_id" >
                     <option value="">Choose Territory</option>
                     <?php foreach($territories as $territory){  ?>
-                    <option value="<?php echo $territory['unit_number'];?>" <?php if( in_array($territory['unit_number'], array($hash_query['f_territory_id'] ) ) ) echo "selected";?>>Territory <?php echo $territory['territory_name'];?></option>
+                    <option value="<?php echo $territory->unit_number;?>" <?php if( in_array($territory->unit_number, array($hash_query['f_territory_id'] ) ) ) echo "selected";?>>Territory <?php echo $territory->territory_name;?></option>
                     <?php } ?>
                 </select>
             <?php } ?> 

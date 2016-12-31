@@ -10,14 +10,32 @@ $id = $_REQUEST['id'];
 echo( "<div>In Development</div>" );
 return;*/
 
-$rss_report = get_post($id);
+if(!empty($id) && $id>0){
+    $rss_report = get_post($id);
 
+    $franchise_id   = get_post_meta( $rss_report->ID, 'rss_franchise_id', true );
+}
+else if(is_role('franchisee')) {
+    $franchise_id = get_current_user_id();
+}
 
-$franchise_id   = get_post_meta( $rss_report->ID, 'rss_franchise_id', true );
 $franchise      = get_user_by( 'id', $franchise_id );
 
 if(isset($franchise_id)){
-    $territories = get_field('territories', 'user_' .$current_user->ID);
+    $args_territories = array(
+        'post_type' => 'territory',
+        'meta_query' => array(
+            array(
+                'key' => 'franchisee',
+                'value' => $franchise_id,
+                'compare' => '=',
+            )
+        ),
+        'orderby' => 'title',
+        'order' => 'ASC'
+    );
+    $territories = get_posts($args_territories);
+    //$territories = get_field('territories', 'user_' .$current_user->ID);
 }
 
 $month = array(
@@ -50,13 +68,13 @@ if( is_role( 'franchisee' ) ) {
 
 $franchises = get_users( $franchise_args );
 
+
 ?>
 
 <div class="card-wrapper">
     <h3 class="card-header">New RSS Report</h3>
     <form id="rss-create-form" class="card-form no-inline-edit js-ajax-form">
-    <div class="card-inner">
-        
+    <div class="card-inner">        
         <div class="validation-message"><ul></ul></div>
             <div class="card-table">
                 <?php if( is_role('administrator') || is_role('super_admin') ) : ?>
@@ -83,7 +101,7 @@ $franchises = get_users( $franchise_args );
                             </div>
                         </div>
                     </div>
-                <?php endif; ?>
+                <?php endif; ?>                
 
                 <?php if( is_role('administrator') || is_role('super_admin') || is_role('franchisee') ) : ?>
                     <div class="card-table-row">
@@ -95,8 +113,8 @@ $franchises = get_users( $franchise_args );
                                         <option value="">Select Territory</option>
                                         <?php 
                                         if(am2_is_top_role('franchisee')) {
-                                        foreach($territories as $territory){  ?>
-                                        <option value="<?php echo $territory['unit_number'];?>" <?php if( in_array($territory['unit_number'], array($hash_query['f_territory_id'] ) ) ) echo "selected";?>><?php echo $territory['territory_name'];?></option>
+                                        foreach($territories as $territory){?>
+                                        <option value="<?php echo $territory->unit_number;?>" <?php if( in_array($territory->unit_number, array($hash_query['f_territory_id'] ) ) ) echo "selected";?>><?php echo $territory->territory_name;?></option>
                                         <?php } 
                                         }
                                         ?>
@@ -215,7 +233,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: {
                 form_handler: 'get_territories',
-                franchise_id: ($('#rss_franchise_id').val() ? $('#rss_franchise_id').val() : <?php echo $curr_franchise ? $curr_franchise : 'null';?>)
+                franchise_id: ($('#rss_franchise_id').val() ? $('#rss_franchise_id').val() : <?php echo $franchise_id ? $franchise_id : 'null';?>)
             },
             beforeSend: function() {
                 am2_show_preloader(form);

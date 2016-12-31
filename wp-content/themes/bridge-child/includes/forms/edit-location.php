@@ -27,7 +27,22 @@ if (!empty($_GET['loc_id'])) {
 	));
 }
 
-$territories = get_field('territories','user_'.$current_user->ID);
+if(isset($current_user->ID)){
+	$args_territories = array(
+		'post_type' => 'territory',
+		'meta_query' => array(
+			array(
+				'key' => 'franchisee',
+				'value' => $current_user->ID,
+				'compare' => '=',
+			)
+		),
+		'orderby' => 'title',
+		'order' => 'ASC'
+	);
+	$territories = get_posts($args_territories);   
+	//$territories = get_field('territories','user_'.$current_user->ID);
+}
 
 if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['add'])) { ?>
 
@@ -39,7 +54,7 @@ if ((!empty($location) && $location->post_author == $user->ID) || isset($_GET['a
 		echo '<select name="unit_number" >';
 		echo "<option value=\"\"></option>";
 		foreach ($territories as $k => $v) {
-			echo '<option ' . ($v['unit_number'] == $location->unit_number ? 'selected' : '') . ' value="' . $v['unit_number'] . '">' . $v['unit_number'] . '</option>';
+			echo '<option ' . ($v->unit_number == $location->unit_number ? 'selected' : '') . ' value="' . $v->unit_number . '">' . $v->unit_number . '</option>';
 		}
 		echo '</select>';
 		?>
