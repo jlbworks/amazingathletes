@@ -278,11 +278,10 @@ margin: 5% 15%;
 /************STATE MAP*************/
 
 
-.state_title
-.selectize-input input {
-    color: #303030;
-    font-family: oswald;
+.selectize-input > * {
+    font-family: 'oswald';
 }
+
 
 
 
