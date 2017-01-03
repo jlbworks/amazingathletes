@@ -7,6 +7,16 @@ restrict_access('administrator,franchisee,coach');
 $hash_query = str_replace('?','',$_REQUEST['target_args']);
 parse_str($hash_query,$hash_query);
 
+if (empty($hash_query)) {
+    $hash_query = get_user_meta($current_user->ID, 'roster_history',true);
+}
+if ($hash_query['reset'] == true) {
+    update_user_meta( $current_user->ID, 'roster_history', '');
+}
+
+update_user_meta( $current_user->ID, 'roster_history', $hash_query);
+
+
 $meta_query = array();
 
 $args = array(
@@ -400,7 +410,7 @@ foreach($_payment_options as $key => $opt){
                 </select>
                 <?php } */?>
 
-                <a href="#roster" class="btn btn-primary">Reset</a>
+                <a href="#roster/?reset=true" class="btn btn-primary">Reset</a>
             </div>
             <br/>
             <br/>

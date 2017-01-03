@@ -209,11 +209,11 @@ foreach($_payment_options as $key => $opt){
             </div>
 
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Payment Discount <span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Payment Discount</span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
-                            <select name="payment_discount" data-js="select" class="form-control" title="Select a discount type" required>
+                            <select name="payment_discount" data-js="select" class="form-control" title="Select a discount type">
                                 <?php echo $discount_options;?>
                             </select>
                             <!-- /# -->
