@@ -386,7 +386,7 @@ jQuery(document).ready(function(){
       <span>Drop files here to upload</span>
     </div>
     <div class="qq-upload-button-selector qq-upload-button">
-      <div class="button small-button">Upload image</div>
+      <div class="button small-button">Upload file</div>
     </div>
     <ul class="qq-upload-list-selector qq-upload-list">
       <li>

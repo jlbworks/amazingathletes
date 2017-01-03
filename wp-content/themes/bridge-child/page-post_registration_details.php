@@ -90,6 +90,7 @@
     <div class="payment_intro_text">
         {data.franchise_name} currently offers the following payment options to pay for {data.program_name}. Please select one of the following and follow the instructions to complete your payment and finalize your registration.
         <br/>
+        &nbsp;
         If you have any questions regarding the payment options below please contact {data.contact_name} at {data.contact_number} or {data.contact_email}.
     </div>
     <div class="payment_personal_check_text">
