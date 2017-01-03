@@ -516,8 +516,8 @@ endif;
                 <th><?php echo ($master_array['earned_gross_revenue'] > 0 ? number_format ( 100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'] ),2).'%' : 'N/A') ;?></th>
                 <th><?php echo '$'. $master_array['earned_gross_revenue'];?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['total_due_royalties'];?></th>
-                <th><?php echo date('M d, Y', strtotime($master_array['1st_naf_due'])); ?></th>
-                <th><?php echo '$'. $master_array['1st_naf_amount']; ?></th>
+                <th><?php if(!empty($master_array['1st_naf_due'])) { echo date('M d, Y', strtotime($master_array['1st_naf_due'])); } else { echo '-'; } ?></th>
+                <th><?php if(!empty($master_array['1st_naf_amount'])) { echo '$'. $master_array['1st_naf_amount']; } else { echo '-'; } ?></th>
             <tr>
         </table>
 
