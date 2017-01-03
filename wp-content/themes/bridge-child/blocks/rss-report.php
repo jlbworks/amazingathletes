@@ -105,6 +105,25 @@ if(isset($author_franchise->ID)){
     $territories = get_posts($args_territories);
     //$territories = get_field('territories', 'user_' . $author_franchise->ID);
 }
+if(!empty($target_args['f_territory_id'])) { 
+    $args_territories = array(
+        'post_type' => 'territory',
+        'meta_query' => array(
+            array(
+                'key' => 'unit_number',
+                //'value' => '%"'.$target_args['f_territory_id'].'"%',
+                //'compare' => 'LIKE',
+                'value' => $target_args['f_territory_id'],
+                'compare' => '=',
+            )
+        ),
+    );
+    $territories_per_unit_number = get_posts($args_territories);
+    if(!empty($territories_per_unit_number[0])) {
+        $master_array['1st_naf_due']    = get_post_meta($territories_per_unit_number[0]->ID, '1st_naf_due', true);
+        $master_array['1st_naf_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '1st_naf_amount', true);
+    }
+}
 
 if(!empty($locations)):
     $total_enrollment = 0;
@@ -419,7 +438,9 @@ endif;
             }
         </style>
         <table width="100%" id="rssTable">
-            <?php foreach($master_array['locations'] as $location): ?>
+            <?php 
+            if(!empty($master_array['locations'])):
+            foreach($master_array['locations'] as $location): ?>
 
             <?php //var_dump($location);?>
 
@@ -466,14 +487,15 @@ endif;
                 <?php endforeach; 
                 endif;
                 ?>
-            <?php endforeach; ?>
+            <?php endforeach;
+            endif; ?>
         </table>
 
         <?php //var_dump($master_array);?>
 
         <table width="100%" border="1px">
             <tr style="background: #000; color: #fff">
-                <th colspan="7">Franchise Totals</th>
+                <th colspan="9">Franchise Totals</th>
             </tr>            
             <tr style="background: #e7e6e6; color: #000">
                 <th>Active Locations</th>
@@ -482,7 +504,9 @@ endif;
                 <th>RSS Total</th>
                 <th>Royalties as a %</th>
                 <th>Gross Revenue</th>
-                <th>Total Due Royalties</th>                
+                <th>Total Due Royalties</th> 
+                <th>NAF Due</th>
+                <th>NAF Due ammount</th>               
             </tr>
             <tr>
                 <th><?php echo count($master_array['locations']);?></th>
@@ -492,6 +516,8 @@ endif;
                 <th><?php echo ($master_array['earned_gross_revenue'] > 0 ? number_format ( 100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'] ),2).'%' : 'N/A') ;?></th>
                 <th><?php echo '$'. $master_array['earned_gross_revenue'];?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['total_due_royalties'];?></th>
+                <th><?php echo date('M d, Y', strtotime($master_array['1st_naf_due'])); ?></th>
+                <th><?php echo '$'. $master_array['1st_naf_amount']; ?></th>
             <tr>
         </table>
 
