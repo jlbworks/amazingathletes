@@ -10,7 +10,7 @@ $args = array(
   'posts_per_page'=> -1,
 );
 if( is_role('franchisee') ) {
-  $args['author ']  =  get_current_user_id();
+  $args['author']  =  get_current_user_id();
 }
 $attendance = get_posts($args);
 
