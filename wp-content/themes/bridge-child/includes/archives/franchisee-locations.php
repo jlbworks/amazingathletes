@@ -10,6 +10,7 @@ $args = array(
 		'order' => 'ASC',
 	);
 
+
 if(isset($_GET['type'])){	
 	$slugs = array(
 		'community-classes' => array('Open Enrollment', 'Special Event'),
@@ -19,7 +20,7 @@ if(isset($_GET['type'])){
 	$args['meta_query'][] = array(
 		'key'		=> 'location_type',
 		'value'		=> $slugs[$_GET['type']],
-		'compare'	=> 'IN',
+		'compare'	=> 'IN', 
 	);
 }
 

@@ -1509,7 +1509,7 @@ function get_user_role() {
     return $user_role;
 }
 
-add_filter('show_admin_bar', '__return_false');
+//add_filter('show_admin_bar', '__return_false');
 
 add_editor_style('editor-styles.css');
 //add_image_size ( 'smallthumb', 272, 155, true);
