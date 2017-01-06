@@ -625,14 +625,14 @@ foreach($_payment_options as $key => $opt){
                             <?php /*<select name="roster_customer_discount" class="hidden"><?php echo $discount_options; ?></select>*/?>
                             <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
                         </td>
-                        <td><span><?php echo $tuition;?></span></td>
+                        <td><span>$<?php echo $tuition;?></span></td>
                         <td class="editable_popup" data-name="pay_type">
                             <span><?php echo $roster_payment_type;?></span>
                             <?php /*<select name="roster_payment_type" class="hidden"><?php echo $payment_options; ?></select>*/?>
                             <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
                         </td>
                         <td class="editable_popup" data-name="tuition_paid_amt">
-                            <span><?php echo $tuition_paid_amt;?></span>
+                            <span>$<?php echo $tuition_paid_amt;?></span>
                             <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
                         </td>
                         <td class="editable_popup" data-name="tuition_paid_date">

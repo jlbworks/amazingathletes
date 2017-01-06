@@ -448,8 +448,8 @@ endif;
                     <td style="background-color: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;">ZIP: <?php echo $location['post']->zip;?></td>
                     <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="5"><?php echo get_the_title($location['post']->ID); ?></td>
                     <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Enrollment <?php echo $location['monthly_enrollment'];?></td>
-                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: <?php echo $location['earned_gross_revenue'];?></td>
-                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="3">ROY Due: <?php echo $location['max_royalty'];?></td>
+                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="2">Total Gross: $<?php echo $location['earned_gross_revenue'];?></td>
+                    <td style="background: #0070c0 !important; color: #fff; padding: 5px; border: #000 1px solid;" colspan="3">ROY Due: $<?php echo $location['max_royalty'];?></td>
                 </tr>
                 <tr style="">
                     <?php /*<td style="background: #e7e6e6; color: #000; padding: 5px; border: #000 1px solid;">Program Code</td>*/ ?>
