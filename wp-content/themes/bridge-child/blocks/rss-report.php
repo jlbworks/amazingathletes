@@ -353,6 +353,10 @@ endif;
                 <select id="f_territory_id" name="f_territory_id" >
                     <option value="">Choose Territory</option>
                     <?php foreach($territories as $territory){  ?>
+                    <?php if(empty($target_args['f_territory_id'])) {
+                        // if unit number not set, use first.
+                        $target_args['f_territory_id'] = $territory->unit_number;
+                    } ?>
                     <option value="<?php echo $territory->unit_number;?>" <?php if( in_array($territory->unit_number, array($hash_query['f_territory_id'] ) ) ) echo "selected";?>>Territory <?php echo $territory->territory_name;?></option>
                     <?php } ?>
                 </select>
@@ -379,7 +383,7 @@ endif;
                         <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=3 align="center" valign=middle sdnum="1033;0;_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* (#,##0.00);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"><font face="Century Gothic" color="#000000"> RSS for Month: </font></td>
                         <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="42615" sdnum="1033;1033;[$-409]MMM-YY;@"><font face="Century Gothic" size=7><?php echo ucfirst($month);?>-<?php echo $year;?></font></td>
                         <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=3 align="center" valign=middle sdnum="1033;0;_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* (#,##0.00);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"><font face="Century Gothic" color="#000000"> Franchise<br>Number: </font></td>
-                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="105" sdnum="1033;"><font face="Century Gothic" size=7><?php echo $author_franchise->ID;?></font></td>
+                        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 align="center" valign=middle sdval="105" sdnum="1033;"><font face="Century Gothic" size=7><?php echo $target_args['f_territory_id']; ?></font></td>
                     </tr>
                     <tr>
                         <td align="right" valign=bottom><font face="Century Gothic" color="#000000">Name:</font></td>
