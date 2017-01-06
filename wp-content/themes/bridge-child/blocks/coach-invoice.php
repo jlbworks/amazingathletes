@@ -395,11 +395,11 @@ function parseCurrency( num ) {
 
     var total = 0;
     $('.js-add-to-total').each(function() {
-        var this_val = parseCurrency($(this).val());
-        var this_quantity = $(this).closest('.form-group').find('.js-quantity').val(); console.log(this_quantity);
-        total = total + (this_val*this_quantity);
-        //
-
+        if($(this).val() !== "") {
+            var this_val = parseCurrency($(this).val());
+            var this_quantity = $(this).closest('.form-group').find('.js-quantity').val();
+            total = total + (this_val*this_quantity);            
+        }
     });
     total = parseFloat(total).toFixed(2);
     $('#js-total').val('$'+parseFloat(total).toFixed(2));

@@ -151,8 +151,8 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
                 <td style="width: 15%;" align="right" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Price</span></td>
             </tr>
             <?php if($items):
-            foreach($items as $item): ?>
-            
+            foreach($items as $item): 
+                $item['price'] = str_replace("$","",$item['price']); ?>
             <tr>
                 <td style="border-bottom: 1px solid #F0F0F0;" valign="middle"><span style="font-size: 11px;"><?php echo $item['description']; ?></span></td>
                 <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format($item['price'], 2); ?></span></td>
