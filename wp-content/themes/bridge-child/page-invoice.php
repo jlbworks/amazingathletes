@@ -24,6 +24,7 @@ if($invoice_type == 'location') {
 if($invoice_type == 'coach') {
 /* Invoice data */
 $invoice_data = get_post_meta($invoice_id);
+//print_r($invoice_data);
 $total = '0.00';
 if(!empty($invoice_data['total'][0])) $total = $invoice_data['total'][0];
 $other = '0.00';
@@ -36,6 +37,8 @@ $equipment_rental_rebate = '0.00';
 if(!empty($invoice_data['equipment_rental_rebate'][0])) $equipment_rental_rebate = $invoice_data['equipment_rental_rebate'][0];
 $settled_outstanding_student_compensations = '0.00';
 if(!empty($invoice_data['settled_outstanding_student_compensations'][0])) $settled_outstanding_student_compensations = $invoice_data['settled_outstanding_student_compensations'][0];
+$grand_total = '0.00';
+if(!empty($invoice_data['grand_total'][0])) $grand_total = $invoice_data['grand_total'][0];
 $items = get_post_meta($invoice_id, 'item', true);
 
 $coach_invoice = get_post($invoice_id);
