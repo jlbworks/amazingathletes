@@ -156,10 +156,35 @@ endif;
     <?php   ?>
     <div class="repeater repeater-custom-show-hide card-table">
       <div data-repeater-list="item">
+         <div style="display:none;" data-repeater-item="">
+          <div class="form-group clearfix">
+            
+            <div class="col-25">
+                <input type="text" name="item[0][description]" class="form-control" placeholder="Description"> 
+            </div>
+
+            
+            <div class="col-15">
+              <input type="text" name="item[0][quantity]" value="0" class="form-control number js-quantity" placeholder="Quantity">
+            </div>
+            
+            
+            <div class="col-15">
+              <input type="text" name="item[0][price]" value="0" class="form-control currency js-add-to-total" placeholder="Amount">
+            </div>
+            
+
+            <div class="col-15 no_margin">
+              <a class="am2-ajax-modal-delete btn btn--danger is-smaller" data-repeater-delete=""
+                                       data-original-title="Delete" data-placement="top" data-toggle="tooltip"
+                                       data-object="S" data-id=""><i class="fa fa-trash-o"></i></a>
+            </div>
+          </div>
+        </div>
+
         <?php 
 
         if(empty($payment_totals)) { ?>
-        <div data-repeater-item="">
           <div class="form-group clearfix">
             
             <div class="col-25">
@@ -186,7 +211,6 @@ endif;
         <?php } else {
             foreach($payment_totals as $payment_total) {
                 ?>
-                <div data-repeater-item="">
                   <div class="form-group clearfix">
                     
                     <div class="col-25">
@@ -214,14 +238,12 @@ endif;
             }
         }
         ?>
-        </div>
 
         
       </div>
       <div class="form-group clearfix">
         <div class="col-14">
             <a class="left btn btn--primary" data-repeater-create=""><i class="fa fa-plus"></i> Add</a>
-
         </div>
       </div>
 
@@ -353,11 +375,11 @@ function parseCurrency( num ) {
 
     var total = 0;
     $('.js-add-to-total').each(function() {
-        var this_val = parseCurrency($(this).val());
-        var this_quantity = $(this).closest('.form-group').find('.js-quantity').val(); console.log(this_quantity);
-        total = total + (this_val*this_quantity);
-        //
-
+        if($(this).val() !== "") {
+            var this_val = parseCurrency($(this).val());
+            var this_quantity = $(this).closest('.form-group').find('.js-quantity').val();
+            total = total + (this_val*this_quantity);
+        }
     });
     total = parseFloat(total).toFixed(2);
     $('#js-total').val('$'+parseFloat(total).toFixed(2));
