@@ -439,7 +439,9 @@ endif;
             table td {
                 padding: 5px;
                 border: #888 1px solid;
+				text-align:center;
             }
+			
         </style>
         <table width="100%" id="rssTable">
             <?php 
