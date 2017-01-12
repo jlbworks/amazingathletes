@@ -111,8 +111,6 @@ if(!empty($target_args['f_territory_id'])) {
         'meta_query' => array(
             array(
                 'key' => 'unit_number',
-                //'value' => '%"'.$target_args['f_territory_id'].'"%',
-                //'compare' => 'LIKE',
                 'value' => $target_args['f_territory_id'],
                 'compare' => '=',
             )
@@ -120,7 +118,7 @@ if(!empty($target_args['f_territory_id'])) {
     );
     $territories_per_unit_number = get_posts($args_territories);
     if(!empty($territories_per_unit_number[0])) {
-        $master_array['1st_naf_due']    = get_post_meta($territories_per_unit_number[0]->ID, '1st_naf_due', true);
+        $master_array['tech_fee']    = get_post_meta($territories_per_unit_number[0]->ID, 'tech_fee', true);
         $master_array['1st_naf_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '1st_naf_amount', true);
     }
 }
@@ -501,9 +499,10 @@ endif;
 
         <table width="100%" border="1px">
             <tr style="background: #000; color: #fff">
-                <th colspan="9">Franchise Totals</th>
+                <th colspan="10">Franchise Totals</th>
             </tr>            
             <tr style="background: #e7e6e6; color: #000">
+                <th>Monthly minimum</th>
                 <th>Active Locations</th>
                 <th>Total Enrollment</th>
                 <th>Average Enrollment</th>
@@ -511,10 +510,11 @@ endif;
                 <th>Royalties as a %</th>
                 <th>Gross Revenue</th>
                 <th>Total Due Royalties</th> 
-                <th>NAF Due</th>
+                <th>Tech Fee</th>
                 <th>NAF Due ammount</th>               
             </tr>
             <tr>
+                <th><?php if(!empty($master_array['first_month_in_business'])) { echo date('M d, Y', strtotime($master_array['first_month_in_business'])); } else { echo '-'; } ?></th>
                 <th><?php echo count($master_array['locations']);?></th>
                 <th style="background-color:#FFCCCC;"><?php echo $master_array['total_enrollment'] ;?></th>
                 <th><?php echo (count($master_array['locations']) > 0 ? round($master_array['total_enrollment'] / count($master_array['locations']),2) : 'N/A' );?></th>
@@ -522,7 +522,7 @@ endif;
                 <th><?php echo ($master_array['earned_gross_revenue'] > 0 ? number_format ( 100 * ($master_array['total_due_royalties'] / $master_array['earned_gross_revenue'] ),2).'%' : 'N/A') ;?></th>
                 <th><?php echo '$'. $master_array['earned_gross_revenue'];?></th>
                 <th style="background-color:#FFCCCC;"><?php echo '$'. $master_array['total_due_royalties'];?></th>
-                <th><?php if(!empty($master_array['1st_naf_due'])) { echo date('M d, Y', strtotime($master_array['1st_naf_due'])); } else { echo '-'; } ?></th>
+                <th><?php if(!empty($master_array['tech_fee'])) { echo '$'. $master_array['tech_fee']; } else { echo '-'; } ?></th>
                 <th><?php if(!empty($master_array['1st_naf_amount'])) { echo '$'. $master_array['1st_naf_amount']; } else { echo '-'; } ?></th>
             <tr>
         </table>

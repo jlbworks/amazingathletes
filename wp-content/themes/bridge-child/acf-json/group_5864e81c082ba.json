@@ -94,6 +94,27 @@
             "first_day": 1
         },
         {
+            "key": "field_5877b8aaaa20e",
+            "label": "Tech fee",
+            "name": "tech_fee",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": "",
+            "max": "",
+            "step": ""
+        },
+        {
             "key": "field_586569a9be66b",
             "label": "1st Tech Fee Due",
             "name": "1st_tech_fee_due",
@@ -276,5 +297,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1483457196
+    "modified": 1484241086
 }
