@@ -125,9 +125,9 @@ if(!empty($target_args['f_territory_id'])) {
         $first_month_in_business = get_post_meta($territories_per_unit_number[0]->ID, 'first_month_in_business', true);
         
         if(ucfirst($month) == date('M', strtotime($first_month_in_business)) && $year == date('Y', strtotime($first_month_in_business))) {
-            $master_array['month_minimum_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '1st_month_minimum_amount', true);
+            $master_array['month_minimum_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '1st_royalty_minimum_amount', true);
         } else {
-            $master_array['month_minimum_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '2nd_month_minimum_amount', true);
+            $master_array['month_minimum_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '2nd_royalty_minimum_amount', true);
         }
 
         

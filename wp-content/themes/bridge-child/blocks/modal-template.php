@@ -31,7 +31,7 @@
 
 <script>
 $(document).off().on('click', '.am2-ajax-modal', function(event) {
-  console.log("bbbb");
+  
   var which_modal = $(this).data('modal');
   
   $.get(which_modal, function(html) {
