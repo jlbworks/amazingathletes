@@ -120,7 +120,17 @@ if(!empty($target_args['f_territory_id'])) {
     if(!empty($territories_per_unit_number[0])) {
         $master_array['tech_fee']    = get_post_meta($territories_per_unit_number[0]->ID, 'tech_fee', true);
         $master_array['1st_naf_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '1st_naf_amount', true);
-        $master_array['first_month_in_business'] = get_post_meta($territories_per_unit_number[0]->ID, 'first_month_in_business', true);
+
+        // Check if we are in first month of business to apply 1st month minimum
+        $first_month_in_business = get_post_meta($territories_per_unit_number[0]->ID, 'first_month_in_business', true);
+        
+        if(ucfirst($month) == date('M', strtotime($first_month_in_business)) && $year == date('Y', strtotime($first_month_in_business))) {
+            $master_array['month_minimum_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '1st_month_minimum_amount', true);
+        } else {
+            $master_array['month_minimum_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '2nd_month_minimum_amount', true);
+        }
+
+        
     }
 }
 
@@ -515,7 +525,7 @@ endif;
                 <th>NAF Due ammount</th>               
             </tr>
             <tr>
-                <th><?php if(!empty($master_array['first_month_in_business'])) { echo date('M d, Y', strtotime($master_array['first_month_in_business'])); } else { echo '-'; } ?></th>
+                <th><?php if(!empty($master_array['month_minimum_amount'])) { echo '$'. $master_array['month_minimum_amount']; } else { echo '-'; } ?></th>
                 <th><?php echo count($master_array['locations']);?></th>
                 <th style="background-color:#FFCCCC;"><?php echo $master_array['total_enrollment'] ;?></th>
                 <th><?php echo (count($master_array['locations']) > 0 ? round($master_array['total_enrollment'] / count($master_array['locations']),2) : 'N/A' );?></th>
