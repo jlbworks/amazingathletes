@@ -120,6 +120,7 @@ if(!empty($target_args['f_territory_id'])) {
     if(!empty($territories_per_unit_number[0])) {
         $master_array['tech_fee']    = get_post_meta($territories_per_unit_number[0]->ID, 'tech_fee', true);
         $master_array['1st_naf_amount'] = get_post_meta($territories_per_unit_number[0]->ID, '1st_naf_amount', true);
+        $master_array['first_month_in_business'] = get_post_meta($territories_per_unit_number[0]->ID, 'first_month_in_business', true);
     }
 }
 
