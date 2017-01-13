@@ -170,16 +170,13 @@
 </div>
 
 <?php 
- $current_user = wp_get_current_user(); 
- $user_id = $current_user->ID;
- ?>
- 
-<?php echo "user_id: " . $user_id . "<br>" ?>
-<?php the_field('individual_1_last_name', $user_id); ?>
+$current_user = wp_get_current_user(); 
+$user_id = "user_".$current_user->ID;
+?>
 
  <form name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
  <input type="hidden" name="company" value="8bea036f"> <!--required -->
- <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>"> <!-- required --> nickname
+ <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>"> <!-- required -->
  <input type="hidden" name="usertype" value="Agent"><!-- required --> 
  <input type="hidden" name="officeid" value="<?php echo $current_user->user_login; ?>"> <!-- required -->
  <input type="hidden" name="firstname" value="<?php the_field('display_name', $user_id); ?>"> <!-- required -->
@@ -189,11 +186,10 @@
  <input type="hidden" name="directphone" value="<?php the_field('telephone', $user_id); ?>"><!-- required -->
  <input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required -->
  <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="officecity" value=""><!-- required --> city  (field_name= city__state)
- <input type="hidden" name="officestate" value=""> <!-- required --> state (field_name= city__state)
+ <input type="hidden" name="officecity" value="<?php the_field('cc_city', $user_id); ?>"><!-- required -->
+ <input type="hidden" name="officestate" value="<?php the_field('cc_state', $user_id); ?>"> <!-- required -->
  <input type="hidden" name="officezip" value="<?php the_field('zip_code', $user_id); ?>"><!-- required -->
  <input class="button" type=submit value="Custom ProShop"> 
- 
- 
+
  </form>
 
