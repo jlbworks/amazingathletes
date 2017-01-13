@@ -673,8 +673,6 @@ foreach($_payment_options as $key => $opt){
                         <td style="display:none;"></td>
                         <td style="display:none;"><?php echo implode('', $occurrences);?></td>
                       <td>
-                        <input type="hidden" name="class_id" value="<?php echo $roster_class_id; ?>" />
-
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                         data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><i class="fa fa-pencil"></i></a>
