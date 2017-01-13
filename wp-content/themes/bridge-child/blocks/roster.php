@@ -639,7 +639,7 @@ foreach($_payment_options as $key => $opt){
                             </span>
                         </td>
                         <td><span><?php echo $customer->childs_gender;?></span></td>
-                        <td><span><?php echo $registration_fee;?></span></td>
+                        <td><span>$<?php echo $registration_fee;?></span></td>
                         <td class="editable_popup">
                             <input type="checkbox" name="registration_paid" value="x" <?php if($registration_paid == 'x') echo 'checked="checked"';?>/>
                             
