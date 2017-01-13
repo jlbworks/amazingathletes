@@ -217,7 +217,7 @@ function submit_data() {
         $franchise_id   = $class->post_author;
         $meta_name = sanitize_text_field($_POST['post_meta']);
         $meta_value = sanitize_text_field($_POST['meta_value']);
-
+        
         $title = $customer_childs_name . ' ' . $class->post_title;
         $author = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
 
@@ -256,13 +256,9 @@ function submit_data() {
         update_post_meta( $post_id, 'payment_franchise_id', $author );
 
         // check if Date is sent, else check if meta exist, if not add current date. MUST NOT BE EMPTY
-        if($meta_name == 'date') {
-            update_post_meta( $post_id, 'payment_paid_date', $meta_value); // date is requried one            
-        } else {
-            $date = get_post_meta( $post_id, 'payment_paid_date', true );
-            if( empty( $date) ) {
-                update_post_meta( $post_id, 'payment_paid_date', date('m/d/Y'));
-            }
+        $date = get_post_meta( $post_id, 'payment_paid_date', true );
+        if( empty($date) ) {
+            update_post_meta( $post_id, 'payment_paid_date', date('m/d/Y'));
         }
 
 
@@ -1573,7 +1569,7 @@ function get_user_role() {
     return $user_role;
 }
 
-add_filter('show_admin_bar', '__return_false');
+//add_filter('show_admin_bar', '__return_false');
 
 add_editor_style('editor-styles.css');
 //add_image_size ( 'smallthumb', 272, 155, true);
