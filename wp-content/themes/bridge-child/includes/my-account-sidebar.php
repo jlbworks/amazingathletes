@@ -90,8 +90,29 @@
     </div>
 	<div class="side-nav">
 		<div class="sidebar-link">
-			<form style="margin-top:-40px;" action="http://www.xpressdocs.com/next/default_link.php" method="post" name="xpressdocslink" target="_blank"><input name="company" type="hidden" value="8bea036f" /> <!--required --><input name="userid" type="hidden" value="25" /> <!-- required --><input name="usertype" type="hidden" value="Agent" /><!-- required --><input name="officeid" type="hidden" value="hq" /> <!-- required --><input name="region" type="hidden" value="TN" /><input name="firstname" type="hidden" value="Glen &amp; Janee Henderson" /> <!-- required --><input name="middlename" type="hidden" value="" /><input name="lastname" type="hidden" value="" /> <!-- required --><input name="email" type="hidden" value="janee@amazingathletes.com" /> <!-- required --><input name="webpage" type="hidden" value="www.amazingathletes.com/hq" /><input name="directphone" type="hidden" value="1-949-291-3147" /><!-- required --><input name="officephone" type="hidden" value="1-949-291-3147" /><!-- required --><input name="fax" type="hidden" value="1-615-465-6656" /><input name="officename" type="hidden" value="Amazing Athletes Corporate" /><!-- required --><input name="officeaddress1" type="hidden" value="200 Watson View Drive" /> <!-- required --><input name="officeaddress2" type="hidden" value="" /><input name="officecity" type="hidden" value="Franklin" /><!-- required --><input name="officestate" type="hidden" value="TN" /> <!-- required --><input name="officezip" type="hidden" value="37067" /><!-- required --><input class="cps-button" type="submit" value="CUSTOM PROSHOP" />
-			</form>
+			<?php 
+$current_user = wp_get_current_user(); 
+$user_id = "user_".$current_user->ID;
+?>
+
+ <form style="margin-top:-40px;" name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
+ <input type="hidden" name="company" value="8bea036f"> <!--required -->
+ <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>"> <!-- required -->
+ <input type="hidden" name="usertype" value="Agent"><!-- required --> 
+ <input type="hidden" name="officeid" value="<?php echo $current_user->user_login; ?>"> <!-- required -->
+ <input type="hidden" name="firstname" value="<?php the_field('display_name', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="lastname" value="<?php the_field('individual_1_last_name', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="email" value="<?php the_field('aa_email_address', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="webpage" value="www.amazingathletes.com/<?php the_field('franchise_slug', $user_id); ?>?"> 
+ <input type="hidden" name="directphone" value="<?php the_field('telephone', $user_id); ?>"><!-- required -->
+ <input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required -->
+ <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="officecity" value="<?php the_field('cc_city', $user_id); ?>"><!-- required -->
+ <input type="hidden" name="officestate" value="<?php the_field('cc_state', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="officezip" value="<?php the_field('zip_code', $user_id); ?>"><!-- required -->
+ <input class="button" type=submit value="Custom ProShop"> 
+
+ </form>
 		</div>
     </div>
 	<div class="side-nav">
@@ -169,27 +190,5 @@
     </div>
 </div>
 
-<?php 
-$current_user = wp_get_current_user(); 
-$user_id = "user_".$current_user->ID;
-?>
 
- <form name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
- <input type="hidden" name="company" value="8bea036f"> <!--required -->
- <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>"> <!-- required -->
- <input type="hidden" name="usertype" value="Agent"><!-- required --> 
- <input type="hidden" name="officeid" value="<?php echo $current_user->user_login; ?>"> <!-- required -->
- <input type="hidden" name="firstname" value="<?php the_field('display_name', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="lastname" value="<?php the_field('individual_1_last_name', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="email" value="<?php the_field('aa_email_address', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="webpage" value="www.amazingathletes.com/<?php the_field('franchise_slug', $user_id); ?>?"> 
- <input type="hidden" name="directphone" value="<?php the_field('telephone', $user_id); ?>"><!-- required -->
- <input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required -->
- <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="officecity" value="<?php the_field('cc_city', $user_id); ?>"><!-- required -->
- <input type="hidden" name="officestate" value="<?php the_field('cc_state', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="officezip" value="<?php the_field('zip_code', $user_id); ?>"><!-- required -->
- <input class="button" type=submit value="Custom ProShop"> 
-
- </form>
 
