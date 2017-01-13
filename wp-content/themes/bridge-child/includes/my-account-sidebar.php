@@ -110,7 +110,7 @@ $user_id = "user_".$current_user->ID;
  <input type="hidden" name="officecity" value="<?php the_field('cc_city', $user_id); ?>"><!-- required -->
  <input type="hidden" name="officestate" value="<?php the_field('cc_state', $user_id); ?>"> <!-- required -->
  <input type="hidden" name="officezip" value="<?php the_field('zip_code', $user_id); ?>"><!-- required -->
- <input class="cps-button" type=submit value="Custom ProShop"> 
+ <input class="cps-button" type=submit value="CUSTOM PROSHOP"> 
 
  </form>
 		</div>
