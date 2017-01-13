@@ -255,6 +255,12 @@ function submit_data() {
         update_post_meta( $post_id, $meta_name, $meta_value );
         update_post_meta( $post_id, 'payment_franchise_id', $author );
 
+        // Payment type will be tuition if not set differntly
+        $ptype = get_post_meta( $post_id, 'payment_type', true );
+        if( empty($ptype) ) {
+            update_post_meta( $post_id, 'payment_type', 'tuition');
+        }
+
         // check if Date is sent, else check if meta exist, if not add current date. MUST NOT BE EMPTY
         $date = get_post_meta( $post_id, 'payment_paid_date', true );
         if( empty($date) ) {
