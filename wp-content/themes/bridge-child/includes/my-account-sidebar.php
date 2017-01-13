@@ -171,7 +171,7 @@
 
 <?php 
  $current_user = wp_get_current_user(); 
- $user_id = "user_".$current_user->ID;
+ $user_id = $current_user->ID;
  ?>
  
 <?php echo "user_id: " . $current_user->ID; . "<br>" ?>
