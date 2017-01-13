@@ -206,6 +206,70 @@ function submit_data() {
     get_currentuserinfo();
 
     /**
+      SAVE ROSTER PAYMENT
+     */
+    if ($_POST['form_handler'] == 'roster_payment') {
+
+        $id = sanitize_text_field( $_POST['payment_id'] );
+        $class = get_post( sanitize_text_field( $_POST['payment_class_id'] ) );
+        $customer_childs_name = get_post_meta( sanitize_text_field( $_POST['payment_customer_id'] ), 'childs_first_name', true );
+        $class = get_post($_POST['payment_class_id']);
+        $franchise_id   = $class->post_author;
+        $meta_name = sanitize_text_field($_POST['post_meta']);
+        $meta_value = sanitize_text_field($_POST['meta_value']);
+
+        $title = $customer_childs_name . ' ' . $class->post_title;
+        $author = is_role('administrator') || is_role('super_admin') ? $franchise_id : get_current_user_id();
+
+        $post_data = array(            
+            'post_type' => 'payment',
+            'post_title' => $title,
+            'post_name' => sanitize_title_with_dashes( $title ),
+            'post_status' => 'publish',
+            'post_author' => $author,
+        );
+        if($id > 0){
+            $post_data['ID'] = $id;
+        }
+
+        $created = false;
+        if ( $id > 0 ) {
+            $post_id = $id;
+            wp_update_post($post_data);
+
+        } else {
+            $post_id = wp_insert_post($post_data);
+            $created = true;
+        }
+
+        $meta_fields = array(
+           'payment_class_id', 'payment_customer_id','payment_location_id'
+        );
+        foreach ( $meta_fields as $field ) {
+            $meta_data[$field] = sanitize_text_field($_POST[$field]);
+            if(!empty($meta_data[$field])) {
+                update_post_meta( $post_id, $field, $meta_data[$field] );                
+            }
+        }
+
+        update_post_meta( $post_id, $meta_name, $meta_value );
+        update_post_meta( $post_id, 'payment_franchise_id', $author );
+
+        // check if Date is sent, else check if meta exist, if not add current date. MUST NOT BE EMPTY
+        if($meta_name == 'date') {
+            update_post_meta( $post_id, 'payment_paid_date', $meta_value); // date is requried one            
+        } else {
+            $date = get_post_meta( $post_id, 'payment_paid_date', true );
+            if( empty( $date) ) {
+                update_post_meta( $post_id, 'payment_paid_date', date('m/d/Y'));
+            }
+        }
+
+
+        exit(json_encode(array('success' => true, 'created' => $created, 'post_id' => $post_id, 'message' => "Payment saved successfully")));
+    }
+
+    /**
       SAVE USER PROFILE
      */
     if ($_POST['form_handler'] == 'profile') {

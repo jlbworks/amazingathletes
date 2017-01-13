@@ -478,7 +478,7 @@ foreach($_payment_options as $key => $opt){
                         $registration_paid_amt = 0;
                         $weeks = ['','','','',''];                        
                         $roster_customer_discount = '';
-                        $roster_payment_type = '';
+                        $roster_payment_method = '';
                         $tuition_payment_id = -1;
 
                         $payments = get_posts(array(
@@ -501,7 +501,8 @@ foreach($_payment_options as $key => $opt){
                             )
                         ));                      
                     
-                        foreach($payments as $payment){   
+                        foreach($payments as $payment){
+                            // if payment is not for this class, continue   
                             if($payment->payment_class_id != $class_id) continue;
 
                             if($payment->payment_type == 'registration'){
@@ -514,12 +515,15 @@ foreach($_payment_options as $key => $opt){
                                 }
                                 $registration_payment_id = $payment->ID;
                             }
-                            else if($payment->payment_type == 'tuition' && $tuition_paid_amt == 0){                                
+                            // Goran, this will only check if its not registration, check if it should work like this.
+//                            else if($payment->payment_type == 'tuition' && $tuition_paid_amt == 0){                                
+                            else {
+
                                 if(date('Y',strtotime($payment->payment_paid_date)) == $year && date('m',strtotime($payment->payment_paid_date)) == $month){
                                     $tuition_paid_date = $payment->payment_paid_date;
                                     $tuition_paid_amt = $payment->payment_paid_amount;
                                     $roster_customer_discount = $payment->payment_discount;
-                                    $roster_payment_type = $payment->payment_method;
+                                    $roster_payment_method = $payment->payment_method;
                                     $tuition_payment_id = $payment->ID;
                                     //break;
                                 }                                                                
@@ -583,7 +587,7 @@ foreach($_payment_options as $key => $opt){
                         $roster_customer_status = /*isset($modifications['roster_customer_status']) ? $modifications['roster_customer_status'] : */$rost->roster_customer_status;
                         $roster_customer_media = /*isset($modifications['roster_customer_media']) ? $modifications['roster_customer_media'] : */$rost->roster_customer_media;                    
                         //$roster_customer_discount = isset($modifications['roster_customer_discount']) ? $modifications['roster_customer_discount'] : $rost->roster_customer_discount;  
-                        //$roster_payment_type = isset($modifications['roster_payment_type']) ? $modifications['roster_payment_type'] : $rost->roster_payment_type;                        
+                        //$roster_payment_method = isset($modifications['roster_payment_method']) ? $modifications['roster_payment_method'] : $rost->roster_payment_method;                        
                         //$registration_paid = isset($modifications['registration_paid']) ? $modifications['registration_paid'] : $registration_paid;
                         //$tuition_paid_date = isset($modifications['tuition_paid_date']) ? $modifications['tuition_paid_date'] : $tuition_paid_date;
                         //$tuition_paid_amt = isset($modifications['tuition_paid_amt']) ? $modifications['tuition_paid_amt'] : $tuition_paid_amt;
@@ -605,39 +609,58 @@ foreach($_payment_options as $key => $opt){
                     <tr class="gradeA" data-roster-id="<?php echo $rost->ID;?>" 
                     data-registration-payment-id="<?php echo $registration_payment_id;?>" 
                     data-tuition-payment-id="<?php echo $tuition_payment_id;?>"
-                    data-customer-id="<?php echo $customer_id;?>"
+                    data-customer-id="<?php echo $roster_customer_id;?>"
+                    data-class-id="<?php echo $roster_class_id;?>"
+                    data-location-id="<?php echo $class_location_id; ?>"
                     >
-                        <td><span class="a_details"></span></td>
-                        <td style="white-space:nowrap"><a class="am2-ajax-modal"
-                        data-original-title="Edit" data-placement="top" data-toggle="tooltip"
-                        data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><?php echo $i+1; ?></a></td>
-                        <td class="editable"><span><?php echo $roster_customer_status;?></span><select name="roster_customer_status" class="hidden"><?php echo $status_options; ?></select></td>
-                        <td class="editable"><span><?php echo $roster_customer_media;?></span><select name="roster_customer_media" class="hidden"><?php echo $customer_media_options; ?></select></td>
-                        <td><span><?php echo $customer->childs_first_name . ' ' . $customer->childs_last_name;?></span></td>
+                        <td>
+                            <span class="a_details"></span>
+                        </td>
+                        <td style="white-space:nowrap">
+                            <a class="am2-ajax-modal" data-original-title="Edit" data-placement="top" data-toggle="tooltip" data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>">
+                                <?php echo $i+1; ?>
+                            </a>
+                        </td>
+                        <td class="editable">
+                            <span><?php echo $roster_customer_status;?></span>
+                            <select name="roster_customer_status" class="hidden">
+                                <?php echo $status_options; ?>        
+                            </select>
+                        </td>
+                        <td class="editable">
+                            <span><?php echo $roster_customer_media;?></span>
+                            <select name="roster_customer_media" class="hidden">
+                                <?php echo $customer_media_options; ?>
+                            </select>
+                        </td>
+                        <td>
+                            <span>
+                                <?php echo $customer->childs_first_name . ' ' . $customer->childs_last_name;?>
+                            </span>
+                        </td>
                         <td><span><?php echo $customer->childs_gender;?></span></td>
                         <td><span><?php echo $registration_fee;?></span></td>
                         <td class="editable_popup">
                             <input type="checkbox" name="registration_paid" value="x" <?php if($registration_paid == 'x') echo 'checked="checked"';?>/>
+                            
                             <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $registration_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=registration"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
                         </td>
-                        <td class="editable_popup" data-name="discount">
+                        <td class="p_editable" data-name="payment_discount">
                             <span><?php echo $roster_customer_discount;?></span>
-                            <?php /*<select name="roster_customer_discount" class="hidden"><?php echo $discount_options; ?></select>*/?>
-                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                            <select name="payment_discount" class="hidden"><?php echo $discount_options; ?></select>
                         </td>
                         <td><span>$<?php echo $tuition;?></span></td>
-                        <td class="editable_popup" data-name="pay_type">
-                            <span><?php echo $roster_payment_type;?></span>
-                            <?php /*<select name="roster_payment_type" class="hidden"><?php echo $payment_options; ?></select>*/?>
-                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                        <td class="p_editable" data-name="payment_method">
+                            <span><?php echo $roster_payment_method;?></span>
+                            <select name="payment_method" class="hidden"><?php echo $payment_options; ?></select>
                         </td>
-                        <td class="editable_popup" data-name="tuition_paid_amt">
-                            <span>$<?php echo $tuition_paid_amt;?></span>
-                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                        <td class="p_editable" data-name="payment_paid_amount">
+                            $<span><?php echo $tuition_paid_amt;?></span>
+                            <input style="width:70%" name="payment_paid_amount" class="hidden" type="text" />
                         </td>
-                        <td class="editable_popup" data-name="tuition_paid_date">
+                        <td class="p_editable" data-name="payment_paid_date">
                             <span><?php echo $tuition_paid_date;?></span>
-                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
+                            <input data-js="datepicker-format" style="width:70%" name="payment_paid_date" class="hidden" type="text" />
                         </td>
                         <td style="display:none;" class="editable_direct"><span><?php echo $weeks[0];?></span><input type="checkbox" name="week1" value="x" <?php if($week1 == 'x') echo 'checked="checked"';?>/></td>
                         <td style="display:none;" class="editable_direct"><span><?php echo $weeks[1];?></span><input type="checkbox" name="week2" value="x" <?php if($week2 == 'x') echo 'checked="checked"';?>/></td>
@@ -650,6 +673,8 @@ foreach($_payment_options as $key => $opt){
                         <td style="display:none;"></td>
                         <td style="display:none;"><?php echo implode('', $occurrences);?></td>
                       <td>
+                        <input type="hidden" name="class_id" value="<?php echo $roster_class_id; ?>" />
+
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                         data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><i class="fa fa-pencil"></i></a>
@@ -934,13 +959,13 @@ $(document).ready(function() {
         }        
     });
 
-    $('#datatable-editable td.editable').on('click', function(){
+    $('#datatable-editable td.editable,#datatable-editable td.p_editable').on('click', function(){
       console.log('td click');
 
       if(!$(this).hasClass('edit')){
           $(this).addClass('edit');
           console.log('edit');
-          $(this).children('input,select').eq(0).val($(this).children('span').text()).focus().select();
+          $(this).children('input,select').eq(0).val($(this).children('span').text()).focus();
       }      
       else {          
       }
@@ -973,28 +998,6 @@ $(document).ready(function() {
       //e.stopPropagation();      
   });
 
-  $('#datatable-editable td.editable_popup').on('click', function(e){    
-    if($(e.target).is('input')) return;  
-    if($(e.target).is('button')) return;
-    //if(!$(e.target).is('td')) e.stopPropagation();
-    //e.stopPropagation();    
-
-    var $tr = $(this).closest('tr');
-    var $td = !$(e.target).is('td') ? $(this).closest('td') : $(this);        
-    var roster_id = $tr.data('roster-id');
-    var row_data = {};
-    var name = $td.data('name');
-    var year = <?php echo $year;?>; 
-    var month = <?php echo $month;?>; 
-
-    var payment_popup_fields = ['tuition_paid_amt', 'tuition_paid_date', 'discount', 'pay_type']
-
-    console.log(name);
-
-    if($.inArray( name, payment_popup_fields )!==-1){        
-        $td.children('button').trigger('click');   
-    }
-  });
 
   $('#datatable-editable td.editable_popup :input').on('change', function(e){
     e.stopPropagation();
@@ -1023,6 +1026,7 @@ $(document).ready(function() {
     }
   });
 
+  // ROSTER INLINE EDIT
   $('#datatable-editable td.editable :input').on('blur', function(){    
     var $tr = $(this).closest('tr');
     var $td = $(this).closest('td');
@@ -1043,6 +1047,32 @@ $(document).ready(function() {
     });
   });
 
+  // PAYMENTS INLINE EDIT
+  $('#datatable-editable td.p_editable :input').on('blur', function(){    
+    var $tr = $(this).closest('tr');
+    var $td = $(this).closest('td');
+    var val = $(this).val();
+    var payment_id  = $tr.data('tuition-payment-id');
+    var class_id    = $tr.data('class-id');
+    var customer_id = $tr.data('customer-id');
+    var meta        = $(this).attr('name');
+    var payment_location_id = $tr.data('location-id');
+    
+    $td.children('span').text(val);     
+
+    $.post('<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data', {action: 'submit_data', form_handler:'roster_payment', payment_id: payment_id, payment_location_id: payment_location_id, post_meta: meta, meta_value: val, payment_customer_id: customer_id, payment_class_id: class_id }, function(resp){
+        var data = JSON.parse( resp );
+        console.log(data);
+        if(data.created == true) {
+            $tr.data('tuition-payment-id',data.post_id); 
+
+            console.log($tr.data('tuition-payment-id'));
+        }
+
+        $td.removeClass('edit');
+    });
+  });
+
   $(document).on('change', '#datatable-editable .attendance_dates input[type="checkbox"]', function(e){
       console.log(e);
       var $tr = $(this).closest('tr');
@@ -1056,6 +1086,7 @@ $(document).ready(function() {
           });             
       }
   });
+
 });
 </script>
 
