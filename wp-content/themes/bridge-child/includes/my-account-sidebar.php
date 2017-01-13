@@ -170,27 +170,30 @@
 </div>
 
 <?php 
-$current_user = wp_get_current_user(); 
-$user_id = "user_".$current_user->ID;
-?>
-
-<form name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
-<input type="hidden" name="company" value="8bea036f"> <!--required -->
-<input type="hidden" name="userid" value=""> <!-- required --> nickname
-<input type="hidden" name="usertype" value="Agent"><!-- required --> 
-<input type="hidden" name="officeid" value="<?php echo $current_user->user_login; ?>"> <!-- required --> WordPress username (id= user_login)
-<input type="hidden" name="firstname" value=""> <!-- required --> display name (field_name= display_name)
-<input type="hidden" name="lastname" value=""> <!-- required --> Individual 1 Last Name (individual_1_last_name)
-<input type="hidden" name="email" value="l"> <!-- required --> display email  (field_name= aa_email_address)
-<input type="hidden" name="webpage" value="www.amazingathletes.com/?????"> franchisee slug  (field_name= slug)
-<input type="hidden" name="directphone" value=""><!-- required --> display phone number) (field_name= telephone)
-<input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required --> DBA (field_name= franchise_name)
-<input type="hidden" name="officeaddress1" value=""> <!-- required --> mailing address? (field_name= mailing_address)
-<input type="hidden" name="officecity" value=""><!-- required --> city  (field_name= city__state)
-<input type="hidden" name="officestate" value=""> <!-- required --> state (field_name= city__state)
-<input type="hidden" name="officezip" value=""><!-- required --> zip  (field_name= zip_code)
-<input class="button" type=submit value="Custom ProShop"> 
+ $current_user = wp_get_current_user(); 
+ $user_id = "user_".$current_user->ID;
+ ?>
+ 
+<?php echo "user_id: " . $current_user->ID; . "<br>" ?>
 
 
-</form>
+ <form name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
+ <input type="hidden" name="company" value="8bea036f"> <!--required -->
+ <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>"> <!-- required --> nickname
+ <input type="hidden" name="usertype" value="Agent"><!-- required --> 
+ <input type="hidden" name="officeid" value="<?php echo $current_user->user_login; ?>"> <!-- required -->
+ <input type="hidden" name="firstname" value="<?php the_field('display_name', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="lastname" value="<?php the_field('individual_1_last_name', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="email" value="<?php the_field('aa_email_address', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="webpage" value="www.amazingathletes.com/<?php the_field('franchise_slug', $user_id); ?>?"> 
+ <input type="hidden" name="directphone" value="<?php the_field('telephone', $user_id); ?>"><!-- required -->
+ <input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required -->
+ <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="officecity" value=""><!-- required --> city  (field_name= city__state)
+ <input type="hidden" name="officestate" value=""> <!-- required --> state (field_name= city__state)
+ <input type="hidden" name="officezip" value="<?php the_field('zip_code', $user_id); ?>"><!-- required -->
+ <input class="button" type=submit value="Custom ProShop"> 
+ 
+ 
+ </form>
 
