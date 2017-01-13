@@ -174,7 +174,7 @@
  $user_id = $current_user->ID;
  ?>
  
-<?php echo "user_id: " . $current_user->ID; . "<br>" ?>
+<?php echo "user_id: " . $user_id . "<br>" ?>
 
 
  <form name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
