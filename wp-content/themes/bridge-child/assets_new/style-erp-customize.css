@@ -434,7 +434,9 @@ td.price {
   border-radius:5px;
   width:auto;
 }
-
+#user-form input{
+  border:1px solid #ddd;
+}
 td.edit span{
   display:none;
 }
