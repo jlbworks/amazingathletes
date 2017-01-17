@@ -2608,6 +2608,12 @@ a img.aligncenter {
   display: none;
 }
 
+
+.card-form input {
+    border: 1px solid lightgray!important;
+}
+
+
 /*
 *  if field is not inline editable
 *  - remove fieldset overlay and fieldset submit
@@ -9843,4 +9849,9 @@ body.stop-scrolling {
 
 #filter select {
     width:20%;
+}
+
+
+.card-form input {
+    border: 1px solid lightgray!important;
 }
