@@ -99,7 +99,7 @@
 
  <form style="margin-top:-40px;" name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
  <input type="hidden" name="company" value="8bea036f"> <!--required -->
- <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>"> <!-- required -->
+ <input type="hidden" name="userid" value="<?php echo $current_user->user_login; ?>"> <!-- required -->
  <input type="hidden" name="usertype" value="Agent"><!-- required --> 
  <input type="hidden" name="officeid" value="<?php echo $current_user->user_login; ?>"> <!-- required -->
  <input type="hidden" name="firstname" value="<?php the_field('display_name', $user_id); ?>"> <!-- required -->
