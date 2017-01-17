@@ -91,9 +91,11 @@
 	<div class="side-nav">
 		<div class="sidebar-link">
 			<?php 
-$current_user = wp_get_current_user(); 
-$user_id = "user_".$current_user->ID;
-?>
+                $current_user = wp_get_current_user(); 
+                $user_id = "user_".$current_user->ID;
+                $cityState = get_user_meta($current_user->ID,'city__state',true);
+                $cityState = explode("|", $cityState);
+            ?>
 
  <form style="margin-top:-40px;" name="xpressdocslink" action="http://www.xpressdocs.com/next/default_link.php" method="post" target="_blank">
  <input type="hidden" name="company" value="8bea036f"> <!--required -->
@@ -107,8 +109,8 @@ $user_id = "user_".$current_user->ID;
  <input type="hidden" name="directphone" value="<?php the_field('telephone', $user_id); ?>"><!-- required -->
  <input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required -->
  <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="officecity" value="<?php the_field('city_state_city', $user_id); ?>"><!-- required -->
- <input type="hidden" name="officestate" value="<?php the_field('city_state_state', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="officecity" value="<?php echo $cityState[1]; ?>"><!-- required -->
+ <input type="hidden" name="officestate" value="<?php echo $cityState[0]; ?>"> <!-- required -->
  <input type="hidden" name="officezip" value="<?php the_field('zip_code', $user_id); ?>"><!-- required -->
  <input class="cps-button" type=submit value="CUSTOM PROSHOP"> 
 
