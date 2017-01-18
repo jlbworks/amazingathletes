@@ -113,8 +113,8 @@ $franchises = get_users( $franchise_args );
                       <div class="card-form">
                           <fieldset>
                               <select name="childs_gender" data-js="select" class="form-control" title="Please choose child's gender." required>
-                                  <option value="boy" <?php selected( $childs_gender, 'boy' ); ?>>Boy</option>
-                                  <option value="girl" <?php selected( $childs_gender, 'girl' ); ?>>Girl</option>
+                                  <option value="boy" <?php selected( $childs_gender, 'boy' ); ?>>M</option>
+                                  <option value="girl" <?php selected( $childs_gender, 'girl' ); ?>>F</option>
                               </select>
                           </fieldset>
                       </div>
