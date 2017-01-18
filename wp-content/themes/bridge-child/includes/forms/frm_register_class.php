@@ -55,8 +55,8 @@
     <p>Child's Gender *<br>
       <span class="wpcf7-form-control-wrap child-gender">
       <select name="child-gender" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required>
-        <option value="Boy">Boy</option>
-        <option value="Girl">Girl</option>
+        <option value="M">M</option>
+        <option value="F">F</option>
       </select>
       </span> </p>
     <p>Child's Shirt Size *<br>
