@@ -355,5 +355,3 @@ function am2_display_includes() {
 }
 add_action( 'wp_footer', 'am2_display_includes' );
 ?>
-
-

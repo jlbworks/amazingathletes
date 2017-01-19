@@ -146,7 +146,10 @@ h1 {
   width: 100%;
   box-sizing: border-box;
 }
-
+.pagination.custom-pagination a,
+.pagination.custom-pagination span{
+  display: inline-block;
+}
 /*
 .pagination {
   font-size: 15px;

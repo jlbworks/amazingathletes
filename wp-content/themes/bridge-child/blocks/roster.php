@@ -681,6 +681,7 @@ foreach($_payment_options as $key => $opt){
                           data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                           data-object="attend" data-id="<?php echo $rost->ID; ?>"><i class="fa fa-trash-o"></i></a>
                         <?php }; ?>
+                        </td>
                     </tr>
                     <?php $i++; }; ?>
                   </tbody>

@@ -2,19 +2,20 @@
 global $current_user;
 global $wpdb; 
 get_currentuserinfo(); 
-
-$id = $_REQUEST['id'];
-
 restrict_access('administrator');
 
-$create_city = empty($id);
-
 $states = $wpdb->get_results("SELECT * FROM states");
+$id = $_REQUEST['id'];
+if($id) {
+    $cities = $wpdb->get_results("SELECT * FROM zips WHERE id_city =".$id);
+    $sel_city = $cities[0]->city;
+    $sel_zip = $cities[0]->zip;
+}    
 
 ?>
 
 <div class="card-wrapper">
-    <h3 class="card-header"><?php echo ($create_city ? 'Create City' : 'Edit City');?></h3>
+    <h3 class="card-header"><?php echo (!$id ? 'Create City' : 'Edit City');?></h3>
     <form id="city-form" class="card-form no-inline-edit js-ajax-form">
         <div class="card-inner">
             
@@ -28,8 +29,8 @@ $states = $wpdb->get_results("SELECT * FROM states");
                             <fieldset>
                                 <select name="state" class="form-control" id="state" title="Please select a state." required>
                                     <option value=""></option>
-                                    <?php foreach( $states as $state ) : ?>
-                                        <option value="<?php echo $state->state_code; ?>" <?php selected( $sel_state, $state->state_code, true ); ?> required><?php echo $state->state; ?></option>
+                                    <?php foreach( $states as $single_state ) : ?>
+                                        <option value="<?php echo $single_state->state_code; ?>" <?php selected( $cities[0]->state, $single_state->state_code, true ); ?> required><?php echo $single_state->state; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <!-- /# -->
