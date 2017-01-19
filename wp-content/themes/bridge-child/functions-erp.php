@@ -1184,6 +1184,13 @@ function submit_data() {
         exit(json_encode(array('success' => $result == true, 'message' => "City added successfully")));
     }
 
+    if ($_POST['form_handler'] == 'update_city') {       
+        global $wpdb;
+        $data = array('zip' => $_POST['zip'], 'state' => $_POST['state'], 'city' => $_POST['city'] );
+        $result = $wpdb->update( 'zips', $data, array('id_city' => $_POST['id']) );
+        exit(json_encode(array('success' => $result == true, 'message' => "City updated successfully")));
+    }
+
     /**
         rss_inline_edit
     **/
@@ -1359,6 +1366,15 @@ function delete_object() {
         wp_update_post( $payment_object );
         exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Attendance deleted")));
 
+    }
+
+    // City Custom Table
+    if ($object == 'city' and $id > 0) {
+        global $wpdb;
+        $sql = sprintf( 'DELETE FROM %s WHERE %s = %%s', 'zips', 'id_city' );
+        return $wpdb->query( $wpdb->prepare( $sql, $id ) );
+
+        exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "City deleted")));
     }
 
 
