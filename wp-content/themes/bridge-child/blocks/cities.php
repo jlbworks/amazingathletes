@@ -63,7 +63,7 @@ $cities = $wpdb->get_results('SELECT * from zips ORDER BY city ASC LIMIT 100 OFF
                         <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                           <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                           data-original-title="Delete" data-placement="top" data-toggle="tooltip"
-                          data-object="attend" data-id="<?php echo $city->id_city; ?>"><i class="fa fa-trash-o"></i></a>
+                          data-object="city" data-id="<?php echo $city->id_city; ?>"><i class="fa fa-trash-o"></i></a>
                         <?php }; ?>
                     </td>
                     <?php
@@ -92,23 +92,12 @@ $cities = $wpdb->get_results('SELECT * from zips ORDER BY city ASC LIMIT 100 OFF
 
 set_title('Cities');
 
+
 $(document).ready(function() {
-    // $('#datatable-editable').DataTable({
-    //     dom: 'Blfrtip',
-    //     "paging":   false,
-    //     "ordering": false,
-    //     "info":     false,
-    //     buttons: [
-    //         {
-    //             extend: 'csv',
-    //             className: 'btn btn--secondary',
-    //             exportOptions: {
-    //                 columns: [0,1,2,3]
-    //             }
-    //         },
-    //     ]
-    // });
+    
 });
+</script>
+
 </script>
 
 <?php get_template_part('blocks/modal-template'); ?>

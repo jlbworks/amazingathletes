@@ -65,9 +65,12 @@ if($id) {
                         </div>
                     </div>
                 </div>
-                
-                <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                <input type="hidden" name="form_handler" value="create_city" />
+                <?php if($id) { ?>
+                    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                    <input type="hidden" name="form_handler" value="update_city" />
+                <?php } else { ?>
+                    <input type="hidden" name="form_handler" value="create_city" />
+                <?php } ?>
 
             </div>
         
