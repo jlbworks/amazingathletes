@@ -67,12 +67,12 @@ function am2_ajax_register_for_class(){
     $class_id = $_POST['class_id'];
     $class = get_post($class_id);
     $class_time = get_post_meta($class_id, 'time', true);
-    $class_date = get_class_date($class, 'date', true);
+    $class_day = get_class_date($class, 'day', true);
     $class_display_day = get_post_meta($class->ID, 'display_day', true);
     $class_display_time = get_post_meta($class->ID, 'display_time', true);
     $class_display_day = !empty($class_display_day) ? $class_display_day : $class_day;
     $class_display_time = !empty($class_display_time) ? $class_display_time : $class_time;
-    $current_time = date('m/d/Y H:i:s');
+    $current_time = date('m/d/Y H:i');
 
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -90,6 +90,7 @@ function am2_ajax_register_for_class(){
         'location_address' => $location->address,
         'class_type' => $class->type,
         'class_program' => $class->program,
+        'class_title' => $class->post_title,
         'class_display_day' => $class_display_day,
         'class_display_time' => $class_display_time,
         'class_age_range' => $class->age_range,
@@ -151,7 +152,7 @@ function am2_ajax_register_for_class(){
     
     $headers  = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type: text/plain; charset=utf-8" . "\r\n";
-    //$headers .= "Bcc: ivan.svaljek@am2studio.hr\r\n";
+    $headers .= "Bcc: goranefbl@gmail.com\r\n";
 
     $headers1 = $headers;
     $headers1 .= "Reply-To: <$reply_to>" . "\r\n";    

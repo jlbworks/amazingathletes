@@ -156,11 +156,11 @@
       </span> </p>
     <h3>Liability &amp; Photo Release</h3>
     <p><span class="wpcf7-form-control-wrap liability"><span class="wpcf7-form-control wpcf7-checkbox wpcf7-validates-as-required wpcf7-exclusive-checkbox"><span class="wpcf7-list-item first last">
-      <input type="checkbox" name="liability" value="I Agree to the Liability Release" required>
+      <input type="checkbox" name="liability" value="Yes" required>
       &nbsp;<span class="wpcf7-list-item-label">I Agree to the Liability Release *</span></span></span></span> </p>
     <p>Your child will remain under the care, direction and supervision of the school while receiving instruction from AMAZING ATHLETES. I hereby release and discharge AMAZING ATHLETES, the Childcare Facility and its members from all actions, claims, demands, injury or damage resulting from my child"s participation in this activity.</p>
     <p><span class="wpcf7-form-control-wrap photo_release"><span class="wpcf7-form-control wpcf7-checkbox wpcf7-exclusive-checkbox"><span class="wpcf7-list-item first last">
-      <input type="checkbox" name="photo_release" value="I Agree to the Photo Release">
+      <input type="checkbox" name="photo_release" value="Yes">
       &nbsp;<span class="wpcf7-list-item-label">I Agree to the Photo Release</span></span></span></span> </p>
     <p>I give AMAZING ATHLETES permission to publish pictures and/or videos of my child participating in the Amazing Athletes program.<br>
       Comments or Questions</p>
@@ -181,7 +181,7 @@
     <input type="hidden" name="action" value="am2_ajax_register_for_class" />
     <input type="hidden" name="location_id" value="<?php echo $_GET['location_id'];?>" />
     <input type="hidden" name="class_id" value="<?php echo $_GET['class_id'];?>" />
-    <input type="submit" value="Register" >    
+    <input type="submit" value="Register" >
   </form>
 
   <a style="display:none;font-size:22px;" data-fancybox-type="iframe" class="fancybox-iframe payment_options_popup" data-href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=" href="<?php echo site_url();?>/post_registration_details/?class_id=<?php echo $_GET['class_id'];?>&paid_tuition=" >View Payment Options</a>
