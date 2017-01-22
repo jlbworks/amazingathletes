@@ -98,6 +98,12 @@ function am2_ajax_register_for_class(){
         'ip' => $ip,
     );
 
+    if(!isset($_POST['paid_tuition'])) {
+        $registration_data['paid_tuition'] = "None selected";
+    }
+    if(!isset($_POST['photo_release'])) {
+        $registration_data['photo_release'] = "No";
+    }
     $registration_data = array_merge($registration_data,$_POST);
 
     $to = $franchisee->user_email;
@@ -143,8 +149,8 @@ function am2_ajax_register_for_class(){
     function replace_with_data($match){
         global $registration_data;
         //var_dump($match);
-        if(!isset($registration_data[$match[1]])) return '';
-        return $registration_data[$match[1]];
+        if(!isset($registration_data[$match[1]])) return '<br/>';
+        return $registration_data[$match[1]]." <br/>";
     }
 
     //$message = preg_replace_callback('(\[([a-zA-Z0-9-_]+?)\])', "replace_with_postdata", $message );
@@ -159,6 +165,11 @@ function am2_ajax_register_for_class(){
     
     $headers2 = $headers;
     $headers2 .= "Reply-To: <$to>" . "\r\n";     
+
+    // Change to HTML Email
+    add_filter('wp_mail_content_type', function( $content_type ) {
+                return 'text/html';
+    });
 
     /*to franchisee*/
     $result1 = wp_mail($to, $subject, $message, $headers1);    
