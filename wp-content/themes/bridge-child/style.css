@@ -688,10 +688,14 @@ padding: 10px;
 .user_form input[type="submit"] {
     background-color: #b10000;
 }
-.copy-child-page p{
+.copy-child-page p,
+.copy-child-page ul,
+.copy-child-page ol{
     margin-bottom: 20px;
 }
-.copy-child-page h3{
+.copy-child-page h3,
+.copy-child-page h4,
+.copy-child-page h5{
     margin-bottom: 20px;
 }
 .copy-child-page h2{

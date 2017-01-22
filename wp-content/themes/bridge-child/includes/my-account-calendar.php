@@ -149,10 +149,13 @@ if (isset($_GET['location_id']) and !empty($_GET['location_id'])) {
     $_locations[$lid] = $lid;
 }
 
+if(empty($_locations)) {
+    array_push($_locations, "-1");
+}
 $args = array(
     'post_type'         => 'location_class',
     'post_status'       => 'any',
-    'posts_per_page'    => -1,
+    'posts_per_page'    => 9999,
     'meta_query'        => array(
         array(
             'key'       => 'location_id',
