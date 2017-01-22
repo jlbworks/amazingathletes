@@ -2,6 +2,9 @@
 global $mypages, $mypages_multi, $mypages_optional; 
 $user_id = get_current_user_id();
 $custom_pages = get_user_meta($user_id, 'custom_mypages', true);
+if($custom_pages == "") {
+	$custom_pages = array();
+}
 
 if(!isset($_GET['page'])){	
 	?>
