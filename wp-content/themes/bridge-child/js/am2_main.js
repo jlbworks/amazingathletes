@@ -708,8 +708,8 @@ var classes_with_special_title = ['Contract', 'Camp'];
             });
         }
 
-
-        $('#regions path, #text-abb text').on('click', function () {
+        $('#regions path, #text-abb text').on('click touchstart', function () {
+            
             loc_state = $('#text-abb text#' + $(this).attr('id')).text();
 
             $('#hidState').val(loc_state);
