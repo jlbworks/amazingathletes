@@ -1,7 +1,7 @@
 <div class="widget widget_text">
     <div class="textwidget"><span class="icon-row">
 
-    <?php if(in_array('franchisee',$user->roles)): ?>
+    <?php if(in_array('franchisee',$user->roles) || in_array('coach',$user->roles)): ?>
 
     <div style="/*padding-top: 40px;*/" class="side-nav">
         <a href="<?php echo site_url();?>/my-account/" class="sidebar-link">
@@ -52,6 +52,10 @@
             </span>
         </a>
     </div>
+    
+    <?php endif; ?>
+    <?php if(in_array('franchisee',$user->roles)): ?>
+
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-pages/" class="sidebar-link">
             <span>
