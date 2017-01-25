@@ -40,6 +40,10 @@
             </span>
         </a>
     </div>
+
+    <?php endif; ?>
+    <?php if(in_array('franchisee',$user->roles)): ?>
+
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/locations/" class="sidebar-link">
             <span>
@@ -52,9 +56,6 @@
             </span>
         </a>
     </div>
-    
-    <?php endif; ?>
-    <?php if(in_array('franchisee',$user->roles)): ?>
 
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-pages/" class="sidebar-link">
@@ -121,6 +122,10 @@
  </form>
 		</div>
     </div>
+
+    <?php endif; ?>
+    <?php if(in_array('coach',$user->roles)): ?>
+
 	<div class="side-nav">
         <a href="<?php echo site_url();?>/amp/#dashboard" target=_blank; class="sidebar-link">
             <span>
@@ -133,6 +138,10 @@
             </span>
         </a>
     </div>
+
+    <?php endif; ?>
+    <?php if(in_array('franchisee',$user->roles)): ?>
+
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/my-staff/" class="sidebar-link">
             <span>
