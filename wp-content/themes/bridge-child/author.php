@@ -30,15 +30,16 @@ $page_content = unserialize($user_meta['page_content']);
 
 get_header();?>
 <div class="content " style="min-height: 758px;">
-						<div class="content_inner  ">
-											<div class="full_width">
-	<div class="full_width_inner">
+	<div class="content_inner  ">
+		<div class="full_width">
+			<div class="full_width_inner">
+				<div class="two_columns_25_75 clearfix grid2">
+					<div class="column1">	
+						<div class="column_inner">
+							<aside class="sidebar">
 							
-					<div class="two_columns_25_75 clearfix grid2">
-						<div class="column1">	<div class="column_inner">
-		<aside class="sidebar">
-							
-			<div class="widget widget_text">			<div class="textwidget"><span class="icon-row">
+								<div class="widget widget_text">			
+									<div class="textwidget"><span class="icon-row">
 
     <?php 
 	$i = 0;
@@ -109,23 +110,6 @@ get_header();?>
     <?php } ?>
 	<?php $i++; /*var_dump($show_page);*/ } ?>
   
-	<?php /*<div class="side-nav"><a href="#" class="sidebar-link">
-                         <span>
-                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/rescources-golf-icon.png" width="30px" class="spt-icons" id="golf2">
-                         </span>
-                         <span class="sidebar-nav">
-                             <h2>MEET THE TEAM</h2>
-                         </span></a>
-    </div>
-	<div class="side-nav"><a href="#" class="sidebar-link">
-                         <span>
-                             <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2">
-                         </span>
-                         <span class="sidebar-nav">
-                             <h2>GET STARTED</h2>
-                         </span></a>
-    </div>*/ ?>
-	
 </span> </div>
 		</div><?php am2_user_social();?><div class="widget widget_text">			<div class="textwidget"><div class="vc_row wpb_row section vc_row-fluid " style=" text-align:left;"><div class=" full_section_inner clearfix"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner "><div class="wpb_wrapper">	<div class="vc_empty_space  sidebar-spacer" style="height: 100px"><span class="vc_empty_space_inner">
 			<span class="empty_space_image"></span>

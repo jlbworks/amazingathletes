@@ -354,4 +354,14 @@ function am2_display_includes() {
 	}
 }
 add_action( 'wp_footer', 'am2_display_includes' );
+
+function am2_add_subscribers_to_dropdown( $query_args, $r ) {
+  
+    $query_args['role'] = array('coach');
+ 
+    unset( $query_args['who'] );
+ 
+    return $query_args;
+}
+add_filter( 'wp_dropdown_users_args', 'am2_add_subscribers_to_dropdown', 10, 2 );
 ?>
