@@ -124,7 +124,7 @@
     </div>
 
     <?php endif; ?>
-    <?php if(in_array('coach',$user->roles)): ?>
+    <?php if(in_array('coach',$user->roles) || in_array('franchisee',$user->roles)): ?>
 
 	<div class="side-nav">
         <a href="<?php echo site_url();?>/amp/#dashboard" target=_blank; class="sidebar-link">
@@ -151,6 +151,22 @@
             </span>
             <span class="sidebar-nav">
                 <h2>MY STAFF</h2>
+            </span>
+        </a>
+    </div>
+    <?php endif; ?>
+
+    <?php if(in_array('coach',$user->roles)): ?>
+
+    <div class="side-nav">
+        <a href="<?php echo site_url();?>/my-account/my-staff/?user_id=<?php echo $user->ID; ?>" class="sidebar-link">
+            <span>
+                <img src="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png" width="30px" class="spt-icons" id="bsball2"
+                data-mouseover="<?php echo site_url();?>/wp-content/uploads/2016/03/active-logout-baseball-icon.png"
+                data-mouseout="<?php echo site_url();?>/wp-content/uploads/2016/03/logout-baseball-icon.png">
+            </span>
+            <span class="sidebar-nav">
+                <h2>Coach Information</h2>
             </span>
         </a>
     </div>

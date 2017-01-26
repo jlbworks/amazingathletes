@@ -1,7 +1,7 @@
 <?php /*Template name: Edit location*/
 $user = wp_get_current_user();
 
-global $current_user; 
+global $current_user;
 restrict_access('super_admin,administrator,franchisee');
 
 if (!is_user_logged_in()) {

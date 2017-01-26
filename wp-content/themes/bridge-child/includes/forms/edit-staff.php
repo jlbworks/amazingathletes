@@ -9,7 +9,7 @@ if (!empty($_GET['user_id'])) {
 	$staff = get_user_by('id',$staff_id);
 }
 
-if ((!empty($staff) && $staff->franchisee == $current_user_id) || isset($_GET['add'])) { ?>
+if ((!empty($staff) && $staff->franchisee == $current_user_id) || isset($_GET['add']) || $_GET['user_id'] == $user->ID) { ?>
 <?php
 global $image_fields;
 function generate_image_field($field_name, $context, $context_id){
