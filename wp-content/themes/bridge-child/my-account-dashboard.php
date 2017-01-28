@@ -74,6 +74,8 @@ if(isset($user->ID)){
 		);
 	}
 }
+   
+   if(!in_array('coach',$user->roles)):
 
 ?>
 
@@ -118,6 +120,9 @@ if(isset($user->ID)){
 	<?php } ?>
 	<?php } ?>
 </div>
+
+<?php endif; ?>
+
 </div> 
 	</div> 	<div id="e-space" class="vc_empty_space" style="height: 50px"><span class="vc_empty_space_inner">
 			<span class="empty_space_image"></span>
