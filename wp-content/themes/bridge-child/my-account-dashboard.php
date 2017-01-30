@@ -75,7 +75,7 @@ if(isset($user->ID)){
 	}
 }
    
-   if(!in_array('coach',$user->roles)):
+   if(!in_array('coach',$user->roles) || in_array('franchisee',$user->roles)):
 
 ?>
 
