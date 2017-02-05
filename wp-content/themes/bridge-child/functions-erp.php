@@ -1313,9 +1313,8 @@ function delete_object() {
     }
 
     if ($object == 'customer' and $id > 0) {
-        if( !current_user_can( 'edit_posts' ) ) {
+        if( !current_user_can( 'edit_posts' ) && !is_role('franchisee') ) {
             exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
-
         }
 
         $customer_object = array(
@@ -1328,9 +1327,8 @@ function delete_object() {
     }
 
     if ($object == 'payment' and $id > 0) {
-        if( !current_user_can( 'edit_posts' ) ) {
+        if( !current_user_can( 'edit_posts' ) && !is_role('franchisee') ) {
             exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
-
         }
 
         $payment_object = array(
@@ -1343,9 +1341,8 @@ function delete_object() {
     }
 
     if ($object == 'rss' and $id > 0) {
-        if( !current_user_can( 'edit_posts' ) ) {
+        if( !current_user_can( 'edit_posts' ) && !is_role('franchisee') ) {
             exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
-
         }
 
         wp_delete_post( $id, true );
@@ -1354,9 +1351,8 @@ function delete_object() {
     }
 
     if ($object == 'attend' and $id > 0) {
-        if( !current_user_can( 'edit_posts' ) ) {
+        if( !current_user_can( 'edit_posts' ) && !is_role('franchisee') ) {
             exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
-
         }
 
         $payment_object = array(
@@ -1591,7 +1587,7 @@ function get_user_role() {
     return $user_role;
 }
 
-add_filter('show_admin_bar', '__return_false');
+//add_filter('show_admin_bar', '__return_false');
 
 add_editor_style('editor-styles.css');
 //add_image_size ( 'smallthumb', 272, 155, true);
