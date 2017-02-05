@@ -110,7 +110,7 @@
  <input type="hidden" name="firstname" value="<?php the_field('display_name', $user_id); ?>"> <!-- required -->
  <input type="hidden" name="lastname" value="<?php the_field('individual_1_last_name', $user_id); ?>"> <!-- required -->
  <input type="hidden" name="email" value="<?php the_field('aa_email_address', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="webpage" value="www.amazingathletes.com/<?php the_field('franchise_slug', $user_id); ?>?"> 
+ <input type="hidden" name="webpage" value="http://www.amazingathletes.com/<?php the_field('franchise_slug', 'user_'.$user_id); ?>?"> 
  <input type="hidden" name="directphone" value="<?php the_field('telephone', $user_id); ?>"><!-- required -->
  <input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required -->
  <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', $user_id); ?>"> <!-- required -->
