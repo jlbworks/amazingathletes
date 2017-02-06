@@ -654,20 +654,12 @@ aside
 /*********************************FOOTER CSS*******************************/
 
 
-.footer-link
-padding: 10px;
+.four_columns>.column1, .four_columns>.column2, .four_columns>.column3, .four_columns>.column4 {
+    text-align: center;
 }
 
 
-.footer_top {
-    border-top: solid 20px rgb(253, 0, 0);
-}
 
-
-.footer_top
-.container {
-    background-color: transparent;
-}
 
 
 
@@ -1007,3 +999,372 @@ animation-delay: .8s;
 }
 
 .dataTables_filter { visibility: hidden; display: none;}
+
+
+
+/***********************FRANCHISE OPPORTUNITIES*****************/
+
+.fo-header {
+    text-align: center!important;
+    background: url(http://glensamazingwebsite.org/wp-content/uploads/2017/01/fo-header-background.jpg);
+}
+
+.blue-bg{
+    padding: 15% 0px 8% 0px;
+    background-color: rgba(30, 60, 126, 0.9);
+}
+
+
+.blue-bg
+h1{
+    color: white;
+    text-shadow: red 6px 6px;
+}
+
+@media only screen and (min-width: 1001px){
+.blue-bg
+h1{
+    font-size: 6.5rem;
+}
+
+.red-bg
+h2{
+	font-size: 2.2rem;
+}
+
+
+.fo-link{
+	width: 700px;
+	margin: auto;
+	padding-bottom: 50px;
+}
+
+.form-icon{
+    margin: 40px 20px 20px 0;
+}
+
+.fo-link
+h1{
+    font-size: 4.5em;
+}
+
+
+#fo-testi{
+    padding-top: 1% !important;
+    padding-bottom: 1% !important;
+    background-image: url(http://glensamazingwebsite.org/wp-content/uploads/2017/01/testimonial-bg.png?id=4051) !important;
+    background-position: center !important;
+    background-size: contain !important;
+    background-repeat-x: repeat;
+    background-repeat-y: no-repeat;
+}
+
+
+.deets
+.qbutton.large {
+    font-size: 16px;
+}
+
+}
+
+@media only screen and (max-width: 1000px){
+.blue-bg
+h1{
+    font-size: 3rem;
+}
+
+.red-bg
+h2{
+	font-size: 1.2rem;
+}
+
+
+.fo-link{
+	width: 100%;
+	margin: auto;
+	padding-bottom: 50px;
+}
+
+.form-icon{
+    margin:auto;
+    float:none;
+    padding-top: 25px;
+}
+
+.fo-link
+h1{
+    font-size: 3.5em;
+}
+
+
+#fo-testi{
+    padding-top: 1% !important;
+    padding-bottom: 1% !important;
+    background-color:#fcce1e;
+}
+
+.deets
+.qbutton.large {
+    font-size: 12px;
+    padding: 2px 5px !important;
+}
+
+}
+
+.blue-bg
+p{
+font-size: 1.26rem;
+    color: white;
+    padding-top: 25px;
+}
+
+.blue-bg
+h2{
+    font-family: 'open sans';
+    color: white;
+    font-size: 2.1rem;
+}
+
+.red-bg{
+    padding: 1.2% 0px!important;
+    background: rgba(255, 0, 0, 0.7);
+}
+
+.red-bg
+ul
+li{
+    display: inline;
+    margin: 1%;
+}
+
+.red-bg
+h2{
+	display:inline;
+	color:white;
+}
+
+.fo-link
+h1{
+    font-family: 'oswald';
+    padding-top: 30px;
+    color:white
+}
+
+.fo-link
+h3
+a{
+    font-family: 'oswald';
+    padding-top: 30px;
+    color:#f7d100;
+}
+
+.fo-link
+h1
+a{
+    font-family: 'oswald';
+    padding-top: 30px;
+    color:white;
+}
+
+.fo-link
+a:hover{
+    color:red!important;
+}
+
+
+.fo-link
+h3{
+    font-size: 20px;
+    font-weight: 700;
+    color: #f7d100;
+}
+
+#fo-float-row{
+    background: url('http://glensamazingwebsite.org/wp-content/uploads/2017/01/register-form-background.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#fo-testi
+.testimonials_c_holder .testimonial_content_inner .testimonial_author {
+    font-family: 'lobster';
+}
+
+#fo-testi
+.testimonials_c_holder .testimonial_content_inner {
+    background: transparent;
+}
+
+
+.deets
+.q_accordion_holder.accordion h5.ui-accordion-header{
+	text-align:center;
+}
+
+
+.deets
+.ui-state-active,
+.deets
+.ui-state-active:hover{
+    background-color:#1e3c7e;
+    border-color: #1e3c7e;
+    color: white!important;
+    text-align: center;
+}
+
+.deets
+.q_accordion_holder.accordion .ui-accordion-header:hover{
+    color:white!important;
+    background-color:#1e3c7e;
+}
+
+
+
+
+.tabs-nav li:hover {
+	background-color: red;
+}
+
+.tabs-nav li.active {
+	background-color: red;
+}
+
+ .tabs-nav li a {
+	height: 50px;
+	line-height: 50px;
+	padding:0px;
+}
+
+ .q_tabs .tabs-nav li a {
+    color: white;
+    font-size: 30px;
+}
+
+ .q_tabs .tabs-nav li a:hover {
+	color:white;
+}
+
+
+.q_tabs .tabs-nav li {
+	margin:10px 15px;
+}
+
+
+.tabs-nav li {
+    background-color: white;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 27px;
+    color:#00397d;
+}
+
+.q_tabs .tabs-nav li a {
+    color: #00397d;
+    line-height: 50px
+}
+
+
+.q_tabs .tabs-nav li:hover a {
+    color:white;
+}
+
+.q_tabs .tabs-nav li a:hover {
+    color:white!important;
+}
+
+.popout-title{
+    color: white!important;
+    text-shadow: red 4px 4px!important;
+}
+
+.q_tabs .tabs-nav li.active a{
+	color:white;
+}
+
+.q_tabs .tabs-nav li a {
+    padding: 0 0px;
+}
+
+.textboxpadding
+h2{
+	font-family:'oswald';
+}
+
+.textboxpadding
+p,
+.textboxpadding
+li {
+	color:white;
+}
+
+.textboxpadding
+ol{
+ padding-left: 15px;
+}
+
+.fo-foot h1{
+    font-family: 'oswald'!important;
+    font-size: 66px!important;
+    line-height: 66px!important;
+}
+
+.fo-foot h4{
+    text-align: center;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+#fancybox-loading div {
+    width: 44px;
+    height: 44px;
+    background: url(fancybox_loading.gif) center center no-repeat;
+    display: none;
+}
+
+
+
+.scrolly{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.scrolly
+.gform_wrapper {
+    overflow: visible!important;
+}
+
+.pum-theme-4333 .pum-title, .pum-theme-lightbox .pum-title {
+    color: red!important;
+    font-family: 'oswald'!important;
+}
+
+.pum-theme-4333 .pum-title, .pum-theme-lightbox .pum-title {
+    color: red;
+    text-align: left;
+    text-shadow: 0px 0px 0px rgba( 2, 2, 2, 0.23 );
+    font-family: 'oswald';
+    font-size: 32px;
+    line-height: 36px;
+}
+
+.gform_wrapper .ginput_complex input[type=text],.gform_wrapper .top_label input.medium, .gform_wrapper .top_label select.medium, .gform_wrapper.gf_browser_chrome ul.gform_fields li.gfield select, .gform_wrapper.gf_browser_chrome ul.gform_fields li.gfield div.ginput_complex span.ginput_right select {
+    width: 47.5%;
+    background: whitesmoke;
+}
+
+.gform_wrapper textarea.medium {
+    background: whitesmoke;
+}
+
+.gform_wrapper .gform_footer input.button, .gform_wrapper .gform_footer input[type=image], .gform_wrapper .gform_footer input[type=submit] {
+    color: red;
+    border: red solid;
+}
+
+.gform_wrapper .gform_footer input.button:hover, .gform_wrapper .gform_footer input[type=image]:hover, .gform_wrapper .gform_footer input[type=submit]:hover {
+    color: white;
+    border: white solid;
+    background: red;
+}
