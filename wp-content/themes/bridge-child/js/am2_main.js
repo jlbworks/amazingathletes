@@ -736,6 +736,7 @@ var classes_with_special_title = ['Contract', 'Camp'];
         });
 
         function filterProvidersLocations(resp){
+            
             $.each(ajax_login_object.states, function (k, v) {
                 if (v.state_code == loc_state) {
                     state_name = v.state;
@@ -747,13 +748,22 @@ var classes_with_special_title = ['Contract', 'Camp'];
             $state.append('<h1 class="state_title" style="text-align: center;"><div class="td" style="float:left;width:49%;"><img src="' + ajax_login_object.theme_url + '/img/states/' + loc_state + '.png" /></div><span class="td" style="float:right; width:49%;">' + state_name + '</span></h1><br class="clear"/>');
 
             if (Object.keys(resp.franchisees).length > 0) {
+
+                // Get cities:
+                var cities = [];
+                $.each(resp.locations, function (k, v) {
+                    if(jQuery.inArray( v.city, cities ) < 0 && v.city != "") {
+                        cities.push(v.city)
+                    }
+                });
+
                 var $ul = $('<select class="cities"></select>');
                 $ul.append('<option value="">Select A City</option>');
 
                 var i = 0;
-                $.each(resp.franchisees, function (k, v) {                        
-                    var $li = $('<option value="' + v.city + '" data-id="' + v.city + '"></option>');
-                    $li.append(v.city);
+                $.each(cities, function (k, v) {                        
+                    var $li = $('<option value="' + v + '" data-id="' + v + '"></option>');
+                    $li.append(v);
 
                     $ul.append($li);
                 });
