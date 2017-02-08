@@ -385,6 +385,7 @@ function am2_get_state_locations($zip_code = null){
 
     $args = array(
         'role' => 'franchisee',
+        'role__not_in' => array('super_admin','administrator'),
         'meta_query' => $meta_query
     );    
 
@@ -397,7 +398,10 @@ function am2_get_state_locations($zip_code = null){
 
     foreach($_franchisees as $author){    
         $author_id = $author->ID;
-
+        // Skip admin
+        if($author_id == 80) {
+            continue;
+        }
         $_locations = get_posts(array(
             'post_type' => 'location',
             'post_status' => 'publish',
