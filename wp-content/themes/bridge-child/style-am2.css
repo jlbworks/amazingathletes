@@ -13,7 +13,8 @@
 }
 .selectize-control.cities .selectize-input{
     padding:20px;
-    border:0px none;
+    border:1px solid red;
+    border-color:red;
     color:red;
     font-size:18px;
 }
@@ -589,4 +590,9 @@ button, input[type="button"], input[type="submit"] {
 .location_name {
     line-height: 40px;
 
+}
+
+
+.selectize-control.single .selectize-input, .selectize-dropdown.single {
+    border-color: red!important;
 }
