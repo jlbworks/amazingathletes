@@ -40,8 +40,8 @@ display:none;
 @media only screen and (min-width: 1000px){
 header.stick_with_left_right_menu:not(.sticky) {
     text-align: center;
-    background-image: url("http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/header-swath.png");
-    background-position: bottom center;
+    background-image: url(http://glensamazingwebsite.org/wp-content/uploads/2017/02/AA-STROKE-2-1.png);
+    background-position:center;
     background-repeat:no-repeat;
     background-size:cover;
     height: 205px;
@@ -270,7 +270,7 @@ p{
 
 
 .copy-child-page{
-margin: 5% 15%;
+margin: 5% 0.5%;
 }
 
 
@@ -286,6 +286,12 @@ margin: 5% 15%;
 
 
 /************STATE MAP*************/
+
+
+
+
+
+
 
 
 .selectize-input > *, .selectize-input input {
@@ -403,6 +409,7 @@ h1 {
 .sidebar
 h3{
 color:white;
+margin-left: 50px;
 }
 
 
@@ -499,15 +506,12 @@ padding-top: 40px;
 
 
 
+
+
 .column1 {
     width: 25%;
     float: left;
-    background-color: #1E3C7E;
     height: 114%;
-    background-image: url("http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/franchisee-sidebar-foot-bg.jpg");
-    background-position: bottom center;
-    background-repeat: no-repeat;
-    background-size: contain;
 }
 
 
@@ -515,6 +519,9 @@ padding-top: 40px;
     padding: 0 20px 0 0;
     margin: 25% 0 0 15%;
 }
+
+
+
 
 
 
@@ -659,11 +666,39 @@ aside
 }
 
 
+.footer_top a {
+    color: #fcdb02 !important;
+    font-family: 'oswald';
+    letter-spacing: 1px;
+}
 
 
+
+    font-family: 'oswald';
+    letter-spacing: 1px;
+}
 
 
 /* BACK OFFICE STYLE */
+
+.my_account .state .locations .franchise .edit-btn a {
+    color: #1E3C7E !important;
+    font-size: 14px !important;
+    border: 1px solid #1E3C7E;
+    border-radius: 6px;
+    padding: 2px;
+}
+
+
+.my_account .state .locations .franchise .edit-btn:hover a, .my_account .state .locations .franchise .edit-btn a:hover {
+    color: white !important;
+    font-size: 14px !important;
+    border: 1px solid #1E3C7E;
+    border-radius: 6px;
+    padding: 2px;
+    background: #1E3C7E;
+}
+
 
 .user_form {    
     width:100%;
@@ -814,10 +849,58 @@ animation-delay: .8s;
 
 .state {
     text-align: center;
-    width:960px;
     margin:0px auto;
     padding-bottom: 30px;    
 }
+
+
+@media screen and (min-width: 1001px){
+.state {
+    width:960px;
+}
+
+
+.state
+.td1{
+    float:left;
+    width:49%
+}
+
+
+.state
+.td2{
+    float:right;
+    width:49%
+}
+
+
+.state .cities{
+    width:300px;
+}
+
+
+}
+
+
+@media screen and (max-width: 1000px){
+.state {
+    width:100%;
+}
+
+.state
+.td1, .td2{
+float:none;
+}
+
+
+.state .cities{
+    width:90%;
+}
+
+
+
+}
+
 .state li{
     list-style: none;   
 }
@@ -827,8 +910,9 @@ animation-delay: .8s;
     margin:0px auto;    
     display: block;
     padding:20px;
-    width:300px;
 }
+
+
 
 .state .cities option{
 
@@ -894,7 +978,6 @@ animation-delay: .8s;
 
 
 .state_title > .td:first-child {
-    width: 100px;
     margin: auto;
 }
 
@@ -1138,6 +1221,13 @@ li{
 }
 
 .red-bg
+h2 a{
+	display:inline;
+	color:white;
+}
+
+
+.red-bg
 h2{
 	display:inline;
 	color:white;
@@ -1184,7 +1274,57 @@ h3{
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
+    z-index: 999999999999!important;
 }
+
+@media only screen and (min-width: 1001px){
+.fo-floated-row{
+    text-align: center!important;
+    position: fixed!important;
+    top: 60px!important;
+    z-index: 999999999999!important;
+    margin: auto!important;
+}
+}
+
+.fo-floated-row
+.fo-link
+ h1
+ a {
+    padding-top: 0px;
+}
+
+.fo-floated-row
+.fo-link{
+padding:5px;
+}
+
+.fo-floated-row
+.fo-link
+h1{
+padding:0px;
+}
+
+.fo-floated-row
+.form-icon {
+    margin: 20px 20px 20px 0px;
+}
+
+
+#fo-float-row{
+   -webkit-transition: 3s;
+   -moz-transition: 3s;
+   transition: 3s;
+}
+
+
+
+.fo-inner{
+z-index:9999;
+}
+
+
+
 
 #fo-testi
 .testimonials_c_holder .testimonial_content_inner .testimonial_author {
@@ -1367,4 +1507,75 @@ ol{
     color: white;
     border: white solid;
     background: red;
+}
+
+
+.testimonial_image_holder {
+    margin: -40px 0 0px;
+}
+
+
+.testimonials_c_holder .testimonial_content_inner .testimonial_image_holder {
+    border-radius: 0%;
+    margin-bottom: 0px;
+}
+
+
+
+/************************sidebar background fix********************/
+
+.home
+.testimonial_image_holder {
+    margin: 0px 0 0px;
+}
+
+
+.two_columns_25_75>.column2 {
+    background: white;
+}
+
+
+
+.two_columns_25_75 {
+    background-color: #1E3C7E;
+    background-image: url(http://amazingathletes.jlbdev.net/wp-content/uploads/2016/03/franchisee-sidebar-foot-bg.jpg);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: 25.5%;
+}
+
+
+/*****************SIDEBAR FIXES********************/
+    
+.sidebar
+h3{
+color:white;
+margin-left: 50px;
+}
+
+
+
+/****************list fix*******************/
+ol, ul{
+    margin: 0px 2%;
+}
+
+
+
+.ui-state-active{
+    border: 0px solid #002aae;
+    background: rgba(0, 63, 127, 0.24);
+}
+
+
+
+/**************location page****************/
+
+.icon_mail, .icon_mail a{
+color:red!important;
+}
+
+.footer_top
+.content .container {
+    background-color: #1e3c7e!important;
 }
