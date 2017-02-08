@@ -15,7 +15,7 @@ $user_id = get_current_user_id();
 global $mypages;
 
 $mypages = array(
-	'Home' => '',
+//	'Home' => '',
 	'About' => 'about',
 	'Programs' => 'programs',
 	'Classes' => array(
