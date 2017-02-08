@@ -745,7 +745,7 @@ var classes_with_special_title = ['Contract', 'Camp'];
 
             var $state = $('<div class="state"></div>');
 
-            $state.append('<h1 class="state_title" style="text-align: center;"><div class="td" style="float:left;width:49%;"><img src="' + ajax_login_object.theme_url + '/img/states/' + loc_state + '.png" /></div><span class="td" style="float:right; width:49%;">' + state_name + '</span></h1><br class="clear"/>');
+            $state.append('<h1 class="state_title" style="text-align: center;"><div class="td td1" ><img src="' + ajax_login_object.theme_url + '/img/states/' + loc_state + '.png" /></div><span class="td td2" >' + state_name + '</span></h1><br class="clear"/>');
 
             if (Object.keys(resp.franchisees).length > 0) {
 
