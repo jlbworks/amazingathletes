@@ -519,12 +519,13 @@ button, input[type="button"], input[type="submit"] {
 
 
 .button.delete_post, .delete-btn {
-    background-color: red !important; color:white !important;
+    color:white !important;
 }
 
 .button.delete_post:hover, .delete-btn:hover {
     background-color: #b10000 !important; color:white !important;
 }
+
 
 .registration_popup_header{
     background-color:#eee;
@@ -571,7 +572,14 @@ button, input[type="button"], input[type="submit"] {
 }
 
 .my_account .state .locations .franchise .edit-btn a:hover {
-    color:red !important;
+    color: white !important;
+}
+
+.my_account .state .locations .franchise .edit-btn a {
+    border: 1px solid #1E3C7E;
+    color:#1E3C7E;
+    border-radius:6px;
+    padding:2px;
 }
 
 .my_account .state #frm_delete_location {
@@ -582,15 +590,21 @@ button, input[type="button"], input[type="submit"] {
 
 .my_account .state #frm_delete_location .delete-btn {
     background: none !important;
-    border:0px none !important;    
-    color:#000 !important;
-    font-size:14px !important;
-    margin:0px !important;
-    padding:0px !important;    
+    border: 1px solid !important;
+    color: red !important;
+    font-size: 14px !important;
+    margin: 0px !important;
+    padding: 4px !important;
+    border-radius: 6px;
 }
 
+
 .my_account .state #frm_delete_location .delete-btn:hover {
-    color:red !important;
+    color:white !important;
+    background:red!important;
+    border: 1px solid !important;
+    padding: 4px !important;
+    border-radius: 6px;
 }
 
 .my_account .state .locations .franchise  {
@@ -610,4 +624,10 @@ button, input[type="button"], input[type="submit"] {
 
 .selectize-control.single .selectize-input, .selectize-dropdown.single {
     border-color: red!important;
+}
+
+
+.footer_top
+.content .container {
+    background-color: #1e3c7e!important;
 }
