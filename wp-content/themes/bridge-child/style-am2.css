@@ -381,43 +381,7 @@ text-align: center;
 }
 }
 
-@media screen and (max-width: 700px){
 
-.state .providers.state .franchise {
-    overflow: hidden;
-    float: none;
-    width: 75%;
-    box-sizing: border-box;
-    margin-right: 1%;
-    margin: auto;
-    padding: 10px;
-}
-
-.state .providers.state .franchise_right {
-    width: 66%;
-    text-align: left;
-}
-
-}
-
-@media screen and (min-width: 701px){
-
-.state .providers.state .franchise {
-    overflow: hidden;
-    float:left;
-    width:49%;
-    box-sizing: border-box;
-    margin-right:1%;
-}
-
-.state .providers.state .franchise_right {
-    width: 100%;
-    margin: auto;
-    text-align: center;
-}
-
-
-}
 
 .state .providers.state .franchise:nth-child(2n+1) {
     clear:left;
