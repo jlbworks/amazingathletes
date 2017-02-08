@@ -381,9 +381,21 @@ text-align: center;
 }
 }
 
+@media screen and (min-width: 700px){
 
+.state .providers.state .franchise {
+    overflow: hidden;
+    float: none;
+    width: 75%;
+    box-sizing: border-box;
+    margin-right: 1%;
+    margin: auto;
+    padding: 10px;
+}
 
+}
 
+@media screen and (min-width: 701px){
 
 .state .providers.state .franchise {
     overflow: hidden;
@@ -393,6 +405,7 @@ text-align: center;
     margin-right:1%;
 }
 
+}
 
 .state .providers.state .franchise:nth-child(2n+1) {
     clear:left;
