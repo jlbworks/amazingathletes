@@ -463,6 +463,11 @@ text-align: center;
     float: left;
 }
 
+.roster_link {
+    padding-right: 25px;
+    margin-top: -4px;
+}
+
 .clear {
     clear:both;
 }
