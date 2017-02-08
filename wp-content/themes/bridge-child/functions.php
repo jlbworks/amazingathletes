@@ -364,4 +364,41 @@ function am2_add_subscribers_to_dropdown( $query_args, $r ) {
     return $query_args;
 }
 add_filter( 'wp_dropdown_users_args', 'am2_add_subscribers_to_dropdown', 10, 2 );
+
+
+/**
+ * Deny access to 'administrator' for other roles
+ * Else anyone, with the edit_users capability, can edit others
+ * to be administrators - even if they are only editors or authors
+ * 
+ * @since   0.1
+ * @param   (array) $all_roles
+ * @return  (array) $all_roles
+ */
+function deny_change_to_admin( $all_roles )
+{
+    if ( ! current_user_can('administrator') )
+        unset( $all_roles['administrator'] );
+
+    if ( 
+        ! current_user_can('administrator')
+        OR ! current_user_can('editor')
+    )
+        unset( $all_roles['editor'] );
+
+    if ( 
+        ! current_user_can('administrator')
+        OR ! current_user_can('editor')
+        OR ! current_user_can('author')
+    )
+        unset( $all_roles['author'] );
+
+    return $all_roles;
+}
+function deny_rolechange()
+{
+    add_filter( 'editable_roles', 'deny_change_to_admin' );
+}
+add_action( 'after_setup_theme', 'deny_rolechange' );
+
 ?>
