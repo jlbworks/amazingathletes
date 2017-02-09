@@ -20,7 +20,7 @@ foreach ($staff as $member) {
 	$display_name = get_field('display_name', 'user_'.$member->ID);
 	$display_title = get_field('display_title', 'user_'.$member->ID);
 
-	if(!empty($member->first_name) || !empty($member->last_name)) {
+	if(!empty($display_name)) {
 		$member_name = $display_name. ', ' .$display_title;
 	} else if(!empty($member->first_name) || !empty($member->last_name)) {
 		$member_name = $member->first_name . ' ' . $member->last_name;
