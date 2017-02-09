@@ -250,7 +250,7 @@ get_header();?>
 				$bio = apply_filters('the_content', $curauth->display_bio);	
 							
 				echo "<div class=\"entry-content clearfix\">";
-				echo "<h2>" . "{$curauth->first_name} {$curauth->last_name}" . ( $curauth->title ? ", " . $curauth->title : '' ) . "</h2>";
+				echo "<h2>" . "{$curauth->first_name} {$curauth->last_name}" . ( $curauth->display_title ? ", " . $curauth->display_title : '' ) . "</h2>";
 				if($user_photo!=null){
 					$image_url = wp_get_attachment_image_src($user_photo, 'medium');
 					echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:left;padding:0px 10px 10px 0px;"/>';	
@@ -283,7 +283,7 @@ get_header();?>
 						$bio = $member->coach_description ? $member->coach_description : $member->display_bio;	
 									
 						echo "<div class=\"entry-content clearfix\">";
-						echo "<h2>" . "{$member->first_name} {$member->last_name}" . ( $member->title ? ", " . $member->title : '' ) . "</h2>";
+						echo "<h2>" . "{$member->first_name} {$member->last_name}" . ( $member->display_title ? ", " . $member->display_title : '' ) . "</h2>";
 						if($user_photo!=null){
 							$image_url = wp_get_attachment_image_src($user_photo, 'medium');
 							echo '<img src="'. $image_url[0] . '" class="franchise-pic" style="float:left;padding:0px 10px 10px 0px;"/>';	
