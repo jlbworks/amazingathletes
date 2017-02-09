@@ -31,7 +31,7 @@
   <div "location_class_info">
     <h1>Register for <span><?php echo $class_program;?></span></h1>
     <h2>Location: <span><?php echo $location_name;?></span></h2>
-    <h2>Date: <span><?php echo !empty($class_display_day) ? $class_display_day : $class_date;?></span></h2>
+    <h2>Day: <span><?php echo $class_display_day;?></span></h2>
     <h2>Time: <span><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></span></h2>   
     <h2>Program: <span><?php echo $class_program ;?></span></h2> 
     <h2>Coach: <span><?php echo implode(', ', $class_coaches) ;?></span></h2> 
