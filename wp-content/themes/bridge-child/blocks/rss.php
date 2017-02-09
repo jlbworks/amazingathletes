@@ -2,7 +2,7 @@
 global $current_user, $wpdb; 
 get_currentuserinfo();
 
-restrict_access('super_admin','administrator,franchisee,coach');
+restrict_access('super_admin,administrator,franchisee,coach');
 
 $hash_query = str_replace('?','',$_REQUEST['target_args']);
 parse_str($hash_query,$hash_query);
