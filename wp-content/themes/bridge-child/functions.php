@@ -80,6 +80,9 @@ function am2_init() {
 
 	wp_register_script('jquery-ui.multidatespicker', get_stylesheet_directory_uri() . '/js/jquery-ui.multidatespicker.js');
 	wp_enqueue_script('jquery-ui.multidatespicker',false, array('plugins'),false,true);	
+	
+		wp_register_script('custom_js_scripts', get_stylesheet_directory_uri() . '/js/custom_scripts.js');
+	wp_enqueue_script('custom_js_scripts',false, array('plugins'),false,true);	
 
 	wp_register_script('jquery.validate', get_stylesheet_directory_uri() . '/js/jquery.validation/jquery.validate.min.js');
 	wp_enqueue_script('jquery.validate');
@@ -400,6 +403,4 @@ function deny_rolechange()
 {
     add_filter( 'editable_roles', 'deny_change_to_admin' );
 }
-add_action( 'after_setup_theme', 'deny_rolechange' );
-
-?>
+add_
