@@ -29,7 +29,12 @@ if(!isset($_GET['iframe'])) get_header(); else wp_head();
 <?php else: ?>
 <header class="registration_popup_header" style="">
 <h4 >SELECT THE CLASS YOU WOULD LIKE TO REGISTER FOR</h4>
-<a href="<?php echo '#' ;?>" class="location_name" ><?php echo $location->post_title; ?></a> | <span class="location_address"><?php echo $location->address; ?></span>
+<?php if($location->website != "") { ?>
+<a href="<?php echo $location->website; ?>" target="_blank" class="location_name"><?php echo $location->post_title; ?></a>
+<?php } else { ?>
+<span class="location_name"><?php echo $location->post_title; ?></span>
+<?php } ?>
+ | <span class="location_address"><?php echo $location->address; ?></span>
 </header>
 <table class="tbl_register_class basic small" width="100%" style="background-color:#fff;">
 	<tbody>
