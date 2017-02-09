@@ -1,5 +1,5 @@
 <?php
-restrict_access( 'administrator,franchisee' );
+restrict_access( 'super_admin,administrator,franchisee' );
 
 $args = array(
   'role' => 'franchisee'

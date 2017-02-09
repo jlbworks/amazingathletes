@@ -2,7 +2,7 @@
 global $current_user; 
 get_currentuserinfo();
 
-restrict_access('administrator,admin_doctor');
+restrict_access('administrator,super_admin');
 
 $customers = get_users();
 ?>

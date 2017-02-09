@@ -2,7 +2,7 @@
 global $wpdb;
 global $current_user; 
 
-restrict_access('administrator,admin_doctor');
+restrict_access('administrator,super_admin');
 
 $id = $_REQUEST['id'];
 $profile = get_user_by( 'id', $id );
