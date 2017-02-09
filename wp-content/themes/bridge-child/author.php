@@ -43,6 +43,48 @@ get_header();?>
 
     <?php 
 	$i = 0;
+
+	// Unset on site submenu if no classes for that type exists - On site
+	$args = array(
+		'post_type' 		=> 'location',
+		'post_status' 		=> 'any',
+		'posts_per_page' 	=> -1,
+		'author' 			=> $curauth->ID,
+		'orderby' => 'title',
+		'order' => 'ASC',
+		'meta_query' => array(
+			array(
+				'key'		=> 'location_type',
+				'value'		=> array('Member Only'),
+				'compare'	=> 'IN', 
+			)
+		)
+	);
+	$onsite = count(get_posts($args));
+	if($onsite < 1) {
+		unset($mypages['Classes']['submenu']['On-Site']);
+	}
+	// Unset on site submenu if no classes for that type exists - community
+	$args = array(
+		'post_type' 		=> 'location',
+		'post_status' 		=> 'any',
+		'posts_per_page' 	=> -1,
+		'author' 			=> $curauth->ID,
+		'orderby' => 'title',
+		'order' => 'ASC',
+		'meta_query' => array(
+			array(
+				'key'		=> 'location_type',
+				'value'		=> array('Open Enrollment', 'Special Event'),
+				'compare'	=> 'IN', 
+			)
+		)
+	);
+	$community = count(get_posts($args));
+	if($community < 1) {
+		unset($mypages['Classes']['submenu']['Community Classes']);
+	}
+
 	foreach($mypages as $key => $val){		
 		if(is_array($val)){ 			
 			$val_parent = $val['menu'];
