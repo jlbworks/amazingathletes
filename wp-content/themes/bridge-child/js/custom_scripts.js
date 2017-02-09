@@ -22,7 +22,7 @@ jQuery(document).ready(function( $ ) {
 	
 	
 $("#displayText").click(function(){
-     $( "#toggleText" ).toggle("slow");
+     $( "#toggleText" ).toggle("slow").css("display","block");;
 });
 	
 
