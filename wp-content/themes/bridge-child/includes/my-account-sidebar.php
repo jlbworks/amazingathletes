@@ -107,16 +107,16 @@
  <input type="hidden" name="userid" value="<?php echo $current_user->nickname; ?>"> <!-- required -->
  <input type="hidden" name="usertype" value="Agent"><!-- required --> 
  <input type="hidden" name="officeid" value="<?php echo $current_user->user_login; ?>"> <!-- required -->
- <input type="hidden" name="firstname" value="<?php the_field('display_name', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="lastname" value="<?php the_field('individual_1_last_name', $user_id); ?>"> <!-- required -->
- <input type="hidden" name="email" value="<?php the_field('aa_email_address', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="firstname" value="<?php the_field('display_name', 'user_'.$user_id); ?>"> <!-- required -->
+ <input type="hidden" name="lastname" value="<?php the_field('individual_1_last_name', 'user_'.$user_id); ?>"> <!-- required -->
+ <input type="hidden" name="email" value="<?php the_field('aa_email_address', 'user_'.$user_id); ?>"> <!-- required -->
  <input type="hidden" name="webpage" value="http://www.amazingathletes.com/<?php the_field('franchise_slug', 'user_'.$user_id); ?>?"> 
- <input type="hidden" name="directphone" value="<?php the_field('telephone', $user_id); ?>"><!-- required -->
- <input type="hidden" name="officename" value="<?php the_field('franchise_name', $user_id); ?>"><!-- required -->
- <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', $user_id); ?>"> <!-- required -->
+ <input type="hidden" name="directphone" value="<?php the_field('telephone', 'user_'.$user_id); ?>"><!-- required -->
+ <input type="hidden" name="officename" value="<?php the_field('franchise_name', 'user_'.$user_id); ?>"><!-- required -->
+ <input type="hidden" name="officeaddress1" value="<?php the_field('mailing_address', 'user_'.$user_id); ?>"> <!-- required -->
  <input type="hidden" name="officecity" value="<?php echo $cityState[1]; ?>"><!-- required -->
  <input type="hidden" name="officestate" value="<?php echo $cityState[0]; ?>"> <!-- required -->
- <input type="hidden" name="officezip" value="<?php the_field('zip_code', $user_id); ?>"><!-- required -->
+ <input type="hidden" name="officezip" value="<?php the_field('zip_code', 'user_'.$user_id); ?>"><!-- required -->
  <input class="cps-button" type=submit value="CUSTOM PROSHOP"> 
 
  </form>
