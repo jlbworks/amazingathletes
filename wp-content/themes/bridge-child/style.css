@@ -270,7 +270,7 @@ p{
 
 
 .copy-child-page{
-margin: 5% 0.5%;
+margin: 2% 0.5%;
 }
 
 
@@ -407,6 +407,7 @@ h1 {
 /*sidebar sub items*/
 
 .sidebar
+.icon-row
 h3{
 color:white;
 margin-left: 50px;
@@ -748,10 +749,10 @@ aside
     box-sizing: border-box;
 }
 
-.user_form {    
-    width:100%;
+.user_form {
+    width: 100%;
     max-width: 1280px;
-    margin:100px auto 50px auto;
+    margin: 2px auto 50px auto;
 }
 
 .dynamic-locaion-content{
@@ -1532,6 +1533,7 @@ ol{
 
 .two_columns_25_75>.column2 {
     background: white;
+    min-height:1080px;
 }
 
 
@@ -1548,9 +1550,24 @@ ol{
 /*****************SIDEBAR FIXES********************/
     
 .sidebar
+.icon-row
 h3{
 color:white;
 margin-left: 50px;
+font-size: 17px;
+}
+
+.sidebar-text
+h3{
+color:white;
+}
+
+@media only screen and (max-width: 500px){
+.sidebar-text
+a{
+color:white;
+font-size:12px;
+}
 }
 
 
@@ -1578,4 +1595,22 @@ color:red!important;
 .footer_top
 .container {
     background-color: #1e3c7e!important;
+}
+
+
+/*************My staff page fixes************/
+.staff-list
+li
+    list-style: none;
+    background: rgba(0, 0, 139, 0.1);
+    padding: 10px;
+    border: solid 1px rgba(0, 0, 139, 0.1);
+    margin: 5px 0px;
+}
+
+.staff-list
+a{
+    color: black;
+    font-size: 22px;
+    font-weight: 600;
 }
