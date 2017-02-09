@@ -406,4 +406,3 @@ function deny_rolechange()
 add_action( 'after_setup_theme', 'deny_rolechange' );
 
 ?>
-
