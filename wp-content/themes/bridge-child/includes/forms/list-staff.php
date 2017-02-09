@@ -10,9 +10,7 @@ $staff = get_users(
 
 ?>
 <div class="user_form">
-    <?php if(in_array('franchisee',$user->roles)): ?>
-		<a class="button" href="<?php the_permalink();?>?add">Add Staff Member</a>
-	<?php endif; ?>
+
 <?php
 echo "<ul>";
 foreach ($staff as $member) {
@@ -29,4 +27,7 @@ foreach ($staff as $member) {
 }
 echo "</ul>";
 ?>
+    <?php if(in_array('franchisee',$user->roles)): ?>
+		<a class="button" href="<?php the_permalink();?>?add">Add Coach</a>
+	<?php endif; ?>
 </div>
