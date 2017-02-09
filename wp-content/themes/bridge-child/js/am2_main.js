@@ -317,7 +317,7 @@ var classes_with_special_title = ['Contract', 'Camp'];
             success: function (resp) {
                 am2_hide_preloader();
                 alert(resp.message);
-                location.href = permalink + '?loc_id=' + resp.loc_id;
+                location.href = permalink;
             },
             error: function () {
                 am2_hide_preloader();
