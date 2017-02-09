@@ -337,7 +337,7 @@ foreach($_payment_options as $key => $opt){
                     <?php } ?>
                 </select>                
                 <?php } ?> 
-                <?php if(is_role('administrator') || is_role('franchisee')){?>
+                <?php if(is_role('administrator') || is_role('super_admin') || is_role('franchisee')){?>
                 <select id="f_territory_id" name="f_territory_id" >
                     <option value="">Choose Territory</option>
                     <?php foreach($territories as $territory){  ?>
