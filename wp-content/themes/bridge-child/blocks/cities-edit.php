@@ -2,7 +2,7 @@
 global $current_user;
 global $wpdb; 
 get_currentuserinfo(); 
-restrict_access('administrator');
+restrict_access('administrator,super_admin');
 
 $states = $wpdb->get_results("SELECT * FROM states");
 $id = $_REQUEST['id'];

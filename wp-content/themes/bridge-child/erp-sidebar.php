@@ -44,7 +44,7 @@
             <li>
                 <a href="#rss"><i class="fa fa-archive" aria-hidden="true"></i> <span>RSS Reports</span></a>
             </li>
-            <?php } if( is_role('administrator') ){ ?>
+            <?php } if( is_role('administrator') || is_role('super_admin') ){ ?>
             <li>
                 <a href="#cities"><i class="fa fa-archive" aria-hidden="true"></i> <span>Cities</span></a>
             </li>

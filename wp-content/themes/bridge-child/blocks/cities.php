@@ -13,7 +13,7 @@ $page = $target_args['page'] ? $target_args['page'] : 1;
 $offset = ( $page * $items_per_page ) - $items_per_page;
 $total = $wpdb->get_var('SELECT COUNT(1) from zips');
 
-restrict_access('administrator,franchisee,coach');
+restrict_access('administrator,franchisee,coach,super_admin');
 
 //$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
 
