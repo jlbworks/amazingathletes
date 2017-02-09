@@ -9,7 +9,7 @@ $staff = get_users(
 );
 
 ?>
-<div class="user_form">
+<div class="user_form staff-list">
 
 <?php
 echo "<ul>";
@@ -28,6 +28,6 @@ foreach ($staff as $member) {
 echo "</ul>";
 ?>
     <?php if(in_array('franchisee',$user->roles)): ?>
-		<a class="button" href="<?php the_permalink();?>?add">Add Coach</a>
+		<a class="button" href="<?php the_permalink();?>?add">+ Add Coach</a>
 	<?php endif; ?>
 </div>
