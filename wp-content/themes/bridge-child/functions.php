@@ -74,8 +74,8 @@ function am2_init() {
 
 	wp_enqueue_script( 'wp-util' );
 
-	wp_register_script('jquery-ui', get_stylesheet_directory_uri() . '/js/jquery-ui-1.12.1.custom/jquery-ui.min.js');
-	wp_enqueue_script('jquery-ui');
+	// wp_register_script('jquery-ui', get_stylesheet_directory_uri() . '/js/jquery-ui-1.12.1.custom/jquery-ui.min.js');
+	// wp_enqueue_script('jquery-ui');
 
 	wp_register_script('jquery-ui.multidatespicker', get_stylesheet_directory_uri() . '/js/jquery-ui.multidatespicker.js');
 	wp_enqueue_script('jquery-ui.multidatespicker',false, array('plugins'),false,true);	
