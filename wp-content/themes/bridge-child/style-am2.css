@@ -585,6 +585,7 @@ button, input[type="button"], input[type="submit"] {
     color:#1E3C7E;
     border-radius:6px;
     padding:2px;
+    padding-bottom: 5px;
 }
 
 .my_account .state #frm_delete_location {
@@ -635,4 +636,67 @@ button, input[type="button"], input[type="submit"] {
 .footer_top
 .content .container {
     background-color: #1e3c7e!important;
+}
+
+
+
+/*************My staff page fixes************/
+.staff-list
+li{
+    list-style: none;
+    background: rgba(0, 0, 139, 0.1);
+    padding: 10px;
+    border: solid 1px rgba(0, 0, 139, 0.1);
+    margin: 5px 0px;
+}
+
+.staff-list
+a{
+    color: black;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.staff-list
+a:hover{
+    color: red;
+}
+
+
+.staff-list
+.button {
+    margin-left: 2%;
+    background: rgba(0, 0, 139, 0.1);
+    color: black;
+    width: 96%;
+}
+
+
+.staff-list
+.button:hover {
+    background: rgba(0, 0, 139, 0.1);
+}
+
+
+/*********BACK OFFICE FIXES***************/
+
+
+.entry-title{
+   text-transform:capitalize!important;
+}
+
+
+.tabs li {
+    margin: 10px;
+
+}
+
+@media (max-width: 960px) {
+.page-template-edit-location
+.user_form {
+    overflow-x: scroll;
+}
+
+
+
 }
