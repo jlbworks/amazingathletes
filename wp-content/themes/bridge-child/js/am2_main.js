@@ -757,6 +757,8 @@ var classes_with_special_title = ['Contract', 'Camp'];
                     }
                 });
 
+                cities.sort();
+
                 var $ul = $('<select class="cities"></select>');
                 $ul.append('<option value="">Select A City</option>');
 
