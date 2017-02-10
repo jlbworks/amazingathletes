@@ -29,7 +29,7 @@
 
   <?php if(!empty($location_id) && !empty($class_id)){?>
   <div class="location_class_info">
-    <h1>Thank you for registering!</h1>
+    <h1>Register for <span><?php echo $class_program;?></span></h1>
     <h2>Location: <span><?php echo $location_name;?></span></h2>
     <h2>Day: <span><?php echo $class_display_day;?></span></h2>
     <h2>Time: <span><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></span></h2>   
@@ -38,6 +38,8 @@
   </div>
   <?php } ?>
   <br/>
+
+  <h1 class="thanks" style="display:none;">Thank You For Registering!</h1>
 
   <form id="frm_registration" action="<?php echo admin_url('admin-ajax.php');?>" method="post" class="wpcf7-form" >
     <p>Child's First Name *<br>

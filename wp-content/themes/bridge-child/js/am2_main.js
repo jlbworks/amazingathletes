@@ -559,8 +559,9 @@ var classes_with_special_title = ['Contract', 'Camp'];
                 am2_show_preloader();
 
                 $.get(ajax_login_object.ajaxurl, $(this).serialize(), function (resp) {
-                    //console.log(resp);
-                    filterProvidersLocations(resp);
+                    // Goran, nastaviti parsirati vracene lokacije
+                    console.log(resp);
+                    //filterProvidersLocations(resp);
 
                     // $.each(ajax_login_object.states, function (k, v) {
                     //     if (v.state_code == loc_state) {
@@ -1128,6 +1129,8 @@ var classes_with_special_title = ['Contract', 'Camp'];
         $('.payment_options_popup').trigger('click');
 
         $('#frm_registration').hide();
+        $('.location_class_info').hide();
+        $('.thanks').show();
 
         // $.fancybox({
         //     type: 'iframe',
