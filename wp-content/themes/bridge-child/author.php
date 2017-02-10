@@ -39,7 +39,11 @@ get_header();?>
 							<aside class="sidebar">
 							
 								<div class="widget widget_text">			
-									<div class="textwidget"><span class="icon-row">
+									<div class="textwidget">
+									
+									<div id="displayText"><i class="fa fa-bars" aria-hidden="true"></i></div> 
+
+									<span id="toggleText" class="icon-row" >
 
     <?php 
 	$i = 0;
