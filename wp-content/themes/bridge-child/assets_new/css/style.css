@@ -9855,3 +9855,11 @@ body.stop-scrolling {
 .card-form input {
     border: 1px solid lightgray!important;
 }
+
+
+
+
+input::-moz-placeholder {
+  opacity: 1;
+}
+
