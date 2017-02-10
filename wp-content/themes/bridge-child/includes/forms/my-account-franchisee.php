@@ -200,7 +200,7 @@ else {
 
 		<label> Video </label>
 		<input type="text" id="video" name="video" value="<?php echo get_user_meta($user->ID, 'video', true);?>" />
-
+		<!--
 		<div class="form--section" id="payment_intro" >
 			<h3>Payment Popup Intro</h3>
 			<?php
@@ -234,7 +234,7 @@ else {
 				wp_editor( $recurring_payment_msg, 'recurring_payment_msg' );
 			?>
 		</div>
-
+		-->
 		<?php /*<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>"/> */?>
 		<input type="hidden" name="action" value="am2_franchisee_account" />
 

@@ -28,8 +28,8 @@
 <div role="form" class="wpcf7" id="frm_registration_wrap" lang="en-US" dir="ltr">
 
   <?php if(!empty($location_id) && !empty($class_id)){?>
-  <div "location_class_info">
-    <h1>Register for <span><?php echo $class_program;?></span></h1>
+  <div class="location_class_info">
+    <h1>Thank you for registering!</h1>
     <h2>Location: <span><?php echo $location_name;?></span></h2>
     <h2>Day: <span><?php echo $class_display_day;?></span></h2>
     <h2>Time: <span><?php echo !empty($class_display_time) ? $class_display_time : $class_time;?></span></h2>   
