@@ -26,7 +26,7 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
 $total = '0.00';
 if(!empty($coach_invoice->total)) $total = $coach_invoice->total;
 $other = '0.00';
-if(!empty($coach_invoice->bonus)) $other = $coach_invoice->other;
+if(!empty($coach_invoice->other)) $other = $coach_invoice->other;
 $travel_surcharge = '0.00';
 if(!empty($coach_invoice->travel_surcharge)) $travel_surcharge = $coach_invoice->travel_surcharge;
 $liability_insurance_rebate = '0.00';
@@ -229,7 +229,7 @@ endif;
                     </div>
 
                     <div class="col-16">
-                      <input type="text" name="item[0][num_of_weeks]" value="1" class="form-control number js-multiply-to-total" placeholder="Amount">
+                      <input type="text" name="item[0][num_of_weeks]" value="<?php echo $payment_total['num_of_weeks']; ?>" class="form-control number js-multiply-to-total" placeholder="Amount">
                     </div>                    
 
                     <div class="col-16 no_margin">
