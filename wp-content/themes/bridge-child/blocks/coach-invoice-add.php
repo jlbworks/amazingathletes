@@ -95,6 +95,11 @@ $coaches = get_users( $coach_args );
                         </div>
                     </div>
                 <?php endif; ?>
+                <?php if( is_role('franchisee')) : ?>
+
+                    <input type="hidden" name="franchise_id" value="<?php echo $location_args['author']; ?>">
+
+                <?php endif; ?>
 
                 <div class="card-table-row">
                     <span class="card-table-cell fixed250">Coach <span class="required">*</span></span>

@@ -141,7 +141,7 @@ endif;
     <div class="card-inner">
 <form method="POST" class="form-horizontal well" role="form" id="coach-invoice-form">
 <fieldset class="fields-group">
-<h3>Some Group Of Services</h3>
+<h3>Description of Services</h3>
     <div class="clearfix">
         <div class="col-25">
             Description
@@ -150,7 +150,7 @@ endif;
             Quantity
         </div>
         <div class="col-15">
-            Amount
+            Rate
         </div>
         <div class="col-15 no_margin">
             Actions
