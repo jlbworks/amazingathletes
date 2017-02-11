@@ -575,7 +575,7 @@ var classes_with_special_title = ['Contract', 'Camp'];
                             $li_child.append('<a>' + v.meta.post_title + ' - ' + v.meta.address + '</a>');
                             $li_child.append(
                                 '<div class="franchise_details">' +
-                                '<span class="franchise_address">' + v.meta.address + ' - ' + v.city + ' - ' + loc_state + " " + v.meta.zip + '</span><br/>' +
+                                '<span class="franchise_address">' + v.meta.address + ' - ' + v.meta.city__state + " - " + v.meta.zip + '</span><br/>' +
                                 '<a data-fancybox-type="iframe" href="' + ajax_login_object.site_url + '/choose-class/?location_id=' + v.id + '&iframe" class="h1 franchise_register">Register Now</a><br/>' +
                                 '<span class="franchise_name"><a href="' + ajax_login_object.site_url + '/' + v.meta_franchisee.franchise_slug + '">' + v.meta_franchisee.franchise_name + '</a></span><br/>' +
                                 '<span class="franchise_footer">' + v.meta_franchisee.display_name + ' | ' + v.meta_franchisee.franchise_phone + '</span><br/>' +
