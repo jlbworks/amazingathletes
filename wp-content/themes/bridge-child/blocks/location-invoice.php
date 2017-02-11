@@ -138,7 +138,7 @@ endif;
     <div class="card-inner">
 <form method="POST" class="form-horizontal well" role="form" id="location-invoice-form">
 <fieldset class="fields-group">
-<h3>Some Group Of Services</h3>
+<h3>Service Overview</h3>
     <div class="clearfix">
         <div class="col-25">
             Description
@@ -147,7 +147,7 @@ endif;
             Quantity
         </div>
         <div class="col-15">
-            Amount
+            Rate
         </div>
         <div class="col-15 no_margin">
             Actions
@@ -296,7 +296,7 @@ endif;
 
                     <div class="card-table-row clearfix">
                         <button class="left btn btn--primary" type="submit">Save Invoice</button>
-                        <a class="left btn btn--transparent" style="margin-left:10px;" href="<?php echo site_url(); ?>/invoice?type=location&id=<?php echo $id; ?>" type="submit">View Printable Invoice</a>
+                        <a class="left btn btn--transparent" target="_blank" style="margin-left:10px;" href="<?php echo site_url(); ?>/invoice?type=location&id=<?php echo $id; ?>" type="submit">View Printable Invoice</a>
                     </div>
                     <div class="spacer"></div>
             </div>
