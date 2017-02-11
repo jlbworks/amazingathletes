@@ -75,17 +75,15 @@ $coach_invoices = get_posts($args);
                             <td><?php echo $franchise; ?></td>
                             <td><?php echo $location->post_title; ?></td>
                             <td><?php echo get_the_date( 'd.m.Y H:i:s', $coach_invoice->ID );?></td>
-                            <td><?php echo $coach_invoice->total_amount; ?></td>
+                            <td><?php echo $coach_invoice->grand_total; ?></td>
 
                             <td>
                                 <a class="btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                                    href="#coach-invoice/?id=<?php echo $coach_invoice->ID; ?>"><i class="fa fa-pencil"></i></a>
-                                <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                                     <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"
-                                       data-object="coach_invoice" data-id="<?php echo $coach_invoice->ID; ?>"><i class="fa fa-trash-o"></i></a>
-                                <?php }; ?>
+                                       data-object="invoice" data-id="<?php echo $coach_invoice->ID; ?>"><i class="fa fa-trash-o"></i></a>
                         </tr>
                     <?php }; ?>
                     </tbody>

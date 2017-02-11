@@ -143,16 +143,22 @@ endif;
 <fieldset class="fields-group">
 <h3>Description of Services</h3>
     <div class="clearfix">
-        <div class="col-25">
+        <div class="col-16">
             Description
         </div>
-        <div class="col-15">
+        <div class="col-16">
             Quantity
         </div>
-        <div class="col-15">
+        <div class="col-16">
+            Quantity Type
+        </div>
+        <div class="col-16">
             Rate
         </div>
-        <div class="col-15 no_margin">
+        <div class="col-16">
+            Number of weeks
+        </div>
+        <div class="col-16 no_margin">
             Actions
         </div>
     </div>
@@ -165,22 +171,31 @@ endif;
         <div data-repeater-item="">
           <div class="form-group clearfix">
             
-            <div class="col-25">
+            <div class="col-16">
                 <input type="text" name="item[0][description]" class="form-control" placeholder="Description"> 
             </div>
 
-            
-            <div class="col-15">
+            <div class="col-16">
               <input type="text" name="item[0][quantity]" value="0" class="form-control number js-quantity" placeholder="Quantity">
             </div>
             
-            
-            <div class="col-15">
-              <input type="text" name="item[0][price]" value="0" class="form-control currency js-add-to-total" placeholder="Amount">
+            <div class="col-16">
+                <select name="item[0][quantity_type]" class="form-control" id="item[0][quantity_type]" title="Please select quantity type" required>
+                    <option value="students">Students</option>
+                    <option value="hours">Hours</option>
+                    <option value="classes">Classes</option>
+                </select>
             </div>
             
+            <div class="col-16">
+              <input type="text" name="item[0][price]" value="0" class="form-control currency js-add-to-total" placeholder="Amount">
+            </div>
 
-            <div class="col-15 no_margin">
+            <div class="col-16">
+              <input type="text" name="item[0][num_of_weeks]" value="1" class="form-control number js-multiply-to-total" placeholder="Amount">
+            </div>
+
+            <div class="col-16 no_margin">
               <a class="am2-ajax-modal-delete btn btn--danger is-smaller" data-repeater-delete=""
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                                        data-object="S" data-id=""><i class="fa fa-trash-o"></i></a>
@@ -192,22 +207,32 @@ endif;
                 <div data-repeater-item="">
                   <div class="form-group clearfix">
                     
-                    <div class="col-25">
+                    <div class="col-16">
                         <input type="text" name="item[0][description]" class="form-control" value="<?php echo $payment_total['description']; ?>" placeholder="Description"> 
                     </div>
 
-                    
-                    <div class="col-15">
+                    <div class="col-16">
                       <input type="text" name="item[0][quantity]" value="<?php echo $payment_total['quantity']; ?>" class="form-control number js-quantity" placeholder="Quantity">
                     </div>
                     
-                    
-                    <div class="col-15">
-                      <input type="text" name="item[0][price]" value="<?php echo $payment_total['price']; ?>" class="form-control currency js-add-to-total" placeholder="Amount">
+                    <div class="col-16">
+                        <select name="item[0][quantity_type]" class="form-control" id="item[0][quantity_type]" title="Please select quantity type" required>
+                            <option <?php if($payment_total['quantity_type'] == "students") { echo "selected"; } ?> value="students">Students</option>
+                            <option <?php if($payment_total['quantity_type'] == "hours") { echo "selected"; } ?> value="hours">Hours</option>
+                            <option <?php if($payment_total['quantity_type'] == "classes") { echo "selected"; } ?> value="classes">Classes</option>
+                        </select>
                     </div>
                     
+                    
+                    <div class="col-16">
+                      <input type="text" name="item[0][price]" value="<?php echo $payment_total['price']; ?>" class="form-control currency js-add-to-total" placeholder="Amount">
+                    </div>
 
-                    <div class="col-15 no_margin">
+                    <div class="col-16">
+                      <input type="text" name="item[0][num_of_weeks]" value="1" class="form-control number js-multiply-to-total" placeholder="Amount">
+                    </div>                    
+
+                    <div class="col-16 no_margin">
                       <a class="am2-ajax-modal-delete btn btn--danger is-smaller" data-repeater-delete=""
                                                data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                                                data-object="S" data-id=""><i class="fa fa-trash-o"></i></a>
@@ -316,7 +341,7 @@ endif;
 
                     <div class="card-table-row clearfix">
                         <button class="left btn btn--primary" type="submit">Save Invoice</button>
-                        <a class="left btn btn--transparent" style="margin-left:10px;" href="<?php echo site_url(); ?>/invoice?type=coach&id=<?php echo $id; ?>" type="submit">View Printable Invoice</a>
+                        <a class="left btn btn--transparent" style="margin-left:10px;" href="<?php echo site_url(); ?>/invoice?type=coach&id=<?php echo $id; ?>" type="submit" target="_blank">View Printable Invoice</a>
                     </div>
                     <div class="spacer"></div>
             </div>
@@ -373,6 +398,9 @@ $(document).ready(function () {
   $(document).on('keyup', '.js-quantity', function() {
      addToTotal();
   });
+  $(document).on('keyup', '.js-multiply-to-total', function() {
+     addToTotal();
+  });
 
  
 
@@ -398,7 +426,8 @@ function parseCurrency( num ) {
         if($(this).val() !== "") {
             var this_val = parseCurrency($(this).val());
             var this_quantity = $(this).closest('.form-group').find('.js-quantity').val();
-            total = total + (this_val*this_quantity);            
+            var this_weeks = $(this).closest('.form-group').find('.js-multiply-to-total').val();
+            total = total + (this_val*this_quantity*this_weeks);            
         }
     });
     total = parseFloat(total).toFixed(2);

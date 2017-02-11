@@ -78,7 +78,7 @@ $location_invoices = get_posts($args);
                                 <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                                     <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"
-                                       data-object="location_invoice" data-id="<?php echo $location_invoice->ID; ?>"><i class="fa fa-trash-o"></i></a>
+                                       data-object="invoice" data-id="<?php echo $location_invoice->ID; ?>"><i class="fa fa-trash-o"></i></a>
                                 <?php }; ?>
                         </tr>
                     <?php }; ?>

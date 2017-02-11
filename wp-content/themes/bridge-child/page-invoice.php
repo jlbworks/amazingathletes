@@ -114,7 +114,7 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
                         </tr>
                         <tr>
                             <td align="right"><span style="font-size: 12px; font-weight: bold;">Date</span></td>
-                            <td align="left"><span style="font-size: 12px;"><?php echo date('m/d/Y h:i A',strtotime($invoice->post_date)); ?></span></td>
+                            <td align="left"><span style="font-size: 12px;"><?php echo date('m/d/Y',strtotime($invoice->date_start)); ?> - <?php echo date('m/d/Y',strtotime($invoice->date_end)); ?></span></td>
                         </tr>
                     </tbody></table>
                 </td>
@@ -149,8 +149,10 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
         <table class="invoice-table" style="margin-top: 50px; width: 100%;" border="0" cellspacing="0" cellpadding="6"><tbody>
             <tr>
                 <td align="left" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Description</span></td>
-                <td style="width: 15%;" align="right" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Unit cost</span></td>
+                <td style="width: 7%;" align="center" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Type</span></td>
+                <td style="width: 15%;" align="right" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Rate</span></td>
                 <td style="width: 7%;" align="center" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Qty</span></td>
+                <td style="width: 7%;" align="center" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Weeks</span></td>
                 <td style="width: 15%;" align="right" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Price</span></td>
             </tr>
             <?php if($items):
@@ -158,46 +160,48 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
                 $item['price'] = str_replace("$","",$item['price']); ?>
             <tr>
                 <td style="border-bottom: 1px solid #F0F0F0;" valign="middle"><span style="font-size: 11px;"><?php echo $item['description']; ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;"><?php echo $item['quantity_type']; ?></span></td>
                 <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format($item['price'], 2); ?></span></td>
                 <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;"><?php echo $item['quantity']; ?></span></td>
-                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format(($item['price'] * $item['quantity']), 2); ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;"><?php echo $item['num_of_weeks']; ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format(($item['price'] * $item['quantity'] * $item['num_of_weeks']), 2); ?></span></td>
             </tr>
             <?php endforeach;
             endif; ?>          
          <tr>
 
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Subtotal:</span></td>
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($total, 2); ?></span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Subtotal:</span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($total, 2); ?></span></td>
         </tr>
         <tr>
 
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Travel Surcharge:</span></td>
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($travel_surcharge, 2); ?></span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Travel Surcharge:</span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($travel_surcharge, 2); ?></span></td>
         </tr>
         <tr>
 
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Liability Insurance Rebate:</span></td>
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($liability_insurance_rebate, 2); ?></span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Liability Insurance Rebate:</span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($liability_insurance_rebate, 2); ?></span></td>
         </tr>
                     <tr>
 
-                <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Equipment Rental Rebate :</span></td>
-                <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($equipment_rental_rebate, 2); ?></span></td>
+                <td colspan="5" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Equipment Rental Rebate :</span></td>
+                <td colspan="5" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($equipment_rental_rebate, 2); ?></span></td>
             </tr>
                 <tr>
 
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Settled Outstanding Student Compensations:</span></td>
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($settled_outstanding_student_compensations, 2); ?></span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Settled Outstanding Student Compensations:</span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($settled_outstanding_student_compensations, 2); ?></span></td>
         </tr>
         <tr>
 
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Other:</span></td>
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($other, 2); ?></span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Other:</span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($other, 2); ?></span></td>
         </tr>
         <tr>
 
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;">Total</span></td>
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;"><?php echo "$".number_format($grand_total, 2); ?></span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;">Total</span></td>
+            <td colspan="5" align="right" valign="middle"><span style="font-size: 14px; font-weight: bold;"><?php echo "$".number_format($grand_total, 2); ?></span></td>
         </tr>
     </tbody></table>
     <table style="margin-top: 50px; width: 100%;" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
