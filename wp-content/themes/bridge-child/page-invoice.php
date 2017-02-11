@@ -353,20 +353,21 @@ $items = get_post_meta($invoice_id, 'item', true);
                 <td style="width: 15%;" align="right" valign="middle" bgcolor="#f0f0f0"><span style="font-size: 11px; font-weight: bold;">Price</span></td>
             </tr>
             <?php if($items):
-            foreach($items as $item): ?>
+            foreach($items as $item): 
+                $item['price'] = str_replace("$","",$item['price']); ?>
             
             <tr>
                 <td style="border-bottom: 1px solid #F0F0F0;" valign="middle"><span style="font-size: 11px;"><?php echo $item['description']; ?></span></td>
-                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format($item['price'], 2); ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format((float)$item['price'], 2); ?></span></td>
                 <td style="border-bottom: 1px solid #F0F0F0;" align="center" valign="middle"><span style="font-size: 11px;"><?php echo $item['quantity']; ?></span></td>
-                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format(($item['price'] * $item['quantity']), 2); ?></span></td>
+                <td style="border-bottom: 1px solid #F0F0F0;" align="right" valign="middle"><span style="font-size: 11px;"><?php echo "$".number_format((float)($item['price'] * $item['quantity']), 2); ?></span></td>
             </tr>
             <?php endforeach;
             endif; ?>          
          <tr>
 
             <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Subtotal:</span></td>
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($total, 2); ?></span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format((float)$total, 2); ?></span></td>
         </tr>
          <tr>
 
