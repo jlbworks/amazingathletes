@@ -352,8 +352,10 @@ foreach($_payment_options as $key => $opt){
                 </select>                                
                 <select id="f_class_id" name="f_class_id" >
                     <option value="">Choose Class</option>
-                    <?php foreach($classes as $class){ if(!in_array($class->ID, $class_ids)) continue;?>
-                    <option  value="<?php echo $class->ID;?>" data-location-id="<?php echo $class->location_id ?>" data-franchise-id="<?php echo $class->franchise_id ?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title;?> <?php //echo $class->ID;?></option>
+                    <?php foreach($classes as $class){ if(!in_array($class->ID, $class_ids)) continue;
+                        $when = get_class_date($class);
+                    ?>
+                    <option  value="<?php echo $class->ID;?>" data-location-id="<?php echo $class->location_id ?>" data-franchise-id="<?php echo $class->franchise_id ?>" <?php if($hash_query['f_class_id'] == $class->ID) echo "selected";?>><?php echo $class->post_title . ' - ' .$when. ' / '.$class->time;?> <?php //echo $class->ID;?></option>
                     <?php } ?>
                 </select>
                 <?php //var_dump($coach_ids);?>
