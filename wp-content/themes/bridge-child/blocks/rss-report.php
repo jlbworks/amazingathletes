@@ -26,7 +26,7 @@ else if(am2_has_role($author, 'coach')){
     $author_role = 'coach';
 }
 
-if(am2_has_role($current_user, 'administrator')){    
+if(am2_has_role($current_user, 'administrator') || am2_has_role($current_user, 'super_admin')){    
     $current_user_role = 'administrator';
 }
 else if(am2_has_role($current_user, 'franchisee')){
