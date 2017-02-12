@@ -41,6 +41,7 @@ $paid_date    = get_post_meta( $payment->ID, 'payment_paid_date', true );
 $payment_type    =  isset($_REQUEST['pay_type']) ? $_REQUEST['pay_type'] : get_post_meta( $payment->ID, 'payment_type', true );
 $payment_description    = get_post_meta( $payment->ID, 'payment_description', true );
 $payment_discount = get_post_meta( $payment->ID, 'payment_discount', true );
+$payment_discount_amount = get_post_meta( $payment->ID, 'payment_discount_amount', true );
 $payment_method = get_post_meta( $payment->ID, 'payment_method', true );
 
 $customers_args = array(
@@ -217,6 +218,18 @@ foreach($_payment_options as $key => $opt){
                                 <?php echo $discount_options;?>
                             </select>
                             <!-- /# -->
+                            <i class="fieldset-overlay" data-js="focus-on-field"></i>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-table-row">
+                <span class="card-table-cell fixed250">Discount amount<span class="required">*</span></span>
+                <div class="card-table-cell">
+                    <div class="card-form">
+                        <fieldset>
+                            <input type="number" name="payment_discount_amount" class="form-control" title="Please enter the discount amount." value="<?php echo esc_attr( $payment_discount_amount ); ?>" placeholder="eg.: 20" required/>
                             <i class="fieldset-overlay" data-js="focus-on-field"></i>
                         </fieldset>
                     </div>

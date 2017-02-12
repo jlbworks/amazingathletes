@@ -479,7 +479,7 @@ foreach($_payment_options as $key => $opt){
                         $tuition_paid_amt = 0;
                         $registration_paid_amt = 0;
                         $weeks = ['','','','',''];                        
-                        $roster_customer_discount = '';
+                        $roster_customer_discount = 'none';
                         $roster_payment_method = '';
                         $tuition_payment_id = -1;
 
@@ -635,10 +635,11 @@ foreach($_payment_options as $key => $opt){
                                 <?php echo $customer_media_options; ?>
                             </select>
                         </td>
-                        <td>
+                        <td class="editable_popup">
                             <span>
                                 <?php echo $customer->childs_first_name . ' ' . $customer->childs_last_name;?>
                             </span>
+                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=customer_edit&id=<?php echo $roster_customer_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=registration"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
                         </td>
                         <td><span><?php echo $customer->childs_gender;?></span></td>
                         <td><span>$<?php echo $registration_fee;?></span></td>
@@ -647,9 +648,9 @@ foreach($_payment_options as $key => $opt){
                             
                             <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $registration_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=registration"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
                         </td>
-                        <td class="p_editable" data-name="payment_discount">
+                        <td class="editable_popup">
                             <span><?php echo $roster_customer_discount;?></span>
-                            <select name="payment_discount" class="hidden"><?php echo $discount_options; ?></select>
+                            <button class="btn btn--primary am2-ajax-modal modal-with-move-anim hidden" data-modal="<?php echo admin_url('admin-ajax.php');?>?action=get_modal_page&target_page=payments-edit&id=<?php echo $tuition_payment_id;?>&class_id=<?php echo $roster_class_id;?>&customer_id=<?php echo $roster_customer_id;?>&pay_type=tuition"><i class="fa fa-plus"></i>&nbsp; Add New payments Entry</button>
                         </td>
                         <td><span>$<?php echo $tuition;?></span></td>
                         <td class="p_editable" data-name="payment_method">
@@ -678,11 +679,9 @@ foreach($_payment_options as $key => $opt){
                         <a class="am2-ajax-modal btn btn--primary is-smaller"
                         data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                         data-modal="<?php echo get_ajax_url('modal','roster-edit') .'&id='.$rost->ID; ?>"><i class="fa fa-pencil"></i></a>
-                        <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
-                          <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
+                        <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                           data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                           data-object="attend" data-id="<?php echo $rost->ID; ?>"><i class="fa fa-trash-o"></i></a>
-                        <?php }; ?>
                         </td>
                     </tr>
                     <?php $i++; }; ?>
@@ -994,9 +993,9 @@ $(document).ready(function() {
     });
   });
 
-  $('#datatable-editable td.editable_popup > button').on('click', function(e){      
-      //if(!$(e.target).is('td')) e.stopPropagation(); 
-      //e.stopPropagation();      
+  $('#datatable-editable td.editable_popup span').on('click', function(e){  
+        e.preventDefault();
+        $(this).siblings('button').trigger('click');    
   });
 
 
