@@ -225,7 +225,7 @@ foreach($_payment_options as $key => $opt){
             </div>
 
             <div class="card-table-row">
-                <span class="card-table-cell fixed250">Discount amount<span class="required">*</span></span>
+                <span class="card-table-cell fixed250">Discount amount</span>
                 <div class="card-table-cell">
                     <div class="card-form">
                         <fieldset>
