@@ -2,7 +2,7 @@
 global $current_user; 
 get_currentuserinfo(); 
 
-restrict_access('super_admin','administrator,franchisee,coach');
+restrict_access('super_admin,administrator,franchisee,coach');
 
 $id = $_REQUEST['id'];
 
