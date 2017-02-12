@@ -97,6 +97,8 @@ endif;
     <div class="container clearfix">
         <div class="col-1 break-big">
 
+<form method="POST" class="form-horizontal well" role="form" id="coach-invoice-form">
+
 <div class="card-wrapper">
 
     <div class="card-inner">
@@ -123,9 +125,18 @@ endif;
                     <?php echo $franchise_data['franchise_telephone'][0]; ?>
                 </div>
                 <div class="spacer"></div>
-                <div class="col-1 clearfix">
+                <div class="col-12 clearfix">
                     <h2>Invoice for:</h2>
                     <p><?php echo date('F d, Y',strtotime($coach_invoice->date_start)); ?> - <?php echo date('F d, Y',strtotime($coach_invoice->date_end)); ?> </p>
+                </div>
+                <div class="col-12">
+                    <h2>Status</h2>
+                    <div class="form-group clearfix">
+                      <select name="status" class="form-control" id="status" title="Status" required>
+                          <option <?php if($coach_invoice->status == "pending") { echo "selected"; } ?> value="pending">Pending</option>
+                          <option <?php if($coach_invoice->status == "paid") { echo "selected"; } ?> value="paid">Paid</option>
+                      </select>
+                    </div>
                 </div>
                 
             </div>
@@ -139,7 +150,7 @@ endif;
 <div class="card-header">
     </div>
     <div class="card-inner">
-<form method="POST" class="form-horizontal well" role="form" id="coach-invoice-form">
+
 <fieldset class="fields-group">
 <h3>Description of Services</h3>
     <div class="clearfix">
@@ -376,6 +387,12 @@ $(document).ready(function () {
         dataType: 'json'
     });
 
+  $('#status').select2({
+        placeholder: 'Status',
+        width: '100%',
+        minimumResultsForSearch: -1
+    });
+    
   $('.repeater-custom-show-hide').repeater({
     show: function () {
       $(this).slideDown();

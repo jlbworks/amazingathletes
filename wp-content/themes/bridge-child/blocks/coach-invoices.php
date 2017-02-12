@@ -47,6 +47,7 @@ $coach_invoices = get_posts($args);
                         <th><span>Location</span></th>
                         <th><span>Date Created</span></th>
                         <th><span>Total amount</span></th>
+                        <th><span>Status</span></th>
                         <th><span>Actions</span></th>
                     </tr>
                     </thead>
@@ -76,7 +77,7 @@ $coach_invoices = get_posts($args);
                             <td><?php echo $location->post_title; ?></td>
                             <td><?php echo get_the_date( 'd.m.Y H:i:s', $coach_invoice->ID );?></td>
                             <td><?php echo $coach_invoice->grand_total; ?></td>
-
+                            <td><?php echo $coach_invoice->status; ?></td>
                             <td>
                                 <a class="btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"

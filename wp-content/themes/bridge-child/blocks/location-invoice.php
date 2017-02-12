@@ -26,7 +26,9 @@ if(!empty($location_invoice->total)) $total = $location_invoice->total;
 $grand_total = '0.00';
 if(!empty($location_invoice->grand_total)) $grand_total = $location_invoice->grand_total;
 $other = '0.00';
-if(!empty($location_invoice->bonus)) $other = $location_invoice->other;
+if(!empty($location_invoice->other)) $other = $location_invoice->other;
+$other_text = '';
+if(!empty($location_invoice->other_text)) $other_text = $location_invoice->other_text;
 
 /* GET DATA FOR location */
 $args = array(
@@ -94,6 +96,8 @@ endif;
     <div class="container clearfix">
         <div class="col-1 break-big">
 
+<form method="POST" class="form-horizontal well" role="form" id="location-invoice-form">
+
 <div class="card-wrapper">
 
     <div class="card-inner">
@@ -120,9 +124,18 @@ endif;
                         <?php echo $location_data['telephone'][0]; ?>
                 </div>
                 <div class="spacer"></div>
-                <div class="col-1 clearfix">
+                <div class="col-12 clearfix">
                     <h2>Invoice for:</h2>
                     <p><?php echo date('F d, Y',strtotime($location_invoice->date_start)); ?> - <?php echo date('F d, Y',strtotime($location_invoice->date_end)); ?> </p>
+                </div>
+                <div class="col-12">
+                    <h2>Status</h2>
+                    <div class="form-group clearfix">
+                      <select name="status" class="form-control" id="status" title="Status" required>
+                          <option <?php if($location_invoice->status == "pending") { echo "selected"; } ?> value="pending">Pending</option>
+                          <option <?php if($location_invoice->status == "paid") { echo "selected"; } ?> value="paid">Paid</option>
+                      </select>
+                    </div>
                 </div>
                 
             </div>
@@ -136,7 +149,6 @@ endif;
 <div class="card-header">
     </div>
     <div class="card-inner">
-<form method="POST" class="form-horizontal well" role="form" id="location-invoice-form">
 <fieldset class="fields-group">
 <h3>Service Overview</h3>
     <div class="clearfix">
@@ -268,7 +280,9 @@ endif;
                     </div>
 
                     <div class="card-table-row">
-                        <span class="card-table-cell fixed250">Other </span>
+                        <span class="card-form card-table-cell fixed250">
+                        <input type="text" data-js="" name="other_text" class="form-control editable" title="Please add Others" placeholder="Other text" value="<?php echo $other_text; ?>" /> 
+                        </span>
                         <div class="card-table-cell">
                             <div class="card-form">
                             <fieldset>
@@ -329,6 +343,12 @@ $(document).ready(function () {
         url: '<?php echo site_url();?>/wp-admin/admin-ajax.php?action=submit_data',
         type: 'post',
         dataType: 'json'
+    });
+  
+  $('#status').select2({
+        placeholder: 'Status',
+        width: '100%',
+        minimumResultsForSearch: -1
     });
 
   $('.repeater-custom-show-hide').repeater({

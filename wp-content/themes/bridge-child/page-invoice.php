@@ -25,6 +25,8 @@ if($invoice_type == 'coach') {
 /* Invoice data */
 $invoice_data = get_post_meta($invoice_id);
 //print_r($invoice_data);
+$status = '';
+if(!empty($invoice_data['status'][0])) $status = $invoice_data['status'][0];
 $total = '0.00';
 if(!empty($invoice_data['total'][0])) $total = $invoice_data['total'][0];
 $other = '0.00';
@@ -140,7 +142,7 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
                     <table border="0" cellspacing="0" cellpadding="2"><tbody>
                         <tr>
                             <td align="right"><span style="font-size: 12px; font-weight: bold;">Status:</span></td>
-                            <td align="left"><span style="font-size: 12px; font-weight: bold;">Editing</span></td>
+                            <td align="left"><span style="font-size: 12px; font-weight: bold;"><?php echo $status; ?></span></td>
                         </tr>
                     </tbody></table>
                 </td>
@@ -236,10 +238,14 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
 if($invoice_type == 'location') {
 /* Invoice data */
 $invoice_data = get_post_meta($invoice_id);
+$status = '';
+if(!empty($invoice_data['status'][0])) $status = $invoice_data['status'][0];
 $total = '0.00';
 if(!empty($invoice_data['total'][0])) $total = $invoice_data['total'][0];
 $other = '0.00';
 if(!empty($invoice_data['other'][0])) $other = $invoice_data['other'][0];
+$other_text = '';
+if(!empty($invoice_data['other_text'][0])) $other_text = $invoice_data['other_text'][0];
 $grand_total = '0.00';
 if(!empty($invoice_data['grand_total'][0])) $grand_total = $invoice_data['grand_total'][0];
 
@@ -343,7 +349,7 @@ $items = get_post_meta($invoice_id, 'item', true);
                     <table border="0" cellspacing="0" cellpadding="2"><tbody>
                         <tr>
                             <td align="right"><span style="font-size: 12px; font-weight: bold;">Status:</span></td>
-                            <td align="left"><span style="font-size: 12px; font-weight: bold;">Editing</span></td>
+                            <td align="left"><span style="font-size: 12px; font-weight: bold;"><?php echo $status; ?></span></td>
                         </tr>
                     </tbody></table>
                 </td>
@@ -375,7 +381,7 @@ $items = get_post_meta($invoice_id, 'item', true);
         </tr>
          <tr>
 
-            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;">Other:</span></td>
+            <td colspan="3" align="right" valign="middle"><span style="font-size: 12px; font-weight: bold;"><?php echo $other_text; ?>:</span></td>
             <td colspan="3" align="right" valign="middle"><span style="font-size: 12px;"><?php echo "$".number_format($other, 2); ?></span></td>
         </tr>
         <tr>

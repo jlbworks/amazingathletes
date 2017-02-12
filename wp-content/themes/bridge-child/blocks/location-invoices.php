@@ -47,6 +47,7 @@ $location_invoices = get_posts($args);
                         <th><span>Franchise</span></th>
                         <th><span>Date Created</span></th>
                         <th><span>Total amount</span></th>
+                        <th><span>Status</span></th>
                         <th><span>Actions</span></th>
                     </tr>
                     </thead>
@@ -69,17 +70,16 @@ $location_invoices = get_posts($args);
                             <td style="white-space:nowrap"><?php echo $location->post_title ?></td>
                             <td><?php echo $franchise; ?></td>
                             <td><?php echo get_the_date( 'd.m.Y H:i:s', $location_invoice->ID );?></td>
-                            <td><?php echo $location_invoice->total_amount; ?></td>
+                            <td><?php echo $location_invoice->grand_total; ?></td>
+                            <td><?php echo $location_invoice->status; ?></td>
 
                             <td>
                                 <a class="btn btn--primary is-smaller"
                                    data-original-title="Edit" data-placement="top" data-toggle="tooltip"
                                    href="#location-invoice/?id=<?php echo $location_invoice->ID; ?>"><i class="fa fa-pencil"></i></a>
-                                <?php if( is_role('administrator') || is_role('super_admin') ){ ?>
                                     <a class="am2-ajax-modal-delete btn btn--danger is-smaller"
                                        data-original-title="Delete" data-placement="top" data-toggle="tooltip"
                                        data-object="invoice" data-id="<?php echo $location_invoice->ID; ?>"><i class="fa fa-trash-o"></i></a>
-                                <?php }; ?>
                         </tr>
                     <?php }; ?>
                     </tbody>
