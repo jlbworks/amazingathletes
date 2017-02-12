@@ -599,7 +599,7 @@ function submit_data() {
         $meta_fields = array(
            'payment_class_id', 'payment_customer_id', 'payment_description',
             'payment_location_id', 'payment_paid_amount', 'payment_paid_date', 'payment_type',
-            'payment_method', 'payment_discount'
+            'payment_method', 'payment_discount','payment_discount_amount'
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = sanitize_text_field($_POST[$field]);
@@ -698,7 +698,7 @@ function submit_data() {
 
         $meta_data = array();
         $meta_fields = array(
-            'total', 'subtotal','grand_total', 'other'
+            'total', 'subtotal','grand_total', 'other', 'other_text','status'
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = str_replace('$','',sanitize_text_field($_POST[$field]));
@@ -776,7 +776,7 @@ function submit_data() {
 
         $meta_data = array();
         $meta_fields = array(
-            'total', 'subtotal','grand_total', 'other', 'travel_surcharge', 'liability_insurance_rebate', 'equipment_rental_rebate', 'settled_outstanding_student_compensations'
+            'total', 'subtotal','grand_total', 'other', 'travel_surcharge', 'liability_insurance_rebate', 'equipment_rental_rebate', 'settled_outstanding_student_compensations','status'
         );
         foreach ( $meta_fields as $field ) {
             $meta_data[$field] = str_replace('$','',sanitize_text_field($_POST[$field]));
@@ -1347,6 +1347,16 @@ function delete_object() {
 
         wp_delete_post( $id, true );
         exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "RSS deleted")));
+
+    }
+
+    if ($object == 'invoice' and $id > 0) {
+        if( !current_user_can( 'edit_posts' ) && !is_role('franchisee') ) {
+            exit(json_encode(array('success' => false, 'object' => $object, 'id' => $id, 'message' => "You are not authorised to perform this action")));
+        }
+
+        wp_delete_post( $id, true );
+        exit(json_encode(array('success' => true, 'object' => $object, 'id' => $id, 'message' => "Invoice deleted")));
 
     }
 
