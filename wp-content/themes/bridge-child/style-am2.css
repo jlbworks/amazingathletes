@@ -481,10 +481,7 @@ text-align: center;
     font-weight:normal;
 }
 
-.vc_col-sm-3 {
 
-    width: 15%;
-}
 
 .btn_register_class {
     padding: 5px;
@@ -700,3 +697,12 @@ a:hover{
 
 
 }
+
+@media (min-width: 1001px) {
+.vc_col-sm-3 {
+
+    width: 15%;
+}
+}
+
+
