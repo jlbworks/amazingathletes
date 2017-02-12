@@ -441,9 +441,10 @@ text-align: center;
     line-height: 18px;
 }
 
-.state .providers.state .franchise_owner, .state .providers.state .franchise_tel, .state .providers.state .franchise_email {
-    font-size:16px;
-}
+
+
+
+
 
 .franchise_tel .icon_phone, .franchise_email .icon_mail {
     padding:0px 10px 0px 5px;
@@ -694,7 +695,9 @@ a:hover{
     overflow-x: scroll;
 }
 
-
+.state .providers.state .franchise_owner, .state .providers.state .franchise_tel, .state .providers.state .franchise_email {
+    font-size:12px;
+}
 
 }
 
@@ -703,6 +706,11 @@ a:hover{
 
     width: 15%;
 }
+	
+.state .providers.state .franchise_owner, .state .providers.state .franchise_tel, .state .providers.state .franchise_email {
+    font-size:16px;
+}
+
 }
 
 
