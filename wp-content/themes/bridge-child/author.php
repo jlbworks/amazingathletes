@@ -157,6 +157,9 @@ get_header();?>
 	<?php $i++; /*var_dump($show_page);*/ } ?>
   
 </span> </div>
+		</div><?php am2_user_social();?><div class="widget widget_text">			<div class="textwidget"><div class="vc_row wpb_row section vc_row-fluid " style=" text-align:left;"><div class=" full_section_inner clearfix"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner "><div class="wpb_wrapper">	<div class="vc_empty_space  sidebar-spacer" style="height: 100px"><span class="vc_empty_space_inner">
+			<span class="empty_space_image"></span>
+		</span></div>
 
 </div></div></div></div></div></div>
 		</div>		</aside>
