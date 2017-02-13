@@ -1570,7 +1570,30 @@ font-size:12px;
 }
 }
 
+@media screen and (min-width: 1101px){
+.sidebar
+.icon-row{
+display:block;
+}
 
+.fa-bars{
+display:none;
+}
+
+}
+
+@media screen and (max-width: 1100px){
+.sidebar
+.icon-row{
+display:none;
+}
+
+
+.fa-bars{
+display:block;
+margin-top:2%;
+}
+}
 
 /****************list fix*******************/
 ol, ul{
@@ -1614,3 +1637,70 @@ a{
     font-size: 22px;
     font-weight: 600;
 }
+
+
+/***********STAFF PAGE*********/
+
+.page-template-blog-small-image 
+.container_inner {
+    width: 100%!IMPORTANT;
+    margin: 0 auto;
+}
+
+
+
+
+body .gform_wrapper .chzn-container .chzn-single, body .gform_wrapper .chzn-container-single .chzn-single, body .gform_wrapper .chzn-container-single .chzn-single b, body .gform_wrapper input[type=email], body .gform_wrapper input[type=number], body .gform_wrapper input[type=password], body .gform_wrapper input[type=tel], body .gform_wrapper input[type=text], body .gform_wrapper input[type=url], body .gform_wrapper textarea {
+    background-color: whitesmoke;
+}
+
+
+.blog_holder article .post_image, .blog_holder article .post_image img, .blog_holder article .post_image>a {
+    position: relative;
+    width: 98%;
+    display: block;
+}
+
+
+
+.blog_holder.blog_small_image article:not(.format-quote):not(.format-link) .post_text .post_text_inner {
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: transparent;
+}
+
+/*********SEARCH************/
+
+
+.search-results
+.container_inner,
+.single
+.container_inner {
+    width: 100%!important;
+    margin: 0 auto;
+}
+
+.search-results
+.content.content_top_margin_none,
+.single
+.content.content_top_margin_none {
+    margin-top: -133px!important;
+}
+
+.search-results
+.two_columns_25_75>.column2 {
+    padding-top: 100px;
+}
+
+/*********bars sidebar**********/
+
+.fa-bars{
+color:red!important;
+cursor:pointer;
+}
+
+
+
+
+
+
