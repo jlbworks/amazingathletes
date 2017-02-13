@@ -1575,12 +1575,23 @@ font-size:12px;
 .icon-row{
 display:block;
 }
+
+.fa-bars{
+display:none;
+}
+
 }
 
 @media screen and (max-width: 1100px){
 .sidebar
 .icon-row{
 display:none;
+}
+
+
+.fa-bars{
+display:block;
+margin-top:2%;
 }
 }
 
