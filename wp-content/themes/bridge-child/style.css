@@ -1570,7 +1570,19 @@ font-size:12px;
 }
 }
 
+@media screen and (min-width: 1101px){
+.sidebar
+.icon-row{
+display:block;
+}
+}
 
+@media screen and (max-width: 1100px){
+.sidebar
+.icon-row{
+display:none;
+}
+}
 
 /****************list fix*******************/
 ol, ul{
