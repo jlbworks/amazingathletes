@@ -1669,7 +1669,12 @@ body .gform_wrapper .chzn-container .chzn-single, body .gform_wrapper .chzn-cont
     padding-top: 100px;
 }
 
+/*********bars sidebar**********/
 
+.fa-bars{
+color:red!important;
+cursor:pointer;
+}
 
 
 
