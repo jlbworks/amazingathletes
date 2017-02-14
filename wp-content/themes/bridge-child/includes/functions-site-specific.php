@@ -158,7 +158,7 @@ function am2_ajax_register_for_class(){
     
     $headers  = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type: text/plain; charset=utf-8" . "\r\n";
-    $headers .= "Bcc: goranefbl@gmail.com\r\n";
+//    $headers .= "Bcc: goranefbl@gmail.com\r\n";
 
     $headers1 = $headers;
     $headers1 .= "Reply-To: <$reply_to>" . "\r\n";    
@@ -348,8 +348,6 @@ function am2_get_state_locations($zip_code = null){
     );    
 
     $_franchisees = get_users($args);
-
-    //var_dump($_locations);
 
     $franchisees = array();
     $locations = array();
