@@ -1779,3 +1779,44 @@ cursor:pointer;
 .accordion_section {
 	padding: 0 50px;
 }
+
+.leader_section_inner {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	margin: 50px 0;
+}
+
+.leader_section_inner img{
+	height: 175px;
+	width: 175px;
+}
+
+/*because I'm an idiot I capitalized the S...*/
+.leader_Section_img {
+	margin:0 50px 0 0;
+}
+
+.leader_section_content {
+	flex-direction: column;
+	flex-wrap: wrap;
+	width: 80%;
+}
+
+.leader_section_title {
+	padding 10px 0;
+}
+
+@media only screen and (max-width: 767px) {
+	.leader_section_inner {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+	
+	.leader_Section_img {
+		margin: 0;
+	}
+}
+	
