@@ -14,9 +14,13 @@ Template: bridge
 
 
 
+@media screen and (max-width: 479px){
 
+.q_slider {
+    margin-top: 0%!important;
+}
 
-
+}
 
 /***************************HEADER*****************/
 @media only screen and (min-width: 1300px){
@@ -104,11 +108,6 @@ nav.main_menu > ul > li > a {
 .q_slider {
     margin-top: 8%;
 }
-}
-
-@media screen and (max-width: 479px){
-.q_slider {
-    margin-top: 20%;
 }
 
 .slide-text{
@@ -684,6 +683,11 @@ aside
     font-family: 'oswald';
     letter-spacing: 1px;
 }
+
+
+
+
+
 
 
 /* BACK OFFICE STYLE */
@@ -1710,3 +1714,8 @@ cursor:pointer;
 
 
 
+@media only screen and (max-width: 599px){
+.footer_top .four_columns .column1, .footer_top .four_columns .column2, .footer_top .four_columns .column3, .footer_top .three_columns .column1, .footer_top .three_columns .column2, .footer_top .two_columns_50_50 .column1 {
+    margin: 0px!important;
+}
+}
