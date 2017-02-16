@@ -183,9 +183,9 @@
                 individual_1_last_name : franchisee.individual_1_last_name,
                 contact_name : franchisee.individual_1_first_name + ' ' + franchisee.individual_1_last_name,
                 contact_number : franchisee.telephone,
-                contact_email : '<a href="'+franchisee.aa_email_address+'">'+franchisee.aa_email_address+'</a>',
-                payment_link_onetime : '<a href="'+location_class.one_time_credit_card_payment_url+'">New Student One-Time Payment</a>',
-                payment_link_auto : '<a href="'+location_class.recurring_credit_card_payments_url+'">New Student Auto-Pay</a>',                
+                contact_email : '<a target="_blank" href="'+franchisee.aa_email_address+'">'+franchisee.aa_email_address+'</a>',
+                payment_link_onetime : '<a target="_blank" href="'+location_class.one_time_credit_card_payment_url+'">New Student One-Time Payment</a>',
+                payment_link_auto : '<a target="_blank" href="'+location_class.recurring_credit_card_payments_url+'">New Student Auto-Pay</a>',
 
                 payment_intro: $.trim(location_class.payment_intro_msg) != '' ? location_class.payment_intro_msg : $.trim(franchisee.payment_intro_msg) != '' ? franchisee.payment_intro_msg : $('.payment_intro_text').html(),
                 payment_personal_check: $.trim(location_class.personal_check_payment_msg) != '' ? location_class.personal_check_payment_msg : $.trim(franchisee.personal_check_payment_msg) != '' ?  franchisee.personal_check_payment_msg : $('.payment_personal_check_text').html(),
