@@ -64,7 +64,7 @@ get_currentuserinfo();
 			<div class="header-cell is-left">
 				<div class="header__logo">
 					<a href="../">
-						<h1><img src="http://glensamazingwebsite.org/wp-content/uploads/2017/02/AA-WHITE-S.png"></h1>
+						<h1><img src="https://amazingathletes.com/wp-content/uploads/2017/02/AA-WHITE-S.png"></h1>
 					</a>
 				</div> 
 			</div>

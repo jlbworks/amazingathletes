@@ -210,7 +210,7 @@ $coach_data = get_user_meta($coach_invoice->coach_id);
         <td style="width: 100%;" align="left" valign="middle"> </td>
     </tr></tbody></table>
                 <table style="margin-top: 50px; width: 100%;" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
-    <td style="border-top: 1px solid #F0F0F0; padding-top: 10px; width: 100%;" align="center"><span style="font-size: 11px; color: #a4a4a4;">http://amazingathletes.com/<br></span></td>
+    <td style="border-top: 1px solid #F0F0F0; padding-top: 10px; width: 100%;" align="center"><span style="font-size: 11px; color: #a4a4a4;">https://amazingathletes.com/<br></span></td>
 </tr></tbody></table>
 </div></body>
 </html>

@@ -118,7 +118,7 @@ function codeAddress(data) {
 			var marker = new google.maps.Marker({
 				map: map, 
 				position: results[0].geometry.location,
-								icon:  'http://amazingathletes.jlbdev.net/wp-content/themes/bridge/img/pin.png',
+								icon:  'https://amazingathletes.com/wp-content/themes/bridge/img/pin.png',
 								title: data['store_title']
 			});
 			google.maps.event.addListener(marker, 'click', function() {
