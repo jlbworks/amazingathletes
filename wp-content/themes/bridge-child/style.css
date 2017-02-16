@@ -73,13 +73,12 @@ header.sticky .header_bottom {
 
 /*********NAVIGATION***********/
 
-nav.main_menu>ul>li>a {
-    padding: 0px 3px;
-}
+@media only screen and (min-width: 1600px){
 
-nav.main_menu > ul > li > a {
-    font-size: 1vw;
-    padding: 0px 6px;
+.header_bottom
+ .container_inner {
+    width: 1600px;
+}
 }
 
 .drop_down .second .inner>ul, li.narrow .second .inner ul {
@@ -1157,6 +1156,7 @@ h1{
 .deets
 .qbutton.large {
     font-size: 16px;
+    padding: 0 5px;
 }
 
 }
@@ -1290,7 +1290,6 @@ h3{
 
 @media only screen and (min-width: 1001px){
 .fo-floated-row{
-    text-align: center!important;
     position: fixed!important;
     top: 60px!important;
     z-index: 999999999999!important;
