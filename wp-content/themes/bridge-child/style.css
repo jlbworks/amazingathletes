@@ -79,7 +79,66 @@ header.sticky .header_bottom {
  .container_inner {
     width: 1600px;
 }
+
 }
+
+
+
+
+@media only screen and (max-width: 1599px) and (min-width: 1301px){
+
+nav.main_menu > ul > li > a {
+    font-size: 14px;
+}
+
+
+.header_bottom {
+    padding: 0 5px;
+}
+
+
+
+.drop_down .second .inner > ul > li > a{
+    font-size:14px;
+}
+
+
+nav.main_menu>ul>li>a {
+    padding: 0 10px;
+}
+
+}
+
+
+
+
+
+
+
+@media only screen and (max-width: 1300px){
+
+nav.main_menu > ul > li > a {
+    font-size: 12px;
+}
+
+
+.header_bottom {
+    padding: 0 5px;
+}
+
+
+
+.drop_down .second .inner > ul > li > a{
+    font-size:12px;
+}
+
+
+nav.main_menu>ul>li>a {
+    padding: 0 5px;
+}
+
+}
+
 
 .drop_down .second .inner>ul, li.narrow .second .inner ul {
     background-color: #fff;
@@ -98,16 +157,18 @@ header.sticky .header_bottom {
 
 /******************mobile slider****************/
 
-
+@media screen and (min-width: 783px){
 .slide-text{
     display:BLOCK;
 }
-
+}
 @media screen and (max-width: 782px) and (min-width: 480px){
 .q_slider {
     margin-top: 8%;
 }
 }
+
+@media screen and (max-width: 479px){
 
 .slide-text{
     display:none;
