@@ -405,4 +405,15 @@ function deny_rolechange()
 }
 add_action( 'after_setup_theme', 'deny_rolechange' );
 
+
+
+// Change email from and name
+function my_wp_mail_from_name($name) {
+	return 'Amazing Athletes';
+}
+function my_wp_mail_from($content_type) {
+	return 'register@amazingathletes.com';
+}
+add_filter('wp_mail_from','my_wp_mail_from');
+add_filter('wp_mail_from_name','my_wp_mail_from_name');
 ?>
