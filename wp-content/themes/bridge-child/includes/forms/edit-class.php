@@ -755,7 +755,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				<?php
 					$payment_intro_msg = get_post_meta( $class_id, 'payment_intro_msg'  , true );					
 
-					wp_editor( $payment_intro_msg, 'payment_intro_msg' );
+					wp_editor( $payment_intro_msg, 'payment_intro_msg', array('wpautop' => false) );
 				?>
 			</div>
 
@@ -764,7 +764,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 				<?php										
 					$personal_check_payment_msg = get_post_meta( $class_id, 'personal_check_payment_msg'  , true );					
 
-					wp_editor( $personal_check_payment_msg, 'personal_check_payment_msg' );
+					wp_editor( $personal_check_payment_msg, 'personal_check_payment_msg', array('wpautop' => false) );
 				?>
 			</div>
 			<div class="form--section" id="one_time_credit_card_payment" data-section="class-payment-option" style="display:none;">
@@ -774,7 +774,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 					
 					$one_time_credit_card_payment_msg = get_post_meta( $class_id, 'one_time_credit_card_payment_msg'  , true );					
 
-					wp_editor( $one_time_credit_card_payment_msg, 'one_time_credit_card_payment_msg' );
+					wp_editor( $one_time_credit_card_payment_msg, 'one_time_credit_card_payment_msg', array('wpautop' => false) );
 				?>
 			</div>
 			<div class="form--section" id="recurring_credit_card_payments" data-section="class-payment-option" style="display:none;">
@@ -784,7 +784,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 
 					$recurring_payment_msg = get_post_meta( $class_id, 'recurring_payment_msg'  , true );					
 
-					wp_editor( $recurring_payment_msg, 'recurring_payment_msg' );
+					wp_editor( $recurring_payment_msg, 'recurring_payment_msg', array('wpautop' => false) );
 				?>
 			</div>
 		</div>
