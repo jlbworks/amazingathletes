@@ -1893,5 +1893,20 @@ cursor:pointer;
 }
 
 
+@media only screen and (min-width: 1000px) {
+.page-template-blog-small-image
+.post_image{
+	width:29%!important;
+}
+.page-template-blog-small-image
+.post_text{
+	width:69%!important;
+}
+
+}
+
+
+
+
 
 
