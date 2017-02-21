@@ -447,7 +447,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 	<h3>Location: <?php echo $location->post_title; ?></h3>
 	<h1><?php echo $_title; ?></h1>
 
-	<form method="post">		
+	<form method="post" id="class-form">
 	<!-- Demo, parent pay, Session, Contract, Camp -->
 		<label>Class Type</label>
 		<select name="type" class="js-induce-change-select-class">
@@ -654,7 +654,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 		</div>
 
 		<div class="form--section">
-			<h2>Class Costs</h2>
+			<h2>Class Costs (just numbers,no $)</h2>
 				<label><input type="radio" class="js-induce-change" data-change-to-section="class-costs" data-change-to-id="parent_pay_monthly" name="class_costs" value="Parent-Pay Monthly" <?php if($class_costs == 'Parent-Pay Monthly'){ echo 'checked="checked"'; } ?>>Parent-Pay Monthly </label>
 				<label><input type="radio" class="js-induce-change" data-change-to-section="class-costs" data-change-to-id="parent_pay_session" name="class_costs" value="Parent-Pay Session" <?php if($class_costs == 'Parent-Pay Session'){ echo 'checked="checked"'; } ?>>Parent-Pay Session </label>
 				<label><input type="radio" class="js-induce-change" data-change-to-section="class-costs" data-change-to-id="contracts_events" name="class_costs" value="Contracts/Events" <?php if($class_costs == 'Contracts/Events'){ echo 'checked="checked"'; } ?>>Contracts/Events </label>
@@ -986,6 +986,42 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 <script type="text/javascript">
 (function($){
 	$(document).ready(function(){
+
+		$("#class-form").on("submit",function (e) {
+          // e.preventDefault();
+        });
+
+        // Allow only numbers
+        $("#parent_pay_monthly input,#parent_pay_session input, #paid_per_class input, #paid_per_student input, #paid_per_hour input, #paid_per_day input,#coach_paid_per_student_per_class input, #coach_paid_per_class input, #coach_paid_per_hour input").on("keydown",function(){
+            validateNumbers();
+        });
+
+        function validateNumbers(evt) {
+            var e = evt || window.event;
+            var key = e.keyCode || e.which;
+
+            if (!e.shiftKey && !e.altKey && !e.ctrlKey &&
+                // numbers
+                key >= 48 && key <= 57 ||
+                // Numeric keypad
+                key >= 96 && key <= 105 ||
+                // Backspace and Tab and Enter
+                key == 8 || key == 9 || key == 13 ||
+                // Home and End
+                key == 35 || key == 36 || key == 190 ||
+                // left and right arrows
+                key == 37 || key == 39 ||
+                // Del and Ins
+                key == 46 || key == 45) {
+                // input is VALID
+            }
+            else {
+                // input is INVALID
+                e.returnValue = false;
+                if (e.preventDefault) e.preventDefault();
+            }
+        }
+
 		$('.timepicker').timepicker({
 			step: 15
 		});
