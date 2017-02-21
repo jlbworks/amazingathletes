@@ -879,7 +879,7 @@ $sel_coaches = get_post_meta($class_id, 'coaches', true);
 			}
 		</script>
 		<div class="form--section">
-			<h2>Coach Pay Scale</h2>
+			<h2>Coach Pay Scale (Just Numbers,No $)</h2>
 			<label><input type="radio" class="js-induce-change" data-change-to-section="class-coach-pay-scale" data-change-to-id="unpaid" name="coach_pay_scale" value="Unpaid" <?php if($values['coach_pay_scale'] == 'Unpaid' || $values['coach_pay_scale'] === false){ echo 'checked="checked"'; } ?>>Unpaid</label>
 			<label><input type="radio" class="js-induce-change" data-change-to-section="class-coach-pay-scale" data-change-to-id="coach_paid_per_student_per_class" name="coach_pay_scale" value="Per Student per Class Pay" <?php if($values['coach_pay_scale'] == 'Per Student per Class Pay'){ echo 'checked="checked"'; } ?>>Per Student per Class Pay</label>
 			<label><input type="radio" class="js-induce-change" data-change-to-section="class-coach-pay-scale" data-change-to-id="coach_paid_per_class" name="coach_pay_scale" value="Per Class Pay" <?php if($values['coach_pay_scale'] == 'Per Class Pay'){ echo 'checked="checked"'; } ?>>Per Class Pay</label>
