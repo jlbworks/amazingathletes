@@ -232,8 +232,9 @@ get_header();?>
 				}
 			}
 
-			else if($mypage == 'coaching-opportunity'){								
-				if($curauth->show_event_form){
+			else if($mypage == 'coaching-opportunity'){
+				if($curauth->coaching-opportunity){
+					echo apply_filters('the_content',$page_content[$mypage]);
 					$cf7_title = "Coaching opportunity";					
 					$cf7_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$cf7_title' AND post_type = 'wpcf7_contact_form'");
 					echo do_shortcode( '[contact-form-7 id="'.$cf7_id.'" title='.$cf7_title.']' ); 
