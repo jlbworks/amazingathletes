@@ -92,11 +92,8 @@ if ( $invoice_type == 'coach' ) {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
 
-		<link href="https://www.ticketzone.com/print/invoice.css" rel="stylesheet" type="text/css" media="screen">
-		<link href="https://www.ticketzone.com/print/invoice_print.css" rel="stylesheet" type="text/css" media="print">
-
-
-		<script type="text/javascript" src="https://www.ticketzone.com/assets/vendor/modernizr/modernizr.js"></script>
+		<link href="<?php echo get_bloginfo( 'stylesheet_directory' ); ?>/css/print/invoice.css" rel="stylesheet" type="text/css" media="screen">
+		<link href="<?php echo get_bloginfo( 'stylesheet_directory' ); ?>/css/print/invoice_print.css" rel="stylesheet" type="text/css" media="print">
 
 
 	</head>
@@ -306,7 +303,7 @@ if ( $invoice_type == 'coach' ) {
 		<div class="right" id="payform-container">
 			<div id="paymenu">
 				<a href="#" onclick="window.print();" class="pelem"><i class="icon-print"></i> Print Invoice</a>
-				<?php /*<a href="https://www.ticketzone.com/account/order/printReceipt/166385/1" class="pelem"><i class="icon-download-alt"></i> Download PDF</a>*/ ?>
+				<?php /*<a href="<?php echo get_bloginfo( 'stylesheet_directory' ); ?>/css/account/order/printReceipt/166385/1" class="pelem"><i class="icon-download-alt"></i> Download PDF</a>*/ ?>
 			</div>
 		</div>
 		<div style="clear:both"></div>
@@ -374,12 +371,8 @@ if ( $invoice_type == 'location' ) {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
 
-		<link href="https://www.ticketzone.com/print/invoice.css" rel="stylesheet" type="text/css" media="screen">
-		<link href="https://www.ticketzone.com/print/invoice_print.css" rel="stylesheet" type="text/css" media="print">
-
-
-		<script type="text/javascript" src="https://www.ticketzone.com/assets/vendor/modernizr/modernizr.js"></script>
-
+		<link href="<?php echo get_bloginfo( 'stylesheet_directory' ); ?>/css/print/invoice.css" rel="stylesheet" type="text/css" media="screen">
+		<link href="<?php echo get_bloginfo( 'stylesheet_directory' ); ?>/css/print/invoice_print.css" rel="stylesheet" type="text/css" media="print">
 
 	</head>
 	<body>
@@ -547,7 +540,7 @@ if ( $invoice_type == 'location' ) {
 		<div class="right" id="payform-container">
 			<div id="paymenu">
 				<a href="#" onclick="window.print();" class="pelem"><i class="icon-print"></i> Print Invoice</a>
-				<?php /*<a href="https://www.ticketzone.com/account/order/printReceipt/166385/1" class="pelem"><i class="icon-download-alt"></i> Download PDF</a>*/ ?>
+				<?php /*<a href="<?php echo get_bloginfo( 'stylesheet_directory' ); ?>/css/account/order/printReceipt/166385/1" class="pelem"><i class="icon-download-alt"></i> Download PDF</a>*/ ?>
 			</div>
 		</div>
 		<div style="clear:both"></div>
