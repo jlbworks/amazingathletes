@@ -325,27 +325,38 @@ function am2_get_state_locations($zip_code = null){
     $_locations = array();
 
     if(!empty($state)){
-        $meta_query = array(                
+        $meta_query = array(
             array(
                 'key' => 'city__state',
                 'value' => "$state|",
                 'compare' => 'LIKE',
             )
-        );        
-    }    
-    if(!empty($zip_code)){
-        $meta_query[] = array(
-            'key' => 'zip_code',
-            'value' => $zip_code,
-            'compare' => 'LIKE',
         );
-    }       
+    }
+
+	$args = array(
+		'post_type' 		=> 'location',
+		'post_status' 		=> 'any',
+		'posts_per_page' 	=> -1,
+		'meta_query' => $meta_query,
+		'orderby' => 'title',
+		'order' => 'ASC',
+	);
+	$get_locations = get_posts($args);
+
+	$users = array();
+	foreach ($get_locations as $location) {
+		if(!in_array( $location->post_author, $users)) {
+			array_push( $users,$location->post_author );
+		}
+	}
 
     $args = array(
         'role' => 'franchisee',
         'role__not_in' => array('super_admin','administrator'),
-        'meta_query' => $meta_query
-    );    
+        'include' => $users
+    );
+
 
     $_franchisees = get_users($args);
 
