@@ -626,4 +626,22 @@ function amat_updated_user_meta( $meta_id, $object_id, $meta_key, $_meta_value )
 }
 
 add_action( 'init', 'amat_init' );
+
+
+function wpcf7_add_franchise_email($WPCF7_ContactForm) {
+
+    if($WPCF7_ContactForm->id == 1309) {
+        $actual_link = $_SERVER[REQUEST_URI];
+        $parts = explode("/", $actual_link);
+        $array_key = count($parts) - 3;
+        $user = get_users(array('meta_key' => 'franchise_slug', 'meta_value' => $parts[$array_key]));
+        $email = $user[0]->user_email;
+        if($email) {
+            $newmail = $WPCF7_ContactForm->mail['recipient'].','.$user[0]->user_email;
+            $WPCF7_ContactForm->mail['recipient'] = $newmail;
+        }
+    }
+    
+}
+add_action("wpcf7_before_send_mail", "wpcf7_add_franchise_email");
 ?>
