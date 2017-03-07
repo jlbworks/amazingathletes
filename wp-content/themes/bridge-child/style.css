@@ -1902,9 +1902,12 @@ cursor:pointer;
 .post_text{
 	width:69%!important;
 }
-.fo-link {
-	text-align: center;
 }
+
+@media only screen and (max-width: 1000px) {
+	.fo-link {
+		text-align: center;
+	}
 }
 
 
