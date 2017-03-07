@@ -44,7 +44,7 @@ get_header();?>
 								if(!empty($_GET['loc_id']) || isset($_GET['add'])) {
 									include_once 'includes/forms/edit-location.php';	
 								}
-								elseif (!empty($_GET['looc_id']) and isset($_GET['add-class'])) {
+								elseif (!empty($_GET['loc_id']) and isset($_GET['add-class'])) {
 									include_once 'includes/forms/edit-class.php';	
 								}
 								else {
@@ -56,7 +56,7 @@ get_header();?>
 								if(!empty($_GET['loc_id']) || isset($_GET['add'])) {
 									include_once 'includes/forms/edit-location.php';
 								}
-								elseif (!empty($_GET['looc_id']) and isset($_GET['add-class'])) {
+								elseif (!empty($_GET['loc_id']) and isset($_GET['add-class'])) {
 									include_once 'includes/forms/edit-class.php';	
 								}
 								else {
