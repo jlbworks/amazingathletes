@@ -343,8 +343,8 @@ function am2_get_state_locations($zip_code = null){
 		'order' => 'ASC',
 	);
 	$get_locations = get_posts($args);
-
-	$users = array();
+//    wp_die(print_r( $get_locations ,true));
+	$users = array("0");
 	foreach ($get_locations as $location) {
 		if(!in_array( $location->post_author, $users)) {
 			array_push( $users,$location->post_author );
