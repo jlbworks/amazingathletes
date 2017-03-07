@@ -1926,6 +1926,10 @@ cursor:pointer;
     margin: 1em 0;
 }
 
+.leader_section_text {
+    margin-top: 10px;
+}
+
 @media only screen and (max-width: 1000px) {
 	.fo-link {
 		text-align: center;
