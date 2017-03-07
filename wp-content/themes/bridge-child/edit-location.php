@@ -40,11 +40,11 @@ get_header();?>
 					<?php
 					if (!empty($user->roles) && is_array($user->roles)) {
 						foreach ($user->roles as $role) {
-							if ($role == 'administrator') {
-								if(!empty($_GET['loc_id']) || isset($_GET['add'])) {
+							if ($role == 'administrator' || $role == 'super_admin') {
+								if(!empty($_GET['looc_id']) || isset($_GET['add'])) {
 									include_once 'includes/forms/edit-location.php';	
 								}
-								elseif (!empty($_GET['loc_id']) and isset($_GET['add-class'])) {
+								elseif (!empty($_GET['looc_id']) and isset($_GET['add-class'])) {
 									include_once 'includes/forms/edit-class.php';	
 								}
 								else {
@@ -53,10 +53,10 @@ get_header();?>
 								
 								break;
 							} else if ($role == 'franchisee') {
-								if(!empty($_GET['loc_id']) || isset($_GET['add'])) {
+								if(!empty($_GET['looc_id']) || isset($_GET['add'])) {
 									include_once 'includes/forms/edit-location.php';
 								}
-								elseif (!empty($_GET['loc_id']) and isset($_GET['add-class'])) {
+								elseif (!empty($_GET['looc_id']) and isset($_GET['add-class'])) {
 									include_once 'includes/forms/edit-class.php';	
 								}
 								else {
@@ -65,7 +65,7 @@ get_header();?>
 								
 								break;
 							} else if ($role == 'coach') {
-								if(!empty($_GET['loc_id']) || isset($_GET['add'])) {
+								if(!empty($_GET['looc_id']) || isset($_GET['add'])) {
 									include_once 'includes/forms/edit-location.php';
 								}
 								else {
