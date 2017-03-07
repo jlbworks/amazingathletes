@@ -1922,6 +1922,10 @@ cursor:pointer;
 	padding-top: 425px;
 }
 
+.accordion_content  p {
+    margin: 1em 0;
+}
+
 @media only screen and (max-width: 1000px) {
 	.fo-link {
 		text-align: center;
@@ -1931,6 +1935,12 @@ cursor:pointer;
 	.team-anchor {
 		margin-top: 0px;
 		padding-top: 0px;
+	}
+	.accordion_section {
+		padding: 0;
+	}
+	.q_accordion_holder.accordion div.accordion_content {
+		padding: 0 2em;
 	}
 }
 
