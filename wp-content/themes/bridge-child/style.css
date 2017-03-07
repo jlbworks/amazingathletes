@@ -1912,12 +1912,27 @@ cursor:pointer;
 }
 }
 
+.process-anchor,
+.faq-anchor,
+.team-anchor {
+	position: relative;
+	margin-top: -425px;
+	display: block;
+	visibility: hidden;
+	padding-top: 425px;
+}
+
 @media only screen and (max-width: 1000px) {
 	.fo-link {
 		text-align: center;
 	}
+	.process-anchor,
+	.faq-anchor,
+	.team-anchor {
+		margin-top: 0px;
+		padding-top: 0px;
+	}
 }
-
 
 
 
