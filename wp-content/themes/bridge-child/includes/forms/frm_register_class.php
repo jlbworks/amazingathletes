@@ -61,6 +61,7 @@
         <option value="F">F</option>
       </select>
       </span> </p>
+    <?php if($class_type != "Session") { ?>
     <p>Child's Shirt Size *<br>
       <br>
       <span class="wpcf7-form-control-wrap child-shirt-size">
@@ -70,6 +71,7 @@
         <option value="Child Medium (10-12)">Child Medium (10-12)</option>
       </select>
       </span> </p>
+    <?php } ?>
     <p>Classroom # or Teacher's Name<br>
       <span class="wpcf7-form-control-wrap classroom-teacher">
       <input type="text" name="classroom-teacher" value="" size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false">
