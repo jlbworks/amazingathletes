@@ -81,10 +81,12 @@
     }
 
 </style>
-<div class="paid_tuition_wrap">
-    <label><input type="checkbox" name="paid_tuition" id="paid_tuition" value="Yes"/>&nbsp; I have already paid the registration fee.</label>
-    <br/>
-</div>
+    <!--
+	<div class="paid_tuition_wrap">
+	    <label><input type="checkbox" name="paid_tuition" id="paid_tuition" value="Yes"/>&nbsp; I have already paid the registration fee.</label>
+	    <br/>
+	</div>
+	-->
 <?php the_content();?>
 <div style="display:none;">
     <div class="payment_intro_text">

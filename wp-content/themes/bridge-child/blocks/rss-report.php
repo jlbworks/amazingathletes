@@ -38,7 +38,7 @@ else if(am2_has_role($current_user, 'coach')){
     $current_user_role = 'coach';
 }
 
-if($current_user_role != 'administrator' && $franchise_user->ID != $author_franchise->ID){
+if($current_user_role != 'administrator' && $current_user_role != 'super_admin' && $franchise_user->ID != $author_franchise->ID){
     exit('Not Allowed.');
 }
 
