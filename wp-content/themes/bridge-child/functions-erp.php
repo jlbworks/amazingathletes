@@ -2087,7 +2087,7 @@ function am2_insert_roster($customer_id){
     $title = $customer_childs_name . ' ' . $class->post_title;
     //$author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
 	$photo = "N";
-	if($customer_meta['photo_release'][0] == "Y") {
+	if($customer_meta['photo_release'][0] == "1") {
 		$photo = "Y";
 	}
     $data = array(
