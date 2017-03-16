@@ -2086,10 +2086,14 @@ function am2_insert_roster($customer_id){
     $class = get_post( sanitize_text_field( $customer_meta['class_id'][0] ) );
     $title = $customer_childs_name . ' ' . $class->post_title;
     //$author = is_role( 'administrator' ) ? $franchise_id : get_current_user_id();
-
+	$photo = "N";
+	if($customer_meta['photo_release'][0] == "Y") {
+		$photo = "Y";
+	}
     $data = array(
         'roster_class_id' => $class->ID, 'roster_customer_id' => $customer_id,
-        'roster_location_id' => $class->location_id, /*'roster_coach_id',*/
+        'roster_location_id' => $class->location_id, 'roster_customer_media' => $photo
+        /*'roster_coach_id',*/
         /*'roster_customer_status', 'roster_customer_media',
         'roster_customer_discount', 'roster_payment_type',*/
     );
