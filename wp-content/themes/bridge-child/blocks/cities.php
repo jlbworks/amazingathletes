@@ -10,14 +10,18 @@ parse_str($hash_query,$hash_query);
 // Pagination
 $items_per_page = 100;
 $page = $target_args['page'] ? $target_args['page'] : 1;
+$where = "1 = 1";
+$s = $target_args['s'] ? $target_args['s'] : "";
+if($s != "") {
+	$where .= " AND city LIKE '%".$s."%'";
+}
 $offset = ( $page * $items_per_page ) - $items_per_page;
 $total = $wpdb->get_var('SELECT COUNT(1) from zips');
 
 restrict_access('administrator,franchisee,coach,super_admin');
 
-//$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
 
-$cities = $wpdb->get_results('SELECT * from zips ORDER BY city ASC LIMIT 100 OFFSET '.$offset);
+$cities = $wpdb->get_results('SELECT * from zips WHERE '.$where.'  ORDER BY city ASC LIMIT 100 OFFSET '.$offset);
 
 
 ?>
@@ -28,6 +32,8 @@ $cities = $wpdb->get_results('SELECT * from zips ORDER BY city ASC LIMIT 100 OFF
             <div class="col-12 break-big">
                 <h1>Cities</h1>
                 <button class="btn btn--primary am2-ajax-modal modal-with-move-anim" data-modal="<?php echo get_ajax_url('modal','cities-edit') .'&id='; ?>"><i class="fa fa-plus"></i>&nbsp; Add New Cities Entry</button>
+	            <input type="text" value="<?php echo ($target_args['s'] != "") ? $target_args['s'] : ''; ?>" name="s" class="form-control" placeholder="Search" id="search">
+                <button class="btn btn--primary search">Search</button>
             </div>
         </div>
     </div>
@@ -94,7 +100,15 @@ set_title('Cities');
 
 
 $(document).ready(function() {
-    
+
+
+	function runQuery(){
+		window.location.href = '#cities/?s='+$('input[name="s"]').val();
+		return false;
+	}
+
+	$(".search").on('click',runQuery);
+
 });
 </script>
 
