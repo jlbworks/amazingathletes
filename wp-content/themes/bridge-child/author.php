@@ -1,14 +1,15 @@
 <?php
-global $wp_query, $mypages_multi, $mypages_images, $mypages_optional;
+global $wp_query;
+global $mypages, $mypages_multi, $mypages_images, $mypages_optional;
 
 $author      = get_query_var( 'author' );
 $author_name = get_query_var( 'author_name' );
 $mypage      = get_query_var( 'mypage' );
 $locations   = get_query_var( 'locations' );
-
 if ( $locations ) {
 	$mypage = 'locations';
 }
+
 $curauth    = $wp_query->get_queried_object();
 $_user_meta = get_user_meta( $curauth->ID );
 $user_meta  = array();
@@ -17,55 +18,7 @@ foreach ( $_user_meta as $key => $um ) {
 	$user_meta[ $key ] = $um[0];
 }
 
-$mypages = array(
-	'Home' => '',
-	'About' => 'about',
-	'Programs' => 'programs',
-	'Classes' => array(
-		'menu' => 'locations',
-		'submenu'=> array(
-			'On-Site' => 'locations?type=on-site',
-			'Community Classes' => 'locations?type=community-classes',
-		),
-	),
-	'Policies' => 'policies_and_procedures',
-	'Staff' => 'staff',
-	'Contact' => 'contact',
-	'Testimonials' => 'testimonials',
-	'Blog' => 'blog',
-	'Press' => 'press',
-	'Event form' => 'event-form',
-	'Coaching opportunity' => 'coaching-opportunity',
-	'Calendar' => 'calendar',
-	'Pay online' => 'pay_online',
-);
-
-global $mypages_renames;
-
-$mypages_renames = get_user_meta($curauth->ID, 'mypages_renames', true);
-if(!is_array($mypages_renames)) $mypages_renames = array();
-
-$custom_pages = get_user_meta($curauth->ID, 'custom_mypages', true);
-if(is_array($custom_pages)) $mypages = array_merge($mypages, $custom_pages);
-
-foreach($mypages_renames as $k_mypage_rename => $mypage_rename){
-	foreach($mypages as $k_mypage => $mypage){
-		$mypage_slug = $mypage;
-
-		if(is_array($mypage)){
-			$mypage_slug = $mypage['menu'];
-		}
-
-		if($k_mypage_rename == $mypage_slug){
-			unset($mypages[$k_mypage]);
-			$mypages[$mypage_rename] = $mypage;
-		}
-	}
-}
-
 $page_content = unserialize( $user_meta['page_content'] );
-
-
 
 // function am2_user_data(){
 // 	$author = get_query_var('author');
@@ -137,7 +90,7 @@ get_header(); ?>
     if ( $community < 1 ) {
 	    unset( $mypages['Classes']['submenu']['Community Classes'] );
     }
-
+	
     foreach ( $mypages as $key => $val ) {
 	    if ( is_array( $val ) ) {
 		    $val_parent = $val['menu'];
