@@ -1,7 +1,7 @@
 <div class="widget widget_text">
     <div class="textwidget">
 	
-	    <div id="displayText"><i class="fa fa-bars" aria-hidden="true"></i><p>MENU</p></div> 
+	    <div id="displayText"><i class="fa fa-bars" aria-hidden="true"></i><p>FRANCHISEE MENU</p></div> 
 
 <span id="toggleText" class="icon-row" >
 
