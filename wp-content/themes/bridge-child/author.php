@@ -94,7 +94,7 @@ get_header(); ?>
 				<div class="widget widget_text">
 					<div class="textwidget">
 
-						<div id="displayText"><i class="fa fa-bars" aria-hidden="true"></i></div>
+						<div id="displayText"><i class="fa fa-bars" aria-hidden="true"><p>MENU<p></i></div>
 
 									<span id="toggleText" class="icon-row">
 
