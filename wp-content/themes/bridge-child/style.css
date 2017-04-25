@@ -1930,6 +1930,13 @@ cursor:pointer;
     margin-top: 10px;
 }
 
+@media screen and (min-width: 1000px) and (max-width: 1100px) {
+	aside .widget:first-of-type {
+		margin-top: 150px;
+		margin-left: -20px;
+	}
+}
+
 @media only screen and (max-width: 1000px) {
 	.fo-link {
 		text-align: center;
