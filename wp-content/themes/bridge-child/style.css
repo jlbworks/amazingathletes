@@ -1948,7 +1948,18 @@ cursor:pointer;
 	}
 }
 
+@media screen and (min-width: 1000px) {
+	span#toggleText {
+	    display: block !important;
+	}
+	#displayText  {
+	    display: none;
+	}
+}
 
+.widget.widget_text:first-of-type {
+    margin-top: 7vw;
+}
 
 
 
