@@ -1948,7 +1948,7 @@ cursor:pointer;
 	}
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 960px) {
 	span#toggleText {
 	    display: block !important;
 	}
