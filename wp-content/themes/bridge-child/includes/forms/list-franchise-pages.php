@@ -16,7 +16,7 @@ if(!isset($_GET['page'])){
 			continue;
 		if(is_array($val)){ 
 			$val_parent = $val['menu'];
-			echo '<li><a href="?page=' . $val_parent . '">' . $key . '</a>'; ?>&#9726; <a target="_blank" href="<?php echo get_site_url(); ?>/<?php the_field('franchise_slug', 'user_'.$user_id); ?>/<?php echo $val['menu']; ?>"><i class="fa fa-link"></i></a></li>
+			echo '<li><a href="?page=' . $val_parent . '">' . $key . '</a>'; ?> <a target="_blank" href="<?php echo get_site_url(); ?>/<?php the_field('franchise_slug', 'user_'.$user_id); ?>/<?php echo $val['menu']; ?>"><i class="fa fa-link"></i></a></li>
 	<?php	} else {
 			echo '<li><a href="?page=' . $val . '">' . $key . '</a>'; ?> <a target="_blank" href="<?php echo get_site_url(); ?>/<?php the_field('franchise_slug', 'user_'.$user_id); ?>/<?php echo $val; ?>"><i class="fa fa-link"></i></a></li>
 	<?php
