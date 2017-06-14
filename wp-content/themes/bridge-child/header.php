@@ -600,9 +600,6 @@ $display_header_top = "yes";
                         ));
                         ?>
                     </nav>
-		    <?php
-			dynamic_sidebar('header_right');
-		    ?>
                 <?php } ?>
 					<div class="header_inner_left">
                         <?php if($centered_logo && $header_bottom_appearance !== "stick menu_bottom") {
@@ -670,6 +667,9 @@ $display_header_top = "yes";
                             ));
                             ?>
                         </nav>
+			<?php
+			    dynamic_sidebar('header_right');
+		        ?>
                     <?php } ?>
 					<?php if($header_bottom_appearance != "stick menu_bottom" && $header_bottom_appearance != "stick_with_left_right_menu"){ ?>
                         <?php if($header_bottom_appearance == "fixed_hiding") { ?> <div class="holeder_for_hidden_menu"> <?php } //only for fixed with hiding menu ?>
