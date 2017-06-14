@@ -600,6 +600,9 @@ $display_header_top = "yes";
                         ));
                         ?>
                     </nav>
+		    <?php
+			dynamic_sidebar('header_right');
+		    ?>
                 <?php } ?>
 					<div class="header_inner_left">
                         <?php if($centered_logo && $header_bottom_appearance !== "stick menu_bottom") {
