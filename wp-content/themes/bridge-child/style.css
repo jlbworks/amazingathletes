@@ -71,6 +71,10 @@ header.sticky .header_bottom {
 
 /*************LOGO*************/
 
+header .headerhead img {
+	image-rendering: auto;
+}
+
 /*********NAVIGATION***********/
 
 @media only screen and (min-width: 1600px){
