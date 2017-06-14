@@ -68,6 +68,13 @@ header.sticky .header_bottom {
 	
 }
 
+.header-widget.widget_text.header-right-widget {
+    position: absolute;
+    width: 165px;
+    right: 0;
+    top: 10px;
+}
+
 
 /*************LOGO*************/
 
