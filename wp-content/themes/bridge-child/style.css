@@ -60,10 +60,10 @@ header.stick_with_left_right_menu:not(.sticky) {
 header.sticky .header_bottom {
     background-color: #fff!important;
     box-shadow: 0 1px 3px rgba(0,0,0,.11);
-    background-image: url(https://amazingathletes.com/wp-content/uploads/2016/04/AALogo-e1461704009620-300x300.png);
+    background-image: url(https://amazingathletes.com/wp-content/uploads/2016/04/AALogo-e1461704009620-300x300.png), url(https://amazingathletes.com/wp-content/uploads/2017/01/AMAZING-WEB-LOGO.png);
     background-repeat: no-repeat;
-    background-size: 50px;
-    background-position: 25px center;
+    background-size: 50px, 200px;
+    background-position: 25px center, 75px center;
 }
 	
 }
