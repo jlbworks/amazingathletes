@@ -86,7 +86,7 @@ header:not(.sticky) .header_bottom .header-widget.widget_text.header-right-widge
     display: none !important;
 }
 
-.header_bottom .header_button.header-widget.widget_text.header-right-widget {
+.header_bottom .header-widget.widget_text.header-right-widget {
     width: 195px;
 }
 
