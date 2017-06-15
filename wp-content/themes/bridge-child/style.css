@@ -73,6 +73,7 @@ header.sticky .header_bottom {
     width: 165px;
     right: 0;
     top: 10px;
+    z-index: 999;
 }
 
 .header_button.header-widget.widget_text.header-right-widget {
@@ -80,6 +81,7 @@ header.sticky .header_bottom {
     width: 165px;
     right: 0;
     top: 10px;
+    z-index: 999;
 }
 
 header:not(.sticky) .header_bottom .header-widget.widget_text.header-right-widget {
