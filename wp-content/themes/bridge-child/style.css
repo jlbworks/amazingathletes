@@ -326,8 +326,12 @@ p{
 /*************TESTIMONIAL************/
 
 .testimonials .testimonial_text_inner p:first-of-type {
-    font-family: 'lobster';
-    font-size: 2.25em!important;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2em !important;
+}
+
+.testimonials .testimonial_text_inner p:last-of-type {
+    font-family: 'lobster', sans-serif;
 }
 
 .testimonial_author p{
