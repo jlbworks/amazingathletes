@@ -225,6 +225,13 @@ nav.main_menu>ul>li>a {
     margin-top:2.5%;
 }
 
+@media (max-width: 768px) {
+	.vc_col-sm-4 {
+    		width: 33.33333333%;
+	    	float: left;
+	}
+}
+
 
 
 /***********welcome text****************/
