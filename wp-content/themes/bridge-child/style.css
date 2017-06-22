@@ -352,8 +352,10 @@ p{
 
 @media screen and (max-width: 479px){
 .testimonials .testimonial_text_inner p:first-of-type {
-    font-family: 'lobster';
-    font-size: 1em!important;
+    font-size: 1.2em!important;
+}
+.testimonials .testimonial_text_inner p:last-of-type {
+    font-size: 1em !important;
 }
 }
 
