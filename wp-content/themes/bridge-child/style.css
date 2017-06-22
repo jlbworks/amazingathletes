@@ -347,6 +347,10 @@ p{
     margin: 0 15%;
 }
 
+.home .testimonial_image_holder {
+	width: 20vw;
+}
+
 
 /**************Testimonials mobile*************/
 
