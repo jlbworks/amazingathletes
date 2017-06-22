@@ -439,6 +439,9 @@ margin: 2% 0.5%;
     overflow: visible !important;
 }
 
+.state .providers.state .franchise_city:first-of-type:after {
+    content: ""
+}
 
 
 
@@ -808,10 +811,11 @@ aside
 }
 
 
-
+/*
     font-family: 'oswald';
     letter-spacing: 1px;
 }
+*/
 
 
 
