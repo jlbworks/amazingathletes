@@ -25,6 +25,14 @@ $("#displayText").click(function(){
      $( "#toggleText" ).toggle("slow").css("display","block");;
 });
 	
+$(".icon-row img").hover( function() {
+	originimg = $(this).attr('src');
+	hoverimg = $(this).attr('data-hoverimg');
+	$(this).attr('src', hoverimg);
+}, function() {
+	$(this).attr('src', originimg);
+});
+	
 
 	
 });//close all jquery
