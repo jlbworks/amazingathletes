@@ -226,7 +226,7 @@ nav.main_menu>ul>li>a {
 }
 
 @media (max-width: 768px) {
-	.vc_col-sm-4 {
+	.home-welcome-header .vc_col-sm-4 {
     		width: 33.33333333%;
 	    	float: left;
 	}
