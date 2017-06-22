@@ -388,6 +388,11 @@ p{
 
 /**********************CHILD PAGES**********************/
 
+@media (max-width: 768px) {
+	.two_columns_25_75>.column2>.column_inner {
+    		padding: 0 5% !important;
+	}
+}
 
 .copy-child-page{
 margin: 2% 0.5%;
