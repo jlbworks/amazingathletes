@@ -362,12 +362,18 @@ p{
 /**************Testimonials mobile*************/
 
 @media screen and (max-width: 479px){
-.testimonials .testimonial_text_inner p:first-of-type {
-    font-size: 1.2em!important;
+	.testimonials .testimonial_text_inner p:first-of-type {
+		font-size: 1.2em!important;
+	}
+	.testimonials .testimonial_text_inner p:last-of-type {
+		font-size: 1em !important;
+	}
 }
-.testimonials .testimonial_text_inner p:last-of-type {
-    font-size: 1em !important;
-}
+
+@media (min-width: 768px) {
+	.testimonials ul.flex-direction-nav {
+		display: none;
+	}
 }
 
 
