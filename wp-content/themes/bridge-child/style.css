@@ -2049,7 +2049,9 @@ cursor:pointer;
 }
 
 @media screen and (max-width: 767px) {
-	display: block;	
+	.two_columns_25_75>.column1>.column_inner {
+		display: block;
+	}
 }
 
 aside .widget {
