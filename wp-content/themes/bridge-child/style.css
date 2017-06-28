@@ -2065,11 +2065,11 @@ aside .widget {
 	margin: 0;
 }
 
-.column2 .column_inner .vc_row:first-of-type {
+.column2 > .column_inner > .vc_row:first-of-type {
     margin-left: -20px;
 }
 
-.column2 .column_inner > .vc_row:first-of-type .vc_column-inner {
+.column2 > .column_inner > .vc_row:first-of-type > .vc_column-inner {
     padding: 0;
 }
 
