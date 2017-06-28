@@ -2051,7 +2051,7 @@ cursor:pointer;
 	max-width: 300px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 960px) {
 	.two_columns_25_75 > .column1 > .column_inner {
 		display: block;
 		max-width: none;
@@ -2063,6 +2063,9 @@ cursor:pointer;
 	.widget #displayText {
 		margin: 15px 0;
 	}
+	.full_width_inner > .two_columns_25_75 > .column1 .column_inner{
+        	margin: 0;  
+	}
 }
 
 aside .widget {
@@ -2071,8 +2074,4 @@ aside .widget {
 
 .sidebar-text {
 	margin: 0;
-}
-
-.caroufredsel_wrapper {
-    width: 100% !important;
 }
