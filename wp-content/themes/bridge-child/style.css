@@ -2063,11 +2063,11 @@ cursor:pointer;
 	.widget #displayText {
 		margin: 15px 0;
 	}
-	.full_width_inner > .two_columns_25_75 > .column1 .column_inner{
+	body .full_width_inner > .two_columns_25_75 > .column1 .column_inner {
         	margin: 0;  
 	}
 	.widget_text .wpb_wrapper {
-		text-align: center;
+		text-align: left;
 	}
 }
 
