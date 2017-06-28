@@ -2066,6 +2066,9 @@ cursor:pointer;
 	.full_width_inner > .two_columns_25_75 > .column1 .column_inner{
         	margin: 0;  
 	}
+	.widget_text .wpb_wrapper {
+		text-align: center;
+	}
 }
 
 aside .widget {
