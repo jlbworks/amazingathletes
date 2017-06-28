@@ -2044,9 +2044,11 @@ cursor:pointer;
 }
 
 .two_columns_25_75>.column1>.column_inner {
-    margin: 0px auto;
+    margin: 0 auto;
+    padding: 0 1rem; 
     display: inline-block;
     text-align: left;
+    max-width: 300px;
 }
 
 @media screen and (max-width: 767px) {
