@@ -2030,8 +2030,8 @@ cursor:pointer;
 	}
 }
 
-.widget.widget_text:first-of-type,
-.widget.widget_search:first-of-type {
+.column1 .widget.widget_text:first-of-type,
+.column1 .widget.widget_search:first-of-type {
     margin-top: 7vw;
 }
 
@@ -2056,8 +2056,8 @@ cursor:pointer;
 		display: block;
 		max-width: none;
 	}
-	.widget.widget_text:first-of-type,
-	.widget.widget_search:first-of-type {
+	.column1 .widget.widget_text:first-of-type,
+	.column1 .widget.widget_search:first-of-type {
     		margin-top: 0;
 	}
 	.widget #displayText {
