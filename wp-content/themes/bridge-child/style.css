@@ -2060,6 +2060,9 @@ cursor:pointer;
 	.widget.widget_search:first-of-type {
     		margin-top: 0;
 	}
+	.widget #displayText {
+		margin: 215px 0;
+	}
 }
 
 aside .widget {
