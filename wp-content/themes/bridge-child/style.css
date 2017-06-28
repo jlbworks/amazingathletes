@@ -2078,3 +2078,7 @@ aside .widget {
 .sidebar-text {
 	margin: 0;
 }
+
+div#displayText .fa.fa-bars {
+    padding-left: 7.5px;
+}
