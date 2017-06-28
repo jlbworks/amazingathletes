@@ -2047,3 +2047,7 @@ cursor:pointer;
     display: inline-block;
     text-align: left;
 }
+
+aside .widget {
+    margin: 0 0 15px;
+}
