@@ -2034,5 +2034,16 @@ cursor:pointer;
     margin-top: 7vw;
 }
 
+.sidebar .icon-row {
+    margin: auto;
+}
 
+.two_columns_25_75.grid2 > .column1 {
+    text-align: center;
+}
 
+.two_columns_25_75>.column1>.column_inner {
+    margin: 0px auto;
+    display: inline-block;
+    text-align: left;
+}
