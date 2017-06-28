@@ -2045,7 +2045,7 @@ cursor:pointer;
 
 .two_columns_25_75 > .column1 > .column_inner {
 	margin: 0 auto;
-	padding: 0 1rem; 
+	padding: 0 1rem !important;
 	display: inline-block;
 	text-align: left;
 	max-width: 300px;
