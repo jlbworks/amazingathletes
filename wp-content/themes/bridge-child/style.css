@@ -2030,7 +2030,8 @@ cursor:pointer;
 	}
 }
 
-.widget.widget_text:first-of-type {
+.widget.widget_text:first-of-type,
+.widget.widget_search:first-of-type {
     margin-top: 7vw;
 }
 
