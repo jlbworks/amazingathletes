@@ -2048,6 +2048,10 @@ cursor:pointer;
     text-align: left;
 }
 
+@media screen and (max-width: 767px) {
+	display: block;	
+}
+
 aside .widget {
     margin: 0 0 15px;
 }
