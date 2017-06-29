@@ -439,18 +439,9 @@ margin: 2% 0.5%;
     overflow: visible !important;
 }
 
-.state .providers.state .franchise_city:first-of-type:after {
-    content: ""
-}
-
-
-
-
 .state_title img{
-max-width:200px;
+    max-width:200px;
 }
-
-
 
 .dynamic-locaion-content{
     min-height: 300px;
