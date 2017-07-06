@@ -2092,10 +2092,6 @@ div#displayText .fa.fa-bars {
         clear:both;
     }
 
-    .two_columns_25_75 > .column1 .column_inner{
-        margin:0% 0 0 10%;   
-    }
-
     .two_columns_25_75 > .column2 {
         width: 100%;
         clear:both;
