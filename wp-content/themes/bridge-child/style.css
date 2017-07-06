@@ -2073,3 +2073,10 @@ aside .widget {
 div#displayText .fa.fa-bars {
     padding-left: 7.5px;
 }
+
+.pagination ul li span,
+.pagination ul li a:hover {
+    color: white;
+    background-color: rgb(6, 44, 126);
+    border-color: rgb(6, 44, 126);
+}
