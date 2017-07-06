@@ -2080,3 +2080,24 @@ div#displayText .fa.fa-bars {
     background-color: rgb(6, 44, 126);
     border-color: rgb(6, 44, 126);
 }
+
+.page-template-blog-small-image aside .widget.widget_search h5 {
+    color: #FDCE00;
+}
+
+@media (max-width: 960px) {
+
+    .two_columns_25_75 > .column1 {
+        width: 100%;
+        clear:both;
+    }
+
+    .two_columns_25_75 > .column1 .column_inner{
+        margin:0% 0 0 10%;   
+    }
+
+    .two_columns_25_75 > .column2 {
+        width: 100%;
+        clear:both;
+    }
+}
