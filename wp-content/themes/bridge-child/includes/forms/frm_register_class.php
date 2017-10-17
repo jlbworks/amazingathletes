@@ -61,8 +61,8 @@
         <option value="F">F</option>
       </select>
       </span> </p>
-    <?php if($class_type != "Session") { ?>
-    <p>Child's Shirt Size *<br>
+   // <?php if($class_type != "Session") { ?>
+ <!––   <p>Child's Shirt Size *<br>
       <br>
       <span class="wpcf7-form-control-wrap child-shirt-size">
       <select name="child-shirt-size" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required>
@@ -70,7 +70,7 @@
         <option value="Child Small (6-8)">Child Small (6-8)</option>
         <option value="Child Medium (10-12)">Child Medium (10-12)</option>
       </select>
-      </span> </p>
+      </span> </p> ––>
     <?php } ?>
     <p>Classroom # or Teacher's Name<br>
       <span class="wpcf7-form-control-wrap classroom-teacher">
