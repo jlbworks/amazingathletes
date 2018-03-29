@@ -46,7 +46,7 @@
     </div>
 
     <?php endif; ?>
-    <?php if(in_array('franchisee',$user->roles)): ?>
+    <?php if(in_array('franchisee',$user->roles) || in_array(array('franchisee', 'coach'),$user->roles): ?>
 
     <div class="side-nav">
         <a href="<?php echo site_url();?>/my-account/locations/" class="sidebar-link">
